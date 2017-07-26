@@ -53,6 +53,48 @@ class APIController extends Controller
                 case "addrecipe":
                     $this->AddRecipe();
                     break;
+                case "removeomment":
+                    $this->Remove("Comment");
+                    break;
+                case "removenotification":
+                    $this->Remove("Notification");
+                    break;
+                case "removerecipe":
+                    $this->Remove("Recipe");
+                    break;
+                case "updateuser":
+                    $this->UpdateUser();
+                    break;
+                case "updatecomment":
+                    $this->UpdateComment();
+                    break;
+                case "updatereport":
+                    $this->UpdateReport();
+                    break;
+                case "updaterecipe":
+                    $this->UpdateRecipe();
+                    break;
+                case "updatenotification":
+                    $this->UpdateNotification();
+                    break;
+                case "getuser":
+                    $this->Get("User");
+                    break;
+                case "getcomment":
+                    $this->Get("Comment");
+                    break;
+                case "getreport":
+                    $this->Get("Report");
+                    break;
+                case "getreservation":
+                    $this->Get("Reservation");
+                    break;
+                case "getrecipe":
+                    $this->Get("Recipe");
+                    break;
+                case "getnotification":
+                    $this->Get("Notification");
+                    break;
                 default:
                     http_response_code(404);
                     return;
@@ -261,6 +303,98 @@ class APIController extends Controller
         $user->setBanned(0);
         $user->setRights(0);
         $this->Add($user);
+    }
+
+    public function UpdateUser()
+    {
+        if(isset($_POST["id"]) == false)
+        {
+            $this->Write(APIController::$NO, null, "Missing Id");
+            return;
+        }
+        $user = new User(null, $_POST["id"]);
+        if(isset($_POST["username"]))
+            $user->setUsername($_POST["username"]);
+        if(isset($_POST["password"]))
+            $user->setPassword($_POST["password"]);
+        if(isset($_POST["picture"]))
+            $user->setPicture($_POST["picture"]);
+        if(isset($_POST["geolocation"]))
+            $user->setGeolocation($_POST["geolocation"]);
+        if(isset($_POST["phone"]))
+            $user->setPhone($_POST["phone"]);
+        if(isset($_POST["banned"]))
+            $user->setBanned($_POST["banned"]);
+        if(isset($_POST["rights"]))
+            $user->setRights($_POST["rights"]);
+        if(isset($_POST["discease"]))
+            $user->setDiscease($_POST["discease"]);
+        if(isset($_POST["preference"]))
+            $user->setPreference($_POST["preference"]);
+        if(isset($_POST["favorite"]))
+            $user->setFavorite($_POST["favorite"]);
+        $this->Update($user);
+    }
+
+    public function UpdateComment()
+    {
+        if(isset($_POST["id"]) == false)
+        {
+            $this->Write(APIController::$NO, null, "Missing Id");
+            return;
+        }
+        $comment = new Comment(null, $_POST["id"]);
+        if(isset($_POST["content"]))
+            $comment->setContent($_POST["content"]);
+        $this->Update($comment);
+    }
+
+    public function UpdateReport()
+    {
+        if(isset($_POST["id"]) == false)
+        {
+            $this->Write(APIController::$NO, null, "Missing Id");
+            return;
+        }
+        $report = new Report(null, $_POST["id"]);
+        if(isset($_POST["state"]))
+            $report->setState($_POST["state"]);
+        $this->Update($report);
+    }
+
+    public function UpdateRecipe()
+    {
+        if(isset($_POST["id"]) == false)
+        {
+            $this->Write(APIController::$NO, null, "Missing Id");
+            return;
+        }
+        $recipe = new Recipe(null, $_POST["id"]);
+        if(isset($_POST["name"]))
+            $recipe->setName($_POST["name"]);
+        if(isset($_POST["description"]))
+            $recipe->setDescription(($_POST["description"]));
+        if(isset($_POST["picture"]))
+            $recipe->setPicture($_POST["picture"]);
+        if(isset($_POST["origin"]))
+            $recipe->setOrigin($_POST["origin"]);
+        if(isset($_POST["items"]))
+            $recipe->setItems($_POST["items"]);
+        $this->Update($recipe);
+
+    }
+
+    public function UpdateNotification()
+    {
+        if(isset($_POST["id"]) == false)
+        {
+            $this->Write(APIController::$NO, null, "Missing Id");
+            return;
+        }
+        $notification = new Notification(null, $_POST["id"]);
+        if(isset($_POST["new"]))
+            $notification->setNew($_POST["new"]);
+        $this->Update($notification);
     }
 
 

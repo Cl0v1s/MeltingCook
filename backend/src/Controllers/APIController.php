@@ -35,125 +35,23 @@ class APIController extends Controller
                 case "auth":
                     $this->Auth();
                     break;
-                case "addentry":
-                    $this->AddEntry();
-                    break;
-                case "removeentry":
-                    $this->RemoveEntry();
-                    break;
-                case "updateentry":
-                    $this->UpdateEntry();
-                    break;
-                case "addentry_event":
-                    $this->AddEntry_event();
-                    break;
-                case "removeentry_event":
-                    $this->RemoveEntry_event();
-                    break;
-                case "updateentry_event":
-                    $this->UpdateEntry_event();
-                    break;
-                case "addentryupdate":
-                    $this->AddEntryUpdate();
-                    break;
-                case "removeentryupdate":
-                    $this->RemoveEntryUpdate();
-                    break;
-                case "updateentryupdate":
-                    $this->UpdateEntryUpdate();
-                    break;
-                case "addevent":
-                    $this->AddEvent();
-                    break;
-                case "removeevent":
-                    $this->RemoveEvent();
-                    break;
-                case "updateevent":
-                    $this->UpdateEvent();
-                    break;
-                case "addstructure":
-                    $this->AddStructure();
-                    break;
-                case "removestructure":
-                    $this->RemoveStructure();
-                    break;
-                case "updatestructure":
-                    $this->UpdateStructure();
-                    break;
-                case "addstructuretype":
-                    $this->AddStructureType();
-                    break;
-                case "removestructuretype":
-                    $this->RemoveStructureType();
-                    break;
-                case "updatestructuretype":
-                    $this->UpdateStructureType();
-                    break;
-                case "addtag":
-                    $this->AddTag();
-                    break;
-                case "removetag":
-                    $this->RemoveTag();
-                    break;
-                case "updatetag":
-                    $this->UpdateTag();
-                    break;
                 case "adduser":
                     $this->AddUser();
                     break;
-                case "removeuser":
-                    $this->RemoveUser();
+                case "addcomment":
+                    $this->AddComment();
                     break;
-                case "updateuser":
-                    $this->UpdateUser();
+                case "addreport":
+                    $this->AddReport();
                     break;
-                case "getentry":
-                    $this->Get("Entry");
+                case "addreservation":
+                    $this->AddReservation();
                     break;
-                case "getentry_event":
-                    $this->Get("Entry_Event");
+                case "addnotification":
+                    $this->AddNotification();
                     break;
-                case "getentryupdate":
-                    $this->Get("EntryUpdate");
-                    break;
-                case "getevent":
-                    $this->Get("Event");
-                    break;
-                case "getstructure":
-                    $this->Get("Structure");
-                    break;
-                case "getstructuretype":
-                    $this->Get("StructureType");
-                    break;
-                case "gettag":
-                    $this->Get("Tag");
-                    break;
-                case "getuser":
-                    $this->Get("User");
-                    break;
-                case "getentries":
-                    $this->GetEntries();
-                    break;
-                case "getentry_events":
-                    $this->GetAll("Entry_Event");
-                    break;
-                case "getentryupdates":
-                    $this->GetAll("EntryUpdate");
-                    break;
-                case "getevents":
-                    $this->GetAll("Event");
-                    break;
-                case "getstructures":
-                    $this->GetAll("Structure");
-                    break;
-                case "getstructuretypes":
-                    $this->GetAll("StructureType");
-                    break;
-                case "gettags":
-                    $this->GetAll("Tag");
-                    break;
-                case "getusers":
-                    $this->GetAll("User");
+                case "addrecipe":
+                    $this->AddRecipe();
                     break;
                 default:
                     http_response_code(404);
@@ -213,7 +111,11 @@ class APIController extends Controller
             return;
         }
         $func = "Add" . get_class($item);
-        $id = API::$func($_POST["token"], $item);
+        $id = null;
+        if(method_exists("API", $func) == false)
+            $id = API::Add($_POST["token"], $item);
+        else
+            $id = Api::$func($_POST["token"], $item);
         $this->Write(APIController::$OK, $id);
     }
 
@@ -224,7 +126,10 @@ class APIController extends Controller
             return;
         }
         $func = "Remove" . $class;
-        API::$func($_POST["token"], $_POST["id"]);
+        if(method_exists("API", $func) == false)
+            API::Remove($_POST["token"],$class,  $_POST["id"]);
+        else
+            Api::$func($_POST["token"], $_POST["id"]);
         $this->Write(APIController::$OK, null);
     }
 
@@ -236,6 +141,10 @@ class APIController extends Controller
         }
         $func = "Update" . get_class($item);
         API::$func($_POST["token"], $item);
+        if(method_exists("API", $func) == false)
+            API::Update($_POST["token"], $item);
+        else
+            Api::$func($_POST["token"], $item);
         $this->Write(APIController::$OK, null);
     }
 
@@ -250,7 +159,115 @@ class APIController extends Controller
         print json_encode($result);
     }
 
-    private function AddEntry()
+    private function AddComment()
+    {
+        if(isset($_POST["target_id"]) == false || isset($_POST["author_id"]) == false || isset($_POST["content"]) == false)
+        {
+            $this->Write(APIController::$NO, null, "Missing Data");
+            return;
+        }
+        $comment = new Comment(null);
+        $comment->setAuthorId($_POST["author_id"]);
+        $comment->setTargetId($_POST["target_id"]);
+        $comment->setContent($_POST["content"]);
+        $this->Add($comment);
+    }
+
+    private function AddReport()
+    {
+        if(isset($_POST["target_id"]) == false || isset($_POST["author_id"]) == false || isset($_POST["content"]) == false)
+        {
+            $this->Write(APIController::$NO, null, "Missing Data");
+            return;
+        }
+        $report = new Report(null);
+        $report->setAuthorId($_POST["author_id"]);
+        $report->setTargetId($_POST["target_id"]);
+        $report->setContent($_POST["content"]);
+        $report->setState(0);
+        $this->Add($report);
+    }
+
+    private function AddReservation()
+    {
+        if(isset($_POST["host_id"]) == false || isset($_POST["guest_id"]) == false || isset($_POST["Recipe_id"]) == false)
+        {
+            $this->Write(APIController::$NO, null, "Missing Data");
+            return;
+        }
+        $reservation = new Reservation(null);
+        $reservation->setGuestId($_POST["guest_id"]);
+        $reservation->setHostId($_POST["host_id"]);
+        $reservation->setRecipeId($_POST["Recipe_id"]);
+        $reservation->setDone(0);
+        $reservation->setPaid(0);
+        $this->Add($reservation);
+    }
+
+    private function AddNotification()
+    {
+        if(isset($_POST["User_id"]) == false || isset($_POST["type"]) == false || isset($_POST["content"]) == false)
+        {
+            $this->Write(APIController::$NO, null, "Missing Data");
+            return;
+        }
+        $notification = new Notification(null);
+        $notification->setUserId($_POST["User_id"]);
+        $notification->setContent($_POST["content"]);
+        $notification->setType($_POST["type"]);
+        $notification->setNew(1);
+        $this->Add($notification);
+
+    }
+
+    private function AddRecipe()
+    {
+        if(isset($_POST["name"]) == false || isset($_POST["description"]) == false || isset($_POST["picture"]) == false || isset($_POST["User_id"]) == false ||
+        isset($_POST["origin"]) == false || isset($_POST["items"]) == false)
+        {
+            $this->Write(APIController::$NO, null, "Missing Data");
+            return;
+        }
+        $recipe = new Recipe(null);
+        $recipe->setName($_POST["name"]);
+        $recipe->setDescription($_POST["description"]);
+        $recipe->setPicture($_POST["picture"]);
+        $recipe->setUserId($_POST["User_id"]);
+        $recipe->setOrigin($_POST["origin"]);
+        $recipe->setItems($_POST["items"]);
+        $this->Add($recipe);
+    }
+
+    private function AddUser()
+    {
+        if(isset($_POST["username"]) == false || isset($_POST["password"]) == false || isset($_POST["geolocation"]) == false || isset($_POST["phone"]) == false)
+        {
+            $this->Write(APIController::$NO, null, "Missing Data");
+            return;
+        }
+        $user = new User(null);
+        $user->setUsername($_POST["username"]);
+        $user->setPassword($_POST["password"]);
+        $user->setGeolocation($_POST["geolocation"]);
+        $user->setPhone($_POST["phone"]);
+        if(isset($_POST["picture"]))
+            $user->setPicture($_POST["picture"]);
+        if(isset($_POST["discease"]))
+            $user->setDiscease($_POST["discease"]);
+        if(isset($_POST["preference"]))
+            $user->setPreference($_POST["preference"]);
+        if(isset($_POST["favorite"]))
+            $user->setFavorite($_POST["favorite"]);
+        $user->setBanned(0);
+        $user->setRights(0);
+        $this->Add($user);
+    }
+
+
+
+
+
+    /*private function AddEntry()
     {
         $entry = new Entry(null);
         $this->Add($entry);
@@ -281,7 +298,7 @@ class APIController extends Controller
         }
         $res = API::GetEntryUpdate($_POST["token"], $_POST["id"]);
         $this->Write(APIController::$OK, $res);
-    }*/
+    }
 
     private function GetEntries()
     {
@@ -454,7 +471,7 @@ class APIController extends Controller
         }
         $res = API::GetStructure($_POST["token"], $_POST["id"]);
         $this->Write(APIController::$OK, $res);
-    }*/
+    }
 
     private function AddStructureType()
     {
@@ -553,5 +570,6 @@ class APIController extends Controller
             $user->setRights($_POST["rights"]);
         $this->Update($user);
     }
+    */
 
 }

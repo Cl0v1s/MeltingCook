@@ -21,15 +21,58 @@ class User extends StorageItem
     /**
      * @Required
      * @Word
-     * @Size(min=1,max=100)
+     * @Size(min=1,max=32)
      */
     public $password;
 
+
+    /**
+     * @Word
+     * @Size(min=1, max=100)
+     */
+    public $picture;
+
     /**
      * @Required
+     * @Word
+     * @Size(min=1, max=100)
+     */
+    public $geolocation;
+
+    /**
+     * @Required
+     * @Word
+     * @Size(min=1,max=20)
+     */
+    public $phone;
+
+    /**
+     * @Boolean
+     */
+    public $banned;
+
+    /**
      * @Numeric
      */
     public $rights;
+
+    /**
+     * @Word
+     * @Size(min=1,max=1000)
+     */
+    public $discease;
+
+    /**
+     * @Word
+     * @Size(min=1, max=1000)
+     */
+    public $preference;
+
+    /**
+     * @Word
+     * @Size(min=1, max=400)
+     */
+    public $favorite;
 
     /**
      * @return mixed
@@ -82,14 +125,139 @@ class User extends StorageItem
         $this->checkIntegrity("rights");
     }
 
+    /**
+     * @return mixed
+     */
+    public function Picture()
+    {
+        return $this->picture;
+    }
+
+    /**
+     * @param mixed $picture
+     */
+    public function setPicture($picture)
+    {
+        $this->picture = $picture;
+        $this->checkIntegrity("picture");
+    }
+
+    /**
+     * @return mixed
+     */
+    public function Geolocation()
+    {
+        return $this->geolocation;
+    }
+
+    /**
+     * @param mixed $geolocation
+     */
+    public function setGeolocation($geolocation)
+    {
+        $this->geolocation = $geolocation;
+        $this->checkIntegrity("geolocation");
+
+    }
+
+    /**
+     * @return mixed
+     */
+    public function Phone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param mixed $phone
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+        $this->checkIntegrity("phone");
+
+    }
+
+    /**
+     * @return mixed
+     */
+    public function Banned()
+    {
+        return $this->banned;
+    }
+
+    /**
+     * @param mixed $banned
+     */
+    public function setBanned($banned)
+    {
+        $this->banned = $banned;
+        $this->checkIntegrity("banned");
+
+    }
+
+    /**
+     * @return mixed
+     */
+    public function Discease()
+    {
+        return $this->discease;
+    }
+
+    /**
+     * @param mixed $discease
+     */
+    public function setDiscease($discease)
+    {
+        $this->discease = $discease;
+        $this->checkIntegrity("discease");
+
+    }
+
+    /**
+     * @return mixed
+     */
+    public function Preference()
+    {
+        return $this->preference;
+    }
+
+    /**
+     * @param mixed $preference
+     */
+    public function setPreference($preference)
+    {
+        $this->preference = $preference;
+        $this->checkIntegrity("preference");
+
+    }
+
+    /**
+     * @return mixed
+     */
+    public function Favorite()
+    {
+        return $this->favorite;
+    }
+
+    /**
+     * @param mixed $favorite
+     */
+    public function setFavorite($favorite)
+    {
+        $this->favorite = $favorite;
+        $this->checkIntegrity("favorite");
+
+    }
+
+
+
     public function checkAuth($token)
     {
-
-
-	if(md5($this->username.$this->password) == $token)
-		return true;
-	return false;
-}
+        if(md5($this->username.$this->password) == $token)
+            return true;
+        return false;
+    }
     
     
 }

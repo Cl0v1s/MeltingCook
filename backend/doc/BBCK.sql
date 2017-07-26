@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Mar 18 Juillet 2017 à 16:34
+-- Généré le :  Mer 26 Juillet 2017 à 12:15
 -- Version du serveur :  5.7.17-0ubuntu0.16.04.1
 -- Version de PHP :  7.0.15-0ubuntu0.16.04.4
 
@@ -58,7 +58,9 @@ CREATE TABLE `Recipe` (
   `name` varchar(400) NOT NULL,
   `description` varchar(1000) NOT NULL,
   `picture` varchar(100) NOT NULL,
-  `User_id` int(11) NOT NULL
+  `User_id` int(11) NOT NULL,
+  `origin` varchar(400) NOT NULL,
+  `items` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -104,7 +106,10 @@ CREATE TABLE `User` (
   `geolocation` varchar(100) NOT NULL,
   `phone` varchar(20) NOT NULL,
   `banned` int(11) NOT NULL,
-  `rights` int(11) NOT NULL
+  `rights` int(11) NOT NULL,
+  `discease` varchar(1000) NOT NULL,
+  `preference` varchar(1000) NOT NULL,
+  `favorite` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

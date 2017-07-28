@@ -1,0 +1,55 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Melting Cook</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <link rel="icon" type="image/png" href="/static/img/Logo.png" />
+
+    <!-- Importation du style de l'application -->
+    <link rel="stylesheet" href="/static/CSS/main.css">
+
+    <!-- Importation des dépendances CSS -->
+    <link rel="stylesheet" href="/static/CSS/vendor/awesomplete.base.css">
+    <link rel="stylesheet" href="/static/CSS/vendor/awesomplete.css">
+    <link rel="stylesheet" href="/static/CSS/vendor/vex.css">
+    <link rel="stylesheet" href="/static/CSS/vendor/vex-theme-wireframe.css" />
+    <link rel="stylesheet" href="/static/CSS/vendor/selectize.css" />
+    <link rel="stylesheet" href="/static/CSS/vendor/selectize.default.css" />
+
+    <script>vex.defaultOptions.className = 'vex-theme-wireframe'</script>
+
+    <!-- Importation des tags -->    
+
+
+    <!-- Importation du coeur de l'application-->
+    <script src="/static/JS/global.js"></script>
+    
+    <!-- include riot.js and the compiler, et les dépendances JS-->
+    <script src="/static/JS/vendor/riot+compiler.min.js"></script>
+    <script src="/static/JS/vendor/route.min.js"></script>
+    <script src="/static/JS/vendor/ajax.min.js"></script>
+    <script src="/static/JS/vendor/cookie.js"></script>
+    <script src="/static/JS/vendor/validatinator.min.js"></script>
+    <script src="/static/JS/vendor/awesomplete.min.js"></script>
+    <script src="/static/JS/vendor/jquery-3.2.1.min.js"></script>
+    <script src="/static/JS/vendor/vex.combined.min.js"></script>
+    <script src="/static/JS/vendor/selectize.min.js"></script>
+
+
+
+    <!-- Définition des routes -->
+    <script>
+        window.addEventListener("load", function(){
+            
+
+            route.start(true);
+        });
+    </script>
+</head>
+<body>
+    <noscript>Cette application ne peut fonctionner sans Javascript. Veuillez l'activer, mettre à jour votre navigateur ou essayer à nouveau depuis un autre navigateur.</noscript>
+    <div id="app"></div>
+</body>
+
+</html>

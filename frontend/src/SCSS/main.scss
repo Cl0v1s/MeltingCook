@@ -1,0 +1,29 @@
+@import 'chart';
+@import 'reset';
+@import 'mixins';
+
+@import 'misc';
+
+/** Importation des styles des tags **/
+
+
+*
+{
+  box-sizing: border-box;
+  font-size : $font-size-normal;
+  color: $color-base;
+  font-family: MyriadPro;
+  z-index :0;
+}
+
+div.vertical-center
+{
+  display: table;
+
+  &>*
+  {
+    display: table-cell;
+    vertical-align: middle;
+  }
+}
+

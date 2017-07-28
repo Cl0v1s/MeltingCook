@@ -38,6 +38,9 @@ class APIController extends Controller
                 case "adduser":
                     $this->AddUser();
                     break;
+                case "addorigin":
+                    $this->AddOrigin();
+                    break;
                 case "addcomment":
                     $this->AddComment();
                     break;
@@ -62,6 +65,11 @@ class APIController extends Controller
                 case "removerecipe":
                     $this->Remove("Recipe");
                     break;
+                case "removeorigin":
+                    $this->Remove("Origin");
+                case "updateorigin":
+                    $this->UpdateOrigin();
+                    break;
                 case "updateuser":
                     $this->UpdateUser();
                     break;
@@ -76,6 +84,9 @@ class APIController extends Controller
                     break;
                 case "updatenotification":
                     $this->UpdateNotification();
+                    break;
+                case "getorigin":
+                    $this->Get("Origin");
                     break;
                 case "getuser":
                     $this->Get("User");
@@ -109,6 +120,9 @@ class APIController extends Controller
                     break;
                 case "getnotifications":
                     $this->GetAll("Notification");
+                    break;
+                case "getorigins":
+                    $this->GetAll("Origin");
                     break;
                 default:
                     http_response_code(404);
@@ -221,6 +235,18 @@ class APIController extends Controller
         print json_encode($result);
     }
 
+    private function AddOrigin()
+    {
+        if(isset($_POST["name"]) == false )
+        {
+            $this->Write(APIController::$NO, null, "Missing Data");
+            return;
+        }
+        $origin = new Origin(null);
+        $origin->setName($_POST["name"]);
+        $this->Add($origin);
+    }
+
     private function AddComment()
     {
         if(isset($_POST["target_id"]) == false || isset($_POST["author_id"]) == false || isset($_POST["content"]) == false || isset($_POST["note"]) == false)
@@ -328,6 +354,19 @@ class APIController extends Controller
         $user->setBanned(0);
         $user->setRights(0);
         $this->Add($user);
+    }
+
+    private function UpdateOrigin()
+    {
+        if(isset($_POST["id"]) == false)
+        {
+            $this->Write(APIController::$NO, null, "Missing Id");
+            return;
+        }
+        $origin = new Origin(null, $_POST["id"]);
+        if(isset($_POST["name"]))
+            $origin->setName($_POST["name"]);
+        $this->Update($origin);
     }
 
     public function UpdateUser()

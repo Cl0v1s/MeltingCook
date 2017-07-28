@@ -5,6 +5,49 @@ Page : null,
 PopUp: null,
 
 
+request: function(address, data)
+{
+    return new Promise(function(resolve, reject)
+    {
+        var href=window.location.href;
+        if(Cookies.getItem("token") != null)
+            data.token = Cookies.getItem("token");
+        var request = ajax({
+            method : "POST",
+            url : address,
+            "data" : data
+        });
+        App.showLoading();
+        request.then(function(response)
+        {
+            App.hideLoading();
+            if(App.checkPage(href) == false)
+            {
+                reject(null);
+                return;
+            }
+            if(App.analyseResponse(response) == false)
+            {
+                reject(null);
+                return;
+            }
+            resolve(response);
+        }, 
+        function(error)
+        {
+            App.hideLoading();
+            if(App.checkPage(href) == false)
+            {
+                reject(null);
+                return;
+            }
+            vex.dialog.alert("Une erreur réseau a eu lieu. Vérifiez votre connexion et réessayez.");
+            reject(error);
+        });
+    });
+},
+
+
 analyseResponse : function(data)
 {
 
@@ -118,12 +161,6 @@ hideLoading : function()
         return;
     e.remove();
 },
-
-decodeHTML : function(encodedString) {
-    var textArea = document.createElement('textarea');
-    textArea.innerHTML = encodedString;
-    return textArea.value;
-}  
 
 }
 

@@ -203,7 +203,7 @@ class APIController extends Controller
 
     private function AddComment()
     {
-        if(isset($_POST["target_id"]) == false || isset($_POST["author_id"]) == false || isset($_POST["content"]) == false)
+        if(isset($_POST["target_id"]) == false || isset($_POST["author_id"]) == false || isset($_POST["content"]) == false || isset($_POST["note"]) == false)
         {
             $this->Write(APIController::$NO, null, "Missing Data");
             return;
@@ -212,6 +212,7 @@ class APIController extends Controller
         $comment->setAuthorId($_POST["author_id"]);
         $comment->setTargetId($_POST["target_id"]);
         $comment->setContent($_POST["content"]);
+        $comment->setNote($_POST["note"]);
         $this->Add($comment);
     }
 
@@ -265,7 +266,7 @@ class APIController extends Controller
     private function AddRecipe()
     {
         if(isset($_POST["name"]) == false || isset($_POST["description"]) == false || isset($_POST["picture"]) == false || isset($_POST["User_id"]) == false ||
-        isset($_POST["origin"]) == false || isset($_POST["items"]) == false)
+        isset($_POST["origin"]) == false || isset($_POST["items"]) == false || isset($_POST["date_start"]) == false || isset($_POST["date_end"]) == false || isset($_POST["price"]) == false)
         {
             $this->Write(APIController::$NO, null, "Missing Data");
             return;
@@ -277,6 +278,9 @@ class APIController extends Controller
         $recipe->setUserId($_POST["User_id"]);
         $recipe->setOrigin($_POST["origin"]);
         $recipe->setItems($_POST["items"]);
+        $recipe->setDateStart($_POST["date_start"]);
+        $recipe->setDateEnd($_POST["date_end"]);
+        $recipe->setPrice($_POST["price"]);
         $this->Add($recipe);
     }
 
@@ -346,6 +350,8 @@ class APIController extends Controller
         $comment = new Comment(null, $_POST["id"]);
         if(isset($_POST["content"]))
             $comment->setContent($_POST["content"]);
+        if(isset($_POST["note"]))
+            $comment->setNote($_POST["note"]);
         $this->Update($comment);
     }
 
@@ -380,6 +386,12 @@ class APIController extends Controller
             $recipe->setOrigin($_POST["origin"]);
         if(isset($_POST["items"]))
             $recipe->setItems($_POST["items"]);
+        if(isset($_POST["date_start"]))
+            $recipe->setDateStart($_POST["date_start"]);
+        if(isset($_POST["date_end"]))
+            $recipe->setDateEnd($_POST["date_end"]);
+        if(isset($_POST["price"]))
+            $recipe->setPrice($_POST["price"]);
         $this->Update($recipe);
 
     }

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Mer 26 Juillet 2017 à 12:15
+-- Généré le :  Ven 28 Juillet 2017 à 03:44
 -- Version du serveur :  5.7.17-0ubuntu0.16.04.1
 -- Version de PHP :  7.0.15-0ubuntu0.16.04.4
 
@@ -30,7 +30,8 @@ CREATE TABLE `Comment` (
   `id` int(11) NOT NULL,
   `target_id` int(11) NOT NULL,
   `author_id` int(11) NOT NULL,
-  `content` varchar(400) NOT NULL
+  `content` varchar(400) NOT NULL,
+  `note` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -44,7 +45,7 @@ CREATE TABLE `Notification` (
   `User_id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
   `content` varchar(1000) NOT NULL,
-  `new` int(11) NOT NULL
+  `new` int(11) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -60,7 +61,10 @@ CREATE TABLE `Recipe` (
   `picture` varchar(100) NOT NULL,
   `User_id` int(11) NOT NULL,
   `origin` varchar(400) NOT NULL,
-  `items` varchar(1000) NOT NULL
+  `items` varchar(1000) NOT NULL,
+  `date_start` int(11) NOT NULL,
+  `date_end` int(11) NOT NULL,
+  `price` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -102,14 +106,14 @@ CREATE TABLE `User` (
   `id` int(11) NOT NULL,
   `username` varchar(100) NOT NULL,
   `password` varchar(32) NOT NULL,
-  `picture` varchar(100) NOT NULL,
+  `picture` varchar(100) DEFAULT NULL,
   `geolocation` varchar(100) NOT NULL,
   `phone` varchar(20) NOT NULL,
-  `banned` int(11) NOT NULL,
-  `rights` int(11) NOT NULL,
-  `discease` varchar(1000) NOT NULL,
-  `preference` varchar(1000) NOT NULL,
-  `favorite` varchar(400) NOT NULL
+  `banned` int(11) DEFAULT '0',
+  `rights` int(11) DEFAULT '0',
+  `discease` varchar(1000) DEFAULT NULL,
+  `preference` varchar(1000) DEFAULT NULL,
+  `favorite` varchar(400) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --

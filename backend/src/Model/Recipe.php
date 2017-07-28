@@ -53,6 +53,24 @@ class Recipe extends StorageItem
     public $items;
 
     /**
+     * @Required
+     * @Numeric
+     */
+    public $date_start;
+
+    /**
+     * @Required
+     * @Numeric
+     */
+    public $date_end;
+
+    /**
+     * @Required
+     * @Numeric
+     */
+    public $price;
+
+    /**
      * @return mixed
      */
     public function Name()
@@ -158,6 +176,59 @@ class Recipe extends StorageItem
         $this->checkIntegrity("items");
 
     }
+
+    /**
+     * @return mixed
+     */
+    public function DateStart()
+    {
+        return $this->date_start;
+    }
+
+    /**
+     * @param mixed $date_start
+     */
+    public function setDateStart($date_start)
+    {
+        $this->date_start = $date_start;
+        $this->checkIntegrity("date_start");
+    }
+
+    /**
+     * @return mixed
+     */
+    public function DateEnd()
+    {
+        return $this->date_end;
+    }
+
+    /**
+     * @param mixed $date_end
+     */
+    public function setDateEnd($date_end)
+    {
+        $this->date_end = $date_end;
+        $this->checkIntegrity("date_end");
+    }
+
+    /**
+     * @return mixed
+     */
+    public function Price()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param mixed $price
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+        $this->checkIntegrity("price");
+    }
+
+
     
     
     

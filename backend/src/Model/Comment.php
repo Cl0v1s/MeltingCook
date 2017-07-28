@@ -31,6 +31,12 @@ class Comment extends StorageItem
     public $content;
 
     /**
+     * @Required
+     * @Numeric
+     */
+    public $note;
+
+    /**
      * @return mixed
      */
     public function TargetId()
@@ -81,6 +87,23 @@ class Comment extends StorageItem
         $this->content = $content;
         $this->checkIntegrity("content");
 
+    }
+
+    /**
+     * @return mixed
+     */
+    public function Note()
+    {
+        return $this->note;
+    }
+
+    /**
+     * @param mixed $note
+     */
+    public function setNote($note)
+    {
+        $this->note = $note;
+        $this->checkIntegrity("note");
     }
     
     

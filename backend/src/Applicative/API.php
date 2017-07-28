@@ -72,12 +72,47 @@ class API
         $storage->flush();
     }
 
-    public static function GetAll($token, $class)
+    public static function GetAll($token, $class, $filters = null)
     {
         API::CheckRights($token, 1);
         $storage = Engine::Instance()->Persistence("DatabaseStorage");
         $items = null;
-        $storage->findAll($class, $items);
+        $f = "";
+        if($filters != null) {
+            $filters=str_replace("\\","", $filters);
+            $filters = json_decode($filters);
+            foreach($filters as $key => $value)
+            {
+                if(is_array($value))
+                {
+                    for($i = 0; $i < count($value); $i++)
+                    {
+                        if(is_numeric($value[$i]))
+                        {
+                            $f .= $key." = '".$value[$i]."' OR ";
+                        }
+                        else
+                        {
+                            $f .= $key." LIKE '%".$value[$i]."%' OR ";
+                        }
+                    }
+                    $f = substr($f,0, -3)."AND ";
+                }
+                else
+                {
+                    if(is_numeric($value))
+                    {
+                        $f .= $key." = '".$value."' AND ";
+                    }
+                    else
+                    {
+                        $f .= $key." LIKE '%".$value."%' AND ";
+                    }
+                }
+            }
+            $f = substr($f,0, -4);
+        }
+        $storage->findAll($class, $items, $f);
         return $items;
     }
 

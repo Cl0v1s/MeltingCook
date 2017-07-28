@@ -95,6 +95,21 @@ class APIController extends Controller
                 case "getnotification":
                     $this->Get("Notification");
                     break;
+                case "getcomments":
+                    $this->GetAll("Comment");
+                    break;
+                case "getreports":
+                    $this->GetAll("Report");
+                    break;
+                case "getreservations":
+                    $this->GetAll("Reservation");
+                    break;
+                case "getrecipes":
+                    $this->GetAll("Recipe");
+                    break;
+                case "getnotifications":
+                    $this->GetAll("Notification");
+                    break;
                 default:
                     http_response_code(404);
                     return;
@@ -137,12 +152,17 @@ class APIController extends Controller
 
     private function GetAll($class)
     {
+        $filters = null;
         if(isset($_POST["token"]) == false)
         {
             $this->Write(APIController::$NO, null, "Missing Token");
             return;
         }
-        $res = API::GetAll($_POST["token"], $class);
+        if(isset($_POST["filters"]))
+        {
+            $filters = $_POST["filters"];
+        }
+        $res = API::GetAll($_POST["token"], $class, $filters);
         $this->Write(APIController::$OK, $res);
     }
 

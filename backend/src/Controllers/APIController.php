@@ -306,7 +306,7 @@ class APIController extends Controller
 
     private function AddUser()
     {
-        if(isset($_POST["username"]) == false || isset($_POST["password"]) == false || isset($_POST["geolocation"]) == false || isset($_POST["phone"]) == false)
+        if(isset($_POST["username"]) == false || isset($_POST["password"]) == false || isset($_POST["geolocation"]) == false || isset($_POST["phone"]) == false || isset($_POST["mail"]) == false)
         {
             $this->Write(APIController::$NO, null, "Missing Data");
             return;
@@ -316,6 +316,7 @@ class APIController extends Controller
         $user->setPassword($_POST["password"]);
         $user->setGeolocation($_POST["geolocation"]);
         $user->setPhone($_POST["phone"]);
+        $user->setMail($_POST["mail"]);
         if(isset($_POST["picture"]))
             $user->setPicture($_POST["picture"]);
         if(isset($_POST["discease"]))
@@ -357,6 +358,8 @@ class APIController extends Controller
             $user->setPreference($_POST["preference"]);
         if(isset($_POST["favorite"]))
             $user->setFavorite($_POST["favorite"]);
+        if(isset($_POST["mail"]))
+            $user->setMail($_POST["mail"]);
         $this->Update($user);
     }
 

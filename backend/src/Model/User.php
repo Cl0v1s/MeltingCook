@@ -75,6 +75,13 @@ class User extends StorageItem
     public $favorite;
 
     /**
+     * @Required
+     * @Word
+     * @Size(min=1, max=400)
+     */
+    public $mail;
+
+    /**
      * @return mixed
      */
     public function Username()
@@ -249,6 +256,25 @@ class User extends StorageItem
         $this->checkIntegrity("favorite");
 
     }
+
+    /**
+     * @return mixed
+     */
+    public function Mail()
+    {
+        return $this->mail;
+    }
+
+    /**
+     * @param mixed $mail
+     */
+    public function setMail($mail)
+    {
+        $this->mail = $mail;
+        $this->checkIntegrity("mail");
+    }
+
+
 
 
 

@@ -9,10 +9,9 @@
         </div>
     </div>
     <form>
-        <input type="text" ref="place" name="place" placeholder="Lieu de partage">
-        <input type="text" ref="origin" name="origin" placeholder="Type de cuisine">
-        <!--TODO: ajouter un sélécteur de date-->
-        <input type="text" ref="date" name="date" placeholder="Date">
+        <app-placeinput ref="place"></app-placeinput>
+        <app-origininput ref="origin"></app-origininput>
+        <app-dateinput ref="date"></app-dateinput>        
         <input type="button" value="Chercher un moment sympa !" onclick={ send }>
     </form>
 
@@ -20,14 +19,21 @@
     <script>
         var tag = this;
 
-        tag.on("mount", function()
-        {
-
-        });
-
         tag.send = function()
         {
-
+            var retrieve = Search.search(tag.refs.place.value, tag.refs.origin.value, tag.refs.date.value);
+            retrieve.then(function(data)
+            {
+                App.changePage("app-searchresults", data);
+            });
+            retrieve.catch(function(error)
+            {
+                if(error == null)
+                {
+                    vex.dialog.alert("Oups... Une erreur est survenue. Veuillez réessayer plus tard.");
+                }
+                route("/");
+            });
         };
     </script>
 </app-searcher>

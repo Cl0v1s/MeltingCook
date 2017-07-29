@@ -17,9 +17,28 @@
     <link rel="stylesheet" href="/static/CSS/vendor/selectize.css" />
     <link rel="stylesheet" href="/static/CSS/vendor/selectize.default.css" />
 
-    <script>vex.defaultOptions.className = 'vex-theme-wireframe'</script>
 
     <!-- Importation des tags -->    
+
+    <!--Immutable-->
+    <script src="/tags/Immutable/Home.tag" type="riot/tag"></script>
+
+    <!--Misc-->
+    <script src="/tags/Misc/DateInput.tag" type="riot/tag"></script>
+    <script src="/tags/Misc/OriginInput.tag" type="riot/tag"></script>
+    <script src="/tags/Misc/PlaceInput.tag" type="riot/tag"></script>
+    <script src="/tags/Misc/Header.tag" type="riot/tag"></script>
+    <script src="/tags/Misc/Footer.tag" type="riot/tag"></script>
+
+    <!--Recipe-->
+    <script src="/tags/Recipe/Recipe.tag" type="riot/tag"></script>
+    <script src="/tags/Recipe/Recipes.tag" type="riot/tag"></script>
+    <script src="/tags/Recipe/RecipeItem.tag" type="riot/tag"></script>
+
+    <!--Search-->
+    <script src="/tags/Search/Searcher.tag" type="riot/tag"></script>
+    <script src="/tags/Search/SearchResults.tag" type="riot/tag"></script>
+
 
 
     <!-- Importation du coeur de l'application-->
@@ -36,12 +55,16 @@
     <script src="/static/JS/vendor/vex.combined.min.js"></script>
     <script src="/static/JS/vendor/selectize.min.js"></script>
 
+    <script>vex.defaultOptions.className = 'vex-theme-wireframe'</script>
+    
 
 
     <!-- Définition des routes -->
     <script>
         window.addEventListener("load", function(){
-            
+            route('', function() {
+                App.changePage("app-home", null);
+            });
 
             route.start(true);
         });

@@ -1,0 +1,15 @@
+<IfModule mod_rewrite.c>
+    Options +FollowSymlinks
+    Options +Indexes
+    RewriteEngine on
+
+    # if your app is in a subfolder:
+    # RewriteBase /my_app/
+
+    RewriteRule ^(Test)($|/) - [L]
+    RewriteRule ^(Static)($|/) - [L]
+    RewriteRule ([^/]+)/?([^/]+)?/?([^/]+)?/?([^/]+)?   index.php?p=$1&args=$2,$3,$4   [NC,L,QSA]
+    # with QSA flag (query string append),
+    # forces the rewrite engine to append a query string part of the
+    # substitution string to the existing string, instead of replacing it.
+</IfModule>

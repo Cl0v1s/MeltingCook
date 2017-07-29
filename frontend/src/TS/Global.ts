@@ -10,7 +10,9 @@ request: function(address, data)
     return new Promise(function(resolve, reject)
     {
         var href=window.location.href;
-        if(Cookies.getItem("token") != null)
+        if(data == null)
+            data = {};
+        if(address.indexOf(App.Address) != -1 && Cookies.getItem("token") != null)
             data.token = Cookies.getItem("token");
         var request = ajax({
             method : "POST",
@@ -26,9 +28,9 @@ request: function(address, data)
                 reject(null);
                 return;
             }
-            if(App.analyseResponse(response) == false)
+            if(address.indexOf(App.Address) != -1 && App.analyseResponse(response) == false)
             {
-                reject(null);
+                reject(response.data);
                 return;
             }
             resolve(response);
@@ -56,13 +58,11 @@ analyseResponse : function(data)
         if(data.data == 0)
         {
             vex.dialog.alert("Vos informations de connexion ne sont pas valides.");
-            route("/login");
             return false;
         }
         else if(data.data == 1)
         {
             vex.dialog.alert("Vous n'avez pas les droits suffisants.");
-            route("/home");
             return false;  
         }
         else if(data.data == "23000" || data.data == 23000)

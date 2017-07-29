@@ -22,6 +22,7 @@
 
     <!--Immutable-->
     <script src="/tags/Immutable/Home.tag" type="riot/tag"></script>
+    <script src="/tags/Immutable/Login.tag" type="riot/tag"></script>
 
     <!--Misc-->
     <script src="/tags/Misc/DateInput.tag" type="riot/tag"></script>
@@ -38,11 +39,6 @@
     <!--Search-->
     <script src="/tags/Search/Searcher.tag" type="riot/tag"></script>
     <script src="/tags/Search/SearchResults.tag" type="riot/tag"></script>
-
-
-
-    <!-- Importation du coeur de l'application-->
-    <script src="/static/JS/global.js"></script>
     
     <!-- include riot.js and the compiler, et les dépendances JS-->
     <script src="/static/JS/vendor/riot+compiler.min.js"></script>
@@ -55,6 +51,9 @@
     <script src="/static/JS/vendor/vex.combined.min.js"></script>
     <script src="/static/JS/vendor/selectize.min.js"></script>
 
+    <!-- Importation du coeur de l'application-->
+    <script src="/static/JS/global.js"></script>
+
     <script>vex.defaultOptions.className = 'vex-theme-wireframe'</script>
     
 
@@ -62,11 +61,19 @@
     <!-- Définition des routes -->
     <script>
         window.addEventListener("load", function(){
+
+            route("login", function() {
+                App.changePage("app-login", null);
+            });
+
             route('', function() {
                 App.changePage("app-home", null);
             });
 
             route.start(true);
+
+            if(Login.GetInstance().isLogged() == false)
+                route("/login");
         });
     </script>
 </head>

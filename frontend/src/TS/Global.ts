@@ -12,8 +12,8 @@ request: function(address, data)
         var href=window.location.href;
         if(data == null)
             data = {};
-        if(address.indexOf(App.Address) != -1 && Cookies.getItem("token") != null)
-            data.token = Cookies.getItem("token");
+        if(address.indexOf(App.Address) != -1 && Login.GetInstance().isLogged())
+            data.token = Login.GetInstance().Token();
         var request = ajax({
             method : "POST",
             url : address,

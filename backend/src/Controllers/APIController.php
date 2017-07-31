@@ -176,7 +176,12 @@ class APIController extends Controller
         {
             $filters = $_POST["filters"];
         }
-        $res = API::GetAll($_POST["token"], $class, $filters);
+        $method = "GetAll".$class;
+        $res = null;
+        if(method_exists("API", $method) == false)
+            $res = API::GetAll($_POST["token"], $class, $filters);
+        else
+            $res = API::$method($_POST["token"], $filters);
         $this->Write(APIController::$OK, $res);
     }
 

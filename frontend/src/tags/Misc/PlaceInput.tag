@@ -3,42 +3,28 @@
     <script>
         var tag = this;
         tag.value = "";
-        tag.city_interval = null;
 
         tag.on("mount", function()
         {
-            var arm = function()
-            {
-                clearTimeout(tag.city_interval);
-                tag.city_interval = setTimeout(tag.retrieveCities, 1500);
-                tag.value = "";
-            }
-            tag.refs.city.addEventListener("keyup", arm);
-
-
+            tag.retrieveCities();
         });
 
         tag.retrieveCities = function()
         {
-            var retrieve = App.request("http://api.geonames.org/postalCodeSearchJSON?placename="+tag.refs.city.value+"&country=FR&username=portron_oim")
+            var retrieve = App.request("/static/JS/cities.json");
             retrieve.then(function(response)
             {
+                console.log(response.cities);
                 $('#city').selectize({
-                    delimiter: ";",
                     persist: false,
-                    maxItems: null,
-                    valueField: ['lat', 'lng'],
-                    labelField: 'placeName',
-                    searchField: ['placeName'],
-                    options: response.postalCodes,
+                    maxItems: 1,
+                    valueField: ['geolocation'],
+                    labelField: 'name',
+                    searchField: ['name'],
+                    options: response.cities,
                     onChange : function(value)
                     {
                         tag.value = value;
-                    },
-                    create: function (input) {
-                        return {
-                            placeName: input
-                        };
                     },
                 });
             });

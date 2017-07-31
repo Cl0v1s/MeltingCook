@@ -71,6 +71,18 @@ class Recipe extends StorageItem
     public $price;
 
     /**
+     * @Required
+     * @Numeric
+     */
+    public $latitude;
+
+    /**
+     * @Required
+     * @Numeric
+     */
+    public $longitude;
+
+    /**
      * @return mixed
      */
     public function Name()
@@ -227,6 +239,43 @@ class Recipe extends StorageItem
         $this->price = $price;
         $this->checkIntegrity("price");
     }
+
+    /**
+     * @return mixed
+     */
+    public function Latitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * @param mixed $latitude
+     */
+    public function setLatitude($latitude)
+    {
+        $this->latitude = $latitude;
+        $this->checkIntegrity("latitude");
+    }
+
+    /**
+     * @return mixed
+     */
+    public function Longitude()
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * @param mixed $longitude
+     */
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
+        $this->checkIntegrity("longitude");
+
+    }
+
+
 
 
     

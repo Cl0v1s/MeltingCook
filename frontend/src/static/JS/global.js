@@ -151,66 +151,65 @@ var App = {
     function A(n, t, r) { return t ? r ? s(t, n) : C(t, n) : r ? m(n) : p(n); }
     "function" == typeof define && define.amd ? define(function () { return A; }) : "object" == typeof module && module.exports ? module.exports = A : n.md5 = A;
 }(window);
-var Login = (function () {
-    function Login() {
+class Login {
+    constructor() {
         this.token = null;
         this.user = null;
         this.token = Cookies.getItem("token");
         this.user = Cookies.getItem("user");
     }
-    Login.GetInstance = function () {
+    static GetInstance() {
         return Login.Instance;
-    };
-    Login.prototype.Token = function () {
+    }
+    Token() {
         return this.token;
-    };
-    Login.prototype.User = function () {
+    }
+    User() {
         return this.user;
-    };
-    Login.prototype.setToken = function (token) {
+    }
+    setToken(token) {
         this.token = token;
         Cookies.setItem("token", token, null, "/");
-    };
-    Login.prototype.setUser = function (user) {
+    }
+    setUser(user) {
         this.user = user;
         Cookies.setItem("user", JSON.stringify(user), null, "/");
-    };
-    Login.prototype.isLogged = function () {
+    }
+    isLogged() {
         if (this.token == null)
             return false;
         return true;
-    };
-    Login.prototype.auth = function (username, password) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
+    }
+    auth(username, password) {
+        return new Promise((resolve, reject) => {
             var tmptoken = md5(username + md5(password));
             var retrieve = App.request(App.Address + "/auth", {
                 token: tmptoken
             });
-            retrieve.then(function (response) {
-                _this.setToken(tmptoken);
-                _this.setUser(response.data);
+            retrieve.then((response) => {
+                this.setToken(tmptoken);
+                this.setUser(response.data);
                 resolve(response.data);
             });
-            retrieve.catch(function (error) {
+            retrieve.catch((error) => {
                 reject(error);
             });
         });
-    };
-    Login.Instance = new Login();
-    return Login;
-})();
-var Search = (function () {
-    function Search() {
     }
-    Search.search = function (place, origin, date) {
-        return new Promise(function (resolve, reject) {
-            var filters = {
-                "origin": origin,
-                "date_start": date,
-                "date_end": date,
-                "geolocation": place
-            };
+}
+Login.Instance = new Login();
+class Search {
+    static search(place, origin, date) {
+        return new Promise((resolve, reject) => {
+            var filters = {};
+            if (place != null && place != "")
+                filters["geolocation"] = place;
+            if (origin != null && origin != "")
+                filters["origin"] = origin;
+            if (date != null && date != "") {
+                filters["date_start"] = date;
+                filters["date_end"] = date;
+            }
             var retrieve = App.request(App.Address + "/getrecipes", {
                 "filters": JSON.stringify(filters)
             });
@@ -221,7 +220,6 @@ var Search = (function () {
                 reject(error);
             });
         });
-    };
-    return Search;
-})();
+    }
+}
 //# sourceMappingURL=global.js.map

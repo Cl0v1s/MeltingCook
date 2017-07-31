@@ -255,6 +255,48 @@ class API
         return $notification;
     }
 
+    public static function GetAllRecipe($token, $filters = null)
+    {
+        API::CheckRights($token, 1);
+        $storage = Engine::Instance()->Persistence("DatabaseStorage");
+        $items = null;
+        $f = "";
+        if($filters != null) {
+            $filters=str_replace("\\","", $filters);
+            $filters = get_object_vars(json_decode($filters));
+            if(isset($filters["origin"]))
+            {
+                $f .= "origin LIKE '%".$filters["origin"]."%' AND ";
+            }
+            if(isset($filters["date_start"]))
+            {
+                $f .= "date >= '".$filters["date_start"]."' AND ";
+            }
+            if(isset($filters["date_end"]))
+            {
+                $f .= "date <= '".$filters["date_end"]."' AND ";
+            }
+            if(isset($filters["geolocation"]))
+            {
+                $geolocation = explode(";",$filters["geolocation"]);
+                $latitude = floatval($geolocation[0]);
+                $longitude = floatval($geolocation[1]);
+                $min_latitude = $latitude - 0.3;
+                $max_latitude = $latitude + 0.3;
+                $min_longitude = $longitude - 0.3;
+                $max_longitude = $longitude + 0.3;
+                $f .= "latitude >= '".$min_latitude."' AND ";
+                $f .= "latitude <= '".$max_latitude."' AND ";
+                $f .= "longitude >= '".$min_longitude."' AND ";
+                $f .= "longitude <= '".$max_longitude."' AND ";
+            }
+            $f = substr($f,0, -4);
+        }
+        $storage->findAll("Recipe", $items, $f);
+
+        return $items;
+    }
+
 
 
 

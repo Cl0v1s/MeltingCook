@@ -270,11 +270,11 @@ class API
             }
             if(isset($filters["date_start"]))
             {
-                $f .= "date >= '".$filters["date_start"]."' AND ";
+                $f .= "date_start <= '".$filters["date_start"]."' AND ";
             }
             if(isset($filters["date_end"]))
             {
-                $f .= "date <= '".$filters["date_end"]."' AND ";
+                $f .= "date_end >= '".$filters["date_end"]."' AND ";
             }
             if(isset($filters["geolocation"]))
             {

@@ -96,7 +96,7 @@ var App = {
         e.appendChild(close);
         close.addEventListener("click", App.hidePopUp);
         document.body.appendChild(e);
-        App.PopUp = riot.mount(d, tag, { callback: data });
+        App.PopUp = riot.mount(d, tag, data);
         return App.PopUp;
     },
     hidePopUp: function () {

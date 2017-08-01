@@ -317,7 +317,7 @@ class APIController extends Controller
     private function AddRecipe()
     {
         if(isset($_POST["name"]) == false || isset($_POST["description"]) == false || isset($_POST["picture"]) == false || isset($_POST["User_id"]) == false ||
-        isset($_POST["origin"]) == false || isset($_POST["items"]) == false || isset($_POST["date_start"]) == false || isset($_POST["date_end"]) == false || isset($_POST["price"]) == false)
+        isset($_POST["origin"]) == false || isset($_POST["items"]) == false || isset($_POST["date_start"]) == false || isset($_POST["date_end"]) == false || isset($_POST["price"]) == false || isset($_POST["places"]) == false)
         {
             $this->Write(APIController::$NO, null, "Missing Data");
             return;
@@ -332,12 +332,13 @@ class APIController extends Controller
         $recipe->setDateStart($_POST["date_start"]);
         $recipe->setDateEnd($_POST["date_end"]);
         $recipe->setPrice($_POST["price"]);
+        $recipe->setPlaces($_POST["places"]);
         $this->Add($recipe);
     }
 
     private function AddUser()
     {
-        if(isset($_POST["username"]) == false || isset($_POST["password"]) == false || isset($_POST["geolocation"]) == false || isset($_POST["phone"]) == false || isset($_POST["mail"]) == false)
+        if(isset($_POST["username"]) == false || isset($_POST["password"]) == false || isset($_POST["geolocation"]) == false || isset($_POST["phone"]) == false || isset($_POST["mail"]) == false || isset($_POST["age"]) == false)
         {
             $this->Write(APIController::$NO, null, "Missing Data");
             return;
@@ -348,6 +349,7 @@ class APIController extends Controller
         $user->setGeolocation($_POST["geolocation"]);
         $user->setPhone($_POST["phone"]);
         $user->setMail($_POST["mail"]);
+        $user->setAge($_POST["age"]);
         if(isset($_POST["picture"]))
             $user->setPicture($_POST["picture"]);
         if(isset($_POST["discease"]))
@@ -356,6 +358,10 @@ class APIController extends Controller
             $user->setPreference($_POST["preference"]);
         if(isset($_POST["favorite"]))
             $user->setFavorite($_POST["favorite"]);
+        if(isset($_POST["pins"]))
+            $user->setPins($_POST["pins"]);
+        if(isset($_POST["banner"]))
+            $user->setBanner($_POST["banner"]);
         $user->setBanned(0);
         $user->setRights(0);
         $this->Add($user);
@@ -404,6 +410,12 @@ class APIController extends Controller
             $user->setFavorite($_POST["favorite"]);
         if(isset($_POST["mail"]))
             $user->setMail($_POST["mail"]);
+        if(isset($_POST["pins"]))
+            $user->setPins($_POST["pins"]);
+        if(isset($_POST["age"]))
+            $user->setAge($_POST["age"]);
+        if(isset($_POST["banner"]))
+            $user->setBanner($_POST["banner"]);
         $this->Update($user);
     }
 
@@ -459,6 +471,8 @@ class APIController extends Controller
             $recipe->setDateEnd($_POST["date_end"]);
         if(isset($_POST["price"]))
             $recipe->setPrice($_POST["price"]);
+        if(isset($_POST["places"]))
+            $recipe->setPlaces($_POST["places"]);
         $this->Update($recipe);
 
     }

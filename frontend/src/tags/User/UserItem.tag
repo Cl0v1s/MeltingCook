@@ -21,7 +21,6 @@
     </div>
     <div class="foot">
         <input type="button" class="large" value="Connaître le chef" onclick={ details }>
-        <a onclick={ comments }>Les derniers avis</a>
     </div>
 
 
@@ -43,11 +42,6 @@
         tag.details = function()
         {
             route("/user/"+tag.user.id);
-        }
-
-        tag.comments = function()
-        {
-            //TODO: ajouter lien vers les avis
         }
     </script>
 </app-useritem>

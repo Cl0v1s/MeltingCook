@@ -82,6 +82,24 @@ class User extends StorageItem
     public $mail;
 
     /**
+     * @Word
+     * @Size(min=1,max=1000)
+     */
+    public $pins;
+
+    /**
+     * @Required
+     * @Number
+     */
+    public $age;
+
+    /**
+     * @Word
+     * @Size(min=1, max=400)
+     */
+    public $banner;
+
+    /**
      * @return mixed
      */
     public function Username()
@@ -274,7 +292,56 @@ class User extends StorageItem
         $this->checkIntegrity("mail");
     }
 
+    /**
+     * @return mixed
+     */
+    public function Pins()
+    {
+        return $this->pins;
+    }
 
+    /**
+     * @param mixed $pins
+     */
+    public function setPins($pins)
+    {
+        $this->pins = $pins;
+        $this->checkIntegrity("pins");
+    }
+
+    /**
+     * @return mixed
+     */
+    public function Age()
+    {
+        return $this->age;
+    }
+
+    /**
+     * @param mixed $age
+     */
+    public function setAge($age)
+    {
+        $this->age = $age;
+        $this->checkIntegrity("age");
+    }
+
+    /**
+     * @return mixed
+     */
+    public function Banner()
+    {
+        return $this->banner;
+    }
+
+    /**
+     * @param mixed $banner
+     */
+    public function setBanner($banner)
+    {
+        $this->banner = $banner;
+        $this->checkIntegrity("banner");
+    }
 
 
 

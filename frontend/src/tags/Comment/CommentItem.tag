@@ -1,7 +1,7 @@
 <app-commentitem>
     <img src={ comment.author.picture }>
     <div>
-        <div>{ comment.author.username} - { comment.author.age} ans <div class="Hearts nb-{ comment.author.likes }"></div></div>
+        <div>{ comment.author.username} - { comment.author.age} ans</div>
         <div>
             <p>
                 { comment.content }

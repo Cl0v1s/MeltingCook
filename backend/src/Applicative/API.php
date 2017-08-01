@@ -168,6 +168,24 @@ class API
             throw new Exception("Not Enough Power", 1);
     }
 
+    public static function GetUser($token, $id)
+    {
+        $user = API::Get($token, "User", $id);
+        if($user == null)
+            return null;
+        $user["likes"] = 0;
+        $user["comments"] = [];
+
+        $user["comments"] = API::GetAllComment($token, "{ target_id : '".$id."' }");
+        foreach ($user["comments"] as $comment)
+        {
+            $user["likes"] += intval($comment["note"]);
+        }
+        if(count($user["comments"]) > 0)
+            $user["likes"] = $user["likes"] / count($user["comments"]);
+        return $user;
+    }
+
     public static function GetComment($token, $id)
     {
         $comment = API::Get($token, "Comment", $id);
@@ -295,6 +313,17 @@ class API
         $storage->findAll("Recipe", $items, $f);
 
         return $items;
+    }
+
+    public static function GetAllComment($token, $filters = null)
+    {
+        $comments = API::GetAll($token, "Comment", $filters);
+        for($i =0; $i < count($comments); $i++)
+        {
+            $comment = $comments[$i];
+            $comment["author"] = API::Get($token, "User", $comment["author_id"]);
+        }
+        return $comments;
     }
 
 

@@ -83,6 +83,12 @@ class Recipe extends StorageItem
     public $longitude;
 
     /**
+     * @Required
+     * @Numeric
+     */
+    public $places;
+
+    /**
      * @return mixed
      */
     public function Name()
@@ -274,6 +280,24 @@ class Recipe extends StorageItem
         $this->checkIntegrity("longitude");
 
     }
+
+    /**
+     * @return mixed
+     */
+    public function Places()
+    {
+        return $this->places;
+    }
+
+    /**
+     * @param mixed $places
+     */
+    public function setPlaces($places)
+    {
+        $this->places = $places;
+        $this->checkIntegrity("places");
+    }
+
 
 
 

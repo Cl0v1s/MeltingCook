@@ -32,7 +32,8 @@
             </div>
             <div>
                 <label>Presentation: </label>
-                <textarea name="description" ref="description" value={ user.description }>
+                <textarea name="description" ref="description">
+                    { user.description }
                 </textarea>
             </div>
         </div>

@@ -308,6 +308,14 @@ class API
                 $f .= "longitude >= '".$min_longitude."' AND ";
                 $f .= "longitude <= '".$max_longitude."' AND ";
             }
+            if(isset($filters["price_start"]))
+            {
+                $f .= "price >= '".$filters["price_start"]."' AND ";
+            }
+            if(isset($filters["price_end"]))
+            {
+                $f .= "price <= '".$filters["price_end"]."' AND ";
+            }
             $f = substr($f,0, -4);
         }
         $storage->findAll("Recipe", $items, $f);

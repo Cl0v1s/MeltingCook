@@ -1,28 +1,27 @@
 <app-dateinput>
-    <!--TODO: ajouter un sélécteur de date-->
 
-    <input type="text" ref="date" name="date" id="date" placeholder="Date">
+    <input type="text" ref="time" name="time" id="time" placeholder="Heure">
 
     <script>
         var tag = this;
         tag.value = null;
 
         tag.on("mount", () => {
-            var picker = $("#date").pickadate({
-                format: 'dd/mm/yyyy',
-                formatSubmit: 'dd/mm/yyyy',
+            var picker = $("#time").pickatime({
+                format: 'HH:i',
+                formatSubmit: 'HH:i',
                 hiddenName: true
             });
 
-            $('#date')
-                .pickadate('picker')
+            $('#time')
+                .pickatime('picker')
                 .on('render', function () {
-                    var date = $('#date').pickadate('picker').get("value");
-                    if(date == null)
+                    var time = $('#time').pickadate('picker').get("value");
+                    if(time == null)
                         return;
-                    date = date.split("/");
-                    date = new Date(date[2], parseInt(date[1]) - 1, date[0]);
-                    tag.value = Math.round(date.getTime() / 1000);
+                    time = time.split(":");
+                    time = new Time(0,0,0,time[0], time[1]);
+                    tag.value = Math.round(time.getTime() / 1000);
                 });
         });
     </script>

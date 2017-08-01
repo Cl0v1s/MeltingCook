@@ -1,5 +1,5 @@
 class Search {
-    public static search(place, origin, date): Promise<Object> {
+    public static search(place, origin, date, price_start, price_end): Promise<Object> {
         return new Promise<Object>((resolve, reject) => {
             var filters = {
             };
@@ -12,6 +12,10 @@ class Search {
                     filters["date_start"] = date;
                     filters["date_end"] = date;
             }
+            if(price_start != null)
+                filters["price_start"] = price_start;
+            if(price_end != null)
+                filters["price_end"] = price_end;
             var retrieve = App.request(App.Address + "/getrecipes", {
                 "filters": JSON.stringify(filters)
             });

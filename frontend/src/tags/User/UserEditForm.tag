@@ -69,6 +69,9 @@
             <input type="button" class="large" value="Me désinscrire">
         </div>
 
+        <div class="submit">
+            <input type="button" value="Enregistrer" onclick={ send }>
+        </div>
 
     </form>
 

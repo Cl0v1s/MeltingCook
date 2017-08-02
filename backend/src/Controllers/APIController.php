@@ -333,6 +333,8 @@ class APIController extends Controller
         $recipe->setDateEnd($_POST["date_end"]);
         $recipe->setPrice($_POST["price"]);
         $recipe->setPlaces($_POST["places"]);
+        if(isset($_POST["pins"]))
+            $recipe->setPins($_POST["pins"]);
         $this->Add($recipe);
     }
 
@@ -473,6 +475,8 @@ class APIController extends Controller
             $recipe->setPrice($_POST["price"]);
         if(isset($_POST["places"]))
             $recipe->setPlaces($_POST["places"]);
+        if(isset($_POST["pins"]))
+            $recipe->setPins($_POST["pins"]);
         $this->Update($recipe);
 
     }

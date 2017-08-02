@@ -89,6 +89,12 @@ class Recipe extends StorageItem
     public $places;
 
     /**
+     * @Word
+     * @Size(min=1, max=1000)
+     */
+    public $pins;
+
+    /**
      * @return mixed
      */
     public function Name()
@@ -297,6 +303,25 @@ class Recipe extends StorageItem
         $this->places = $places;
         $this->checkIntegrity("places");
     }
+
+    /**
+     * @return mixed
+     */
+    public function Pins()
+    {
+        return $this->pins;
+    }
+
+    /**
+     * @param mixed $pins
+     */
+    public function setPins($pins)
+    {
+        $this->pins = $pins;
+        $this->checkIntegrity("pins");
+    }
+
+
 
 
 

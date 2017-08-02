@@ -40,23 +40,10 @@
                 "id" : id
             });
             request.then((response) => {
-                tag.prepareRecipe(response.data);
+                Adapter.adaptRecipe(response.data);
+                tag.update();
             });
         };
-
-        tag.prepareRecipe = function(recipe)
-        {
-            var date_start = new Date(recipe.date_start*1000);
-            recipe.date_start = date_start.getDate() + "/"+(date_start.getMonth()+1)+"/"+date_start.getYear();
-            var date_end = new Date(recipe.date_end*1000);
-            recipe.date_end = date_end.getDate() + "/"+(date_end.getMonth()+1)+"/"+date_end.getYear();
-
-            recipe.pins = recipe.pins.split(";");
-            recipe.origin = recipe.origin.split(";");
-
-            tag.recipe = recipe;
-            tag.update();
-        }
 
         tag.details = function()
         {

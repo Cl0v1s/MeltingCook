@@ -1,3 +1,19 @@
+class Adapter {
+    static adaptRecipe(recipe) {
+        var date_start = new Date(recipe.date_start * 1000);
+        recipe.date_start = date_start.getDate() + "/" + (date_start.getMonth() + 1) + "/" + date_start.getFullYear();
+        var date_end = new Date(recipe.date_end * 1000);
+        recipe.date_end = date_end.getDate() + "/" + (date_end.getMonth() + 1) + "/" + date_end.getFullYear();
+        if (recipe.pins != null)
+            recipe.pins = recipe.pins.split(";");
+        else
+            recipe.pins = [];
+        recipe.origin = recipe.origin.split(";");
+        recipe.items = recipe.items.split(";");
+        recipe.place_left = parseInt(recipe.places) - recipe.users.length;
+        return recipe;
+    }
+}
 var App = {
     Address: "http://localhost:8080/API",
     Page: null,
@@ -199,7 +215,7 @@ class Login {
 }
 Login.Instance = new Login();
 class Search {
-    static search(place, origin, date) {
+    static search(place, origin, date, price_start, price_end) {
         return new Promise((resolve, reject) => {
             var filters = {};
             if (place != null && place != "")
@@ -210,6 +226,10 @@ class Search {
                 filters["date_start"] = date;
                 filters["date_end"] = date;
             }
+            if (price_start != null)
+                filters["price_start"] = price_start;
+            if (price_end != null)
+                filters["price_end"] = price_end;
             var retrieve = App.request(App.Address + "/getrecipes", {
                 "filters": JSON.stringify(filters)
             });

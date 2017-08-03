@@ -1,0 +1,83 @@
+app-user, div[data-is=app-user]
+{
+    &>div
+    {
+        div.banner
+        {
+            display: block;
+            width: 100%;
+            height: 140px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        div.head
+        {
+            margin-top: -60px - $space-normal;
+            padding: $space-normal;
+
+            &>img
+            {
+                display: inline-block;
+                width: 114px;
+                height: 114px;
+            }
+
+            &>div
+            {
+                display: inline-block;
+                margin-left: $space-normal;
+                font-size: $font-size-normal;
+
+                &.identity
+                {
+                    span
+                    {
+                        display: block;
+                        font-size: $font-size-big;
+                    }
+                }
+            }
+
+            &>a.Button
+            {
+                vertical-align: initial;
+                margin-left: $space-normal;
+            }
+
+        }
+
+        div.description
+        {
+            padding-left: $space-big;
+            padding-right: $space-big;
+            margin-bottom: $space-big;
+
+            p
+            {
+                font-size: $font-size-normal;
+            }
+        }
+
+        div.more
+        {
+            padding-left: $space-big;
+            padding-right: $space-big;
+
+            &>div
+            {
+                vertical-align: top;
+                display: inline-block;
+                margin-right: $space-big * 2;
+            }
+        }
+
+        div.comments
+        {
+            padding-left: $space-big;
+            padding-right: $space-big;
+        }
+    }
+
+}

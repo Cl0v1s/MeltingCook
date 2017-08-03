@@ -26,10 +26,10 @@
         </ul>
     </div>
     <div>
-        <a class="Button fb">Facebook</a>
-        <a class="Button twitter">Twitter</a>
-        <a class="Button insta">Instagram</a>
-        <a class="Button youtube">Youtube</a>
+        <a class="Button fb"><span>Facebook</span></a>
+        <a class="Button twitter"><span>Twitter</span></a>
+        <a class="Button insta"><span>Instagram</span></a>
+        <a class="Button youtube"><span>Youtube</span></a>
     </div>
 
     <script>

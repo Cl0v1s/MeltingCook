@@ -28,7 +28,7 @@ class User extends StorageItem
 
     /**
      * @Word
-     * @Size(min=1, max=100)
+     * @Size(min=1, max=400)
      */
     public $picture;
 

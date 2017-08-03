@@ -2,14 +2,16 @@
     <app-header></app-header>
     <div>
         <div class="banner" style="background-image: url('{ user.banner }');">
+        </div>
+        <div class="head">
             <img src={ user.picture }>
             <div class="identity">
                 <span>{ user.username }</span>
                 <span>{ user.age } ans</span>
             </div>
-            <div class="check">
+            <a class="Button verified">
                 <span>Cuisinnier vérifié</span>
-            </div>
+            </a>
         </div>
         <div class="description">
             <h2>Présentation du chef</h2>
@@ -30,10 +32,10 @@
                     <li each={ p in user.preference }>{ p }</li>
                 </ul>
             </div>
-            <div class="pins">
+            <div>
                 <h2>Ses "plus"</h2>
                 <ul>
-                    <li each={ p in user.pins }>{ p }</li>
+                    <li class="Pins" each={ p in user.pins }><span>{ p }</span></li>
                 </ul>
             </div>
         </div>

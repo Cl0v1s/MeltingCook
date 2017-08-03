@@ -1,9 +1,9 @@
 <app-header>
     <img>
     <nav>
-        <a class="Action" class={ invisible : logged == false}>Partager un voyage culinaire</a>
-        <a class="Button register" class={ invisible: logged == true }>Inscription</a> 
-        <a class="Button login" class={ invisible: logged == true }>Connexion</a>
+        <a class="Action" class={ invisible : logged == false}><span>Partager un voyage culinaire</span></a>
+        <a class="Button register" class={ invisible: logged == true }><span>Inscription</span></a> 
+        <a class="Button login" class={ invisible: logged == true }><span>Connexion</span></a>
     </nav>
 
     <script>

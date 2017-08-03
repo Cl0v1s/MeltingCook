@@ -1,0 +1,24 @@
+app-header, div[data-is=app-header]
+{
+    display: block;
+    width: 100%;
+    height: 100px;
+
+    position: relative;
+
+    padding: $space-normal;
+    padding-top: $space-small;
+    &>img 
+    {
+        display: inline-block;
+        width: 150px;
+        height: 45px;
+    }
+
+    &>nav 
+    {
+        display: inline-block;
+        position: absolute;
+        right: $space-normal;
+    }
+}

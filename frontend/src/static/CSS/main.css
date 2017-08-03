@@ -1,0 +1,175 @@
+@charset "UTF-8";
+/**
+ Importation des polices
+**/
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block; }
+
+body {
+  line-height: 1; }
+
+ol, ul {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+/**
+ Importation des polices
+**/
+.invisible {
+  display: none; }
+
+.content {
+  min-width: 320px;
+  width: 80%;
+  margin: auto;
+  margin-top: 20px;
+  box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.1);
+  padding: 8px; }
+
+div#loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  background-position: center center;
+  background-size: 100px auto;
+  background-repeat: no-repeat;
+  background-image: url("/static/img/loading.gif"); }
+
+div#popup {
+  box-sizing: border-box;
+  position: fixed;
+  min-width: 320px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fbfaf8;
+  border-radius: 2px;
+  z-index: 1;
+  padding: 20px;
+  border: 1px solid #df7a00;
+  box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.2);
+  padding-top: 60px;
+  overflow-y: auto;
+  max-height: 90%; }
+  div#popup::after {
+    position: absolute;
+    box-sizing: border-box;
+    top: 0;
+    left: 0;
+    width: 100%;
+    content: attr(data-name);
+    font-size: 16px;
+    font-family: "MyriadPro";
+    padding: 8px;
+    font-size: 20px;
+    background-color: #df7a00;
+    color: #fbfaf8; }
+  div#popup div.close {
+    content: "🞩";
+    display: inline-block;
+    position: absolute;
+    z-index: 2;
+    display: inline-block;
+    top: 0;
+    right: 0;
+    font-size: 20px;
+    text-align: right;
+    padding-top: 8px;
+    padding-right: 8px;
+    color: #fbfaf8;
+    cursor: pointer; }
+
+a.Button {
+  display: inline-block;
+  width: 45px;
+  height: 45px;
+  vertical-align: middle;
+  position: relative;
+  background-color: red; }
+  a.Button > span {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: 0;
+    font-size: 10px; }
+
+a.Action {
+  display: inline-block;
+  height: 30px;
+  vertical-align: middle;
+  padding-right: 30px; }
+  a.Action > span {
+    height: 30px;
+    line-height: 30px;
+    vertical-align: middle;
+    font-size: 10px; }
+
+/** Importation des styles des tags **/
+app-header, div[data-is=app-header] {
+  display: block;
+  width: 100%;
+  height: 100px;
+  position: relative;
+  padding: 20px;
+  padding-top: 8px; }
+  app-header > img, div[data-is=app-header] > img {
+    display: inline-block;
+    width: 150px;
+    height: 45px; }
+  app-header > nav, div[data-is=app-header] > nav {
+    display: inline-block;
+    position: absolute;
+    right: 20px; }
+
+* {
+  box-sizing: border-box;
+  font-size: 16px;
+  color: #303030;
+  font-family: MyriadPro;
+  z-index: 0; }
+
+div.vertical-center {
+  display: table; }
+  div.vertical-center > * {
+    display: table-cell;
+    vertical-align: middle; }

@@ -13,6 +13,12 @@
                 hiddenName: true
             });
 
+            if(tag.opts.time != null)
+            {
+                picker.set("select", tag.opts.time);
+            }
+
+
             $('#date')
                 .pickadate('picker')
                 .on('render', function () {

@@ -3,7 +3,7 @@
         <img>
         <div>
             <h2>A vos assiettes !</h2>
-            <span>Cuisinnez en bonne compagnie</span>
+            <span>Cuisinez en bonne compagnie</span>
         </div>
     </div>
     <form name="edit-search">

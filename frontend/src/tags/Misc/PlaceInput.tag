@@ -1,5 +1,5 @@
 <app-placeinput>
-    <input type="text" ref="city" name="city" id="city" placeholder="Lieu de partage">
+    <input type="text" ref="city" name="city" id="city" placeholder="Lieu de partage" value={ opts.place }>
     <script>
         var tag = this;
         tag.value = "";

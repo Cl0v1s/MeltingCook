@@ -37,12 +37,12 @@
             if (valid.passes("edit-userpassword")) {
                 if(tag.refs.password.value != tag.refs.password_confirm.value)
                 {
-                    vex.dialog.alert("Les mots de passe ne correspondent pas."),
+                    vex.dialog.alert("Les mots de passe ne correspondent pas.");
                     return;
                 }
                 var request = App.request(App.Address + "/updateuser", {
                   "id" : tag.user.id,
-                  "password" : md5(tag.refs.password.value);  
+                  "password" : md5(tag.refs.password.value),
                 });
                 request.then((response) => {
                     tag.callback();

@@ -13,6 +13,12 @@
                 hiddenName: true
             });
 
+            // Réglage de la date par défaut
+            if(tag.opts.date != null)
+            {
+                picker.set("select", tag.opts.date);
+            }
+
             $('#time')
                 .pickatime('picker')
                 .on('render', function () {

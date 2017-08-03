@@ -11,6 +11,8 @@ a.Button
     position: relative;
     background-color: red;
 
+    margin-left: $space-small;
+
     &>span
     {
         position: absolute;

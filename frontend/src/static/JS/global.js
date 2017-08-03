@@ -13,6 +13,21 @@ class Adapter {
         recipe.place_left = parseInt(recipe.places) - recipe.users.length;
         return recipe;
     }
+    static adaptUser(user) {
+        if (user.discease != null)
+            user.discease = user.discease.split(";");
+        else
+            user.discease = [];
+        if (user.preference != null)
+            user.preference = user.preference.split(";");
+        else
+            user.preference = [];
+        if (user.pins != null)
+            user.pins = user.pins.split(";");
+        else
+            user.pins = [];
+        return user;
+    }
 }
 var App = {
     Address: "http://localhost:8080/API",

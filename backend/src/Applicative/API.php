@@ -176,13 +176,14 @@ class API
         $user["likes"] = 0;
         $user["comments"] = [];
 
-        $user["comments"] = API::GetAllComment($token, "{ target_id : '".$id."' }");
-        foreach ($user["comments"] as $comment)
-        {
-            $user["likes"] += intval($comment["note"]);
+        $user["comments"] = API::GetAllComment($token, '{ "target_id" : "'.$id.'" }');
+        if($user["comments"] != null) {
+            foreach ($user["comments"] as $comment) {
+                $user["likes"] += intval($comment["note"]);
+            }
+            if (count($user["comments"]) > 0)
+                $user["likes"] = $user["likes"] / count($user["comments"]);
         }
-        if(count($user["comments"]) > 0)
-            $user["likes"] = $user["likes"] / count($user["comments"]);
         return $user;
     }
 
@@ -257,7 +258,7 @@ class API
         {
             $recipe["user"] = API::Get($token, "User", $recipe["User_id"]);
         }
-        $reservations = API::GetAll($token, "Reservation", "{ Recipe_id : '".$id."' }");
+        $reservations = API::GetAll($token, "Reservation", '{ "Recipe_id" : "'.$id.'" }');
         $recipe["users"] = array();
         foreach ($reservations as $reservation)
         {

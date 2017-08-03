@@ -60,7 +60,8 @@
                 "id" : id
             });
             request.then((response) => {
-                tag.prepareUser(response.data);
+                tag.user = Adapter.adaptUser(response.data);
+                tag.update();
             });
             request.catch((error) => {
                 if(error == null)
@@ -69,16 +70,6 @@
                 }
                 route("/");
             });
-        }
-
-        tag.prepareUser = function(user)
-        {
-            user.discease = user.discease.split(";");
-            user.preference = user.preference.split(";");
-            user.pins = user.pins.split(";");
-
-            tag.user = user;
-            tag.update();
         }
     </script>
 </app-user>

@@ -18,4 +18,18 @@ class Adapter
 
         return recipe;
     }
+
+    public static adaptUser(user : any) : any
+    {
+        if(user.discease != null)
+            user.discease = user.discease.split(";");
+        else user.discease = [];
+        if(user.preference != null)
+            user.preference = user.preference.split(";");
+        else user.preference= [];
+        if(user.pins != null)
+            user.pins = user.pins.split(";");
+        else user.pins = [];
+        return user;
+    }
 }

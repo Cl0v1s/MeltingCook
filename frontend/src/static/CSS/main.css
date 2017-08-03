@@ -53,7 +53,7 @@ table {
  Importation des polices
 **/
 .invisible {
-  display: none; }
+  display: none !important; }
 
 .content {
   min-width: 320px;
@@ -135,12 +135,12 @@ a.Button {
 
 a.Action {
   display: inline-block;
-  height: 30px;
+  height: 45px;
   vertical-align: middle;
   padding-right: 30px; }
   a.Action > span {
-    height: 30px;
-    line-height: 30px;
+    height: 45px;
+    line-height: 45px;
     vertical-align: middle;
     font-size: 10px; }
 

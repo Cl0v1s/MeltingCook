@@ -29,7 +29,7 @@
 
         tag.user = tag.opts.user;
 
-        tag.on("before-mount", function()
+        tag.on("mount", function()
         {
             if(tag.user == null)
             {

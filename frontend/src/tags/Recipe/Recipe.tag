@@ -5,12 +5,12 @@
 
         <!-- Présentation des informations sur la recette-->
         <div class="infos">
-            <div class="banner"></div>
+            <div class="banner" style="background-image: url('{ recipe.picture }');"></div>
 
             <div class="base">
                 <div class="name">
                     <h1>{ recipe.name }</h1>
-                    <div class="pins">
+                    <div>
                         <div class="Pins" each={ p in recipe.pins }>{ p }</div>
                     </div>
                 </div>
@@ -22,7 +22,7 @@
             </div>
 
             <div class="geolocation">
-                <app-placehint latitude={ recipe.latitude } longitude={ recipe.longitude}></app-placehint>
+                <app-placehint latitude={ recipe.latitude } longitude={ recipe.longitude} place={ recipe.place }></app-placehint>
             </div>
 
             <div class="details">

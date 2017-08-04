@@ -317,7 +317,8 @@ class APIController extends Controller
     private function AddRecipe()
     {
         if(isset($_POST["name"]) == false || isset($_POST["description"]) == false || isset($_POST["picture"]) == false || isset($_POST["User_id"]) == false ||
-        isset($_POST["origin"]) == false || isset($_POST["items"]) == false || isset($_POST["date_start"]) == false || isset($_POST["date_end"]) == false || isset($_POST["price"]) == false || isset($_POST["places"]) == false)
+        isset($_POST["origin"]) == false || isset($_POST["items"]) == false || isset($_POST["date_start"]) == false || isset($_POST["date_end"]) == false || isset($_POST["price"]) == false || isset($_POST["places"]) == false
+        || isset($_POST["place"]) == false)
         {
             $this->Write(APIController::$NO, null, "Missing Data");
             return;
@@ -333,6 +334,7 @@ class APIController extends Controller
         $recipe->setDateEnd($_POST["date_end"]);
         $recipe->setPrice($_POST["price"]);
         $recipe->setPlaces($_POST["places"]);
+	$recipe->setPlace($_POST["place"]);
         if(isset($_POST["pins"]))
             $recipe->setPins($_POST["pins"]);
         $this->Add($recipe);
@@ -477,6 +479,8 @@ class APIController extends Controller
             $recipe->setPlaces($_POST["places"]);
         if(isset($_POST["pins"]))
             $recipe->setPins($_POST["pins"]);
+	    if(isset($_POST["place"]))
+	        $recipe->setPlace($_POST["place"]);
         $this->Update($recipe);
 
     }

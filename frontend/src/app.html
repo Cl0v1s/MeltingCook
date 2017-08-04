@@ -86,6 +86,10 @@
     <script>
         window.addEventListener("load", function(){
 
+            route("recipe/*", function(id){
+                App.changePage("app-recipe", id);
+            });
+
             route("user/*", function(id){
                 App.changePage("app-user", id);
             });

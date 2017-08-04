@@ -8,8 +8,20 @@ class Adapter {
             recipe.pins = recipe.pins.split(";");
         else
             recipe.pins = [];
-        recipe.origin = recipe.origin.split(";");
-        recipe.items = recipe.items.split(";");
+        if (recipe.origin != null)
+            recipe.origin = recipe.origin.split(";");
+        else
+            recipe.origin = [];
+        if (recipe.items != null)
+            recipe.items = recipe.items.split(";");
+        else
+            recipe.items = [];
+        if (recipe.origin[recipe.origin.length - 1] == "" || recipe.origin[recipe.origin.length - 1] == null)
+            recipe.origin.pop();
+        if (recipe.items[recipe.items.length - 1] == "" || recipe.items[recipe.items.length - 1] == null)
+            recipe.items.pop();
+        if (recipe.pins[recipe.pins.length - 1] == "" || recipe.pins[recipe.pins.length - 1] == null)
+            recipe.pins.pop();
         recipe.place_left = parseInt(recipe.places) - recipe.users.length;
         return recipe;
     }

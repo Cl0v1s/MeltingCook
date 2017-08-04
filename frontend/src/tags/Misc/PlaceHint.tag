@@ -1,10 +1,10 @@
 <app-placehint>
     <div>
-        <div>{ place } - ({ latitude }, {longitude})</div>
+        <div>{ opts.place } - ({ opts.latitude }, { opts.longitude})</div>
         <a onclick={ toggleMap }>voir le plan</a>
     </div>
     <div class={ invisible: opened == false, open: opened == true, close: opened == false }>
-        <iframe frameborder="0" src="https://maps.google.com/maps?q={ latitude },{ longitude }&t=&z=14&ie=UTF8&iwloc=&output=embed"></iframe>
+        <iframe frameborder="0" src="https://maps.google.com/maps?q={ opts.latitude },{ opts.longitude }&t=&z=14&ie=UTF8&iwloc=&output=embed"></iframe>
     </div>
 
 

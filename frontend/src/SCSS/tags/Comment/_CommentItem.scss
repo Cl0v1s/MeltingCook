@@ -1,6 +1,7 @@
 app-commentitem, div[data-is=app-commentitem]
 {
     display: block;
+    margin-bottom: $space-normal;
 
     &>img.profile
     {

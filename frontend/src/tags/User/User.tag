@@ -20,13 +20,13 @@
             </p>
         </div>
         <div class="more">
-            <div class="discease">
+            <div class={ discease : true, invisible : user.discease.length <= 0 }>
                 <h2>Ses allergies</h2>
                 <ul>
                     <li each={ d in user.discease }>{ d }</li>
                 </ul>
             </div>
-            <div class="preference">
+            <div class={ preference : true, invisible : user.preference.length <= 0 }>
                 <h2>Ses inspirations</h2>
                 <ul>
                     <li each={ p in user.preference }>{ p }</li>

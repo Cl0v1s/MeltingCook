@@ -26,6 +26,12 @@ class Adapter {
             user.pins = user.pins.split(";");
         else
             user.pins = [];
+        if (user.discease[user.discease.length - 1] == "" || user.discease[user.discease.length - 1] == null)
+            user.discease.pop();
+        if (user.preference[user.preference.length - 1] == "" || user.preference[user.preference.length - 1] == null)
+            user.preference.pop();
+        if (user.pins[user.pins.length - 1] == "" || user.pins[user.pins.length - 1] == null)
+            user.pins.pop();
         return user;
     }
 }

@@ -182,7 +182,7 @@ class API
                 $user["likes"] += intval($comment["note"]);
             }
             if (count($user["comments"]) > 0)
-                $user["likes"] = $user["likes"] / count($user["comments"]);
+                $user["likes"] = floor($user["likes"] / count($user["comments"]));
         }
         return $user;
     }

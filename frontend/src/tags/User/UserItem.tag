@@ -9,12 +9,12 @@
     <div class="body">
         <div class="Hearts nb-{ user.likes }">
         </div>
-        <div class="style">
+        <div class={style : true, invisible: user.style == null || user.style == ""}>
             <span>Son style</span>
-            <span>{ user.style }
+            <span>{ user.style }</span>
         </div>
-        <div class="pins">
-            <div class="Pins" each={ pin in pins}>
+        <div>
+            <div class="Pins" each={ pin in user.pins}>
                 { pin }
             </div>
         </div>
@@ -29,15 +29,11 @@
 
         tag.user = tag.opts.user;
 
-        tag.on("mount", function()
+        tag.setUser = function(user)
         {
-            if(tag.user == null)
-            {
-                throw new Error("user must be set.");
-            }
-            tag.style = tag.preference.split(";")[0];
-            tag.pins = tag.pins.split(";");
-        });
+            tag.user = Adapter.adaptUser(user);
+            tag.update();
+        }
 
         tag.details = function()
         {

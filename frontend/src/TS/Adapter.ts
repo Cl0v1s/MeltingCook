@@ -51,6 +51,11 @@ class Adapter
         if(user.pins[user.pins.length -1 ] == "" || user.pins[user.pins.length -1 ] == null)
             user.pins.pop();
 
+        if(user.preference.length >= 1)
+        {
+            user.style = user.preference[0];
+        }
+
         return user;
     }
 }

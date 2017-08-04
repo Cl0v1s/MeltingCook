@@ -1,0 +1,54 @@
+app-useritem, div[data-is=app-useritem]
+{
+    display: block;
+    padding: $space-normal;
+
+    div.head
+    {
+        margin-bottom: $space-normal;
+        img
+        {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            vertical-align: middle;
+        }
+
+        &>div
+        {
+            display: inline-block;
+            padding-left: $space-small;
+
+            span
+            {
+                
+                display: inline-block;
+                width: 100%;
+                vertical-align: middle;
+            }
+        }
+    }
+
+    div.body
+    {
+        margin-bottom: $space-normal;
+        div.Hearts
+        {
+            margin-bottom: $space-normal !important;
+        }
+
+        div.style
+        {
+            margin-bottom: $space-normal;
+            span:first-of-type
+            {
+                display: block;
+                font-size: $font-size-small;
+            }
+            span:last-of-type
+            {
+                font-size: $font-size-big;
+            }
+        }
+    }
+}

@@ -9,6 +9,10 @@
 @import 'parts/Hearts';
 
 /** Importation des styles des tags **/
+@import 'tags/User/UserItem';
+@import 'tags/User/User';
+
+
 @import 'tags/Recipe/Recipe';
 
 @import 'tags/Comment/CommentItem';
@@ -16,7 +20,6 @@
 
 @import 'tags/Header';
 @import 'tags/Footer';
-@import 'tags/User';
 
 *
 {

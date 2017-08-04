@@ -54,7 +54,7 @@
                 </form>
             </div>
 
-            <app-useritem user={ recipe.user }></app-useritem>
+            <app-useritem ref="useritem"></app-useritem>
         </div>
     </div>
 
@@ -75,6 +75,7 @@
             });
             request.then((response) => {
                 tag.recipe = Adapter.adaptRecipe(response.data);
+                tag.refs.useritem.setUser(tag.recipe.user);
                 tag.update();
             });
             request.catch((error) => {

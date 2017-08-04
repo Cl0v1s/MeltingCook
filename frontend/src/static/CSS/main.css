@@ -178,6 +178,83 @@ div.Hearts {
   margin: 8px; }
 
 /** Importation des styles des tags **/
+app-useritem, div[data-is=app-useritem] {
+  display: block;
+  padding: 20px; }
+  app-useritem div.head, div[data-is=app-useritem] div.head {
+    margin-bottom: 20px; }
+    app-useritem div.head img, div[data-is=app-useritem] div.head img {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      vertical-align: middle; }
+    app-useritem div.head > div, div[data-is=app-useritem] div.head > div {
+      display: inline-block;
+      padding-left: 8px; }
+      app-useritem div.head > div span, div[data-is=app-useritem] div.head > div span {
+        display: inline-block;
+        width: 100%;
+        vertical-align: middle; }
+  app-useritem div.body, div[data-is=app-useritem] div.body {
+    margin-bottom: 20px; }
+    app-useritem div.body div.Hearts, div[data-is=app-useritem] div.body div.Hearts {
+      margin-bottom: 20px !important; }
+    app-useritem div.body div.style, div[data-is=app-useritem] div.body div.style {
+      margin-bottom: 20px; }
+      app-useritem div.body div.style span:first-of-type, div[data-is=app-useritem] div.body div.style span:first-of-type {
+        display: block;
+        font-size: 10px; }
+      app-useritem div.body div.style span:last-of-type, div[data-is=app-useritem] div.body div.style span:last-of-type {
+        font-size: 20px; }
+
+app-user > div div.banner, div[data-is=app-user] > div div.banner {
+  display: block;
+  width: 100%;
+  height: 140px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat; }
+
+app-user > div div.head, div[data-is=app-user] > div div.head {
+  margin-top: -80px;
+  padding: 20px; }
+  app-user > div div.head > img, div[data-is=app-user] > div div.head > img {
+    display: inline-block;
+    width: 114px;
+    height: 114px; }
+  app-user > div div.head > div, div[data-is=app-user] > div div.head > div {
+    display: inline-block;
+    margin-left: 20px;
+    font-size: 16px; }
+    app-user > div div.head > div.identity span, div[data-is=app-user] > div div.head > div.identity span {
+      display: block;
+      font-size: 20px; }
+  app-user > div div.head > a.Button, div[data-is=app-user] > div div.head > a.Button {
+    vertical-align: initial;
+    margin-left: 20px; }
+
+app-user > div div.description, div[data-is=app-user] > div div.description {
+  padding-left: 40px;
+  padding-right: 40px;
+  margin-bottom: 40px; }
+  app-user > div div.description p, div[data-is=app-user] > div div.description p {
+    font-size: 16px; }
+
+app-user > div div.more, div[data-is=app-user] > div div.more {
+  padding-left: 40px;
+  padding-right: 40px; }
+  app-user > div div.more > div, div[data-is=app-user] > div div.more > div {
+    vertical-align: top;
+    display: inline-block;
+    margin-right: 80px;
+    margin-bottom: 20px; }
+
+app-user > div div.comments, div[data-is=app-user] > div div.comments {
+  padding-left: 40px;
+  padding-right: 40px; }
+  app-user > div div.comments h2, div[data-is=app-user] > div div.comments h2 {
+    display: inline-block; }
+
 app-recipe div.infos, div[data-is=app-recipe] div.infos {
   display: inline-block;
   width: 65%; }
@@ -294,54 +371,6 @@ div[data-is=app-footer] {
         div[data-is=app-footer] > div ul {
           display: inline-block;
           text-align: left; } }
-
-app-user > div div.banner, div[data-is=app-user] > div div.banner {
-  display: block;
-  width: 100%;
-  height: 140px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat; }
-
-app-user > div div.head, div[data-is=app-user] > div div.head {
-  margin-top: -80px;
-  padding: 20px; }
-  app-user > div div.head > img, div[data-is=app-user] > div div.head > img {
-    display: inline-block;
-    width: 114px;
-    height: 114px; }
-  app-user > div div.head > div, div[data-is=app-user] > div div.head > div {
-    display: inline-block;
-    margin-left: 20px;
-    font-size: 16px; }
-    app-user > div div.head > div.identity span, div[data-is=app-user] > div div.head > div.identity span {
-      display: block;
-      font-size: 20px; }
-  app-user > div div.head > a.Button, div[data-is=app-user] > div div.head > a.Button {
-    vertical-align: initial;
-    margin-left: 20px; }
-
-app-user > div div.description, div[data-is=app-user] > div div.description {
-  padding-left: 40px;
-  padding-right: 40px;
-  margin-bottom: 40px; }
-  app-user > div div.description p, div[data-is=app-user] > div div.description p {
-    font-size: 16px; }
-
-app-user > div div.more, div[data-is=app-user] > div div.more {
-  padding-left: 40px;
-  padding-right: 40px; }
-  app-user > div div.more > div, div[data-is=app-user] > div div.more > div {
-    vertical-align: top;
-    display: inline-block;
-    margin-right: 80px;
-    margin-bottom: 20px; }
-
-app-user > div div.comments, div[data-is=app-user] > div div.comments {
-  padding-left: 40px;
-  padding-right: 40px; }
-  app-user > div div.comments h2, div[data-is=app-user] > div div.comments h2 {
-    display: inline-block; }
 
 * {
   box-sizing: border-box;

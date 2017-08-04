@@ -96,4 +96,27 @@ img.profile
   height: $side;
 }
 
+.price
+{
+    $side: 50px;
+
+    display: inline-block;
+    position: relative;
+
+    width: $side;
+    height: $side;
+
+    border: 1px solid black;
+
+    border-radius: 100%;
+
+    line-height: $side;
+
+    text-align: center;
+
+    vertical-align: top;
+
+    margin-left: $space-small;
+}
+
 

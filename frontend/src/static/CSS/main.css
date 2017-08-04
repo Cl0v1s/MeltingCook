@@ -128,6 +128,18 @@ img.profile {
   width: 75px;
   height: 75px; }
 
+.price {
+  display: inline-block;
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border: 1px solid black;
+  border-radius: 100%;
+  line-height: 50px;
+  text-align: center;
+  vertical-align: top;
+  margin-left: 8px; }
+
 a.Button {
   display: inline-block;
   width: 45px;
@@ -301,6 +313,20 @@ app-recipe div.user, div[data-is=app-recipe] div.user {
     app-recipe div.user, div[data-is=app-recipe] div.user {
       display: block;
       width: 100%; } }
+  app-recipe div.user div.join, div[data-is=app-recipe] div.user div.join {
+    text-align: center; }
+    app-recipe div.user div.join h2, div[data-is=app-recipe] div.user div.join h2 {
+      font-size: 20px; }
+    app-recipe div.user div.join .price, div[data-is=app-recipe] div.user div.join .price {
+      margin: 0;
+      margin-bottom: 8px; }
+    app-recipe div.user div.join .price + div, div[data-is=app-recipe] div.user div.join .price + div {
+      font-weight: bold;
+      margin-bottom: 8px; }
+    app-recipe div.user div.join form div input[type=checkbox], div[data-is=app-recipe] div.user div.join form div input[type=checkbox] {
+      margin-bottom: 8px; }
+    app-recipe div.user div.join input[type=button], div[data-is=app-recipe] div.user div.join input[type=button] {
+      margin-top: 8px; }
 
 app-commentitem, div[data-is=app-commentitem] {
   display: block;

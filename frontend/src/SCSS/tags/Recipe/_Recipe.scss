@@ -76,5 +76,37 @@ app-recipe, div[data-is=app-recipe]
             display: block;
             width: 100%;
         }
+
+        div.join
+        {
+            text-align: center;
+            h2
+            {
+                font-size: $font-size-big;
+            }
+
+            .price
+            {
+                margin:0;
+                margin-bottom: $space-small;;
+            }
+
+            .price+div
+            {
+                font-weight: bold;
+                margin-bottom: $space-small;;
+                
+            }
+
+            form div input[type=checkbox]
+            {
+                margin-bottom: $space-small;
+            }
+
+            input[type=button]
+            {
+                margin-top: $space-small;
+            }
+        }
     }
 }

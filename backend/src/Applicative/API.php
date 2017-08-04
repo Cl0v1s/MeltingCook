@@ -333,12 +333,14 @@ class API
     public static function GetAllComment($token, $filters = null)
     {
         $comments = API::GetAll($token, "Comment", $filters);
+        $results = array();
         for($i =0; $i < count($comments); $i++)
         {
-            $comment = $comments[$i];
+            $comment = get_object_vars($comments[$i]);
             $comment["author"] = API::Get($token, "User", $comment["author_id"]);
+            array_push($results, $comment);
         }
-        return $comments;
+        return $results;
     }
 
 

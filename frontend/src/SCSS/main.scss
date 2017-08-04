@@ -6,8 +6,12 @@
 
 @import 'parts/Button';
 @import 'parts/Pins';
+@import 'parts/Hearts';
 
 /** Importation des styles des tags **/
+@import 'tags/Comment/CommentItem';
+@import 'tags/Comment/Comments';
+
 @import 'tags/Header';
 @import 'tags/Footer';
 @import 'tags/User';

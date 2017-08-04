@@ -88,4 +88,12 @@ h2
   margin-bottom: $space-small;
 }
 
+img.profile
+{
+  $side: 75px;
+  border-radius: 100%;
+  width: $side;
+  height: $side;
+}
+
 

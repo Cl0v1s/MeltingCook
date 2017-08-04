@@ -1,0 +1,40 @@
+app-commentitem, div[data-is=app-commentitem]
+{
+    display: block;
+
+    &>img.profile
+    {
+        display: inline-block;
+        margin-right: $space-normal;
+
+        @media screen and (max-width: 430px) {
+            display: none;
+        }
+    }
+
+    &>div
+    {
+        display: inline-block;
+        max-width: 70%;
+        vertical-align: top;
+
+        &>div:first-of-type
+        {
+            font-size: $font-size-big;
+            margin-bottom: $space-normal;
+        }
+
+        &>div:last-of-type
+        {
+            font-size: $font-size-normal;
+
+            p
+            {
+                white-space: normal;
+                word-break: break-all;
+                word-wrap: break-word;
+            
+            }
+        }
+    }
+}

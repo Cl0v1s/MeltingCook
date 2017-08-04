@@ -123,6 +123,11 @@ h2 {
   font-size: 20px;
   margin-bottom: 8px; }
 
+img.profile {
+  border-radius: 100%;
+  width: 75px;
+  height: 75px; }
+
 a.Button {
   display: inline-block;
   width: 45px;
@@ -164,7 +169,37 @@ a.Action {
     font-size: 10px;
     vertical-align: middle; }
 
+div.Hearts {
+  display: inline-block;
+  width: 120px;
+  height: 25px;
+  vertical-align: middle;
+  background-color: pink;
+  margin: 8px; }
+
 /** Importation des styles des tags **/
+app-commentitem, div[data-is=app-commentitem] {
+  display: block; }
+  app-commentitem > img.profile, div[data-is=app-commentitem] > img.profile {
+    display: inline-block;
+    margin-right: 20px; }
+    @media screen and (max-width: 430px) {
+      app-commentitem > img.profile, div[data-is=app-commentitem] > img.profile {
+        display: none; } }
+  app-commentitem > div, div[data-is=app-commentitem] > div {
+    display: inline-block;
+    max-width: 70%;
+    vertical-align: top; }
+    app-commentitem > div > div:first-of-type, div[data-is=app-commentitem] > div > div:first-of-type {
+      font-size: 20px;
+      margin-bottom: 20px; }
+    app-commentitem > div > div:last-of-type, div[data-is=app-commentitem] > div > div:last-of-type {
+      font-size: 16px; }
+      app-commentitem > div > div:last-of-type p, div[data-is=app-commentitem] > div > div:last-of-type p {
+        white-space: normal;
+        word-break: break-all;
+        word-wrap: break-word; }
+
 app-header, div[data-is=app-header] {
   display: block;
   width: 100%;
@@ -256,6 +291,8 @@ app-user > div div.more, div[data-is=app-user] > div div.more {
 app-user > div div.comments, div[data-is=app-user] > div div.comments {
   padding-left: 40px;
   padding-right: 40px; }
+  app-user > div div.comments h2, div[data-is=app-user] > div div.comments h2 {
+    display: inline-block; }
 
 * {
   box-sizing: border-box;

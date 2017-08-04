@@ -77,6 +77,11 @@ app-user, div[data-is=app-user]
         {
             padding-left: $space-big;
             padding-right: $space-big;
+
+            h2
+            {
+                display: inline-block;
+            }
         }
     }
 

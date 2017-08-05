@@ -38,6 +38,12 @@ class Login
         Cookies.setItem("user", JSON.stringify(user), null, "/");
     }
 
+    public logout() : void 
+    {
+        this.setToken(null);
+        this.setUser(null);
+    }
+
     public isLogged() : boolean
     {
         if(this.token == null)

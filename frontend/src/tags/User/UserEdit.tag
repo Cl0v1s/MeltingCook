@@ -43,7 +43,7 @@
         {
             if(tag.user.id == null)
             {
-                vex.dialog.alert("Félicitation ! Vous êtes désormais un membre de Melting Cook.");
+                vex.dialog.alert("Félicitation ! Vous êtes désormais un membre de Melting Cook. Vous pouvez vous connecter.");
             }
             else 
             {

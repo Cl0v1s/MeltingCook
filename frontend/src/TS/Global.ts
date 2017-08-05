@@ -12,7 +12,7 @@ request: function(address, data)
         var href=window.location.href;
         if(data == null)
             data = {};
-        if(address.indexOf(App.Address) != -1 && Login.GetInstance().isLogged())
+        if(address.indexOf(App.Address) != -1 && Login.GetInstance().isLogged() && data.token == null)
             data.token = Login.GetInstance().Token();
         var request = ajax({
             method : "POST",

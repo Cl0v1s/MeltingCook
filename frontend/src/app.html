@@ -90,6 +90,15 @@
                 App.changePage("app-recipe", id);
             });
 
+
+            route("user/edit/*", function(id){
+                App.changePage("app-useredit", id);
+            });
+
+            route("user/add", function(){
+                App.changePage("app-useredit", null);
+            });
+
             route("user/*", function(id){
                 App.changePage("app-user", id);
             });

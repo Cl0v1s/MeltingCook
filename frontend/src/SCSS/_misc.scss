@@ -119,4 +119,14 @@ img.profile
     margin-left: $space-small;
 }
 
+div label+input, div label+textarea
+{
+  display: block;
+  width: 100%;
+  margin: $space-small;
+  resize: none;
+  
+}
+
+
 

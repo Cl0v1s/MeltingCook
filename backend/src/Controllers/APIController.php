@@ -353,6 +353,8 @@ class APIController extends Controller
         $user->setGeolocation($_POST["geolocation"]);
         $user->setPhone($_POST["phone"]);
         $user->setMail($_POST["mail"]);
+        if(isset($_POST["description"]))
+            $user->setDescription($_POST["description"]);
         $user->setAge($_POST["age"]);
         if(isset($_POST["picture"]))
             $user->setPicture($_POST["picture"]);
@@ -420,6 +422,8 @@ class APIController extends Controller
             $user->setAge($_POST["age"]);
         if(isset($_POST["banner"]))
             $user->setBanner($_POST["banner"]);
+        if(isset($_POST["description"]))
+            $user->setDescription($_POST["description"]);
         $this->Update($user);
     }
 
@@ -448,6 +452,8 @@ class APIController extends Controller
         $report = new Report(null, $_POST["id"]);
         if(isset($_POST["state"]))
             $report->setState($_POST["state"]);
+        if(isset($_POST["content"]))
+            $report->setContent($_POST["content"]);
         $this->Update($report);
     }
 

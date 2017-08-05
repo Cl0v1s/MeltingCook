@@ -23,6 +23,13 @@ class Adapter {
         if (recipe.pins[recipe.pins.length - 1] == "" || recipe.pins[recipe.pins.length - 1] == null)
             recipe.pins.pop();
         recipe.place_left = parseInt(recipe.places) - recipe.users.length;
+        if (recipe.user != null) {
+            var geolocation = recipe.user.geolocation.split(",");
+            if (geolocation.length == 2) {
+                recipe.latitude = geolocation[0];
+                recipe.longitude = geolocation[1];
+            }
+        }
         return recipe;
     }
     static adaptUser(user) {
@@ -54,7 +61,7 @@ var App = {
     Address: "http://localhost:8080/API",
     Page: null,
     PopUp: null,
-    request: function (address, data) {
+    request: function (address, data, mute = false) {
         return new Promise(function (resolve, reject) {
             var href = window.location.href;
             if (data == null)
@@ -73,7 +80,7 @@ var App = {
                     reject(null);
                     return;
                 }
-                if (address.indexOf(App.Address) != -1 && App.analyseResponse(response) == false) {
+                if (address.indexOf(App.Address) != -1 && App.analyseResponse(response, mute) == false) {
                     reject(response.data);
                     return;
                 }
@@ -89,8 +96,10 @@ var App = {
             });
         });
     },
-    analyseResponse: function (data) {
+    analyseResponse: function (data, mute = false) {
         if (data.state != "OK") {
+            if (mute)
+                return false;
             if (data.data == 0) {
                 vex.dialog.alert("Vos informations de connexion ne sont pas valides.");
                 return false;
@@ -208,7 +217,7 @@ class Login {
         this.token = null;
         this.user = null;
         this.token = Cookies.getItem("token");
-        this.user = Cookies.getItem("user");
+        this.user = JSON.parse(Cookies.getItem("user"));
     }
     static GetInstance() {
         return Login.Instance;

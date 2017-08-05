@@ -12,6 +12,12 @@
             <a class="Button verified">
                 <span>Cuisinnier vérifié</span>
             </a>
+            <div class={ identity : true, invisible : owner != true }>
+                <input type="button" class="large" onclick={ edit } value="Editer mon profil">
+            </div>
+            <div class={ identity : true, invisible : owner == true }>
+                <input type="button" class="large" onclick={ report } value="Signaler">
+            </div>
         </div>
         <div class="description">
             <h2>Présentation du chef</h2>
@@ -49,12 +55,19 @@
         var tag = this;
 
         tag.user = tag.opts.user;
+        tag.owner = false;
 
         tag.on("mount", function()
         {
             if(tag.user == null && tag.opts.pass != null)
                 tag.retrieveUser(tag.opts.pass);
         });
+
+        tag.edit = function()
+        {
+            if(tag.user != null && tag.user.id != null)
+                route("/user/edit/"+tag.user.id);
+        }
 
         tag.retrieveUser = function(id)
         {
@@ -63,6 +76,7 @@
             });
             request.then((response) => {
                 tag.user = Adapter.adaptUser(response.data);
+                tag.owner = Login.GetInstance().User().id == tag.user.id;
                 tag.update();
             });
             request.catch((error) => {

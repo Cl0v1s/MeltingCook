@@ -13,7 +13,7 @@ class Login
     constructor()
     {
         this.token = Cookies.getItem("token");
-        this.user = Cookies.getItem("user");
+        this.user = JSON.parse(Cookies.getItem("user"));
     }
 
     public Token() : string

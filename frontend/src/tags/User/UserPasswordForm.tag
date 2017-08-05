@@ -43,13 +43,8 @@
                 var request = App.request(App.Address + "/updateuser", {
                   "id" : tag.user.id,
                   "password" : md5(tag.refs.password.value),
-                });
-                request.then((response) => {
-                    tag.callback();
-                });
-                request.catch((error) => {
-                    vex.dialog.alert("Ooops... Une erreur est survenue. Veuillez réessayer plus tard.");
-                });
+                }, true);
+                tag.callback();
             }
             else 
             {

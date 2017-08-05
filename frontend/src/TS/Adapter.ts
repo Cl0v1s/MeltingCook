@@ -29,6 +29,16 @@ class Adapter
 
         recipe.place_left = parseInt(recipe.places) - recipe.users.length; 
 
+        if(recipe.user != null)
+        {
+            var geolocation = recipe.user.geolocation.split(",");
+            if(geolocation.length == 2)
+            {
+                recipe.latitude = geolocation[0];
+                recipe.longitude = geolocation[1];
+            }
+        }
+
         return recipe;
     }
 

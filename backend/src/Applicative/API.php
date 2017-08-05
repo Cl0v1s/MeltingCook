@@ -152,7 +152,7 @@ class API
     {
         $item->setRights($current->Rights());
         $item->setBanned($current->Banned());
-        API::Update($token, $item);
+        API::Update($token, $item, false);
     }
 
     public static function UpdateUser($token, $item)
@@ -168,11 +168,28 @@ class API
             throw new Exception("Not Enough Power", 1);
     }
 
+    public static function UpdateReport($token, $item)
+    {
+        $current = API::Auth($token);
+        if($current->Rights() < 2)
+            throw new Exception("Not Enough Power", 1);
+        else
+            API::Update($token, $item, false);
+    }
+
     public static function GetUser($token, $id)
     {
         $user = API::Get($token, "User", $id);
         if($user == null)
             return null;
+        $current = API::Auth($token);
+        // Suppresion des données sensibles
+        if($current->Id() != $user["id"] && $current->Rights() < 2)
+        {
+            $user["phone"] = "";
+            $user["mail"] = "";
+        }
+
         $user["likes"] = 0;
         $user["comments"] = [];
 
@@ -339,6 +356,20 @@ class API
             $comment = get_object_vars($comments[$i]);
             $comment["author"] = API::Get($token, "User", $comment["author_id"]);
             array_push($results, $comment);
+        }
+        return $results;
+    }
+
+    public static function GetAllUser($token, $filters = null)
+    {
+        $users = API::GetAll($token, "User", $filters);
+        $results = array();
+        for($i =0; $i < count($users); $i++)
+        {
+            $user = get_object_vars($users[$i]);
+            $user["phone"] = "";
+            $user["mail"] = "";
+            array_push($results, $user);
         }
         return $results;
     }

@@ -100,6 +100,12 @@ class User extends StorageItem
     public $banner;
 
     /**
+     * @Word
+     * @Size(min=50, max=1000)
+     */
+    public $description;
+
+    /**
      * @return mixed
      */
     public function Username()
@@ -342,6 +348,25 @@ class User extends StorageItem
         $this->banner = $banner;
         $this->checkIntegrity("banner");
     }
+
+    /**
+     * @return mixed
+     */
+    public function Description()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        $this->checkIntegrity("description");
+    }
+
+
 
 
 

@@ -5,7 +5,7 @@ Page : null,
 PopUp: null,
 
 
-request: function(address, data)
+request: function(address, data, mute = false)
 {
     return new Promise(function(resolve, reject)
     {
@@ -28,7 +28,7 @@ request: function(address, data)
                 reject(null);
                 return;
             }
-            if(address.indexOf(App.Address) != -1 && App.analyseResponse(response) == false)
+            if(address.indexOf(App.Address) != -1 && App.analyseResponse(response, mute) == false)
             {
                 reject(response.data);
                 return;
@@ -50,11 +50,13 @@ request: function(address, data)
 },
 
 
-analyseResponse : function(data)
+analyseResponse : function(data, mute = false)
 {
 
     if(data.state != "OK")
     {
+        if(mute)
+            return false;
         if(data.data == 0)
         {
             vex.dialog.alert("Vos informations de connexion ne sont pas valides.");

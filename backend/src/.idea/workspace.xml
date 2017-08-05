@@ -15,18 +15,8 @@
       <file leaf-file-name="API.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Applicative/API.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="16">
-              <caret line="184" column="81" lean-forward="false" selection-start-line="184" selection-start-column="81" selection-end-line="184" selection-end-column="81" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Recipe.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Model/Recipe.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="623">
-              <caret line="346" column="0" lean-forward="true" selection-start-line="346" selection-start-column="0" selection-end-line="346" selection-end-column="0" />
+            <state relative-caret-position="1999">
+              <caret line="160" column="35" lean-forward="true" selection-start-line="160" selection-start-column="35" selection-end-line="160" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -35,8 +25,18 @@
       <file leaf-file-name="APIController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Controllers/APIController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="271">
-              <caret line="460" column="49" lean-forward="true" selection-start-line="460" selection-start-column="49" selection-end-line="460" selection-end-column="49" />
+            <state relative-caret-position="433">
+              <caret line="278" column="44" lean-forward="true" selection-start-line="278" selection-start-column="44" selection-end-line="278" selection-end-column="44" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="User.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Model/User.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="591">
+              <caret line="365" column="45" lean-forward="false" selection-start-line="365" selection-start-column="45" selection-end-line="365" selection-end-column="45" />
               <folding />
             </state>
           </provider>
@@ -65,10 +65,10 @@
         <option value="$PROJECT_DIR$/Model/Comment.php" />
         <option value="$PROJECT_DIR$/Model/Origin.php" />
         <option value="$PROJECT_DIR$/index.php" />
-        <option value="$PROJECT_DIR$/Model/User.php" />
-        <option value="$PROJECT_DIR$/Applicative/API.php" />
         <option value="$PROJECT_DIR$/Model/Recipe.php" />
+        <option value="$PROJECT_DIR$/Model/User.php" />
         <option value="$PROJECT_DIR$/Controllers/APIController.php" />
+        <option value="$PROJECT_DIR$/Applicative/API.php" />
       </list>
     </option>
   </component>
@@ -99,6 +99,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -170,7 +171,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -290,11 +290,12 @@
       <workItem from="1501849359435" duration="24000" />
       <workItem from="1501858319839" duration="1298000" />
       <workItem from="1501863859356" duration="123000" />
+      <workItem from="1501955695174" duration="2701000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18440000" />
+    <option name="totallyTimeSpent" value="21141000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="30" width="1920" height="1050" extended-state="6" />
@@ -698,14 +699,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Model/User.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="751">
-          <caret line="323" column="5" lean-forward="true" selection-start-line="323" selection-start-column="5" selection-end-line="323" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Model/Comment.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1240">
@@ -714,26 +707,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Applicative/API.php">
+    <entry file="file://$PROJECT_DIR$/Model/Recipe.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16">
-          <caret line="184" column="81" lean-forward="false" selection-start-line="184" selection-start-column="81" selection-end-line="184" selection-end-column="81" />
+        <state relative-caret-position="623">
+          <caret line="346" column="0" lean-forward="false" selection-start-line="346" selection-start-column="0" selection-end-line="346" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Model/Recipe.php">
+    <entry file="file://$PROJECT_DIR$/Applicative/API.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="623">
-          <caret line="346" column="0" lean-forward="true" selection-start-line="346" selection-start-column="0" selection-end-line="346" selection-end-column="0" />
+        <state relative-caret-position="1999">
+          <caret line="160" column="35" lean-forward="true" selection-start-line="160" selection-start-column="35" selection-end-line="160" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Model/User.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="591">
+          <caret line="365" column="45" lean-forward="false" selection-start-line="365" selection-start-column="45" selection-end-line="365" selection-end-column="45" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Controllers/APIController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="460" column="49" lean-forward="true" selection-start-line="460" selection-start-column="49" selection-end-line="460" selection-end-column="49" />
+        <state relative-caret-position="433">
+          <caret line="278" column="44" lean-forward="true" selection-start-line="278" selection-start-column="44" selection-end-line="278" selection-end-column="44" />
           <folding />
         </state>
       </provider>

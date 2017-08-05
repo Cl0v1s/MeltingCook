@@ -79,8 +79,9 @@
 
         <div class="left">
             <div class={action : true, invisible: (user.id==null) }>
+                <input type="button" class="large" value="Voir mon profil" onclick={ details }>
                 <input type="button" class="large" value="Réinitialiser mon mot de passe" onclick={ changePassword }>
-                <input type="button" class="large" value="Me désinscrire" onclick={ removeAccount }>
+                <!--<input type="button" class="large" value="Me désinscrire" onclick={ removeAccount }>-->
             </div>
         </div>
 
@@ -113,7 +114,7 @@
         tag.changePassword = function () {
             var callback = function () {
                 App.hidePopUp();
-                vex.dialog.alert("Votre mot de passe a bien été modifié. Veuillez vous reconnecter.");
+                vex.dialog.alert("Votre mot de passe va être modifié. Veuillez allez recevoir un mail de confirmation. Veuillez vous reconnecter.");
                 route("/login");
             };
 
@@ -123,13 +124,19 @@
             });
         }
 
-        tag.removeAccount = function()
+        /*tag.removeAccount = function()
         {
             if(tag.user.id == null)
                 return;
-            var request = App.request(App.Address + "/removeuser", { id : tag.user.id });
-            vex.dialog.alert("Votre compte devrait être supprimé. Vous allez recevoir un mail de confirmation.");
+            var request = App.request(App.Address + "/removeuser", { id : tag.user.id }, true);
+            vex.dialog.alert("Votre compte va être supprimé. Vous allez recevoir un mail de confirmation.");
             route("/home");
+        }*/
+
+        tag.details = function()
+        {
+            if(tag.user != null && tag.user.id != null)
+                route("/user/"+tag.user.id);
         }
 
         tag.geolocalize = function()

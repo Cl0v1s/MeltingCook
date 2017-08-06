@@ -74,7 +74,7 @@ class API
 
     public static function GetAll($token, $class, $filters = null)
     {
-        API::CheckRights($token, 1);
+        //API::CheckRights($token, 1);
         $storage = Engine::Instance()->Persistence("DatabaseStorage");
         $items = null;
         $f = "";
@@ -118,7 +118,7 @@ class API
 
     public static function Get($token, $class, $id)
     {
-        API::CheckRights($token, 1);
+        //API::CheckRights($token, 1);
         if($id == null)
             return null;
         $storage = Engine::Instance()->Persistence("DatabaseStorage");
@@ -299,7 +299,7 @@ class API
 
     public static function GetAllRecipe($token, $filters = null)
     {
-        API::CheckRights($token, 1);
+        //API::CheckRights($token, 1);
         $storage = Engine::Instance()->Persistence("DatabaseStorage");
         $items = null;
         $f = "";

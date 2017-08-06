@@ -234,7 +234,10 @@
                         tag.callback();
                 });
                 request.catch((error) => {
-                    vex.dialog.alert("Oops... Une erreur est survenue. Veuillez réessayer plus tard.");
+                    if(error instanceof Error)
+                    {
+                        vex.dialog.alert(error.message);
+                    }
                 });
             } else {
                 vex.dialog.alert("Le formulaire n'est pas valide en l'état.");

@@ -150,7 +150,7 @@ class APIController extends Controller
 
     private function Get($class)
     {
-        if(isset($_POST["token"]) == false || isset($_POST["id"]) == false)
+        if(isset($_POST["id"]) == false)
         {
             $this->Write(APIController::$NO, null, "Missing Data");
             return;
@@ -158,20 +158,20 @@ class APIController extends Controller
         $method = "Get".$class;
         $res = null;
         if(method_exists("API", $method) == false)
-            $res = API::Get($_POST["token"], $class, $_POST["id"]);
+            $res = API::Get(null, $class, $_POST["id"]);
         else
-            $res = API::$method($_POST["token"], $_POST["id"]);
+            $res = API::$method(null, $_POST["id"]);
         $this->Write(APIController::$OK, $res);
     }
 
     private function GetAll($class)
     {
         $filters = null;
-        if(isset($_POST["token"]) == false)
+        /*if(isset($_POST["token"]) == false)
         {
             $this->Write(APIController::$NO, null, "Missing Token");
             return;
-        }
+        }*/
         if(isset($_POST["filters"]))
         {
             $filters = $_POST["filters"];
@@ -179,9 +179,9 @@ class APIController extends Controller
         $method = "GetAll".$class;
         $res = null;
         if(method_exists("API", $method) == false)
-            $res = API::GetAll($_POST["token"], $class, $filters);
+            $res = API::GetAll(null, $class, $filters);
         else
-            $res = API::$method($_POST["token"], $filters);
+            $res = API::$method(null, $filters);
         $this->Write(APIController::$OK, $res);
     }
 
@@ -370,7 +370,9 @@ class APIController extends Controller
             $user->setBanner($_POST["banner"]);
         $user->setBanned(0);
         $user->setRights(0);
-        $this->Add($user);
+        // On peut créer un  compte sans token. Du coup on passe directement sans à API::AddUser
+        $id = API::AddUser(null, $user);
+        $this->Write(APIController::$OK, $id);
     }
 
     private function UpdateOrigin()

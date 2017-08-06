@@ -107,10 +107,10 @@
             {
                 value = parseInt(tag.refs.target.value);
             }
-            catch
+            catch(e)
             {
                 vex.dialog.alert("Vous devez entrer l'identifiant numérique d'un utilisateur.");
-                return:
+                return;
             }
             tag.retrieveReports({
                 target_id : value
@@ -124,10 +124,10 @@
             {
                 value = parseInt(tag.refs.author.value);
             }
-            catch
+            catch(e)
             {
                 vex.dialog.alert("Vous devez entrer l'identifiant numérique d'un utilisateur.");
-                return:
+                return;
             }
             tag.retrieveReports({
                 author_id : value

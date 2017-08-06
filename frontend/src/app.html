@@ -19,16 +19,16 @@
     <link rel="stylesheet" href="/static/CSS/vendor/pickadate.css">
     <link rel="stylesheet" href="/static/CSS/vendor/pickadate.date.css">
     <link rel="stylesheet" href="/static/CSS/vendor/pickadate.time.css">
-    
 
-    <!-- Importation des tags -->    
+
+    <!-- Importation des tags -->
 
     <!--Comment-->
     <script src="/tags/Comment/CommentEditForm.tag" type="riot/tag"></script>
     <script src="/tags/Comment/CommentItem.tag" type="riot/tag"></script>
     <script src="/tags/Comment/Comments.tag" type="riot/tag"></script>
     <script src="/tags/Comment/CommentList.tag" type="riot/tag"></script>
-    
+
 
     <!--Immutable-->
     <script src="/tags/Immutable/Home.tag" type="riot/tag"></script>
@@ -66,8 +66,8 @@
     <script src="/tags/User/UserItem.tag" type="riot/tag"></script>
     <script src="/tags/User/UserEditForm.tag" type="riot/tag"></script>
     <script src="/tags/User/UserEdit.tag" type="riot/tag"></script>
-    
-    
+
+
     <!-- include riot.js and the compiler, et les dépendances JS-->
     <script src="/static/JS/vendor/riot+compiler.min.js"></script>
     <script src="/static/JS/vendor/route.min.js"></script>
@@ -86,52 +86,59 @@
     <!-- Importation du coeur de l'application-->
     <script src="/static/JS/global.js"></script>
 
-    <script>vex.defaultOptions.className = 'vex-theme-wireframe'</script>
-    
+    <script>
+        vex.defaultOptions.className = 'vex-theme-wireframe'
+    </script>
+
 
 
     <!-- Définition des routes -->
     <script>
-        window.addEventListener("load", function(){
+        window.addEventListener("load", function () {
 
-            route("recipe/*", function(id){
+            route("recipe/*", function (id) {
                 App.changePage("app-recipe", id);
             });
 
 
-            route("user/edit/*", function(id){
+            route("user/edit/*", function (id) {
                 App.changePage("app-useredit", id);
             });
 
-            route("user/add", function(){
+            route("user/add", function () {
                 App.changePage("app-useredit", null);
             });
 
-            route("user/*", function(id){
+            route("user/*", function (id) {
                 App.changePage("app-user", id);
             });
 
-            route("login", function() {
+            route("login", function () {
                 App.changePage("app-login", null);
             });
 
-            route('', function() {
+            route("register", function () {
+                App.changePage("app-useredit", null);
+            });
+
+            route('', function () {
                 App.changePage("app-home", null);
             });
 
 
-            if(Login.GetInstance().isLogged() == false)
-            {
+            if (Login.GetInstance().isLogged() == false) {
                 route("");
             }
 
             route.start(true);
-            
+
         });
     </script>
 </head>
+
 <body>
-    <noscript>Cette application ne peut fonctionner sans Javascript. Veuillez l'activer, mettre à jour votre navigateur ou essayer à nouveau depuis un autre navigateur.</noscript>
+    <noscript>Cette application ne peut fonctionner sans Javascript. Veuillez l'activer, mettre à jour votre navigateur ou essayer
+        à nouveau depuis un autre navigateur.</noscript>
     <div id="app"></div>
 </body>
 

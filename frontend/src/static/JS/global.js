@@ -75,6 +75,52 @@ class Adapter {
         return report;
     }
 }
+class ErrorHandler {
+    static GetInstance() {
+        return ErrorHandler.Instance;
+    }
+    handle(response) {
+        if (response.state == "OK")
+            return;
+        var error = new Error();
+        switch (response.data) {
+            case 0:
+                error.message = "Vos informations de connexion ne sont pas valides.";
+                error.name = ErrorHandler.State.FATAL;
+                break;
+            case 1:
+                error.message = "Vous n'avez pas les droits suffisants.";
+                error.name = ErrorHandler.State.FATAL;
+                break;
+            case "23000":
+            case 23000:
+                error = this.handleSQL(response);
+                break;
+            case "105":
+            case 105:
+                error.message = "Une valeur requise est manquante. Veuillez vérifier le formulaire.";
+                error.name = ErrorHandler.State.ERROR;
+                break;
+        }
+        throw error;
+    }
+    handleSQL(response) {
+        var error = new Error();
+        // gestion de l'unicité 
+        if (response.message.indexOf(" 1062 ") != -1) {
+            var value = response.message.split("Duplicate entry '")[1].split("' for key ")[0];
+            error.message = "La valeur " + value + " transmise existe déjà dans la base de données. Veuillez corriger le formulaire.";
+            error.name = ErrorHandler.State.ERROR;
+        }
+        return error;
+    }
+}
+ErrorHandler.State = {
+    INFO: "INFO",
+    ERROR: "ERROR",
+    FATAL: "FATAL"
+};
+ErrorHandler.Instance = new ErrorHandler();
 var App = {
     Address: "http://localhost:8080/API",
     Page: null,
@@ -95,47 +141,40 @@ var App = {
             request.then(function (response) {
                 App.hideLoading();
                 if (App.checkPage(href) == false) {
-                    reject(null);
+                    reject(ErrorHandler.State.FATAL);
                     return;
                 }
-                if (address.indexOf(App.Address) != -1 && App.analyseResponse(response, mute) == false) {
-                    reject(response.data);
+                if (address.indexOf(App.Address) == -1) {
+                    resolve(response);
                     return;
                 }
-                resolve(response);
+                try {
+                    ErrorHandler.GetInstance().handle(response);
+                    resolve(response);
+                }
+                catch (error) {
+                    if (error.name == ErrorHandler.State.FATAL) {
+                        vex.dialog.alert(error.message);
+                        //TODO: rediriger vers une page d'erreur
+                        route("/");
+                        reject(ErrorHandler.State.FATAL);
+                    }
+                    else
+                        reject(error);
+                }
             }, function (error) {
                 App.hideLoading();
                 if (App.checkPage(href) == false) {
-                    reject(null);
+                    reject(ErrorHandler.State.FATAL);
                     return;
                 }
                 vex.dialog.alert("Une erreur réseau a eu lieu. Vérifiez votre connexion et réessayez.");
-                reject(error);
+                reject(ErrorHandler.State.FATAL);
             });
         });
     },
     analyseResponse: function (data, mute = false) {
         if (data.state != "OK") {
-            if (mute)
-                return false;
-            if (data.data == 0) {
-                vex.dialog.alert("Vos informations de connexion ne sont pas valides.");
-                return false;
-            }
-            else if (data.data == 1) {
-                vex.dialog.alert("Vous n'avez pas les droits suffisants.");
-                return false;
-            }
-            else if (data.data == "23000" || data.data == 23000) {
-                vex.dialog.alert("Impossible de supprimer cet item. D'autres éléments dépendent de lui.");
-                return false;
-            }
-            else if (data.data == "105" || data.data == 105) {
-                vex.dialog.alert("Une valeur requise est manquante. Veuillez vérifier le formulaire.");
-                return false;
-            }
-            vex.dialog.alert("Erreur " + data.data + ":\n\nQuelque chose s'est mal passé. Si cela persiste contactez le développeur.");
-            return false;
         }
         return true;
     },

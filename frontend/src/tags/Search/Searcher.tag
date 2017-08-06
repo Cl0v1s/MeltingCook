@@ -21,7 +21,6 @@
 
         tag.send = function()
         {
-            alert(tag.refs.date.value);
             var retrieve = Search.search(tag.refs.place.value, tag.refs.origin.value, tag.refs.date.value);
             retrieve.then(function(data)
             {

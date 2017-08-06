@@ -7,7 +7,12 @@
     <script>
         var tag = this;
 
-        tag.user = tag.opts.user;
+        tag.user = null;
+
+        tag.on("before-mount", function()
+        {
+            tag.user = tag.opts.user;
+        });
 
         tag.on("mount", function()
         {

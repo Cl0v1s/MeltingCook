@@ -7,6 +7,7 @@ a.Button
 
     vertical-align: middle;
 
+    cursor: pointer;
 
     position: relative;
     background-color: red;
@@ -39,6 +40,8 @@ a.Action
     display: inline-block;
     height: $height;
     vertical-align: middle;
+
+    cursor: pointer;
 
     padding-right: 30px;
 

@@ -25,26 +25,42 @@ request: function(address, data, mute = false)
             App.hideLoading();
             if(App.checkPage(href) == false)
             {
-                reject(null);
+                reject(ErrorHandler.State.FATAL);
                 return;
             }
-            if(address.indexOf(App.Address) != -1 && App.analyseResponse(response, mute) == false)
+            if(address.indexOf(App.Address) == -1)
             {
-                reject(response.data);
+                resolve(response);
                 return;
             }
-            resolve(response);
+            try
+            {
+                ErrorHandler.GetInstance().handle(response);
+                resolve(response);
+            }
+            catch(error)
+            {
+                if(error.name == ErrorHandler.State.FATAL)
+                {
+                    vex.dialog.alert(error.message);
+                    //TODO: rediriger vers une page d'erreur
+                    route("/");
+                    reject(ErrorHandler.State.FATAL);
+                }
+                else 
+                    reject(error);
+            }
         }, 
         function(error)
         {
             App.hideLoading();
             if(App.checkPage(href) == false)
             {
-                reject(null);
+                reject(ErrorHandler.State.FATAL);
                 return;
             }
             vex.dialog.alert("Une erreur réseau a eu lieu. Vérifiez votre connexion et réessayez.");
-            reject(error);
+            reject(ErrorHandler.State.FATAL);
         });
     });
 },
@@ -55,31 +71,7 @@ analyseResponse : function(data, mute = false)
 
     if(data.state != "OK")
     {
-        if(mute)
-            return false;
-        if(data.data == 0)
-        {
-            vex.dialog.alert("Vos informations de connexion ne sont pas valides.");
-            return false;
-        }
-        else if(data.data == 1)
-        {
-            vex.dialog.alert("Vous n'avez pas les droits suffisants.");
-            return false;  
-        }
-        else if(data.data == "23000" || data.data == 23000)
-        {
-            vex.dialog.alert("Impossible de supprimer cet item. D'autres éléments dépendent de lui.");
-            return false;
-        }
-        else if(data.data == "105" || data.data == 105)
-        {
-            vex.dialog.alert("Une valeur requise est manquante. Veuillez vérifier le formulaire.");
-            return false;
-        }
-
-        vex.dialog.alert("Erreur "+data.data+":\n\nQuelque chose s'est mal passé. Si cela persiste contactez le développeur.");
-        return false;
+        
     }
     return true;
 },

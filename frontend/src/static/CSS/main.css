@@ -151,6 +151,7 @@ a.Button {
   width: 45px;
   height: 45px;
   vertical-align: middle;
+  cursor: pointer;
   position: relative;
   background-color: red;
   margin-left: 8px; }
@@ -165,6 +166,7 @@ a.Action {
   display: inline-block;
   height: 45px;
   vertical-align: middle;
+  cursor: pointer;
   padding-right: 30px; }
   a.Action > span {
     height: 45px;

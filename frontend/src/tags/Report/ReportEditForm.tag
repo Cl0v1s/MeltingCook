@@ -1,15 +1,15 @@
-<app-reportformedit>
+<app-reporteditform>
     <form name="edit-report">
         <div>
             <label>Motif du signalement</label>
             <textarea name="content" ref="content" value={ report.content }></textarea>
         </div>
-        <div class={ invisible : admin == false }>
+        <div class={ invisible : admin == false || report == null }>
             <label>Etat d'avancement</label>
             <select name="state" ref="state">
-                <option value="0" selected={ report.state == 0 || report.state == "0" }>Nouveau</option>
-                <option value="1" selected={ report.state == 1 || report.state == "1" }>En cours</option>
-                <option value="2" selected={ report.state == 2 || report.state == "2" }>Résolu</option>
+                <option value="1" selected={ report.state == 1 || report.state == "1" }>Nouveau</option>
+                <option value="2" selected={ report.state == 2 || report.state == "2" }>En cours</option>
+                <option value="3" selected={ report.state == 3 || report.state == "3" }>Résolu</option>
             </select>
         </div>
         <div>
@@ -35,11 +35,17 @@
                 tag.callback = tag.opts.callback;
             if(tag.opts.target != null)
                 tag.target = tag.opts.target;
+
+            if(tag.callback == null)
+                throw new Error("Callback must be set.");
+
+            if(tag.report == null && tag.target == null)
+                throw new Error("Target must be set.");
         });
 
         tag.send = function()
         {
-            if(tag.refs.content.value.length < 10 && tag.refs.content.value.length > 1000)
+            if(tag.refs.content.value.length < 10 || tag.refs.content.value.length > 1000)
             {
                 vex.dialog.alert("Le motif du signalement doit comporter entre 10 et 1000 caractères.");
                 return;
@@ -48,11 +54,11 @@
             var rpt = tag.report;
             if(tag.report == null)
             {
-                rpt = {};
                 adr = App.Address + "/addreport";
+                rpt = {};
+                rpt.target_id = tag.target;
+                rpt.author_id = Login.GetInstance().User().id;
             }
-            rpt.target_id = tag.target;
-            rpt.author_id = Login.GetInstance().User().id;
             rpt.content = tag.refs.content.value;
             rpt.state = tag.refs.state.options[tag.refs.state.selectedIndex].value;
             var request = App.request(adr, rpt);
@@ -65,4 +71,4 @@
 
         }
     </script>
-</app-reportformedit>
+</app-reporteditform>

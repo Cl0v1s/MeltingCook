@@ -374,6 +374,20 @@ class API
         return $results;
     }
 
+    public static function GetAllReport($token, $filters = null)
+    {
+        $reports = API::GetAll($token, "Report", $filters);
+        $results = array();
+        for($i =0; $i < count($reports); $i++)
+        {
+            $report = get_object_vars($reports[$i]);
+            $report["author"] = API::Get($token, "User", $report["author_id"]);
+            $report["target"] = API::Get($token, "User", $report["target_id"]);
+            array_push($results, $report);
+        }
+        return $results;
+    }
+
 
 
 

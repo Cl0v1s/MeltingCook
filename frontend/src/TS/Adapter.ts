@@ -68,4 +68,25 @@ class Adapter
 
         return user;
     }
+
+    public static adaptReport(report : any) : any
+    {
+        switch(report.state)
+        {
+            case "1":
+            case 1:
+            default:
+                report.message_state = "Nouveau";
+                break;
+            case "2":
+            case 2:
+                report.message_state = "En Cours";
+                break;
+            case "3":
+            case 3:
+                report.message_state = "Terminé";
+            break;
+        }
+        return report;
+    }
 }

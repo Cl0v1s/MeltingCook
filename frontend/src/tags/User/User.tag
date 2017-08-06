@@ -69,6 +69,18 @@
                 route("/user/edit/"+tag.user.id);
         }
 
+        tag.report = function()
+        {
+            if(tag.user == null || tag.user.id == null)
+                return;
+            var callback = function()
+            {
+                App.hidePopUp();
+                vex.dialog.alert("L'utilisateur a bien été signalé. Merci de votre vigilance.");
+            };
+            var report = App.showPopUp("app-reporteditform", "Signaler un utilisateur", { "callback" : callback, "target" : tag.user.id });
+        }
+
         tag.retrieveUser = function(id)
         {
             var request = App.request(App.Address + "/getuser", {

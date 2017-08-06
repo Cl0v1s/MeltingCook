@@ -278,7 +278,7 @@ class APIController extends Controller
         $report->setAuthorId($_POST["author_id"]);
         $report->setTargetId($_POST["target_id"]);
         $report->setContent($_POST["content"]);
-        $report->setState(0);
+        $report->setState(1);
         $this->Add($report);
     }
 

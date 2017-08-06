@@ -123,7 +123,7 @@ class Required extends Annotation implements ICoreAnnotation
 {
     public function validate($value)
     {
-        if($value == null || $value == "")
+        if($value === null || $value === "")
         {
             throw new IntegrityException("Property cant be null", 105);
         }

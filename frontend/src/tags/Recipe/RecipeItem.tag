@@ -1,6 +1,6 @@
-<app-recipeitem>
+<app-recipeitem onclick={ details }>
     <div class="user">
-        <img src={ recipe.user.picture }>
+        <div class="img" style="background-image: url('{ recipe.user.picture }');"></div>
         <div>
             <span>{ recipe.user.username} - { recipe.user.age } ans</span>
             <div class="Hearts nb-{ recipe.user.likes }"></div>
@@ -15,8 +15,8 @@
             <div>
                 <span>{ recipe.name } - { recipe.origin[0] }</span>
              </div>
-            <div class="pins">
-                    <div class="Pins" each={ p in recipe.pins }>{ p }</div>
+            <div>
+                <div class="Pins" each={ p in recipe.pins }>{ p }</div>
             </div>
         </div>
         <div class="price">
@@ -27,9 +27,11 @@
     <script>
         var tag = this;
 
-        tag.recipe = tag.opts.recipe;
+        tag.recipe = null;
 
-        tag.on("mount", () => {
+        tag.on("before-mount", () => {
+            tag.recipe = Adapter.adaptRecipe(tag.opts.recipe);
+
             if(tag.recipe == null && tag.opts.pass != null)
                 tag.retrieveRecipe(tag.opts.pass);
         });
@@ -40,7 +42,7 @@
                 "id" : id
             });
             request.then((response) => {
-                Adapter.adaptRecipe(response.data);
+                tag.recipe = Adapter.adaptRecipe(response.data);
                 tag.update();
             });
         };

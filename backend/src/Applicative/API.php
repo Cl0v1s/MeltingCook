@@ -344,7 +344,20 @@ class API
         }
         $storage->findAll("Recipe", $items, $f);
 
-        return $items;
+        $results = array();
+        for($i =0; $i < count($items); $i++)
+        {
+            $recipe = get_object_vars($items[$i]);
+            $recipe["user"] = API::Get($token, "User", $recipe["User_id"]);
+            $reservations = API::GetAll($token, "Reservation", '{ "Recipe_id" : "'.$recipe["id"].'" }');
+            $recipe["users"] = array();
+            foreach ($reservations as $reservation)
+            {
+                array_push($recipe["users"], $reservation["guest_id"]);
+            }
+            array_push($results, $recipe);
+        }
+        return $results;
     }
 
     public static function GetAllComment($token, $filters = null)

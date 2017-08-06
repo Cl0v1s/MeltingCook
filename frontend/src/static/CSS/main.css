@@ -232,22 +232,19 @@ app-useritem, div[data-is=app-useritem] {
       app-useritem div.body, div[data-is=app-useritem] div.body {
         display: inline-block; } }
     app-useritem div.body div.Hearts, div[data-is=app-useritem] div.body div.Hearts {
+      display: block;
+      margin: auto;
       margin-bottom: 20px !important; }
     app-useritem div.body div.style, div[data-is=app-useritem] div.body div.style {
-      margin-bottom: 20px; }
+      margin-bottom: 20px;
+      text-align: center; }
       app-useritem div.body div.style span:first-of-type, div[data-is=app-useritem] div.body div.style span:first-of-type {
         display: block;
         font-size: 10px; }
       app-useritem div.body div.style span:last-of-type, div[data-is=app-useritem] div.body div.style span:last-of-type {
         font-size: 20px; }
-  @media screen and (max-width: 650px) {
-    app-useritem div.foot, div[data-is=app-useritem] div.foot {
-      float: left;
-      clear: left;
-      margin: 8px;
-      /*display: inline-block;
-            vertical-align: top;
-            text-align: center;*/ } }
+    app-useritem div.body div.style + div, div[data-is=app-useritem] div.body div.style + div {
+      text-align: center; }
 
 app-usereditform div.left, div[data-is=app-usereditform] div.left {
   display: inline-block;
@@ -405,6 +402,57 @@ app-recipe div.user, div[data-is=app-recipe] div.user {
       margin-bottom: 8px; }
     app-recipe div.user div.join input[type=button], div[data-is=app-recipe] div.user div.join input[type=button] {
       margin-top: 8px; }
+
+app-recipeitem, div[data-is=app-recipeitem] {
+  display: block;
+  width: 90%;
+  margin: auto;
+  text-align: center;
+  margin-bottom: 20px; }
+  app-recipeitem div.user, div[data-is=app-recipeitem] div.user {
+    display: inline-block;
+    padding: 8px;
+    min-height: 122px; }
+    @media screen and (max-width: 650px) {
+      app-recipeitem div.user, div[data-is=app-recipeitem] div.user {
+        display: none; } }
+    app-recipeitem div.user div.img, div[data-is=app-recipeitem] div.user div.img {
+      display: inline-block;
+      margin: 8px;
+      width: 72px;
+      height: 72px;
+      vertical-align: top;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center; }
+    app-recipeitem div.user div.Hearts, div[data-is=app-recipeitem] div.user div.Hearts {
+      margin-left: auto;
+      margin-right: auto; }
+    app-recipeitem div.user div.img + div, div[data-is=app-recipeitem] div.user div.img + div {
+      display: inline-block;
+      text-align: center; }
+      app-recipeitem div.user div.img + div span, div[data-is=app-recipeitem] div.user div.img + div span {
+        display: block; }
+      app-recipeitem div.user div.img + div div.Hearts, div[data-is=app-recipeitem] div.user div.img + div div.Hearts {
+        display: block; }
+  app-recipeitem div.recipe, div[data-is=app-recipeitem] div.recipe {
+    min-height: 122px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+    padding: 8px;
+    padding-right: 70px;
+    position: relative; }
+    app-recipeitem div.recipe > div, div[data-is=app-recipeitem] div.recipe > div {
+      display: inline-block;
+      vertical-align: top; }
+      app-recipeitem div.recipe > div > div, div[data-is=app-recipeitem] div.recipe > div > div {
+        margin-bottom: 8px; }
+    app-recipeitem div.recipe > div.price, div[data-is=app-recipeitem] div.recipe > div.price {
+      position: absolute;
+      top: 50%;
+      right: 8px;
+      transform: translateY(-50%); }
 
 app-commentitem, div[data-is=app-commentitem] {
   display: block;

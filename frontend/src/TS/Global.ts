@@ -92,7 +92,7 @@ checkPage : function(page)
 },
 
 
-changePage : function(tag, data)
+changePage : function(tag, data, more = null)
 {
     if(App.Page != null)
     {
@@ -105,7 +105,10 @@ changePage : function(tag, data)
         document.body.appendChild(e);
     }
     App.hideLoading();
-    App.Page = riot.mount("div#app", tag, {pass : data});            
+    if(more == null)
+        more = {};
+    more.pass = data;
+    App.Page = riot.mount("div#app", tag, more);            
 },
 
 showPopUp : function(tag, title, data)

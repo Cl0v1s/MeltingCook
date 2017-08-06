@@ -144,7 +144,7 @@ var App = {
             return false;
         return true;
     },
-    changePage: function (tag, data) {
+    changePage: function (tag, data, more = null) {
         if (App.Page != null) {
             App.Page.forEach(function (t) {
                 t.unmount();
@@ -154,7 +154,10 @@ var App = {
             document.body.appendChild(e);
         }
         App.hideLoading();
-        App.Page = riot.mount("div#app", tag, { pass: data });
+        if (more == null)
+            more = {};
+        more.pass = data;
+        App.Page = riot.mount("div#app", tag, more);
     },
     showPopUp: function (tag, title, data) {
         if (App.PopUp != null) {

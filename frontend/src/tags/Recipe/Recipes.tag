@@ -4,13 +4,12 @@
     <script>
         var tag = this;
 
-        tag.recipes = tag.opts.recipes;
+        tag.recipes = null;
 
-        tag.on("mount", () => {
+        tag.on("before-mount", () => {
+            tag.recipes = tag.opts.recipes;
             if(tag.recipes == null)
-            {
                 tag.retrieveRecipes();
-            }
         });
 
         tag.retrieveRecipes = function()

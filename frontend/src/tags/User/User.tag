@@ -12,6 +12,12 @@
             <a class="Button verified">
                 <span>Cuisinnier vérifié</span>
             </a>
+            <div class="identity">
+                <input type="button" class="large" onclick={ recipes } value="Voir les recettes">
+            </div>
+            <div class="identity">
+                <input type="button" class="large" onclick={ comments } value="Voir les avis">
+            </div>
             <div class={ identity : true, invisible : owner != true }>
                 <input type="button" class="large" onclick={ edit } value="Editer mon profil">
             </div>
@@ -62,6 +68,45 @@
             if(tag.user == null && tag.opts.pass != null)
                 tag.retrieveUser(tag.opts.pass);
         });
+
+        tag.recipes = function()
+        {
+            if(tag.user == null || tag.user.id == null)
+                return;
+            var filters = JSON.stringify({
+                "User_id" : tag.user.id 
+            });
+            var request = App.request(App.Address + "/getrecipes", {
+                "filters" : filters
+            });
+            request.then((response) => {
+                App.changePage("app-recipelist", null, { "recipes" : response.data });
+            });
+            request.catch((error) => {
+                if(error == null)
+                    vex.dialog.alert("Ooops... Une erreur est survenue. Veuillez réessayer plus tard.");
+            });
+
+        };
+
+        tag.comments = function()
+        {
+            if(tag.user == null || tag.user.id == null)
+                return;
+            var filters = JSON.stringify({
+                "author_id" : tag.user.id 
+            });
+            var request = App.request(App.Address + "/getcomments", {
+                "filters" : filters
+            });
+            request.then((response) => {
+                App.changePage("app-commentlist", null, { "comments" : response.data });
+            });
+            request.catch((error) => {
+                if(error == null)
+                    vex.dialog.alert("Ooops... Une erreur est survenue. Veuillez réessayer plus tard.");
+            });
+        };
 
         tag.edit = function()
         {

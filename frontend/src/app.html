@@ -27,6 +27,7 @@
     <script src="/tags/Comment/CommentEditForm.tag" type="riot/tag"></script>
     <script src="/tags/Comment/CommentItem.tag" type="riot/tag"></script>
     <script src="/tags/Comment/Comments.tag" type="riot/tag"></script>
+    <script src="/tags/Comment/CommentList.tag" type="riot/tag"></script>
     
 
     <!--Immutable-->
@@ -43,12 +44,15 @@
     <script src="/tags/Misc/Footer.tag" type="riot/tag"></script>
 
     <!--Recipe-->
+    <script src="/tags/Recipe/RecipeList.tag" type="riot/tag"></script>
     <script src="/tags/Recipe/Recipe.tag" type="riot/tag"></script>
     <script src="/tags/Recipe/Recipes.tag" type="riot/tag"></script>
     <script src="/tags/Recipe/RecipeItem.tag" type="riot/tag"></script>
 
     <!-- Report -->
     <script src="/tags/Report/ReportEditForm.tag" type="riot/tag"></script>
+    <script src="/tags/Report/ReportItem.tag" type="riot/tag"></script>
+    <script src="/tags/Report/Reports.tag" type="riot/tag"></script>
 
 
     <!--Search-->
@@ -118,7 +122,7 @@
 
             if(Login.GetInstance().isLogged() == false)
             {
-                route("/login");
+                route("");
             }
 
             route.start(true);

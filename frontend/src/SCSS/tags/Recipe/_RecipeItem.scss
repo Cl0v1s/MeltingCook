@@ -1,0 +1,83 @@
+app-recipeitem, div[data-is=app-recipeitem]
+{
+    display: block;
+    width: 90%;
+    margin: auto;
+    text-align: center;
+    margin-bottom: $space-normal;
+    div.user
+    {
+        display: inline-block;
+                @media screen and (max-width: 650px) {
+            display: none;
+        }
+        padding: $space-small;
+    min-height: 122px;
+
+        div.img
+        {
+            display: inline-block;
+            margin: $space-small;
+            width: 72px;
+            height: 72px;
+            vertical-align: top;
+
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        div.Hearts
+        {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        div.img+div
+        {
+            display: inline-block;
+            text-align: center;
+
+            span
+            {
+                display: block;
+            }
+
+            div.Hearts
+            {
+                display: block;
+            }
+        }
+    }
+
+    div.recipe
+    {
+    min-height: 122px;
+        
+        display: inline-block;
+        text-align: center;
+        vertical-align: top;
+        padding: $space-small;
+        padding-right: 50px+$space-normal;
+        position: relative;
+        &>div
+        {
+            display: inline-block;
+            vertical-align: top;
+            &>div
+            {
+                margin-bottom: $space-small;
+            }
+        }
+
+        &>div.price
+        {
+            position: absolute;
+            top: 50%;
+            right: $space-small;
+            transform: translateY(-50%);
+        }
+
+
+    }
+}

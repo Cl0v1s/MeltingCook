@@ -159,10 +159,9 @@ var App = {
                 }
                 catch (error) {
                     if (error.name == ErrorHandler.State.FATAL) {
-                        vex.dialog.alert(error.message);
-                        //TODO: rediriger vers une page d'erreur
-                        route("/");
+                        var message = encodeURI(error.message);
                         reject(ErrorHandler.State.FATAL);
+                        route("/error/" + message);
                     }
                     else
                         reject(error);

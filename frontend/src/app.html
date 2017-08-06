@@ -33,6 +33,7 @@
     <!--Immutable-->
     <script src="/tags/Immutable/Home.tag" type="riot/tag"></script>
     <script src="/tags/Immutable/Login.tag" type="riot/tag"></script>
+    <script src="/tags/Immutable/Error.tag" type="riot/tag"></script>
 
     <!--Misc-->
     <script src="/tags/Misc/DateInput.tag" type="riot/tag"></script>
@@ -113,6 +114,10 @@
                 App.changePage("app-user", id);
             });
 
+            route("/error/*", function (message) {
+                App.changePage("app-error", message);
+            });
+
             route("login", function () {
                 App.changePage("app-login", null);
             });
@@ -126,7 +131,7 @@
             });
 
 
-            if (Login.GetInstance().isLogged() == false) {
+            if (Login.GetInstance().isLogged() == false && window.location.href.indexOf("/error") == -1) {
                 route("");
             }
 

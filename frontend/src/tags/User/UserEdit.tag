@@ -35,11 +35,7 @@
                 tag.refs.form.setUser(tag.user);
             });
             request.catch((error) => {
-                if(error == null)
-                {
-                    vex.dialog.alert("Oopss... Une erreur est survenue. Veuillez réessayer plus tard.");
-                }
-                route("/");
+    
             });
         }
 

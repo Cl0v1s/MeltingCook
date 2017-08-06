@@ -37,6 +37,11 @@ class ErrorHandler
                 error.message = "Une valeur requise est manquante. Veuillez vérifier le formulaire.";
                 error.name = ErrorHandler.State.ERROR;
             break;
+            case 101:
+                var length = response.message.split(" than ")[1].split("\n\n#0")[0];
+                error.message = "Une valeur est en dessous de la longueur requise de "+length+" caractères. Veuillez vérifier le formulaire.";
+                error.name = ErrorHandler.State.ERROR;
+            break;
         }
         throw error;
     }

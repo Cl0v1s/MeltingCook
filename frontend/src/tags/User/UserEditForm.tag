@@ -59,6 +59,18 @@
                     { user.description }
                 </textarea>
                 </div>
+                                <div>
+                    <label>Adresse:</label>
+                    <input type="text" name="address" ref="address" value={ user.address }>
+                </div>
+                                <div>
+                    <label>Prénom:</label>
+                    <input type="text" name="firstname" ref="firstname" value={ user.firstname }>
+                </div>
+                                <div>
+                    <label>Nom:</label>
+                    <input type="text" name="lastname" ref="lastname" value={ user.lastname }>
+                </div>
             </div>
             <div class="more">
                 <div>
@@ -175,7 +187,10 @@
                     "picture": "maxLength:400",
                     "preference": "maxLength:1000",
                     "discease": "maxLength:1000",
-                    "pins": "maxLength:1000"
+                    "pins": "maxLength:1000",
+                    "lastname": "required|maxLength:400",
+                    "firstname": "required|maxLength:400",
+                    "address": "required|maxLength:1000",
                 }
             });
             if (valid.passes("edit-user")) {
@@ -223,6 +238,9 @@
                 usr.preference = tag.refs.preference.value;
                 usr.discease = tag.refs.discease.value;
                 usr.pins = tag.refs.pins.value;
+                usr.lastname = tag.refs.lastname.value;
+                usr.firstname = tag.refs.firstname.value;
+                usr.address = tag.refs.address.value;
 
                 var url = App.Address + "/adduser";
                 if (usr.id != null)

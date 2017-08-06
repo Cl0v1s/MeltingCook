@@ -124,6 +124,8 @@ class API
         $storage = Engine::Instance()->Persistence("DatabaseStorage");
         $item = new $class($storage, $id);
         $item = $storage->find($item);
+        if($item == null)
+            return null;
         $result = get_object_vars($item);
         foreach($item as $key => $value)
         {

@@ -100,10 +100,32 @@ class User extends StorageItem
     public $banner;
 
     /**
+     * @Required
      * @Word
      * @Size(min=50, max=1000)
      */
     public $description;
+
+    /**
+     * @Required
+     * @Word
+     * @Size(min=1, max=400)
+     */
+    public $firstname;
+
+    /**
+     * @Required
+     * @Word
+     * @Size(min=1, max=400)
+     */
+    public $lastname;
+
+    /**
+     * @Required
+     * @Word
+     * @Size(min=1, max=1000)
+     */
+    public $address;
 
     /**
      * @return mixed
@@ -365,6 +387,58 @@ class User extends StorageItem
         $this->description = $description;
         $this->checkIntegrity("description");
     }
+
+    /**
+     * @return mixed
+     */
+    public function Firstname()
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * @param mixed $firstname
+     */
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+        $this->checkIntegrity("firstname");
+    }
+
+    /**
+     * @return mixed
+     */
+    public function Lastname()
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * @param mixed $lastname
+     */
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+        $this->checkIntegrity("lastname");
+    }
+
+    /**
+     * @return mixed
+     */
+    public function Address()
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param mixed $address
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+        $this->checkIntegrity("address");
+    }
+
 
 
 

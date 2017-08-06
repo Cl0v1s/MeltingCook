@@ -157,10 +157,13 @@ class APIController extends Controller
         }
         $method = "Get".$class;
         $res = null;
+        $token = null;
+        if(isset($_POST["token"]))
+            $token = $_POST["token"];
         if(method_exists("API", $method) == false)
-            $res = API::Get(null, $class, $_POST["id"]);
+            $res = API::Get($token, $class, $_POST["id"]);
         else
-            $res = API::$method(null, $_POST["id"]);
+            $res = API::$method($token, $_POST["id"]);
         $this->Write(APIController::$OK, $res);
     }
 
@@ -342,7 +345,8 @@ class APIController extends Controller
 
     private function AddUser()
     {
-        if(isset($_POST["username"]) == false || isset($_POST["password"]) == false || isset($_POST["geolocation"]) == false || isset($_POST["phone"]) == false || isset($_POST["mail"]) == false || isset($_POST["age"]) == false)
+        if(isset($_POST["username"]) == false || isset($_POST["password"]) == false || isset($_POST["geolocation"]) == false || isset($_POST["phone"]) == false || isset($_POST["mail"]) == false
+            || isset($_POST["age"]) == false || isset($_POST["description"]) == false || isset($_POST["lastname"]) == false || isset($_POST["firstname"]) == false || isset($_POST["address"]) == false)
         {
             $this->Write(APIController::$NO, null, "Missing Data");
             return;
@@ -353,8 +357,10 @@ class APIController extends Controller
         $user->setGeolocation($_POST["geolocation"]);
         $user->setPhone($_POST["phone"]);
         $user->setMail($_POST["mail"]);
-        if(isset($_POST["description"]))
             $user->setDescription($_POST["description"]);
+            $user->setFirstname($_POST["firstname"]);
+            $user->setLastname($_POST["lastname"]);
+            $user->setAddress($_POST["address"]);
         $user->setAge($_POST["age"]);
         if(isset($_POST["picture"]))
             $user->setPicture($_POST["picture"]);
@@ -426,6 +432,12 @@ class APIController extends Controller
             $user->setBanner($_POST["banner"]);
         if(isset($_POST["description"]))
             $user->setDescription($_POST["description"]);
+        if(isset($_POST["lastname"]))
+            $user->setLastname($_POST["lastname"]);
+        if(isset($_POST["firstname"]))
+            $user->setFirstname($_POST["firstname"]);
+        if(isset($_POST["address"]))
+            $user->setAddress($_POST["address"]);
         $this->Update($user);
     }
 

@@ -252,10 +252,8 @@
                         tag.callback();
                 });
                 request.catch((error) => {
-                    if(error instanceof Error)
-                    {
-                        vex.dialog.alert(error.message);
-                    }
+                        ErrorHandler.alertIfError(error);
+
                 });
             } else {
                 vex.dialog.alert("Le formulaire n'est pas valide en l'état.");

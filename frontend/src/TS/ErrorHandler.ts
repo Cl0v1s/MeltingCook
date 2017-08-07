@@ -42,6 +42,10 @@ class ErrorHandler
                 error.message = "Une valeur est en dessous de la longueur requise de "+length+" caractères. Veuillez vérifier le formulaire.";
                 error.name = ErrorHandler.State.ERROR;
             break;
+            default:
+                error.name = ErrorHandler.State.ERROR;
+                error.message = "Ooops... Quelque chose s'est mal passé. Veuillez réessayer plus tard.";
+            break;
         }
         throw error;
     }
@@ -57,5 +61,11 @@ class ErrorHandler
             error.name= ErrorHandler.State.ERROR;
         }
         return error;
+    }
+
+    public static alertIfError(error : any) : void 
+    {
+        if(error instanceof Error)
+            vex.dialog.alert(error.message);
     }
 }

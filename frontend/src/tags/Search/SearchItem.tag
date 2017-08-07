@@ -58,11 +58,8 @@
                 });
                 retrieve.catch(function(error)
                 {
-                    if(error == null)
-                    {
-                        vex.dialog.alert("Oups... Une erreur est survenue. Veuillez réessayer plus tard.");
-                    }
-                    route("/");
+                        ErrorHandler.alertIfError(error);
+
                 });
             }
             else

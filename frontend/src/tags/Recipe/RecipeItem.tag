@@ -45,6 +45,10 @@
                 tag.recipe = Adapter.adaptRecipe(response.data);
                 tag.update();
             });
+            request.catch((error) => {
+                                        ErrorHandler.alertIfError(error);
+
+            })
         };
 
         tag.details = function()

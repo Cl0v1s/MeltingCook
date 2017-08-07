@@ -57,7 +57,7 @@ class Login
             var tmptoken = md5(username+md5(password));
             var retrieve = App.request(App.Address+"/auth", {
                 token : tmptoken
-            });
+            }, false);
             retrieve.then((response) => {
                 this.setToken(tmptoken);
                 this.setUser(response.data);

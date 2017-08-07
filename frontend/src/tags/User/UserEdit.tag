@@ -35,7 +35,8 @@
                 tag.refs.form.setUser(tag.user);
             });
             request.catch((error) => {
-    
+                            ErrorHandler.alertIfError(error);
+
             });
         }
 

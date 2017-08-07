@@ -39,7 +39,7 @@
                         tag.callback();
                     });
                     request.catch((error) => {
-                        vex.dialog.alert("Ooops... Une erreur est survenue. Veuillez réessayer plus tard.");
+                        ErrorHandler.alertIfError(error);
                     });
                 }
                 else 

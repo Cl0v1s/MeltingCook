@@ -49,9 +49,8 @@
                 tag.sortReports();
             });
             request.catch((error) => {
-                if (error == null) {
-                    vex.dialog.alert("Ooops... Une erreur est survenue. Veuillez réessayer plus tard.");
-                }
+                        ErrorHandler.alertIfError(error);
+
             });
         }
 

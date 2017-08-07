@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Ven 28 Juillet 2017 à 03:44
+-- Généré le :  Lun 07 Août 2017 à 12:29
 -- Version du serveur :  5.7.17-0ubuntu0.16.04.1
 -- Version de PHP :  7.0.15-0ubuntu0.16.04.4
 
@@ -51,6 +51,27 @@ CREATE TABLE `Notification` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `Origin`
+--
+
+CREATE TABLE `Origin` (
+  `id` int(11) NOT NULL,
+  `name` varchar(400) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `Pins`
+--
+
+CREATE TABLE `Pins` (
+  `name` varchar(400) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `Recipe`
 --
 
@@ -64,7 +85,12 @@ CREATE TABLE `Recipe` (
   `items` varchar(1000) NOT NULL,
   `date_start` int(11) NOT NULL,
   `date_end` int(11) NOT NULL,
-  `price` int(11) NOT NULL
+  `price` int(11) NOT NULL,
+  `latitude` float NOT NULL,
+  `longitude` float NOT NULL,
+  `places` int(11) NOT NULL,
+  `pins` varchar(1000) DEFAULT NULL,
+  `place` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -106,15 +132,33 @@ CREATE TABLE `User` (
   `id` int(11) NOT NULL,
   `username` varchar(100) NOT NULL,
   `password` varchar(32) NOT NULL,
-  `picture` varchar(100) DEFAULT NULL,
+  `picture` varchar(400) DEFAULT NULL,
   `geolocation` varchar(100) NOT NULL,
   `phone` varchar(20) NOT NULL,
   `banned` int(11) DEFAULT '0',
-  `rights` int(11) DEFAULT '0',
+  `rights` int(11) DEFAULT '1',
   `discease` varchar(1000) DEFAULT NULL,
   `preference` varchar(1000) DEFAULT NULL,
-  `favorite` varchar(400) DEFAULT NULL
+  `favorite` varchar(400) DEFAULT NULL,
+  `mail` varchar(400) NOT NULL,
+  `pins` varchar(1000) DEFAULT NULL,
+  `age` int(11) NOT NULL,
+  `banner` varchar(400) DEFAULT NULL,
+  `description` varchar(1000) DEFAULT NULL,
+  `firstname` varchar(400) NOT NULL,
+  `lastname` varchar(400) NOT NULL,
+  `address` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `User`
+--
+
+INSERT INTO `User` (`id`, `username`, `password`, `picture`, `geolocation`, `phone`, `banned`, `rights`, `discease`, `preference`, `favorite`, `mail`, `pins`, `age`, `banner`, `description`, `firstname`, `lastname`, `address`) VALUES
+(1, 'rootroot', '1e7e1ffa9c17090a4faf82859f5cd36c', 'https://scontent-cdt1-1.xx.fbcdn.net/v/t1.0-9/20621947_1829981903684148_5355777241776376439_n.jpg?oh=ac0ecb91e99fa04621db17b624a5e07d&oe=59EEAE2B', '44.802614,-0.588054', '0761889039', 0, 2, 'caca;accariens', 'Française', NULL, 'portron.cl@gmail.com', 'Nulle', 0, 'https://scontent-cdt1-1.xx.fbcdn.net/v/t1.0-9/20293989_1817665278249144_526222910380555977_n.jpg?oh=7b40ff9037adfa605656671e507b998b&oe=5A322986', 'Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca', 'Portron', 'Clovis', 'Les Grenouillères'),
+(2, 'clocloc', '1e7e1ffa9c17090a4faf82859f5cd36c', 'https://pbs.twimg.com/media/Co3jneoUkAEGml1.jpg', '44.802614,-0.588054', '0761889039', 0, 1, 'zbleh', 'zbleh', NULL, 'portron.cl@gmail.com', 'zbleh', 19, 'https://pbs.twimg.com/media/Co3jneoUkAEGml1.jpg', 'zbleh djsqkdjlqsj djslqdjljql lsjdkl jkldjl sqjdlqs dqs', '', '', ''),
+(7, 'rootroot1', '1e7e1ffa9c17090a4faf82859f5cd36c', 'https://ih1.redbubble.net/image.240262109.3755/poster%2C210x230%2Cf8f8f8-pad%2C210x230%2Cf8f8f8.lite-1.jpg', '44.828261,-0.5751322', '0761889039', 0, 1, 'Caca', 'Caca', NULL, 'portron.cl@gmail.com', 'Caca', 21, 'https://ih1.redbubble.net/image.240262109.3755/poster%2C210x230%2Cf8f8f8-pad%2C210x230%2Cf8f8f8.lite-1.jpg', 'Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca', '', '', ''),
+(9, 'rootroot2', '1e7e1ffa9c17090a4faf82859f5cd36c', 'https://ih1.redbubble.net/image.240262109.3755/poster%2C210x230%2Cf8f8f8-pad%2C210x230%2Cf8f8f8.lite-1.jpg', '44.828261,-0.5751322', '0761889039', 0, 1, 'Caca', 'Caca', NULL, 'portron.cl@gmail.com', 'Caca', 21, 'https://ih1.redbubble.net/image.240262109.3755/poster%2C210x230%2Cf8f8f8-pad%2C210x230%2Cf8f8f8.lite-1.jpg', 'Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca', '', '', '');
 
 --
 -- Index pour les tables exportées
@@ -134,6 +178,12 @@ ALTER TABLE `Comment`
 ALTER TABLE `Notification`
   ADD PRIMARY KEY (`id`),
   ADD KEY `User_id` (`User_id`);
+
+--
+-- Index pour la table `Origin`
+--
+ALTER TABLE `Origin`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `Recipe`
@@ -163,7 +213,8 @@ ALTER TABLE `Reservation`
 -- Index pour la table `User`
 --
 ALTER TABLE `User`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
 
 --
 -- AUTO_INCREMENT pour les tables exportées
@@ -173,22 +224,27 @@ ALTER TABLE `User`
 -- AUTO_INCREMENT pour la table `Comment`
 --
 ALTER TABLE `Comment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT pour la table `Notification`
 --
 ALTER TABLE `Notification`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT pour la table `Origin`
+--
+ALTER TABLE `Origin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT pour la table `Recipe`
 --
 ALTER TABLE `Recipe`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT pour la table `Report`
 --
 ALTER TABLE `Report`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT pour la table `Reservation`
 --
@@ -198,7 +254,7 @@ ALTER TABLE `Reservation`
 -- AUTO_INCREMENT pour la table `User`
 --
 ALTER TABLE `User`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- Contraintes pour les tables exportées
 --

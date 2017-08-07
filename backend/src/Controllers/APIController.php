@@ -41,6 +41,9 @@ class APIController extends Controller
                 case "addorigin":
                     $this->AddOrigin();
                     break;
+                case "addpins":
+                    $this->AddPins();
+                break;
                 case "addcomment":
                     $this->AddComment();
                     break;
@@ -67,6 +70,10 @@ class APIController extends Controller
                     break;
                 case "removeorigin":
                     $this->Remove("Origin");
+                    break;
+                case "removepins":
+                    $this->Remove("Pins");
+                break;
                 case "updateorigin":
                     $this->UpdateOrigin();
                     break;
@@ -88,6 +95,9 @@ class APIController extends Controller
                 case "getorigin":
                     $this->Get("Origin");
                     break;
+                case "getpins":
+                    $this->Get("Pins");
+                break;
                 case "getuser":
                     $this->Get("User");
                     break;
@@ -123,6 +133,9 @@ class APIController extends Controller
                     break;
                 case "getorigins":
                     $this->GetAll("Origin");
+                    break;
+                case "getpinses":
+                    $this->GetAll("Pins");
                     break;
                 default:
                     http_response_code(404);
@@ -251,6 +264,18 @@ class APIController extends Controller
             return;
         }
         $origin = new Origin(null);
+        $origin->setName($_POST["name"]);
+        $this->Add($origin);
+    }
+
+    private function AddPins()
+    {
+        if(isset($_POST["name"]) == false )
+        {
+            $this->Write(APIController::$NO, null, "Missing Data");
+            return;
+        }
+        $origin = new Pins(null);
         $origin->setName($_POST["name"]);
         $this->Add($origin);
     }

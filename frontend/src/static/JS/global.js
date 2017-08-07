@@ -168,6 +168,7 @@ class App {
                             var message = encodeURI(error.message);
                             reject(ErrorHandler.State.FATAL);
                             route("/error/" + message);
+                            console.error(error.message);
                         }
                         else {
                             ErrorHandler.alertIfError(error);

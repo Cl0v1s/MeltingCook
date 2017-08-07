@@ -75,15 +75,15 @@
             <div class="more">
                 <div>
                     <label>Mes allergies:</label>
-                    <input type="text" name="discease" ref="discease" value={ user.discease }>
+                    <input type="text" name="discease" ref="discease" id="discease" value={ user.discease }>
                 </div>
                 <div>
                     <label>Mes inspirations:</label>
-                    <input type="text" name="preference" ref="preference" value={ user.preference }>
+                    <app-origininput ref="preference"></app-origininput>
                 </div>
                 <div>
                     <label>Mes plus:</label>
-                    <input type="text" name="pins" ref="pins" value={ user.pins }>
+                    <app-pinsinput ref="pins"></app-pinsinput>
                 </div>
             </div>
         </div>
@@ -116,6 +116,30 @@
         tag.on("mount", function()
         {
             tag.geolocalize();
+
+            $('#discease').selectize({
+                    delimiter: ";",
+                    persist: true,
+                    maxItems: null,
+                    valueField: 'name',
+                    labelField: 'name',
+                    searchField: ['name'],
+                    options: [],
+                    create: function (input) {
+                        return {
+                            name: input
+                        };
+                    },
+            });
+        });
+
+        tag.on("updated", function()
+        {
+            if(tag.user != null)
+            {
+                tag.refs.preference.setValue(tag.user.preference);
+                tag.refs.pins.setValue(tag.user.pins);
+            }
         });
 
         tag.setUser = function (user) {
@@ -185,9 +209,7 @@
                     "mail": "required|email|maxLength:400",
                     "description": "required|minLength:50|maxLength:1000",
                     "picture": "maxLength:400",
-                    "preference": "maxLength:1000",
                     "discease": "maxLength:1000",
-                    "pins": "maxLength:1000",
                     "lastname": "required|maxLength:400",
                     "firstname": "required|maxLength:400",
                     "address": "required|maxLength:1000",
@@ -213,6 +235,18 @@
                 if(tag.position == null || tag.position.indexOf(",") == -1)
                 {
                     vex.dialog.alert("L'usage de Melting Cook requiert la connaissance de votre position. Veuillez activer la géolocalisation.");
+                    return;
+                }
+                //Confirmation des préference
+                if(tag.refs.preference.value == null && tag.refs.preference.value > 1000)
+                {
+                    vex.dialog.alert("Le champs 'Mes inspirations' ne peut contenir plus de 1000 caractères.");
+                    return;
+                }
+                //Confirmation des pins
+                if(tag.refs.pins.value == null && tag.refs.pins.value > 1000)
+                {
+                    vex.dialog.alert("Le champs 'Mes plus' ne peut contenir plus de 1000 caractères.");
                     return;
                 }
 

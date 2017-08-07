@@ -1,5 +1,5 @@
-<app-origininput>
-    <input type="text" ref="origin" name="origin" id="origin" placeholder="Type de cuisine" value={ opts.origin }>
+<app-pinsinput>
+    <input type="text" ref="pins" name="pins" id="pins" placeholder="Mes plus" value={ opts.pins }>
 
 
     <script>
@@ -13,18 +13,17 @@
 
         tag.setValue = function(value)
         {
-            tag.refs.origin.value = value;
+            tag.refs.pins.value = value;
             tag.value = value;
-            console.log(tag.refs.origin.value);
         }
 
         tag.retrieve = function()
         {
-            // Récupération des origines
-            var retrieveOrigins = App.request(App.Address + "/getorigins", null);
-            retrieveOrigins.then(function(response)
+            // Récupération des pinses
+            var retrievepins = App.request(App.Address + "/getpinses", null);
+            retrievepins.then(function(response)
             {
-                $('#origin').selectize({
+                $('#pins').selectize({
                     delimiter: ";",
                     persist: false,
                     maxItems: null,
@@ -43,10 +42,10 @@
                     },*/
                 });
             });
-            retrieveOrigins.catch(function(error)
+            retrievepins.catch(function(error)
             {
-                        ErrorHandler.alertIfError(error);
+                ErrorHandler.alertIfError(error);
             });
         }
     </script>
-</app-origininput>
+</app-pinsinput>

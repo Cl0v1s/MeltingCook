@@ -3,6 +3,9 @@
         <div>
             <label>Motif du signalement</label>
             <textarea name="content" ref="content" value={ report.content }></textarea>
+            <p>
+                Ce champ doit contenir entre 10 et 1000 caractères.
+            </p>
         </div>
         <div class={ invisible : admin == false || report == null }>
             <label>Etat d'avancement</label>

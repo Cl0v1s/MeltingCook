@@ -29,61 +29,99 @@
                 <div class={ invisible: user.id != null }>
                     <label>Nom d'utilisateur: </label>
                     <input type="text" name="username" ref="username" value={ user.username }>
-                    <p>Vous ne pourrez plus changer de nom d'utilisateur après l'inscription. Choisissez avec sagesse.</p>
+                    <p>Ce champ doit contenir entre 5 et 400 caractères.<br>
+                    Vous ne pourrez plus changer de nom d'utilisateur après l'inscription. Choisissez avec sagesse.</p>
                 </div>
                 <div class={ invisible: user.id != null }>
                     <label>Mot de passe: </label>
                     <input type="password" name="password" ref="password">
+                    <p>
+                        Ce champ doit contenir entre 8 et 100 caractères.
+                    </p>
                 </div>
                 <div class={ invisible: user.id != null }>
                     <label>Confirmation mot de passe: </label>
                     <input type="password" name="password_confirm" ref="password_confirm">
+                    <p>
+                        Ce champ doit contenir entre 8 et 100 caractères.
+                    </p>
                 </div>
                 <div>
                     <label>Age: </label>
                     <input type="text" name="age" ref="age" value={ user.age }>
+                    <p>
+                        Ce champ doit contenir une valeur numérique comprise entre 0 et 100.
+                    </p>
                 </div>
                 <div>
                     <label>Numéro de téléphone:</label>
                     <input type="text" name="phone" ref="phone" value={ user.phone }>
+                    <p>
+                        Ce champ doit contenir un numéro de téléphone valide.
+                    </p>
                 </div>
                 <div>
                     <label>Adresse Email associée au compte Paypal:</label>
                     <input type="text" name="mail" ref="mail" value={ user.mail }>
-                        <p>Pensez à vérifier qu'il s'agit bien de l'adresse email associée à votre compte Paypal. Nous allons
-                            l'utiliser pour vous verser votre dû.</p>
+                        <p>Ce champ doit contenir une adresse email valide.<br>
+                        Pensez à vérifier qu'il s'agit bien de l'adresse email associée à votre compte Paypal. Nous allons
+                        l'utiliser pour vous verser votre dû.</p>
                 </div>
                 <div>
                     <label>Présentation: </label>
                     <textarea name="description" ref="description">
                     { user.description }
                 </textarea>
+                    <p>
+                        Ce champ doit contenir entre 50 et 1000 caractères.
+                    </p>
                 </div>
                                 <div>
                     <label>Adresse:</label>
                     <input type="text" name="address" ref="address" value={ user.address }>
+                    <p>
+                        Ce champ doit contenir votre adresse de facturation.
+                    </p>
                 </div>
                                 <div>
                     <label>Prénom:</label>
                     <input type="text" name="firstname" ref="firstname" value={ user.firstname }>
+                    <p>
+                        Ce champ doit contenir le prénom qui sera utilisé sur les factures.
+                    </p>
                 </div>
                                 <div>
                     <label>Nom:</label>
                     <input type="text" name="lastname" ref="lastname" value={ user.lastname }>
+                    <p>
+                        Ce champ doit contenir le nom qui sera utilisé sur les factures.
+                    </p>
                 </div>
             </div>
             <div class="more">
                 <div>
                     <label>Mes allergies:</label>
-                    <input type="text" name="discease" ref="discease" id="discease" value={ user.discease }>
+                    <div>
+                        <input type="text" name="discease" ref="discease" id="discease" value={ user.discease }>
+                    </div>
+                    <p>
+                        Veuillez renseigner les informations relatives à vos éventuelles allergies et contre-indications alimentaires.
+                    </p>
                 </div>
                 <div>
                     <label>Mes inspirations:</label>
                     <app-origininput ref="preference"></app-origininput>
+                    <p>
+                        Indiquez aux autres utilisateurs quelles sont vos sources d'inspiration alimentaires !
+                    </p>
                 </div>
                 <div>
                     <label>Mes plus:</label>
                     <app-pinsinput ref="pins"></app-pinsinput>
+                    <p>
+                        Indiquez aux autres utilisateurs vos petit plus !<br>
+                        e.g: Bio, Vegan, Sans-gluten, Halal
+                    </p>
                 </div>
             </div>
         </div>
@@ -135,7 +173,7 @@
 
         tag.on("updated", function()
         {
-            if(tag.user != null)
+            if(tag.user != null && tag.user.id != null)
             {
                 tag.refs.preference.setValue(tag.user.preference);
                 tag.refs.pins.setValue(tag.user.pins);
@@ -289,8 +327,10 @@
                         ErrorHandler.alertIfError(error);
 
                 });
-            } else {
-                vex.dialog.alert("Le formulaire n'est pas valide en l'état.");
+            }
+            if(valid.fails("edit-user"))
+            {
+                App.diagnosticForm("edit-user", valid.errors);
             }
         }
     </script>

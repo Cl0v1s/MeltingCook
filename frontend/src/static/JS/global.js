@@ -135,6 +135,18 @@ ErrorHandler.State = {
 };
 ErrorHandler.Instance = new ErrorHandler();
 class App {
+    static diagnosticForm(formname, errors) {
+        for (var field in errors[formname]) {
+            var nodes = document.getElementsByName(field);
+            if (nodes.length <= 0)
+                continue;
+            var node = (nodes[0]);
+            node.classList.add("error");
+            node.addEventListener("focus", function (e) {
+                e.target.classList.remove("error");
+            });
+        }
+    }
     static request(address, data, redirect = true) {
         return new Promise(function (resolve, reject) {
             var href = window.location.href;

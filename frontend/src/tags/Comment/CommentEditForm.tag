@@ -5,6 +5,9 @@
             <textarea name="content" ref="content">
                 { comment.content }
             </textarea>
+            <p>
+                Ce champ doit contenir entre 10 et 400 caractères.
+            </p>
         </div>
         <input type="button" class="large" value="Envoyer" onclick={ send }>
     </form>
@@ -42,10 +45,11 @@
                         ErrorHandler.alertIfError(error);
                     });
                 }
-                else 
+                if(valid.fails("edit-comment"))
                 {
-                    vex.dialog.alert("Le formulaire n'est pas valide en l'état.");
+                    App.diagnosticForm("edit-comment", valid.errors);
                 }
+
         }
     </script>
 </app-commenteditform>

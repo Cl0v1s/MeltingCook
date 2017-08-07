@@ -146,6 +146,14 @@ div label + input, div label + textarea {
   margin: 8px;
   resize: none; }
 
+div label + * + p {
+  font-size: 10px;
+  text-align: center;
+  margin-top: 8px; }
+
+input[type=text].error, textarea.error, select.error {
+  background-color: red; }
+
 a.Button {
   display: inline-block;
   width: 45px;
@@ -272,7 +280,10 @@ app-usereditform div input + p, div[data-is=app-usereditform] div input + p {
   font-size: 10px;
   text-align: center; }
 
-app-usereditform div > div, div[data-is=app-usereditform] div > div {
+app-usereditform > div > div, div[data-is=app-usereditform] > div > div {
+  margin-bottom: 20px; }
+
+app-usereditform div.base > div, app-usereditform div.more > div, div[data-is=app-usereditform] div.base > div, div[data-is=app-usereditform] div.more > div {
   margin-bottom: 20px; }
 
 app-usereditform div.banner, div[data-is=app-usereditform] div.banner {

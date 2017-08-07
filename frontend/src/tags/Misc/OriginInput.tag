@@ -15,7 +15,6 @@
         {
             tag.refs.origin.value = value;
             tag.value = value;
-            console.log(tag.refs.origin.value);
         }
 
         tag.retrieve = function()

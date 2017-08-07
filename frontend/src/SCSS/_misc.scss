@@ -128,5 +128,20 @@ div label+input, div label+textarea
   
 }
 
+div label+*+p
+{
+    font-size: $font-size-small;
+    text-align: center;
+    margin-top: $space-small;
+}
+
+input[type=text], textarea, select
+{
+  &.error
+  {
+    background-color: red;
+  }
+}
+
 
 

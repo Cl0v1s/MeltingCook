@@ -1,8 +1,26 @@
 class App
 {
     public static Address : string = "http://localhost:8080/API";
+
+
     private static Page = null;
     private static PopUp = null;
+
+    public static diagnosticForm(formname : string , errors : Object)
+    {
+        for(var field in errors[formname])
+        {
+                var nodes : NodeList = document.getElementsByName(field);
+                if(nodes.length <= 0)
+                    continue;
+                var node = <HTMLElement>(nodes[0]);
+                node.classList.add("error");
+                node.addEventListener("focus", function(e)
+                {
+                    (<HTMLElement>e.target).classList.remove("error");
+                });
+        }
+    }
 
 
     public static request(address, data, redirect = true)

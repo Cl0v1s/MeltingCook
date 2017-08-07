@@ -33,7 +33,12 @@ app-usereditform, div[data-is=app-usereditform]
         text-align: center;
     }
 
-    div>div
+    &>div>div
+    {
+        margin-bottom: $space-normal;
+    }
+    
+    div.base > div, div.more > div
     {
         margin-bottom: $space-normal;
     }

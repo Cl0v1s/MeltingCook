@@ -39,7 +39,6 @@
             retrieveOrigins.catch(function(error)
             {
                         ErrorHandler.alertIfError(error);
-
             });
         }
     </script>

@@ -20,10 +20,8 @@
                 tag.update();
             });
             request.catch((error) => {
-                if(error == null)
-                {
-                    vex.dialog.alert("Oops.. Quelque chose s'est mal passé. Veuillez réessayer plus tard.");
-                }
+                        ErrorHandler.alertIfError(error);
+
             });
         }
     </script>

@@ -1,5 +1,5 @@
 <app-usereditform>
-    <form name="edit-user" class={ invisible : user==null }>
+    <form name="edit-user" if={ user != null }>
         <div class="left">
             <div class="banner">
                 <div class="img" ref="banner_preview" style="background-image: url('{ user.banner }');"></div>
@@ -147,9 +147,15 @@
     <script>
         var tag = this;
 
-        tag.user = tag.opts.user;
-        tag.callback = tag.opts.callback;
+        tag.user = null;
+        tag.callback = null;
         tag.position = null;
+
+        tag.on("before-mount", function()
+        {
+            tag.user = tag.opts.user;
+            tag.callback = tag.opts.callback;
+        });
 
         tag.on("mount", function()
         {

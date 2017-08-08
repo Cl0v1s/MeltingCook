@@ -15,7 +15,7 @@
             <a onclick={ showFuture }>A venir</a>
             <a onclick={ showPast }>Passées</a>
         </nav>
-        <app-recipes ref="recipes" if={ list != null } recipes={ list }></app-recipes>
+        <app-recipes ref="recipes" if={ list != null }></app-recipes>
     </div>
     <app-footer></app-footer>
     <script>
@@ -64,6 +64,7 @@
                 tag.recipes = response.data;
                 tag.last_recipe = tag.recipes[tag.recipes.length - 1];
                 var lst = tag.sortRecipes(true);
+                tag.update();
                 tag.showRecipes(lst);
             });
             request.catch((error) => {

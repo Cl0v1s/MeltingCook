@@ -78,7 +78,7 @@
 
         tag.edit = function()
         {
-            route("/user/edit/"+tag.user.id);
+            route("/account/user");
         }
 
         tag.see = function()

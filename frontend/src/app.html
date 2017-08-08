@@ -23,6 +23,12 @@
 
     <!-- Importation des tags -->
 
+    <!-- Account -->
+    <script src="/tags/Account/AccountKitchen.tag" type="riot/tag"></script>
+    <script src="/tags/Account/AccountRecipes.tag" type="riot/tag"></script>
+    <script src="/tags/Account/AccountReservations.tag" type="riot/tag"></script>
+    <script src="/tags/Account/AccountUser.tag" type="riot/tag"></script>
+
     <!--Comment-->
     <script src="/tags/Comment/CommentEditForm.tag" type="riot/tag"></script>
     <script src="/tags/Comment/CommentItem.tag" type="riot/tag"></script>
@@ -44,6 +50,7 @@
     <script src="/tags/Misc/PlaceHint.tag" type="riot/tag"></script>
     <script src="/tags/Misc/Header.tag" type="riot/tag"></script>
     <script src="/tags/Misc/Footer.tag" type="riot/tag"></script>
+    <script src="/tags/Misc/TabBar.tag" type="riot/tag"></script>
 
     <!--Recipe-->
     <script src="/tags/Recipe/RecipeList.tag" type="riot/tag"></script>
@@ -99,11 +106,30 @@
     <script>
         window.addEventListener("load", function () {
 
+            // Account
+            route("/account/recipes", function()
+            {
+                App.changePage("app-accountrecipes", null);
+            });
+            route("/account/reservations", function()
+            {
+                App.changePage("app-accountreservations", null);
+            });
+            route("/account/user", function()
+            {
+                App.changePage("app-accountuser", null);
+            });
+            route("/account", function()
+            {
+                App.changePage("app-accountkitchen", null);
+            });
+
+            // Recipe
             route("recipe/*", function (id) {
                 App.changePage("app-recipe", id);
             });
 
-
+            // User
             route("user/edit/*", function (id) {
                 App.changePage("app-useredit", id);
             });
@@ -116,6 +142,7 @@
                 App.changePage("app-user", id);
             });
 
+            // Immutable
             route("/error/*", function (message) {
                 App.changePage("app-error", message);
             });

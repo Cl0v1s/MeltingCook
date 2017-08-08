@@ -1,11 +1,14 @@
 <app-recipeitem onclick={ details }>
-    <div class="user">
+    <div class="user" if={ reduced == false }>
         <div class="img" style="background-image: url('{ recipe.user.picture }');"></div>
         <div>
             <span>{ recipe.user.username} - { recipe.user.age } ans</span>
             <div class="Hearts nb-{ recipe.user.likes }"></div>
             <a onclick={ user }>Voir le profil</a>
         </div>
+    </div>
+    <div class="picture" if={ reduced == true }>
+        <div class="img" style="background-image: url('{ recipe.picture }');"></div>
     </div>
     <div class="recipe">
         <div>
@@ -27,14 +30,18 @@
     <script>
         var tag = this;
 
+        tag.reduced = false;
         tag.recipe = null;
 
         tag.on("before-mount", () => {
             tag.recipe = Adapter.adaptRecipe(tag.opts.recipe);
+            if(tag.opts.reduced != null)
+                tag.reduced = tag.opts.reduced;
 
             if(tag.recipe == null && tag.opts.pass != null)
                 tag.retrieveRecipe(tag.opts.pass);
         });
+        
 
         tag.retrieveRecipe = function(id)
         {

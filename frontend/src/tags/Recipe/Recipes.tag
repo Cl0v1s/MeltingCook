@@ -12,6 +12,12 @@
                 tag.retrieveRecipes();
         });
 
+        tag.setRecipes = function(recipes)
+        {
+            tag.recipes = recipes;
+            tag.update();
+        }
+
         tag.retrieveRecipes = function()
         {
             var request = App.request(App.Adress + "/getrecipes", null);
@@ -20,8 +26,7 @@
                 tag.update();
             });
             request.catch((error) => {
-                        ErrorHandler.alertIfError(error);
-
+                ErrorHandler.alertIfError(error);
             });
         }
     </script>

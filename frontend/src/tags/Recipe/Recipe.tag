@@ -31,6 +31,10 @@
                     <li each={ item in recipe.items }>{ item }</li>
                 </ul>
             </div>
+
+            <div class="users">
+                <app-users users={ recipe.users }></app-users>
+            </div>
         </div>
 
         <!-- Affichage des informations de réservation et sur l'utilisateur -->

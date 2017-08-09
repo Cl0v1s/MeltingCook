@@ -1,5 +1,5 @@
 <app-reservationitem>
-    <span>Vous pouvez joindre l'hôte au { reservation.recipe.user.phone }</span>
+    <span>Vous pouvez joindre l'hôte au { reservation.host.phone }</span>
     <app-recipeitem recipe={ reservation.recipe }></app-recipeitem>
     <script>
         var tag = this;

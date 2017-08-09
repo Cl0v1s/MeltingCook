@@ -1,4 +1,4 @@
-<app-useritem>
+<app-useritem onclick={ details }>
     <div class="head">
         <img src={ user.picture }>
         <div>
@@ -19,7 +19,7 @@
             </div>
         </div>
     </div>
-    <div class="foot">
+    <div class="foot" if={ reduced == false }>
         <input type="button" class="large" value="Connaître le chef" onclick={ details }>
     </div>
 
@@ -27,7 +27,15 @@
     <script>
         var tag = this;
 
-        tag.user = tag.opts.user;
+        tag.user = null;
+        tag.reduced = false;
+
+        tag.on("before-mount", function()
+        {
+            tag.user = tag.opts.user;
+            if(tag.opts.reduced != null)
+                tag.reduced = tag.opts.reduced;
+        });
 
         tag.setUser = function(user)
         {

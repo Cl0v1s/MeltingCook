@@ -179,14 +179,14 @@ class API
             API::Update($token, $item, false);
     }
 
-    public static function GetUser($token, $id)
+    public static function GetUser($token, $id, $hide = true)
     {
         $user = API::Get($token, "User", $id);
         if($user == null)
             return null;
         $current = API::Auth($token);
         // Suppresion des données sensibles
-        if($current->Id() != $user["id"] && $current->Rights() < 2)
+        if($current->Id() != $user["id"] && $current->Rights() < 2 && $hide == true)
         {
             $user["phone"] = "";
             $user["mail"] = "";
@@ -254,11 +254,11 @@ class API
         $reservation["recipe"] = null;
         if($reservation["host_id"] != "" && $reservation["host_id"] != null)
         {
-            $reservation["host"] = API::Get($token, "User", $reservation["host_id"]);
+            $reservation["host"] = API::GetUser($token, $reservation["host_id"], false);
         }
         if($reservation["guest_id"] != "" && $reservation["guest_id"] != null)
         {
-            $reservation["guest"] = API::Get($token, "User", $reservation["guest_id"]);
+            $reservation["guest"] = API::GetUser($token,  $reservation["guest_id"], false);
         }
         if($reservation["Recipe_id"] != "" && $reservation["Recipe_id"] != null)
         {
@@ -281,7 +281,8 @@ class API
         $recipe["users"] = array();
         foreach ($reservations as $reservation)
         {
-            array_push($recipe["users"], $reservation["guest_id"]);
+            $user = API::GetUser($token, $reservation["guest_id"]);
+            array_push($recipe["users"], $user);
         }
         return $recipe;
     }
@@ -399,6 +400,26 @@ class API
             $report["author"] = API::Get($token, "User", $report["author_id"]);
             $report["target"] = API::Get($token, "User", $report["target_id"]);
             array_push($results, $report);
+        }
+        return $results;
+    }
+
+    public static function GetAllReservation($token, $filters = null)
+    {
+        $current = API::Auth($token);
+        $reservations = API::GetAll($token, "Reservation", $filters);
+        $results = array();
+        for($i =0; $i < count($reservations); $i++)
+        {
+            $reservation = get_object_vars($reservations[$i]);
+            $reservation["recipe"] = API::Get($token, "Recipe", $reservation["Recipe_id"]);
+            // On ne retourne pas les réservations de recettes passées
+            if(intval($reservation["recipe"]["date_end"]) < time() && $current->Rights() < 2)
+                continue;
+            $reservation["host"] = API::Get($token, "User",  $reservation["host_id"]);
+            $reservation["guest"] = API::Get($token, "User",  $reservation["guest_id"]);
+
+            array_push($results, $reservation);
         }
         return $results;
     }

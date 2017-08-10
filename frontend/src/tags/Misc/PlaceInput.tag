@@ -9,6 +9,11 @@
             tag.retrieveCities();
         });
 
+        tag.getPlaceName = function()
+        {
+            return tag.refs.city.value;
+        };
+
         tag.retrieveCities = function()
         {
             var retrieve = App.request("/static/JS/cities.json");

@@ -3,9 +3,9 @@ class Adapter
     public static adaptRecipe(recipe : any) : any
     {
         var date_start = new Date(recipe.date_start*1000);
-        recipe.date_start = date_start.getDate() + "/"+(date_start.getMonth()+1)+"/"+date_start.getFullYear();
+        recipe.date_start_readable = date_start.getDate() + "/"+(date_start.getMonth()+1)+"/"+date_start.getFullYear();
         var date_end = new Date(recipe.date_end*1000);
-        recipe.date_end = date_end.getDate() + "/"+(date_end.getMonth()+1)+"/"+date_end.getFullYear();
+        recipe.date_end_readable = date_end.getDate() + "/"+(date_end.getMonth()+1)+"/"+date_end.getFullYear();
 
         if(recipe.pins != null)
             recipe.pins = recipe.pins.split(";");

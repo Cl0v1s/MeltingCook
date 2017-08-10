@@ -51,12 +51,15 @@
     <script src="/tags/Misc/Header.tag" type="riot/tag"></script>
     <script src="/tags/Misc/Footer.tag" type="riot/tag"></script>
     <script src="/tags/Misc/TabBar.tag" type="riot/tag"></script>
+    <script src="/tags/Misc/ManyInputs.tag" type="riot/tag"></script>
 
     <!--Recipe-->
     <script src="/tags/Recipe/RecipeList.tag" type="riot/tag"></script>
     <script src="/tags/Recipe/Recipe.tag" type="riot/tag"></script>
     <script src="/tags/Recipe/Recipes.tag" type="riot/tag"></script>
     <script src="/tags/Recipe/RecipeItem.tag" type="riot/tag"></script>
+    <script src="/tags/Recipe/RecipeEdit.tag" type="riot/tag"></script>
+    <script src="/tags/Recipe/RecipeEditForm.tag" type="riot/tag"></script>
 
     <!-- Report -->
     <script src="/tags/Report/ReportEditForm.tag" type="riot/tag"></script>
@@ -64,9 +67,9 @@
     <script src="/tags/Report/Reports.tag" type="riot/tag"></script>
 
     <!-- Reservation -->
-    <script src="/tags/Reservation.tag" type="riot/tag"></script>
-    <script src="/tags/Reservations.tag" type="riot/tag"></script>
-    <script src="/tags/ReservationItem.tag" type="riot/tag"></script>
+    <script src="/tags/Reservation/Reservation.tag" type="riot/tag"></script>
+    <script src="/tags/Reservation/Reservations.tag" type="riot/tag"></script>
+    <script src="/tags/Reservation/ReservationItem.tag" type="riot/tag"></script>
 
     <!--Search-->
     <script src="/tags/Search/Searcher.tag" type="riot/tag"></script>
@@ -129,6 +132,14 @@
             });
 
             // Recipe
+            route("recipe/add", function () {
+                App.changePage("app-recipeedit", null);
+            });
+
+            route("recipe/edit/*", function (id) {
+                App.changePage("app-recipeedit", id);
+            });
+
             route("recipe/*", function (id) {
                 App.changePage("app-recipe", id);
             });
@@ -163,8 +174,7 @@
                 App.changePage("app-home", null);
             });
 
-
-            if (Login.GetInstance().isLogged() == false && window.location.href.indexOf("/error") == -1) {
+            if (Login.GetInstance().isLogged() === false && window.location.href.indexOf("/error") === -1) {
                 route("");
             }
 

@@ -1,11 +1,11 @@
 <app-header>
-    <img onclick={ home }>
-    <nav if={ logged == false }>
-        <a class={ "Action" : true><span>Partager un voyage culinaire</span></a>
-        <a class={ "Button" : true, "register" : true} onclick={ register }><span>Inscription</span></a> 
-        <a class={ "Button" : true, "login" : true} onclick={ login }><span>Connexion</span></a>
+    <img onclick="{ home }">
+    <nav if="{ logged == false }">
+        <a class='{ "Action" : true }'><span>Partager un voyage culinaire</span></a>
+        <a class='{ "Button" : true, "register" : true}' onclick='{ register }'><span>Inscription</span></a>
+        <a class='{ "Button" : true, "login" : true}' onclick='{ login }'><span>Connexion</span></a>
     </nav>
-    <nav if={ logged == true } onclick={ account }>
+    <nav if='{ logged == true }' onclick='{ account }'>
         <span>{ user.username }</span>
         <div class="img" style="background-image: url('{user.picture}');"></div>
     </nav>

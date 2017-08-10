@@ -11,7 +11,7 @@
         tag.on("before-mount", function()
         {
             tag.tabs = tag.opts.tabs;
-        }
+        });
 
         tag.setTabs = function(tabs)
         {

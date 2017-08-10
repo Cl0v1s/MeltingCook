@@ -15,7 +15,7 @@
       <file leaf-file-name="API.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Applicative/API.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="398">
+            <state relative-caret-position="383">
               <caret line="416" column="92" lean-forward="false" selection-start-line="416" selection-start-column="92" selection-end-line="416" selection-end-column="92" />
               <folding />
             </state>
@@ -81,7 +81,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -152,7 +152,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -277,11 +277,12 @@
       <workItem from="1502099134903" duration="592000" />
       <workItem from="1502207447394" duration="1192000" />
       <workItem from="1502268315369" duration="252000" />
+      <workItem from="1502286866655" duration="16000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30017000" />
+    <option name="totallyTimeSpent" value="30033000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="30" width="1600" height="870" extended-state="6" />
@@ -719,7 +720,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Applicative/API.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="398">
+        <state relative-caret-position="383">
           <caret line="416" column="92" lean-forward="false" selection-start-line="416" selection-start-column="92" selection-end-line="416" selection-end-column="92" />
           <folding />
         </state>

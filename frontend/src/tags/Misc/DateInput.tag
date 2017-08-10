@@ -1,29 +1,29 @@
 <app-dateinput>
 
-    <input type="text" ref="date" name="date" id="date" placeholder="Date">
+    <input type="text" ref="date" name="date" id="date" placeholder="Date" value="{ opts.date }">
 
     <script>
         var tag = this;
         tag.value = null;
 
         tag.on("mount", () => {
-            var picker = $("#date").pickadate({
+            var picker = $('input', tag.root).pickadate({
                 format: 'dd/mm/yyyy',
                 formatSubmit: 'dd/mm/yyyy',
                 hiddenName: true
             });
 
-            if(tag.opts.date != null)
+            if(tag.opts.date !== null)
             {
-                picker.set("select", tag.opts.date);
+                picker.pickadate('picker').set("select", tag.opts.date);
             }
 
 
-            $('#date')
+            $('input', tag.root)
                 .pickadate('picker')
                 .on('render', function () {
-                    var date = $('#date').pickadate('picker').get("value");
-                    if(date == null)
+                    var date = $('input', tag.root).pickadate('picker').get("value");
+                    if(date === null)
                         return;
                     date = date.split("/");
                     date = new Date(date[2], parseInt(date[1]) - 1, date[0]);

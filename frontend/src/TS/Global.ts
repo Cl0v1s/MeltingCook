@@ -8,6 +8,7 @@ class App
 
     public static diagnosticForm(formname : string , errors : Object)
     {
+        console.log(errors);
         for(var field in errors[formname])
         {
                 var nodes : NodeList = document.getElementsByName(field);
@@ -19,6 +20,10 @@ class App
                 {
                     (<HTMLElement>e.target).classList.remove("error");
                 });
+            node.addEventListener("click", function(e)
+            {
+                (<HTMLElement>e.target).classList.remove("error");
+            });
         }
     }
 

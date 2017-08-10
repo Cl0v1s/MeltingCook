@@ -1,7 +1,5 @@
 <app-origininput>
-    <input type="text" ref="origin" name="origin" id="origin" placeholder="Type de cuisine" value={ opts.origin }>
-
-
+    <input type="text" ref="origin" name="origin" id="origin" placeholder="Type de cuisine" value="{ opts.origin }">
     <script>
         var tag = this;
         tag.value = "";

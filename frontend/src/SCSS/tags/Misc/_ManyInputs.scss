@@ -1,0 +1,9 @@
+app-manyinputs
+{
+  input[type=text]
+  {
+    display: block;
+    margin-bottom: $space-small;
+    margin-top: $space-small;
+  }
+}

@@ -15,7 +15,7 @@
             <a onclick='{ showFuture }'>A venir</a>
             <a onclick='{ showPast }'>Passées</a>
         </nav>
-        <app-recipes ref="recipes" recipes='{ list '} if='{ list != null }'></app-recipes>
+        <app-recipes ref="recipes" recipes='{ list }' if='{ list != null }'></app-recipes>
     </div>
     <app-footer></app-footer>
     <script>

@@ -333,6 +333,24 @@ app-accountkitchen, div[data-is=app-accountkitchen] {
         margin-bottom: 8px; }
         app-accountkitchen div.header div.identity li a, div[data-is=app-accountkitchen] div.header div.identity li a {
           cursor: pointer; }
+  app-accountkitchen div.comments, div[data-is=app-accountkitchen] div.comments {
+    width: 100%;
+    margin: 8px;
+    padding: 20px; }
+
+app-accountrecipes div.header, div[data-is=app-accountrecipes] div.header {
+  margin-top: 20px;
+  padding: 20px; }
+
+app-accountrecipes nav, div[data-is=app-accountrecipes] nav {
+  padding: 20px; }
+  app-accountrecipes nav a, div[data-is=app-accountrecipes] nav a {
+    cursor: pointer;
+    margin-right: 20px; }
+
+app-accountrecipes app-recipes, div[data-is=app-accountrecipes] app-recipes {
+  width: 100%;
+  margin: 20px; }
 
 app-useritem, div[data-is=app-useritem] {
   display: block;

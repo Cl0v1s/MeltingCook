@@ -322,34 +322,6 @@ class Login {
     }
 }
 Login.Instance = new Login();
-class Search {
-    static search(place, origin, date, price_start, price_end) {
-        return new Promise((resolve, reject) => {
-            var filters = {};
-            if (place != null && place != "")
-                filters["geolocation"] = place;
-            if (origin != null && origin != "")
-                filters["origin"] = origin;
-            if (date != null && date != "") {
-                filters["date_start"] = date;
-                filters["date_end"] = date;
-            }
-            if (price_start != null)
-                filters["price_start"] = price_start;
-            if (price_end != null)
-                filters["price_end"] = price_end;
-            var retrieve = App.request(App.Address + "/getrecipes", {
-                "filters": JSON.stringify(filters)
-            });
-            retrieve.then(function (response) {
-                resolve(response.data);
-            });
-            retrieve.catch(function (error) {
-                reject(error);
-            });
-        });
-    }
-}
 /**
  * Created by clovis on 11/08/17.
  */
@@ -396,6 +368,7 @@ class Router {
         });
         request.then((response) => {
             var recipes = response.data;
+            console.log(recipes);
             App.changePage("app-accountrecipes", {
                 "recipes": recipes
             });
@@ -515,4 +488,32 @@ class Router {
     }
 }
 Router.Instance = new Router();
+class Search {
+    static search(place, origin, date, price_start, price_end) {
+        return new Promise((resolve, reject) => {
+            var filters = {};
+            if (place != null && place != "")
+                filters["geolocation"] = place;
+            if (origin != null && origin != "")
+                filters["origin"] = origin;
+            if (date != null && date != "") {
+                filters["date_start"] = date;
+                filters["date_end"] = date;
+            }
+            if (price_start != null)
+                filters["price_start"] = price_start;
+            if (price_end != null)
+                filters["price_end"] = price_end;
+            var retrieve = App.request(App.Address + "/getrecipes", {
+                "filters": JSON.stringify(filters)
+            });
+            retrieve.then(function (response) {
+                resolve(response.data);
+            });
+            retrieve.catch(function (error) {
+                reject(error);
+            });
+        });
+    }
+}
 //# sourceMappingURL=global.js.map

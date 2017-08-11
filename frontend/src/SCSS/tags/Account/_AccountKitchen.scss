@@ -35,8 +35,19 @@ app-accountkitchen, div[data-is=app-accountkitchen]
       {
         margin-bottom: $space-small;
 
-        a {cursor: pointer;}
+        a{
+          cursor: pointer;
+        }
       }
     }
+
+
+  }
+
+  div.comments
+  {
+    width: 100%;
+    margin: $space-small;
+    padding: $space-normal;
   }
 }

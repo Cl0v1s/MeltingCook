@@ -58,6 +58,7 @@ class Router
         });
         request.then((response : any) => {
             var recipes = response.data;
+            console.log(recipes);
             App.changePage("app-accountrecipes", {
                 "recipes" : recipes
             });

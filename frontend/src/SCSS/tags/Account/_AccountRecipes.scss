@@ -1,0 +1,22 @@
+app-accountrecipes, div[data-is=app-accountrecipes] {
+  div.header {
+    margin-top: $space-normal;
+    padding: $space-normal;
+  }
+
+  nav
+  {
+    padding: $space-normal;
+
+    a{
+      cursor: pointer;
+      margin-right: $space-normal;
+    }
+  }
+
+  app-recipes
+  {
+    width: 100%;
+    margin: $space-normal;
+  }
+}

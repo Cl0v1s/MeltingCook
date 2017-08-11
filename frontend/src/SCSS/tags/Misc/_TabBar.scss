@@ -1,0 +1,38 @@
+app-tabbar
+{
+  display: block;
+  width: 100%;
+  background-color: $color-back-secondary;
+  padding-bottom: $space-small;
+  position: relative;
+
+  span
+  {
+    $height: 32px;
+    display: inline-block;
+    height: $height;
+    padding: $space-normal;
+    padding-right: $space-normal;
+    background-color: $color-back-primary;
+
+    cursor: pointer;
+    &:last-of-type
+    {
+      cursor: initial;
+      position: absolute;
+      width: 100%;
+      height: $height;
+      background-color: $color-back-primary;
+      &:hover
+      {
+        background-color: $color-back-primary;
+
+      }
+    }
+
+    &.selected, &:hover
+    {
+      background-color: $color-back-secondary;
+    }
+  }
+}

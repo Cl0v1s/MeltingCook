@@ -1,6 +1,7 @@
 <app-tabbar>
     <div>
-        <span each={ tab in tabs } class={ selected : tab.selected == true } data-route={ tab.route } onclick={ redirect }>{ tab.name }</span>
+        <span each='{ tab in tabs }' class='{ selected : tab.selected == true }' data-route='{ tab.route }' onclick='{ redirect }'>{ tab.name }</span>
+        <span></span>
     </div>
 
     <script>

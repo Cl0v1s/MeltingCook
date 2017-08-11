@@ -9,6 +9,11 @@
 @import 'parts/Hearts';
 
 /** Importation des styles des tags **/
+@import 'tags/Account/AccountKitchen';
+@import 'tags/Account/AccountRecipes';
+@import 'tags/Account/AccountReservations';
+@import 'tags/Account/AccountUser';
+
 @import 'tags/User/UserItem';
 @import 'tags/User/UserEditForm';
 @import 'tags/User/User';
@@ -18,6 +23,7 @@
 @import "tags/Misc/OriginInput";
 @import "tags/Misc/PinsInput";
 @import "tags/Misc/DateInput";
+@import "tags/Misc/TabBar";
 
 @import "tags/Search/Searcher";
 

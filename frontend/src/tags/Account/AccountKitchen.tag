@@ -5,7 +5,7 @@
         <div class="header">
             <div class="img" style="background-image: url('{user.picture}');"></div>    
             <div class="identity">
-                <span>Bonjour {user.username}</span>    
+                <h2>Bonjour {user.username}</h2>
                 <ul>
                     <li><a onclick='{ edit }'>Modifier votre profil</a></li>
                     <li><a onclick='{ see }'>Voir votre profil public</a></li>

@@ -1,0 +1,42 @@
+app-accountkitchen, div[data-is=app-accountkitchen]
+{
+  display: block;
+
+  div.header
+  {
+    margin-top: $space-normal;
+    div.img
+    {
+      display: inline-block;
+
+      width: 100px;
+      height: 100px;
+      border-radius: 100%;
+
+      background-size: cover;
+      background-position: center;
+
+      margin: $space-normal;
+      margin-top: 0;
+      margin-bottom: 0;
+
+      vertical-align: middle;
+    }
+
+    div.identity
+    {
+      display: inline-block;
+      vertical-align: top;
+
+      padding: $space-normal;
+
+
+      li
+      {
+        margin-bottom: $space-small;
+
+        a {cursor: pointer;}
+      }
+    }
+  }
+}

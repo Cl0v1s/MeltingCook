@@ -310,6 +310,30 @@ div.Hearts {
   margin: 8px; }
 
 /** Importation des styles des tags **/
+app-accountkitchen, div[data-is=app-accountkitchen] {
+  display: block; }
+  app-accountkitchen div.header, div[data-is=app-accountkitchen] div.header {
+    margin-top: 20px; }
+    app-accountkitchen div.header div.img, div[data-is=app-accountkitchen] div.header div.img {
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      border-radius: 100%;
+      background-size: cover;
+      background-position: center;
+      margin: 20px;
+      margin-top: 0;
+      margin-bottom: 0;
+      vertical-align: middle; }
+    app-accountkitchen div.header div.identity, div[data-is=app-accountkitchen] div.header div.identity {
+      display: inline-block;
+      vertical-align: top;
+      padding: 20px; }
+      app-accountkitchen div.header div.identity li, div[data-is=app-accountkitchen] div.header div.identity li {
+        margin-bottom: 8px; }
+        app-accountkitchen div.header div.identity li a, div[data-is=app-accountkitchen] div.header div.identity li a {
+          cursor: pointer; }
+
 app-useritem, div[data-is=app-useritem] {
   display: block;
   padding: 20px; }
@@ -471,6 +495,30 @@ app-dateinput {
   app-dateinput input {
     padding: 4px;
     height: 36px; }
+
+app-tabbar {
+  display: block;
+  width: 100%;
+  background-color: #e3dfd6;
+  padding-bottom: 8px;
+  position: relative; }
+  app-tabbar span {
+    display: inline-block;
+    height: 32px;
+    padding: 20px;
+    padding-right: 20px;
+    background-color: #ffffff;
+    cursor: pointer; }
+    app-tabbar span:last-of-type {
+      cursor: initial;
+      position: absolute;
+      width: 100%;
+      height: 32px;
+      background-color: #ffffff; }
+      app-tabbar span:last-of-type:hover {
+        background-color: #ffffff; }
+    app-tabbar span.selected, app-tabbar span:hover {
+      background-color: #e3dfd6; }
 
 app-searcher {
   display: block;

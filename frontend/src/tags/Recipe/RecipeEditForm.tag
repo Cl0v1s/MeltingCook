@@ -64,6 +64,8 @@
         tag.on("before-mount", function()
         {
             tag.recipe = tag.opts.recipe;
+            if(tag.recipe === null)
+                throw new Error("Recipe cant be null.");
         });
 
         tag.setRecipe = function(recipe)

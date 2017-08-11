@@ -36,6 +36,95 @@ class Router
         });
     }
 
+    // USER
+    private user(id : number) : void
+    {
+        var retrieveUser = App.request(App.Address + "/getuser", {
+            "id" : id
+        });
+        var retrieveRecipes = App.request(App.Address + "/getrecipes", {
+           "filters" : JSON.stringify({
+               "User_id" : id
+           })
+        });
+        var retrieveComments = App.request(App.Address + "/getcomments", {
+            "filters" : JSON.stringify({
+                "target_id" : id
+            })
+        });
+
+        var request = Promise.all([
+            retrieveUser, retrieveRecipes, retrieveComments
+        ]);
+
+        request.then(function(responses : any)
+        {
+            if(responses[0].data === null) {
+                route("/error/404");
+                return;
+            }
+            var user = Adapter.adaptUser(responses[0].data);
+            var recipes = responses[1].data;
+            var comments = responses[2].data;
+            App.changePage("app-user", {
+                "user" : user,
+                "recipes" : recipes,
+                "comments" : comments
+            });
+        });
+        request.catch(function(error)
+        {
+            ErrorHandler.alertIfError(error);
+        });
+    }
+
+    // RECIPE
+    private recipe(id : number) : void
+    {
+        var request = App.request(App.Address + "/getrecipe", {
+            "id" : id
+        });
+        request.then(function(response : any)
+        {
+            if(response.data === null)
+            {
+                route("/error/404");
+                return;
+            }
+            var recipe = Adapter.adaptRecipe(response.data);
+            App.changePage("app-recipe", {
+                "recipe" : recipe
+            });
+        });
+        request.catch(function(error)
+        {
+            ErrorHandler.alertIfError(error);
+        });
+    }
+
+    private recipeEdit(id : number) : void
+    {
+        var request = App.request(App.Address + "/getrecipe", {
+            "id" : id
+        });
+        request.then(function(response :any)
+        {
+            if(response.data === null)
+            {
+                route("/error/404");
+                return;
+            }
+            var recipe = Adapter.adaptRecipe(response.data);
+            App.changePage("app-recipeedit", {
+                "recipe" : recipe
+            });
+        });
+        request.catch(function(error)
+        {
+            ErrorHandler.alertIfError(error);
+        });
+    }
+
     // ACCOUNT
     private accountKitchen() : void
     {
@@ -106,6 +195,11 @@ class Router
             "id" : Login.GetInstance().User().id
         });
         request.then(function(response : any){
+            if(response.data === null)
+            {
+                route("/error/404");
+                return;
+            }
             var user = Adapter.adaptUser(response.data);
             App.changePage("app-accountuser", {
                 "user" : user
@@ -129,8 +223,23 @@ class Router
         route("/account/user", this.accountUser);
         route("/account", this.accountKitchen);
 
+        // User
+        route("/user/*", this.user);
+
+        // Recipe
+        route("/recipe/edit/*", this.recipeEdit);
+        route("/recipe/add", function()
+        {
+            App.changePage("app-recipeedit", null);
+        });
+        route("/recipe/*", this.recipe);
+
+
 
         // Base
+        route("error/404", () => {
+            this.error(encodeURI("Page Introuvable."));
+        });
         route("error/*", this.error);
         route("error", this.error);
 
@@ -152,24 +261,6 @@ class Router
         });
         /*
 
-         // Account
-         route("/account/recipes", function()
-         {
-         App.changePage("app-accountrecipes", null);
-         });
-         route("/account/reservations", function()
-         {
-         App.changePage("app-accountreservations", null);
-         });
-         route("/account/user", function()
-         {
-         App.changePage("app-accountuser", null);
-         });
-         route("/account", function()
-         {
-         App.changePage("app-accountkitchen", null);
-         });
-
          // Recipe
          route("recipe/add", function () {
          App.changePage("app-recipeedit", null);
@@ -183,18 +274,6 @@ class Router
          App.changePage("app-recipe", id);
          });
 
-         // User
-         route("user/edit/*", function (id) {
-         App.changePage("app-useredit", id);
-         });
-
-         route("user/add", function () {
-         App.changePage("app-useredit", null);
-         });
-
-         route("user/*", function (id) {
-         App.changePage("app-user", id);
-         });
 
          // Immutable
          route("/error/*", function (message) {

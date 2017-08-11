@@ -54,11 +54,11 @@
                     <div>
                         <input type="checkbox" name="pc" ref="pc"> J'accepte la charte de bonne conduite
                     </div>
-                    <input type="button" class="large" value="Je rejoins la cuisine" onclick={ join }>
+                    <input type="button" class="large" value="Je rejoins la cuisine" onclick='{ join }'>
                 </form>
             </div>
 
-            <app-useritem ref="useritem"></app-useritem>
+            <app-useritem ref="useritem" user="{ recipe.user }"></app-useritem>
         </div>
     </div>
 
@@ -66,27 +66,13 @@
     <script>
         var tag = this;
 
-        tag.recipe = tag.opts.recipe;
+        tag.recipe = null;
 
-        tag.on("mount", () => {
-            if (tag.recipe == null && tag.opts.pass != null)
-                tag.retrieveRecipe(tag.opts.pass);
+        tag.on("before-mount", () => {
+            tag.recipe = tag.opts.recipe;
+            if(tag.recipe == null)
+                throw new Error("Recipe cant be null.");
         });
-
-        tag.retrieveRecipe = function (id) {
-            var request = App.request(App.Address + "/getrecipe", {
-                "id": id
-            });
-            request.then((response) => {
-                tag.recipe = Adapter.adaptRecipe(response.data);
-                tag.refs.useritem.setUser(tag.recipe.user);
-                tag.update();
-            });
-            request.catch((error) => {
-                        ErrorHandler.alertIfError(error);
-
-            });
-        };
 
         tag.join = function()
         {

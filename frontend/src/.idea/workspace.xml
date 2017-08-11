@@ -18,58 +18,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.scss" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SCSS/main.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="431">
-              <caret line="37" column="20" lean-forward="false" selection-start-line="37" selection-start-column="20" selection-end-line="37" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Router.ts" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/TS/Router.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="32" column="12" lean-forward="false" selection-start-line="32" selection-start-column="12" selection-end-line="32" selection-end-column="12" />
+            <state relative-caret-position="463">
+              <caret line="237" column="0" lean-forward="true" selection-start-line="237" selection-start-column="0" selection-end-line="237" selection-end-column="0" />
               <folding>
                 <element signature="n#!!doc;n#Router#0" expanded="false" />
+                <element signature="n#!!block;n#error#0;n#Router#0" expanded="false" />
+                <element signature="n#!!block;n#user#0;n#Router#0" expanded="false" />
+                <element signature="n#!!block;n#recipe#0;n#Router#0" expanded="false" />
+                <element signature="n#!!block;n#recipeEdit#0;n#Router#0" expanded="false" />
                 <element signature="n#!!block;n#accountKitchen#0;n#Router#0" expanded="false" />
                 <element signature="n#!!block;n#accountRecipes#0;n#Router#0" expanded="false" />
                 <element signature="n#!!block;n#accountReservations#0;n#Router#0" expanded="false" />
                 <element signature="n#!!block;n#accountUser#0;n#Router#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="_misc.scss" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SCSS/_misc.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="454">
-              <caret line="165" column="29" lean-forward="false" selection-start-line="165" selection-start-column="29" selection-end-line="165" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="_Error.scss" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SCSS/tags/_Error.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="128">
-              <caret line="8" column="33" lean-forward="false" selection-start-line="8" selection-start-column="33" selection-end-line="8" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Error.tag" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tags/Immutable/Error.tag">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="128">
-              <caret line="8" column="36" lean-forward="false" selection-start-line="8" selection-start-column="36" selection-end-line="8" selection-end-column="36" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -92,13 +56,10 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/tags/Recipe/Recipe.tag" />
         <option value="$PROJECT_DIR$/tags/Misc/PlaceInput.tag" />
         <option value="$PROJECT_DIR$/tags/Misc/OriginInput.tag" />
         <option value="$PROJECT_DIR$/tags/Immutable/Home.tag" />
-        <option value="$PROJECT_DIR$/tags/Recipe/RecipeEdit.tag" />
         <option value="$PROJECT_DIR$/tags/Misc/DateInput.tag" />
-        <option value="$PROJECT_DIR$/tags/Recipe/RecipeEditForm.tag" />
         <option value="$PROJECT_DIR$/tags/Misc/ManyInputs.tag" />
         <option value="$PROJECT_DIR$/SCSS/tags/Misc/_ManyInputs.scss" />
         <option value="$PROJECT_DIR$/static/fonts/LobsterTwo-Regular.scss" />
@@ -133,7 +94,12 @@
         <option value="$PROJECT_DIR$/SCSS/_misc.scss" />
         <option value="$PROJECT_DIR$/SCSS/tags/_Error.scss" />
         <option value="$PROJECT_DIR$/tags/Immutable/Error.tag" />
+        <option value="$PROJECT_DIR$/tags/Comment/Comments.tag" />
         <option value="$PROJECT_DIR$/TS/Router.ts" />
+        <option value="$PROJECT_DIR$/tags/Recipe/RecipeEditForm.tag" />
+        <option value="$PROJECT_DIR$/tags/Recipe/RecipeEdit.tag" />
+        <option value="$PROJECT_DIR$/tags/User/User.tag" />
+        <option value="$PROJECT_DIR$/tags/Recipe/Recipe.tag" />
       </list>
     </option>
   </component>
@@ -208,22 +174,8 @@
               <option name="myItemId" value="tags" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-          </PATH>
-          <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tags" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Recipe" />
+              <option name="myItemId" value="User" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -238,10 +190,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="tags" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Immutable" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -259,7 +207,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Account" />
+              <option name="myItemId" value="Recipe" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -404,12 +352,12 @@
       <workItem from="1502381538994" duration="7974000" />
       <workItem from="1502394716596" duration="55000" />
       <workItem from="1502396721155" duration="7000" />
-      <workItem from="1502444363115" duration="10684000" />
+      <workItem from="1502444363115" duration="13316000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19688000" />
+    <option name="totallyTimeSpent" value="22320000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -450,28 +398,16 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="3" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/TS/Global.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="22" column="5" lean-forward="false" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tags/Recipe/Recipe.tag">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1088">
           <caret line="68" column="37" lean-forward="true" selection-start-line="68" selection-start-column="37" selection-end-line="68" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tags/User/User.tag">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-880">
-          <caret line="23" column="29" lean-forward="true" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
         </state>
       </provider>
     </entry>
@@ -500,20 +436,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="16">
           <caret line="1" column="5" lean-forward="true" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tags/Recipe/RecipeEdit.tag">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="7" column="16" lean-forward="false" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tags/Recipe/RecipeEditForm.tag">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="52" column="32" lean-forward="false" selection-start-line="52" selection-start-column="32" selection-end-line="52" selection-end-column="32" />
         </state>
       </provider>
     </entry>
@@ -679,14 +601,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tags/Recipe/Recipe.tag">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="68" column="37" lean-forward="false" selection-start-line="68" selection-start-column="37" selection-end-line="68" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tags/Reservation/Reservations.tag">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
@@ -767,14 +681,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tags/Recipe/Recipes.tag">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="20" column="14" lean-forward="true" selection-start-line="20" selection-start-column="14" selection-end-line="20" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tags/Recipe/RecipeItem.tag">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="384">
@@ -839,12 +745,64 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tags/Recipe/Recipes.tag">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="18" column="9" lean-forward="true" selection-start-line="18" selection-start-column="9" selection-end-line="18" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tags/Comment/Comments.tag">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="11" column="58" lean-forward="false" selection-start-line="11" selection-start-column="58" selection-end-line="11" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tags/Recipe/RecipeEditForm.tag">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="66" column="0" lean-forward="false" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tags/User/User.tag">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="79" column="27" lean-forward="true" selection-start-line="79" selection-start-column="27" selection-end-line="79" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tags/Recipe/Recipe.tag">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="539">
+          <caret line="76" column="29" lean-forward="true" selection-start-line="76" selection-start-column="29" selection-end-line="76" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tags/Recipe/RecipeEdit.tag">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="16" column="17" lean-forward="true" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/TS/Router.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="32" column="12" lean-forward="false" selection-start-line="32" selection-start-column="12" selection-end-line="32" selection-end-column="12" />
+        <state relative-caret-position="463">
+          <caret line="237" column="0" lean-forward="true" selection-start-line="237" selection-start-column="0" selection-end-line="237" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc;n#Router#0" expanded="false" />
+            <element signature="n#!!block;n#error#0;n#Router#0" expanded="false" />
+            <element signature="n#!!block;n#user#0;n#Router#0" expanded="false" />
+            <element signature="n#!!block;n#recipe#0;n#Router#0" expanded="false" />
+            <element signature="n#!!block;n#recipeEdit#0;n#Router#0" expanded="false" />
             <element signature="n#!!block;n#accountKitchen#0;n#Router#0" expanded="false" />
             <element signature="n#!!block;n#accountRecipes#0;n#Router#0" expanded="false" />
             <element signature="n#!!block;n#accountReservations#0;n#Router#0" expanded="false" />

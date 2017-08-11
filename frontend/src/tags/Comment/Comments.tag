@@ -8,6 +8,8 @@
         tag.on("before-mount", function()
         {
             tag.comments = tag.opts.comments;
+            if(tag.comments === null)
+                throw new Error("Comments cant be null.");
         });
 
         tag.setComments = function(comments)

@@ -1,31 +1,17 @@
 <app-recipeedit>
     <app-header></app-header>
-    <app-recipeeditform ref="form"></app-recipeeditform>
+    <app-recipeeditform ref="form"  recipe="{ recipe }"></app-recipeeditform>
     <app-footer></app-footer>
     <script>
         var tag = this;
 
-        tag.on("mount", function()
-        {
-            if(tag.opts.pass != null)
-            {
-                tag.retrieve(tag.opts.pass);
-            }
-            else
-                tag.refs.form.setRecipe({});
-        });
+        tag.recipe = {};
 
-        tag.retrieve = function(id)
+        tag.on("before-mount", function()
         {
-            var request = App.request(App.Address + "/getrecipe", {
-                "id" : id
-            });
-            request.then((response) => {
-                tag.refs.form.setRecipe(response.data);
-            });
-            request.catch((error) => {
-                ErrorHandler.alertIfError(error);
-            });
-        }
+            if(tag.opts.recipe != null) {
+                tag.recipe = tag.opts.recipe;
+            }
+        });
     </script>
 </app-recipeedit>

@@ -4,6 +4,15 @@ div[data-is=app-footer] {
     width: 100%;
     text-align: center;
     padding: $space-normal;
+
+
+    background-image:  url("/static/images/black_paper.png");
+    background-repeat: repeat;
+
+
+
+
+
     &>div {
         display: inline-block;
         vertical-align: top;
@@ -11,10 +20,12 @@ div[data-is=app-footer] {
         text-align: left;
         margin-left: $space-big;
         h3 {
-            margin-bottom: $space-normal; 
+            margin-bottom: $space-normal;
+            color: $color-text-secondary;
         }
         ul {
             li {
+                color: $color-text-secondary;
                 margin-bottom: $space-small;
             }
         }
@@ -30,5 +41,6 @@ div[data-is=app-footer] {
                 text-align: left;
             }
         }
+
     }
 }

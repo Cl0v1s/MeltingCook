@@ -14,7 +14,12 @@
 @import 'tags/User/User';
 
 @import "tags/Misc/ManyInputs";
+@import "tags/Misc/PlaceInput";
+@import "tags/Misc/OriginInput";
+@import "tags/Misc/PinsInput";
+@import "tags/Misc/DateInput";
 
+@import "tags/Search/Searcher";
 
 @import 'tags/Recipe/Recipe';
 @import 'tags/Recipe/RecipeItem';

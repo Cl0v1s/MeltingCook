@@ -1,6 +1,6 @@
 <app-searcher>
     <div>
-        <img>
+        <div class="img"></div>
         <div>
             <h3>A vos cuisines... Partez !</h3>
             <p>

@@ -17,6 +17,7 @@ app-header, div[data-is=app-header]
         display: inline-block;
         width: 150px;
         height: 100%;
+        cursor: pointer;
 
         background-image: url("/static/images/logo-noir.svg");
         background-size: 150% 150%;

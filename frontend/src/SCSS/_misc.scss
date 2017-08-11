@@ -154,6 +154,14 @@ div label+*+p
     margin-top: $space-small;
 }
 
+input[type=text], input[type=number]
+{
+  border: 0 !important;
+  text-align: center;
+  font-size: 14px;
+}
+
+
 input[type=text].error, input[type=number].error, textarea.error, select.error,
 app-dateinput.error input, app-manyinputs.error input[type=text], app-origininput.error div.selectize-input, app-pinsinput.error div.selectize-input, app-placeinput.error div.selectize-input
 {

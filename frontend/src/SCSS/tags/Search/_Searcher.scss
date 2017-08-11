@@ -1,0 +1,65 @@
+app-searcher
+{
+  $img-size: 60px;
+
+  display: block;
+  background-color: $color-back-secondary;
+  padding: $space-normal;
+  text-align: center;
+
+  div.img
+  {
+    width: $img-size;
+    height: $img-size;
+
+    display: inline-block;
+
+    background-image: url("/static/images/dish.svg");
+    background-size: auto 120%;
+    background-position: center -15px;
+
+    vertical-align: top;
+  }
+
+  &>div div
+  {
+    display: inline-block;
+    vertical-align: top;
+    padding: $space-small;
+  }
+
+  &>form
+  {
+    display: inline-block;
+    vertical-align: top;
+    padding: $space-small;
+    //padding-left: $img-size+$space-small;
+
+    *
+    {
+      margin-bottom: $space-small;
+      margin-right: $space-small;
+    }
+
+    app-placeinput, app-origininput, app-dateinput
+    {
+      width: 170px;
+    }
+
+    input[type=button]
+    {
+      vertical-align: top;
+      margin: 0;
+    }
+
+    @media screen and (max-width: 560px) {
+      text-align: center;
+    }
+  }
+
+  h3
+  {
+    font-family: $font-secondary;
+    margin-bottom: $space-small;
+  }
+}

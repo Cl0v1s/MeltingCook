@@ -2,6 +2,14 @@
 /**
  Importation des polices
 **/
+@font-face {
+  font-family: "Raleway";
+  src: url("/static/fonts/Raleway-Regular.ttf"); }
+
+@font-face {
+  font-family: "Lobster";
+  src: url("/static/fonts/LobsterTwo-Regular.ttf"); }
+
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
@@ -52,6 +60,14 @@ table {
 /**
  Importation des polices
 **/
+@font-face {
+  font-family: "Raleway";
+  src: url("/static/fonts/Raleway-Regular.ttf"); }
+
+@font-face {
+  font-family: "Lobster";
+  src: url("/static/fonts/LobsterTwo-Regular.ttf"); }
+
 .invisible {
   display: none !important; }
 
@@ -65,18 +81,22 @@ table {
 
 @keyframes loading {
   0% {
-    left: -300px; }
+    left: -300px;
+    background-color: #ffc172; }
   50% {
-    left: 150%; }
+    left: 150%;
+    background-color: #fbc0b8; }
   100% {
-    left: -300px; } }
+    left: -300px;
+    background-color: #ffc172; } }
 
 div#loading {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%; }
+  height: 100%;
+  background-color: rgba(50, 50, 50, 0.5); }
   div#loading:before {
     content: "";
     display: block;
@@ -85,7 +105,7 @@ div#loading {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: blue;
+    background-color: #ffc172;
     animation: loading 2s infinite; }
 
 div#popup {
@@ -95,11 +115,11 @@ div#popup {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #fbfaf8;
+  background-color: #ffffff;
   border-radius: 2px;
   z-index: 1;
   padding: 20px;
-  border: 1px solid #df7a00;
+  border: 1px solid #ffc172;
   box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.2);
   padding-top: 40px;
   overflow-y: auto;
@@ -115,8 +135,8 @@ div#popup {
     font-family: "MyriadPro";
     padding: 8px;
     font-size: 20px;
-    background-color: #df7a00;
-    color: #fbfaf8; }
+    background-color: #ffc172;
+    color: #ffffff; }
   div#popup div.close {
     content: "🞩";
     display: inline-block;
@@ -129,7 +149,7 @@ div#popup {
     text-align: right;
     padding-top: 8px;
     padding-right: 8px;
-    color: #fbfaf8;
+    color: #ffffff;
     cursor: pointer; }
 
 h2 {
@@ -160,7 +180,7 @@ div label + input, div label + textarea {
   resize: none; }
 
 div label + * + p {
-  font-size: 10px;
+  font-size: 12px;
   text-align: center;
   margin-top: 8px; }
 
@@ -170,31 +190,56 @@ app-dateinput.error input, app-manyinputs.error input[type=text], app-origininpu
 
 a.Button {
   display: inline-block;
-  width: 45px;
-  height: 45px;
+  width: 60px;
+  height: 40px;
   vertical-align: middle;
   cursor: pointer;
   position: relative;
-  background-color: red;
-  margin-left: 8px; }
+  margin-left: 8px;
+  background-position: center 0;
+  background-repeat: no-repeat;
+  background-size: auto 70%;
+  transition: all 0.2s ease; }
+  a.Button:hover {
+    transform: scale(1.2, 1.2); }
   a.Button > span {
     position: absolute;
     width: 100%;
     text-align: center;
     bottom: 0;
-    font-size: 10px; }
+    font-size: 12px; }
+  a.Button.register {
+    background-image: url("/static/images/chef.svg"); }
+    a.Button.register > span {
+      color: #e0de91; }
+  a.Button.login {
+    background-image: url("/static/images/on.svg"); }
+    a.Button.login > span {
+      color: #fbc0b8; }
 
 a.Action {
   display: inline-block;
   height: 45px;
   vertical-align: middle;
   cursor: pointer;
-  padding-right: 30px; }
+  padding: 8px;
+  padding-top: 0;
+  padding-left: 30px;
+  background-color: #ffc172;
+  background-image: url("/static/images/add.svg");
+  background-size: 20px 20px;
+  background-position: 8px;
+  background-repeat: no-repeat;
+  border-radius: 2px;
+  transition: all 0.2s ease; }
   a.Action > span {
     height: 45px;
     line-height: 45px;
     vertical-align: middle;
-    font-size: 10px; }
+    font-size: 12px;
+    color: #f2f4f3; }
+  a.Action:hover {
+    transform: scale(1.2, 1.2); }
 
 input[type=button] {
   margin: 8px;
@@ -216,7 +261,7 @@ input[type=button] {
   vertical-align: top;
   margin-left: 8px; }
   .Pins span {
-    font-size: 10px;
+    font-size: 12px;
     vertical-align: middle; }
 
 div.Hearts {
@@ -264,7 +309,7 @@ app-useritem, div[data-is=app-useritem] {
       text-align: center; }
       app-useritem div.body div.style span:first-of-type, div[data-is=app-useritem] div.body div.style span:first-of-type {
         display: block;
-        font-size: 10px; }
+        font-size: 12px; }
       app-useritem div.body div.style span:last-of-type, div[data-is=app-useritem] div.body div.style span:last-of-type {
         font-size: 20px; }
     app-useritem div.body div.style + div, div[data-is=app-useritem] div.body div.style + div {
@@ -291,7 +336,7 @@ app-usereditform div.right, div[data-is=app-usereditform] div.right {
       width: 100%; } }
 
 app-usereditform div input + p, div[data-is=app-usereditform] div input + p {
-  font-size: 10px;
+  font-size: 12px;
   text-align: center; }
 
 app-usereditform > div > div, div[data-is=app-usereditform] > div > div {
@@ -512,14 +557,20 @@ app-commentitem, div[data-is=app-commentitem] {
 app-header, div[data-is=app-header] {
   display: block;
   width: 100%;
+  height: 70px;
   position: relative;
   padding: 20px;
   padding-top: 8px;
-  padding-bottom: 8px; }
-  app-header > img, div[data-is=app-header] > img {
+  padding-bottom: 8px;
+  background-color: #ffffff; }
+  app-header > div.img, div[data-is=app-header] > div.img {
     display: inline-block;
     width: 150px;
-    height: 45px; }
+    height: 100%;
+    background-image: url("/static/images/logo-noir.svg");
+    background-size: 150% 150%;
+    background-position: center;
+    background-repeat: no-repeat; }
   app-header > nav, div[data-is=app-header] > nav {
     display: inline-block;
     position: absolute;
@@ -559,8 +610,8 @@ div[data-is=app-footer] {
 * {
   box-sizing: border-box;
   font-size: 16px;
-  color: #303030;
-  font-family: MyriadPro;
+  color: #191d1c;
+  font-family: "Raleway";
   z-index: 0; }
 
 div.vertical-center {

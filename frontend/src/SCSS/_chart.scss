@@ -1,23 +1,30 @@
 /**
  Importation des polices
 **/
+@import "./../static/fonts/Raleway-Regular";
+@import "./../static/fonts/LobsterTwo-Regular";
+
 
 /////
 
 // Définition des polices
-$font-base: 'Arial', sans-serif;
-$font-primary: 'Ash';
+$font-primary: 'Raleway';
+$font-secondary: 'Lobster';
 
-$font-size-small: 10px;
+$font-size-small: 12px;
 $font-size-normal: 16px;
 $font-size-big : 20px;
 
 // Définition des couleurs
-$color-back: #fbfaf8;
-$color-base: #303030;
-$color-primary: #df7a00;
-$color-gradient-end : #ff512f;
-$color-gradient-start : #f09819;
+$color-back-primary : #ffffff;
+$color-back-secondary : #e3dfd6;
+
+$color-front-peach: #ffc172;
+$color-front-avocado: #e0de91;
+$color-front-straw: #fbc0b8;
+
+$color-text-primary: #191d1c;
+$color-text-secondary: #f2f4f3;
 
 $space-small: 8px;
 $space-normal: 20px;

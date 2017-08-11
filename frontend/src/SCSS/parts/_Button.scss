@@ -1,8 +1,8 @@
 a.Button
 {
-    $side: 45px;
+    $side: 40px;
     display: inline-block;
-    width: $side;
+    width: 60px;
     height: $side;
 
     vertical-align: middle;
@@ -10,9 +10,19 @@ a.Button
     cursor: pointer;
 
     position: relative;
-    background-color: red;
 
     margin-left: $space-small;
+
+    background-position: center 0;
+    background-repeat: no-repeat;
+    background-size: auto 70%;
+
+    transition: all 0.2s ease;
+
+    &:hover
+    {
+        transform: scale(1.2, 1.2);
+    }
 
     &>span
     {
@@ -25,12 +35,19 @@ a.Button
 
     &.register
     {
-
+        &>span{
+            color: $color-front-avocado;
+        }
+        background-image: url('/static/images/chef.svg');
     }
 
     &.login
     {
-
+        &>span
+        {
+            color: $color-front-straw;
+        }
+        background-image: url("/static/images/on.svg");
     }
 }
 
@@ -43,7 +60,17 @@ a.Action
 
     cursor: pointer;
 
-    padding-right: 30px;
+    padding: $space-small;
+    padding-top: 0;
+    padding-left: 30px;
+
+    background-color: $color-front-peach;
+    background-image: url("/static/images/add.svg");
+    background-size: 20px 20px;
+    background-position: $space-small;
+    background-repeat: no-repeat;
+
+    border-radius: 2px;
 
     &>span
     {
@@ -52,7 +79,18 @@ a.Action
         vertical-align: middle;
 
         font-size: $font-size-small;
+
+        color: $color-text-secondary;
+
     }
+
+    transition: all 0.2s ease;
+
+    &:hover
+    {
+        transform: scale(1.2, 1.2);
+    }
+
 }
 
 input[type=button]

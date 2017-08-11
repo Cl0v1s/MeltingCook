@@ -1,5 +1,5 @@
 <app-header>
-    <img onclick="{ home }">
+    <div class="img" onclick="{ home }"></div>
     <nav if="{ logged == false }">
         <a class='{ "Action" : true }'><span>Partager un voyage culinaire</span></a>
         <a class='{ "Button" : true, "register" : true}' onclick='{ register }'><span>Inscription</span></a>

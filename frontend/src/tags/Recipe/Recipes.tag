@@ -8,7 +8,7 @@
 
         tag.on("before-mount", () => {
             tag.recipes = tag.opts.recipes;
-            if(tag.recipes == null)
+            if(tag.recipes === null)
                 tag.retrieveRecipes();
         });
 

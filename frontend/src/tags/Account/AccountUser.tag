@@ -1,8 +1,8 @@
 <app-accountuser>
     <app-header ></app-header>
-    <app-tabbar tabs={ tabs }></app-tabbar>
+    <app-tabbar tabs='{ tabs }'></app-tabbar>
     <div>
-        <app-usereditform ref="form" callback={ send }></app-usereditform>
+        <app-usereditform ref="form" user='{ user }' callback='{ send }'></app-usereditform>
     </div>
     <app-footer></app-footer>
     <script>
@@ -11,9 +11,10 @@
         tag.tabs = null;
         tag.user = null;
 
-
         tag.on("before-mount", function()
         {
+            tag.user = tag.opts.user;
+
             tag.tabs = [{
                     name: "Cuisine",
                     route: "/account",
@@ -35,28 +36,11 @@
                     selected: false
                 }
             ];
-            tag.retrieveUser(Login.GetInstance().User().id);
         });
-
-        tag.retrieveUser = function(id)
-        {
-            var request = App.request(App.Address + "/getuser", {
-                "id" : id
-            });
-            request.then((response) => {
-                tag.user = response.data;
-                tag.refs.form.setUser(tag.user);
-            });
-            request.catch((error) => {
-                            ErrorHandler.alertIfError(error);
-
-            });
-        }
-
 
         tag.send = function()
         {
-            if(tag.user.id == null)
+            if(tag.user.id === null)
             {
                 vex.dialog.alert("Félicitation ! Vous êtes désormais un membre de Melting Cook. Vous pouvez vous connecter.");
             }
@@ -65,10 +49,6 @@
                 vex.dialog.alert("Vos informations ont bien été mises à jour !");
             }
             route("/");
-        }
-
-
-
+        };
     </script>
-
 </app-accountuser>

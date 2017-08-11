@@ -7,14 +7,14 @@
             <div class="identity">
                 <span>Bonjour {user.username}</span>    
                 <ul>
-                    <li><a onclick={ edit }>Modifier votre profil</a></li>
-                    <li><a onclick={ see }>Voir votre profil public</a></li>
+                    <li><a onclick='{ edit }'>Modifier votre profil</a></li>
+                    <li><a onclick='{ see }'>Voir votre profil public</a></li>
                 </ul>
             </div>
         </div>
         <div class="comments">
             <h2>Commentaires Récents</h2>
-            <app-comments ref="comments" if={ comments != null } comments={ comments }></app-comments>
+            <app-comments ref="comments" if='{ comments != null }' comments='{ comments }'></app-comments>
         </div>
 
     </div>
@@ -30,6 +30,7 @@
         tag.on("before-mount", function()
         {
             tag.user = Login.GetInstance().User();
+            tag.comments = tag.opts.comments;
 
             tag.tabs = [
                 {
@@ -53,33 +54,13 @@
                     selected : false
                 }
             ];
-
-            tag.retrieveComments();
         });
 
-        tag.retrieveComments = function()
-        {
-            if(tag.user == null || tag.user.id == null)
-                return;
-            var filters = {
-                target_id : tag.user.id
-            };
-            var request = App.request(App.Address + "/getcomments", {
-                filters : JSON.stringify(filters)
-            });
-            request.then((response) => {
-                tag.comments = response.data.splice(0,5);
-                tag.refs.comments.setComments(tag.comments);
-            });
-            request.catch((error) => {
-                ErrorHandler.alertIfError(error);
-            });
-        }
 
         tag.edit = function()
         {
             route("/account/user");
-        }
+        };
 
         tag.see = function()
         {

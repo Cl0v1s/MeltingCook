@@ -211,7 +211,7 @@ class App {
             return false;
         return true;
     }
-    static changePage(tag, data, more = null) {
+    static changePage(tag, data) {
         if (App.Page != null) {
             App.Page.forEach(function (t) {
                 t.unmount();
@@ -221,10 +221,7 @@ class App {
             document.body.appendChild(e);
         }
         App.hideLoading();
-        if (more == null)
-            more = {};
-        more.pass = data;
-        App.Page = riot.mount("div#app", tag, more);
+        App.Page = riot.mount("div#app", tag, data);
     }
     static showPopUp(tag, title, data) {
         if (App.PopUp != null) {
@@ -369,7 +366,82 @@ class Router {
         }
         route.start(true);
     }
+    accountKitchen() {
+        var filters = {
+            target_id: Login.GetInstance().User().id
+        };
+        var request = App.request(App.Address + "/getcomments", {
+            filters: JSON.stringify(filters)
+        });
+        request.then((response) => {
+            var comments = response.data.splice(0, 5);
+            App.changePage("app-accountkitchen", {
+                "comments": comments
+            });
+        });
+        request.catch((error) => {
+            if (error instanceof Error) {
+                App.changePage("app-accountkitchen", {
+                    "comments": null
+                });
+            }
+        });
+    }
+    accountRecipes() {
+        var filters = {
+            User_id: Login.GetInstance().User().id
+        };
+        var request = App.request(App.Address + "/getrecipes", {
+            filters: JSON.stringify(filters)
+        });
+        request.then((response) => {
+            var recipes = response.data;
+            App.changePage("app-accountrecipes", {
+                "recipes": recipes
+            });
+        });
+        request.catch((error) => {
+            ErrorHandler.alertIfError(error);
+        });
+    }
+    accountReservations() {
+        var filters = {
+            "guest_id": Login.GetInstance().User().id
+        };
+        var request = App.request(App.Address + "/getreservations", {
+            filters: JSON.stringify(filters)
+        });
+        request.then((response) => {
+            var reservations = response.data;
+            App.changePage("app-accountreservations", {
+                "reservations": reservations
+            });
+        });
+        request.catch((error) => {
+            ErrorHandler.alertIfError(error);
+        });
+    }
+    accountUser() {
+        var request = App.request(App.Address + "/getuser", {
+            "id": Login.GetInstance().User().id
+        });
+        request.then(function (response) {
+            var user = Adapter.adaptUser(response.data);
+            App.changePage("app-accountuser", {
+                "user": user
+            });
+        });
+        request.catch(function (error) {
+            ErrorHandler.alertIfError(error);
+        });
+    }
     setRoutes() {
+        // Account
+        route("/account/recipes", this.accountRecipes);
+        route("/account/reservations", this.accountReservations);
+        route("/account/user", this.accountUser);
+        route("/account", this.accountKitchen);
+        // Base
         route("login", function () {
             App.changePage("app-login", null);
         });

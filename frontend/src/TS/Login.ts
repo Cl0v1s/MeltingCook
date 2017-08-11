@@ -21,7 +21,7 @@ class Login
         return this.token;
     }
 
-    public User() :  Object
+    public User() :  any
     {
         return this.user;
     }

@@ -105,7 +105,7 @@ class App
     }
 
 
-    public static changePage(tag, data, more = null)
+    public static changePage(tag, data)
     {
         if(App.Page != null)
         {
@@ -118,10 +118,7 @@ class App
             document.body.appendChild(e);
         }
         App.hideLoading();
-        if(more == null)
-            more = {};
-        more.pass = data;
-        App.Page = riot.mount("div#app", tag, more);            
+        App.Page = riot.mount("div#app", tag, data);
     }
 
     public static showPopUp(tag, title, data)

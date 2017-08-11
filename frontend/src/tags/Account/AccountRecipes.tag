@@ -5,17 +5,17 @@
         <div class="header">
             <h2>La dernière recette proposée</h2>
             <div>
-                <app-recipeitem if={ last_recipe != null } recipe={ last_recipe }></app-recipeitem>
-                <div if={ last_recipe == null }>
+                <app-recipeitem if='{ last_recipe != null }' recipe='{ last_recipe }'></app-recipeitem>
+                <div if='{ last_recipe == null }'>
                     Aucune recette proposée
                 </div>
             </div>
         </div>
         <nav>
-            <a onclick={ showFuture }>A venir</a>
-            <a onclick={ showPast }>Passées</a>
+            <a onclick='{ showFuture }'>A venir</a>
+            <a onclick='{ showPast }'>Passées</a>
         </nav>
-        <app-recipes ref="recipes" if={ list != null }></app-recipes>
+        <app-recipes ref="recipes" recipes='{ list '} if='{ list != null }'></app-recipes>
     </div>
     <app-footer></app-footer>
     <script>
@@ -28,6 +28,11 @@
 
         tag.on("before-mount", function()
         {
+            tag.recipes = tag.opts.recipes;
+            if(tag.recipes.length > 0)
+                tag.last_recipe = tag.recipes[tag.recipes.length - 1];
+            tag.list = tag.sortRecipes(true);
+
             tag.tabs = [
                 {
                     name: "Cuisine",
@@ -52,35 +57,16 @@
             ];
         });
 
-        tag.retrieveRecipes = function()
-        {
-            var filters = {
-                User_id : Login.GetInstance().User()
-            };
-            var request = App.request(App.Address + "/getrecipes", {
-                filters : JSON.stringify(filters)
-            });
-            request.then((response) => {
-                tag.recipes = response.data;
-                tag.last_recipe = tag.recipes[tag.recipes.length - 1];
-                var lst = tag.sortRecipes(true);
-                tag.update();
-                tag.showRecipes(lst);
-            });
-            request.catch((error) => {
-                ErrorHandler.alertIfError(error);
-            });
-        }
 
         tag.sortRecipes = function(futur)
         {
             lst = [];
             var now = new Date().getTime();
             tag.recipes.forEach((recipe) => {
-                if(recipe == null || recipe.date_end == null)
+                if(recipe === null || recipe.date_end === null)
                     return;
                 var stamp = recipe.date_end * 1000;
-                if(futur == true)
+                if(futur === true)
                 {
                     if(stamp > now)
                         lst.push(recipe);
@@ -92,19 +78,19 @@
                 }
             });
             return lst;
-        }
+        };
 
         tag.showRecipes = function(lst)
         {
             tag.list = lst;
             tag.refs.recipes.setRecipes(tag.list);
-        }
+        };
 
         tag.showFutur = function()
         {
             var lst = tag.sortRecipes(true);
             tag.showRecipes(lst);
-        }
+        };
 
         tag.showPast = function()
         {

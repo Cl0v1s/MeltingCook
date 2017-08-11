@@ -24,6 +24,19 @@ class Router
         route.start(true);
     }
 
+    /////////////////////////////////////////////////////////////////
+
+    // Error
+    private error(message:string) : void
+    {
+        if(message != null)
+            message = decodeURI(message);
+        App.changePage("app-error", {
+            "message" : message
+        });
+    }
+
+    // ACCOUNT
     private accountKitchen() : void
     {
         var filters = {
@@ -68,7 +81,6 @@ class Router
         });
     }
 
-
     private accountReservations() : void
     {
         var filters = {
@@ -106,6 +118,9 @@ class Router
 
     }
 
+
+    ///////////////////////////////////////////////////////////////
+
     private setRoutes() : void
     {
         // Account
@@ -116,6 +131,10 @@ class Router
 
 
         // Base
+        route("error/*", this.error);
+        route("error", this.error);
+
+
         route("login", function () {
             App.changePage("app-login", null);
         });

@@ -1,0 +1,13 @@
+app-error, div[data-is=app-error] {
+
+  &>div
+  {
+    padding: $space-normal;
+
+    p
+    {
+      margin-bottom: $space-small;
+    }
+  }
+
+}

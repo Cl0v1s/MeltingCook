@@ -101,6 +101,13 @@ div#popup
   }
 }
 
+h1
+{
+  font-size: $font-size-big;
+  font-family: $font-secondary;
+  margin-bottom: $space-normal;
+}
+
 h2
 {
   font-size: $font-size-big;
@@ -152,6 +159,11 @@ div label+*+p
     font-size: $font-size-small;
     text-align: center;
     margin-top: $space-small;
+}
+
+p
+{
+  font-family: $font-primary;
 }
 
 input[type=text], input[type=number]

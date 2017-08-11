@@ -6,7 +6,7 @@
             <p>
                 Nous somme désolé pour ce petit soucis.
             </p>
-            <p>
+            <p if="{ message != null }">
                 { message }
             </p>
         </div>
@@ -19,7 +19,8 @@
 
         tag.on("before-mount", function()
         {
-            tag.message = decodeURI(tag.opts.pass);
+            if(tag.opts.message !== null)
+                tag.message = tag.opts.message;
         });
     </script>
 </app-error>

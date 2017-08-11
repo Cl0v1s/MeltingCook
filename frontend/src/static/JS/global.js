@@ -338,6 +338,16 @@ class Router {
         }
         route.start(true);
     }
+    /////////////////////////////////////////////////////////////////
+    // Error
+    error(message) {
+        if (message != null)
+            message = decodeURI(message);
+        App.changePage("app-error", {
+            "message": message
+        });
+    }
+    // ACCOUNT
     accountKitchen() {
         var filters = {
             target_id: Login.GetInstance().User().id
@@ -408,6 +418,7 @@ class Router {
             ErrorHandler.alertIfError(error);
         });
     }
+    ///////////////////////////////////////////////////////////////
     setRoutes() {
         // Account
         route("/account/recipes", this.accountRecipes);
@@ -415,6 +426,8 @@ class Router {
         route("/account/user", this.accountUser);
         route("/account", this.accountKitchen);
         // Base
+        route("error/*", this.error);
+        route("error", this.error);
         route("login", function () {
             App.changePage("app-login", null);
         });

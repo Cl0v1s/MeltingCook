@@ -152,6 +152,11 @@ div#popup {
     color: #ffffff;
     cursor: pointer; }
 
+h1 {
+  font-size: 20px;
+  font-family: "Lobster";
+  margin-bottom: 20px; }
+
 h2 {
   font-size: 20px;
   margin-bottom: 8px; }
@@ -183,6 +188,9 @@ div label + * + p {
   font-size: 12px;
   text-align: center;
   margin-top: 8px; }
+
+p {
+  font-family: "Raleway"; }
 
 input[type=text], input[type=number] {
   border: 0 !important;
@@ -766,6 +774,11 @@ div[data-is=app-footer] {
         div[data-is=app-footer] > div ul {
           display: inline-block;
           text-align: left; } }
+
+app-error > div, div[data-is=app-error] > div {
+  padding: 20px; }
+  app-error > div p, div[data-is=app-error] > div p {
+    margin-bottom: 8px; }
 
 * {
   box-sizing: border-box;

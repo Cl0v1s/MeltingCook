@@ -516,9 +516,6 @@ class Router {
         });
         route("error/*", this.error);
         route("error", this.error);
-        route("login", function () {
-            App.changePage("app-login", null);
-        });
         route("register", function () {
             App.changePage("app-useredit", null);
         });

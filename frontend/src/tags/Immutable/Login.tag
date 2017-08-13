@@ -8,10 +8,19 @@
             <label for="password">Mot de passe</label>
             <input type="password" ref="password" name="password" id="password">
         </div>
-        <input type="button" value="Envoyer" onclick={ send }>
+        <input type="button" class="large" value="Envoyer" onclick='{ send }'>
     </form>
     <script>
         var tag = this;
+
+        tag.callback = null;
+
+        tag.on("before-mount", function()
+        {
+            tag.callback = tag.opts.callback;
+            if(tag.callback == null)
+                throw new Error("Callback cant be null.");
+        });
 
         tag.send = function () {
             var valid = new Validatinator({
@@ -24,14 +33,13 @@
                 var auth = Login.GetInstance().auth(tag.refs.username.value, tag.refs.password.value);
                 auth.then((user) =>
                 {
-                    route("/");
+                    tag.callback();
                 });
-                /*auth.catch((error) => {
-                
-                });*/
             }
-            else 
-                vex.dialog.alert("Le formulaire n'est pas valide en l'état.");
+            if(valid.fails("login"))
+            {
+                App.diagnosticForm("login", valid.errors);
+            }
         };
     </script>
 </app-login>

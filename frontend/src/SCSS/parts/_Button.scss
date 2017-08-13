@@ -156,9 +156,11 @@ input[type=button]
     &.large
     {
         display: block;
-        width: 100%;
+        width: 90%;
         height: 40px;
         text-align: center;
+        margin: auto;
+        margin-top: $space-normal;
     }
 
     &:hover

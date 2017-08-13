@@ -9,7 +9,7 @@
     <div class="body">
         <div class="Hearts nb-{ user.likes }">
         </div>
-        <div class={style : true, invisible: user.style == null || user.style == ""}>
+        <div class='{style : true, invisible: user.style == null || user.style == ""}'>
             <span>Son style</span>
             <span>{ user.style }</span>
         </div>
@@ -32,7 +32,7 @@
 
         tag.on("before-mount", function()
         {
-            tag.user = tag.opts.user;
+            tag.user = Adapter.adaptUser(tag.opts.user);
             if(tag.opts.reduced != null)
                 tag.reduced = tag.opts.reduced;
         });

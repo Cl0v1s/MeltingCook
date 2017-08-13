@@ -43,13 +43,13 @@ app-searcher
 
     app-placeinput, app-origininput, app-dateinput, input[type=text]
     {
+      display: inline-block;
       width: 170px;
     }
 
     input[type=button]
     {
       vertical-align: top;
-      margin: 0;
     }
 
     @media screen and (max-width: 560px) {

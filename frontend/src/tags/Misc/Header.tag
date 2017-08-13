@@ -17,13 +17,18 @@
 
         tag.on("before-mount", function()
         {
+            tag.auth();
+        });
+
+        tag.auth = function()
+        {
             if(Login.GetInstance().isLogged() == true)
             {
                 tag.logged = true;
                 tag.user = Login.GetInstance().User();
             }
             else tag.logged = false;
-        });
+        };
 
         tag.home = function()
         {
@@ -37,7 +42,15 @@
 
         tag.login = function()
         {
-            route("/login");
+            var callback = function()
+            {
+                App.hidePopUp();
+                tag.auth();
+                tag.update();
+            };
+            App.showPopUp("app-login", "Connexion", {
+                "callback" : callback
+            });
         };
 
         tag.account = function()

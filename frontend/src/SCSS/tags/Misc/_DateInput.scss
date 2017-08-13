@@ -1,10 +1,13 @@
 app-dateinput
 {
-  display: inline-block;
+  display: block;
   vertical-align: top;
 
   input
   {
+    margin: $space-small;
+    display: block;
+    width: 100%;
     padding: 4px;
 
     height: 36px;

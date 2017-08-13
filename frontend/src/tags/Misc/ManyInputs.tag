@@ -35,7 +35,6 @@
                 tag.value = tag.value+input.value+tag.delimiter;
             });
             tag.value = tag.value.slice(0, -1);
-            alert(tag.value);
         }
 
         tag.add = function()

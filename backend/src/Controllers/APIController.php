@@ -344,7 +344,7 @@ class APIController extends Controller
 
     private function AddRecipe()
     {
-        if(isset($_POST["name"]) == false || isset($_POST["description"]) == false || isset($_POST["picture"]) == false || isset($_POST["User_id"]) == false ||
+        if(isset($_POST["name"]) == false || isset($_POST["description"]) == false || isset($_POST["picture"]) == false ||
         isset($_POST["origin"]) == false || isset($_POST["items"]) == false || isset($_POST["date_start"]) == false || isset($_POST["date_end"]) == false || isset($_POST["price"]) == false || isset($_POST["places"]) == false
         || isset($_POST["place"]) == false)
         {
@@ -355,7 +355,10 @@ class APIController extends Controller
         $recipe->setName($_POST["name"]);
         $recipe->setDescription($_POST["description"]);
         $recipe->setPicture($_POST["picture"]);
-        $recipe->setUserId($_POST["User_id"]);
+	$user = API::auth($_POST["token"]);
+        $recipe->setUserId($user->Id());
+	$recipe->setLatitude(explode(",",$user->Geolocation())[0]);
+	$recipe->setLongitude(explode(",",$user->Geolocation())[1]);
         $recipe->setOrigin($_POST["origin"]);
         $recipe->setItems($_POST["items"]);
         $recipe->setDateStart($_POST["date_start"]);

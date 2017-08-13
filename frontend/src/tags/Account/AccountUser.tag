@@ -28,12 +28,12 @@
                 {
                     name: "Réservations",
                     route: "/account/reservations",
-                    selected: true
+                    selected: false
                 },
                 {
                     name: "Profil",
                     route: "/account/user",
-                    selected: false
+                    selected: true
                 }
             ];
         });

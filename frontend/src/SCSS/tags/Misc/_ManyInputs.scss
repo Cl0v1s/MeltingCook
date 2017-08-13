@@ -1,9 +1,9 @@
 app-manyinputs
 {
+  display: block;
   input[type=text]
   {
     display: block;
-    margin-bottom: $space-small;
-    margin-top: $space-small;
+    width: 100%;
   }
 }

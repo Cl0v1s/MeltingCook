@@ -59,11 +59,12 @@ div#popup
   background-color: $color-back-primary;
   border-radius: 2px;
   z-index: 1;
-  padding: $space-normal;
   border: 1px solid $color-front-peach;
   box-shadow: 0px 0px 5px 3px rgba(0,0,0,0.2);
-  padding-top: $space-big;
+  padding: $space-normal;
+  padding-top: $space-big+$space-normal;
   overflow-y: auto;
+  overflow-x: hidden;
   max-height: 90%;
 
   &::after
@@ -75,8 +76,7 @@ div#popup
     left: 0;
     width: 100%;
     content: attr(data-name);
-    font-size: $font-size-normal;
-    font-family: "MyriadPro";
+    font-family: $font-primary;
     padding: $space-small;
     font-size: $font-size-big;
     background-color: $color-front-peach;
@@ -111,7 +111,7 @@ h1
 h2
 {
   font-size: $font-size-big;
-  margin-bottom: $space-small;
+  margin-bottom: $space-normal;
 }
 
 img.profile

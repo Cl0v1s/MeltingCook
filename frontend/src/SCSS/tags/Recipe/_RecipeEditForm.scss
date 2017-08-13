@@ -1,0 +1,17 @@
+app-recipeeditform, div[data-is=app-recipeeditform]
+{
+  display: block;
+  &>form {
+    text-align: center;
+    & > div {
+      display: inline-block;
+      text-align: left;
+      width: 45%;
+      vertical-align: top;
+      min-width: 380px;
+
+      padding: $space-normal;
+    }
+    margin-bottom: $space-normal;
+  }
+}

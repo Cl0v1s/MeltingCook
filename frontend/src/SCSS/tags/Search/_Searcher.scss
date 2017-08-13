@@ -41,7 +41,7 @@ app-searcher
       margin-right: $space-small;
     }
 
-    app-placeinput, app-origininput, app-dateinput
+    app-placeinput, app-origininput, app-dateinput, input[type=text]
     {
       width: 170px;
     }

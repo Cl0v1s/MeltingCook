@@ -31,4 +31,11 @@ app-header, div[data-is=app-header]
         position: absolute;
         right: $space-normal;
     }
+
+    @media screen and (max-width: 560px) {
+        a.Action
+        {
+            display: none;
+        }
+    }
 }

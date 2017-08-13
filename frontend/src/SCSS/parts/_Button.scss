@@ -1,6 +1,6 @@
 a.Button
 {
-    $side: 40px;
+    $side: 45px;
     display: inline-block;
     width: 60px;
     height: $side;
@@ -11,7 +11,7 @@ a.Button
 
     position: relative;
 
-    margin-left: $space-small;
+    margin-left: $space-normal;
 
     background-position: center 0;
     background-repeat: no-repeat;
@@ -121,12 +121,13 @@ a.Action
     &>span
     {
         height: $height;
+
         line-height: $height;
         vertical-align: middle;
 
         font-size: $font-size-small;
 
-        color: $color-text-secondary;
+        color: $color-back-primary;
 
     }
 
@@ -134,7 +135,7 @@ a.Action
 
     &:hover
     {
-        transform: scale(1.2, 1.2);
+        transform: scale(1.1, 1.1);
     }
 
 }
@@ -150,6 +151,8 @@ input[type=button]
     padding: $space-small;
     border-radius: 2px;
     text-align: center;
+    transition: all 0.2s ease;
+
     &.large
     {
         display: block;
@@ -157,4 +160,10 @@ input[type=button]
         height: 40px;
         text-align: center;
     }
+
+    &:hover
+    {
+        transform: scale(1.1, 1.1);
+    }
+
 }

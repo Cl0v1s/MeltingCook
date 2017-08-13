@@ -29,11 +29,12 @@ div[data-is=app-footer] {
                 margin-bottom: $space-small;
             }
         }
-        @media screen and (max-width: 650px) {
+        @media screen and (max-width: 710px) {
             display: block;
             width: 100%;
             text-align: center;
             margin-bottom: $space-big;
+            margin-left:0;
             
             ul
             {

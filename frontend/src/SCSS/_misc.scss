@@ -145,40 +145,14 @@ img.profile
     margin-left: $space-small;
 }
 
-div label+input, div label+textarea
-{
-  display: block;
-  width: 100%;
-  margin: $space-small;
-  resize: none;
-  
-}
-
-div label+*+p
-{
-    font-size: $font-size-small;
-    text-align: center;
-    margin-top: $space-small;
-}
 
 p
 {
   font-family: $font-primary;
 }
 
-input[type=text], input[type=number]
-{
-  border: 0 !important;
-  text-align: center;
-  font-size: 14px;
-}
 
 
-input[type=text].error, input[type=number].error, textarea.error, select.error,
-app-dateinput.error input, app-manyinputs.error input[type=text], app-origininput.error div.selectize-input, app-pinsinput.error div.selectize-input, app-placeinput.error div.selectize-input
-{
-    background-color: red !important;
-}
 
 
 

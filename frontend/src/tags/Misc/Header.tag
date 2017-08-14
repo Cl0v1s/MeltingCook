@@ -1,13 +1,13 @@
 <app-header>
     <div class="img" onclick="{ home }"></div>
-    <nav if="{ logged == false }">
-        <a class='{ "Action" : true }'><span>Partager un voyage culinaire</span></a>
-        <a class='{ "Button" : true, "register" : true}' onclick='{ register }'><span>Inscription</span></a>
-        <a class='{ "Button" : true, "login" : true}' onclick='{ login }'><span>Connexion</span></a>
-    </nav>
-    <nav if='{ logged == true }' onclick='{ account }'>
-        <span>{ user.username }</span>
-        <div class="img" style="background-image: url('{user.picture}');"></div>
+    <nav>
+        <a class='Action' onclick="{ addrecipe }"><span>Partager un voyage culinaire</span></a>
+        <a class='Button register' if="{ logged == false }" onclick='{ register }'><span>Inscription</span></a>
+        <a class='Button login' if="{ logged == false }" onclick='{ login }'><span>Connexion</span></a>
+        <a if="{ logged == true }" onclick='{ account }'>
+            <span>{ user.username }</span>
+            <div class="img" style="background-image: url('{user.picture}');"></div>
+        </a>
     </nav>
 
     <script>
@@ -56,6 +56,16 @@
         tag.account = function()
         {
             route("/account");
+        }
+
+        tag.addrecipe = function()
+        {
+            if(tag.logged == true)
+            {
+                route("/recipe/add");
+            }
+            else
+                route("/user/add");
         }
 
 

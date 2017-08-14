@@ -13,7 +13,7 @@
     <div class="recipe">
         <div>
             <div>
-                <span>{ recipe.date_start } - { recipe.date_end }</span>
+                <span>{ recipe.date_start_readable } - { recipe.date_end_readable }</span>
             </div>
             <div>
                 <span>{ recipe.name } - { recipe.origin[0] }</span>

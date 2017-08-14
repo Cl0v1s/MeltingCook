@@ -309,6 +309,14 @@ class API
         if($filters != null) {
             $filters=str_replace("\\","", $filters);
             $filters = get_object_vars(json_decode($filters));
+		if(isset($filters["id"]))
+{
+	if(is_array($filters["id"]))
+	{
+		$f .= "id IN (".join(",",$filters["id"]).") AND ";
+	}
+}
+
             if(isset($filters["origin"]))
             {
                 $f .= "origin LIKE '%".$filters["origin"]."%' AND ";

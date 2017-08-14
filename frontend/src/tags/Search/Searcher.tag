@@ -22,14 +22,12 @@
         tag.send = function()
         {
             var retrieve = Search.search(tag.refs.place.value, tag.refs.origin.value, tag.refs.date.value);
-            retrieve.then(function(data)
-            {
-                App.changePage("app-searchresults", data);
+            retrieve.then(function(data) {
+                route("/search/results/"+data.join(","));
             });
             retrieve.catch(function(error)
             {
-                        ErrorHandler.alertIfError(error);
-
+                ErrorHandler.alertIfError(error);
             });
         };
     </script>

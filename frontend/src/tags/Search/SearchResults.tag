@@ -6,7 +6,7 @@
     <div>
         <h2>Résultats de la recherche</h2>
     </div>
-    <app-recipes recipes={ opts.pass }></app-recipes>
+    <app-recipes recipes={ opts.recipes }></app-recipes>
 
     <app-footer></app-footer>
     <script>

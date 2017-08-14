@@ -28,8 +28,34 @@ app-header, div[data-is=app-header]
     &>nav 
     {
         display: inline-block;
+        padding: 0 !important;
         position: absolute;
         right: $space-normal;
+
+        &>a
+        {
+            margin-right:$space-normal;
+            cursor: pointer;
+        }
+
+        div.img
+        {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: $space-small;
+            width: 45px;
+            height: 45px;
+            border-radius: 2px;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+
+            transition: all 0.2s ease;
+            &:hover
+            {
+                transform: scale(1.1,1.1);
+            }
+        }
     }
 
     @media screen and (max-width: 560px) {

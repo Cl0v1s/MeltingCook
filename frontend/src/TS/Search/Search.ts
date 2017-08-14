@@ -16,11 +16,17 @@ class Search {
                 filters["price_start"] = price_start;
             if(price_end != null)
                 filters["price_end"] = price_end;
+
             var retrieve = App.request(App.Address + "/getrecipes", {
                 "filters": JSON.stringify(filters)
             });
             retrieve.then(function (response : any) {
-                resolve(response.data);
+                var ids = [];
+                response.data.forEach(function(recipe)
+                {
+                    ids.push(recipe.id);
+                });
+                resolve(ids);
             });
             retrieve.catch(function (error) {
                 reject(error);

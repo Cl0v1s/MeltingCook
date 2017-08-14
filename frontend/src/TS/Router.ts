@@ -212,6 +212,32 @@ class Router
 
     }
 
+    // SEARCH
+    private searchresults(recipes : string) : void
+    {
+        var filters : any = {};
+        if(recipes != null)
+            filters.id = recipes.split(",");
+        var request = App.request(App.Address+"/getrecipes", {
+            "filters" : JSON.stringify(filters)
+        });
+        request.then(function(response : any)
+        {
+            App.changePage("app-searchresults", {
+                "recipes" : response.data
+            });
+        });
+        request.catch(function(error)
+        {
+            ErrorHandler.alertIfError(error);
+        })
+    }
+
+    private search() : void
+    {
+        App.changePage("app-search", null);
+    }
+
 
     ///////////////////////////////////////////////////////////////
 
@@ -234,7 +260,10 @@ class Router
         });
         route("/recipe/*", this.recipe);
 
-
+        // Search
+        route("/search/results/*", this.searchresults);
+        route("/search/results", this.search);
+        route("/search", this.search);
 
         // Base
         route("error/404", () => {

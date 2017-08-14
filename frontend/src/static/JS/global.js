@@ -1,5 +1,8 @@
 class Adapter {
     static adaptRecipe(recipe) {
+        if (recipe.adapted === true)
+            return recipe;
+        recipe.adapted = true;
         var date_start = new Date(recipe.date_start * 1000);
         recipe.date_start_readable = date_start.getDate() + "/" + (date_start.getMonth() + 1) + "/" + date_start.getFullYear();
         var date_end = new Date(recipe.date_end * 1000);
@@ -33,6 +36,9 @@ class Adapter {
         return recipe;
     }
     static adaptUser(user) {
+        if (user.adapted === true)
+            return user;
+        user.adapted = true;
         if (user.discease != null)
             user.discease = user.discease.split(";");
         else
@@ -495,6 +501,26 @@ class Router {
             ErrorHandler.alertIfError(error);
         });
     }
+    // SEARCH
+    searchresults(recipes) {
+        var filters = {};
+        if (recipes != null)
+            filters.id = recipes.split(",");
+        var request = App.request(App.Address + "/getrecipes", {
+            "filters": JSON.stringify(filters)
+        });
+        request.then(function (response) {
+            App.changePage("app-searchresults", {
+                "recipes": response.data
+            });
+        });
+        request.catch(function (error) {
+            ErrorHandler.alertIfError(error);
+        });
+    }
+    search() {
+        App.changePage("app-search", null);
+    }
     ///////////////////////////////////////////////////////////////
     setRoutes() {
         // Account
@@ -510,6 +536,10 @@ class Router {
             App.changePage("app-recipeedit", null);
         });
         route("/recipe/*", this.recipe);
+        // Search
+        route("/search/results/*", this.searchresults);
+        route("/search/results", this.search);
+        route("/search", this.search);
         // Base
         route("error/404", () => {
             this.error(encodeURI("Page Introuvable."));
@@ -576,7 +606,11 @@ class Search {
                 "filters": JSON.stringify(filters)
             });
             retrieve.then(function (response) {
-                resolve(response.data);
+                var ids = [];
+                response.data.forEach(function (recipe) {
+                    ids.push(recipe.id);
+                });
+                resolve(ids);
             });
             retrieve.catch(function (error) {
                 reject(error);

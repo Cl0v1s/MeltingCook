@@ -382,9 +382,9 @@ app-accountrecipes div.header, div[data-is=app-accountrecipes] div.header {
   margin-top: 20px;
   padding: 20px; }
 
-app-accountrecipes nav, div[data-is=app-accountrecipes] nav {
+app-accountrecipes div nav, div[data-is=app-accountrecipes] div nav {
   padding: 20px; }
-  app-accountrecipes nav a, div[data-is=app-accountrecipes] nav a {
+  app-accountrecipes div nav a, div[data-is=app-accountrecipes] div nav a {
     cursor: pointer;
     margin-right: 20px; }
 
@@ -786,8 +786,25 @@ app-header, div[data-is=app-header] {
     background-repeat: no-repeat; }
   app-header > nav, div[data-is=app-header] > nav {
     display: inline-block;
+    padding: 0 !important;
     position: absolute;
     right: 20px; }
+    app-header > nav > a, div[data-is=app-header] > nav > a {
+      margin-right: 20px;
+      cursor: pointer; }
+    app-header > nav div.img, div[data-is=app-header] > nav div.img {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 8px;
+      width: 45px;
+      height: 45px;
+      border-radius: 2px;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      transition: all 0.2s ease; }
+      app-header > nav div.img:hover, div[data-is=app-header] > nav div.img:hover {
+        transform: scale(1.1, 1.1); }
   @media screen and (max-width: 560px) {
     app-header a.Action, div[data-is=app-header] a.Action {
       display: none; } }

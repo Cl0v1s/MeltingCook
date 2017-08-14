@@ -1,84 +1,139 @@
-app-recipeitem, div[data-is=app-recipeitem]
-{
-    display: block;
-    width: 90%;
-    margin: auto;
-    text-align: center;
-    margin-bottom: $space-normal;
-    cursor: pointer;
+app-recipeitem, div[data-is=app-recipeitem] {
+  $height : 100px;
+
+
+  display: inline-block;
+  width: auto;
+  min-width: 324px;
+  height: $height;
+
+  margin: $space-normal;
+
+  border:1px solid rgba(black, 0.2);
+  box-shadow: 0px 1px 5px 2px rgba(black, 0.1);
+
+  text-align: center;
+  cursor: pointer;
+
+
+  @media screen and (max-width: 650px) {
+    display: block !important;
+    height: auto !important;
+
     div.user
     {
-        display: inline-block;
-                @media screen and (max-width: 650px) {
-            display: none;
-        }
-        padding: $space-small;
-    min-height: 122px;
-
-        div.img
-        {
-            display: inline-block;
-            margin: $space-small;
-            width: 72px;
-            height: 72px;
-            vertical-align: top;
-
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
-
-        div.Hearts
-        {
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        div.img+div
-        {
-            display: inline-block;
-            text-align: center;
-
-            span
-            {
-                display: block;
-            }
-
-            div.Hearts
-            {
-                display: block;
-            }
-        }
+      height: auto !important;
     }
 
     div.recipe
     {
-    min-height: 122px;
-        
-        display: inline-block;
-        text-align: center;
-        vertical-align: top;
-        padding: $space-small;
-        padding-right: 50px+$space-normal;
-        position: relative;
-        &>div
-        {
-            display: inline-block;
-            vertical-align: top;
-            &>div
-            {
-                margin-bottom: $space-small;
-            }
-        }
+      width: 100%;
+      height: auto !important;
+    }
+  }
 
-        &>div.price
-        {
-            position: absolute;
-            top: 50%;
-            right: $space-small;
-            transform: translateY(-50%);
-        }
 
+  div.user {
+    display: inline-block;
+
+    padding: $space-small;
+    height: $height;
+
+
+    div.img {
+      display: inline-block;
+      margin: $space-small;
+      width: 72px;
+      height: 72px;
+      vertical-align: top;
+      border-radius: 2px;
+
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    div.Hearts {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    div.img + div {
+      display: inline-block;
+      text-align: center;
+
+      span {
+        display: block;
+      }
+
+      div.Hearts {
+        display: block;
+      }
+    }
+  }
+
+  div.recipe {
+
+    display: inline-block;
+    height: $height;
+    text-align: center;
+    vertical-align: top;
+    padding: $space-small;
+    padding-right: 50px+$space-normal;
+    position: relative;
+    z-index: 1;
+    & > div {
+      display: inline-block;
+      vertical-align: top;
+
+      //font-weight: bold;
+      span {
+        color: $color-back-primary;
+      }
+      & > div {
+        margin-bottom: $space-small;
+
+      }
 
     }
+
+    background-size: 0 0;
+    overflow: hidden;
+    &::after {
+      content: "";
+      z-index: -1;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+
+      background-color: rgba($color-text-primary, 0.4);
+
+    }
+
+    &::before {
+      content: "";
+      z-index: -1;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+
+      background-image: inherit;
+      background-position: center;
+
+      filter: blur(15px);
+      -webkit-filter: blur(15px);
+    }
+
+    & > div.price {
+      position: absolute;
+      top: 50%;
+      right: $space-small;
+      transform: translateY(-50%);
+    }
+
+  }
 }

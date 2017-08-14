@@ -1,5 +1,5 @@
 <app-recipeitem onclick='{ details }'>
-    <div class="user" if='{ reduced == false }'>
+    <div class="user">
         <div class="img" style="background-image: url('{ recipe.user.picture }');"></div>
         <div>
             <span>{ recipe.user.username} - { recipe.user.age } ans</span>
@@ -10,7 +10,7 @@
     <div class="picture" if='{ reduced == true }'>
         <div class="img" style="background-image: url('{ recipe.picture }');"></div>
     </div>
-    <div class="recipe">
+    <div class="recipe" style="background-image: url('{ recipe.picture }');">
         <div>
             <div>
                 <span>{ recipe.date_start_readable } - { recipe.date_end_readable }</span>
@@ -30,7 +30,6 @@
     <script>
         var tag = this;
 
-        tag.reduced = false;
         tag.recipe = null;
 
         tag.on("before-mount", function(){
@@ -38,8 +37,6 @@
                 tag.recipe = Adapter.adaptRecipe(tag.opts.recipe);
             else
                 throw new Error("Recipe cant be null");
-            if(tag.opts.reduced !== null)
-                tag.reduced = tag.opts.reduced;
         });
 
         tag.details = function()

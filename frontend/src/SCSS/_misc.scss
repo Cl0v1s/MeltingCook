@@ -142,8 +142,9 @@ img.profile
     width: $side;
     height: $side;
 
-    border: 1px solid black;
+    background-color: $color-front-peach;
 
+    color: $color-back-primary;
     border-radius: 100%;
 
     line-height: $side;

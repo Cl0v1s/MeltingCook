@@ -178,7 +178,8 @@ img.profile {
   position: relative;
   width: 50px;
   height: 50px;
-  border: 1px solid black;
+  background-color: #ffc172;
+  color: #ffffff;
   border-radius: 100%;
   line-height: 50px;
   text-align: center;
@@ -289,17 +290,35 @@ input[type=button] {
 .Pins {
   display: inline-block;
   position: relative;
-  width: 50px;
-  height: 50px;
-  border: 1px solid black;
+  width: 30px;
+  height: 30px;
   border-radius: 100%;
-  line-height: 50px;
+  line-height: 30px;
   text-align: center;
   vertical-align: top;
-  margin-left: 8px; }
+  margin-left: 8px;
+  color: transparent;
+  padding-left: 10px;
+  font-family: "Raleway";
+  transition: all 0.1s ease; }
+  .Pins:hover, .Pins:active, .Pins.open {
+    width: auto;
+    color: #ffffff;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 2px; }
+  .Pins::first-letter {
+    display: block;
+    color: #ffffff; }
   .Pins span {
     font-size: 14px;
     vertical-align: middle; }
+  .Pins:nth-of-type(3n) {
+    background-color: #ffc172; }
+  .Pins:nth-of-type(3n+1) {
+    background-color: #fbc0b8; }
+  .Pins:nth-of-type(3n+2) {
+    background-color: #e0de91; }
 
 input[type=text], select, input[type=password], textarea, .selectize-input, input[type=number] {
   padding: 10px !important;
@@ -726,26 +745,40 @@ app-recipe div.user, div[data-is=app-recipe] div.user {
     app-recipe div.user div.join input[type=button], div[data-is=app-recipe] div.user div.join input[type=button] {
       margin-top: 8px; }
 
-app-recipeitem, div[data-is=app-recipeitem] {
+app-recipes, div[data-is=app-recipes] {
   display: block;
-  width: 90%;
-  margin: auto;
+  text-align: center; }
+
+app-recipeitem, div[data-is=app-recipeitem] {
+  display: inline-block;
+  width: auto;
+  min-width: 324px;
+  height: 100px;
+  margin: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 1px 5px 2px rgba(0, 0, 0, 0.1);
   text-align: center;
-  margin-bottom: 20px;
   cursor: pointer; }
+  @media screen and (max-width: 650px) {
+    app-recipeitem, div[data-is=app-recipeitem] {
+      display: block !important;
+      height: auto !important; }
+      app-recipeitem div.user, div[data-is=app-recipeitem] div.user {
+        height: auto !important; }
+      app-recipeitem div.recipe, div[data-is=app-recipeitem] div.recipe {
+        width: 100%;
+        height: auto !important; } }
   app-recipeitem div.user, div[data-is=app-recipeitem] div.user {
     display: inline-block;
     padding: 8px;
-    min-height: 122px; }
-    @media screen and (max-width: 650px) {
-      app-recipeitem div.user, div[data-is=app-recipeitem] div.user {
-        display: none; } }
+    height: 100px; }
     app-recipeitem div.user div.img, div[data-is=app-recipeitem] div.user div.img {
       display: inline-block;
       margin: 8px;
       width: 72px;
       height: 72px;
       vertical-align: top;
+      border-radius: 2px;
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center; }
@@ -760,18 +793,44 @@ app-recipeitem, div[data-is=app-recipeitem] {
       app-recipeitem div.user div.img + div div.Hearts, div[data-is=app-recipeitem] div.user div.img + div div.Hearts {
         display: block; }
   app-recipeitem div.recipe, div[data-is=app-recipeitem] div.recipe {
-    min-height: 122px;
     display: inline-block;
+    height: 100px;
     text-align: center;
     vertical-align: top;
     padding: 8px;
     padding-right: 70px;
-    position: relative; }
+    position: relative;
+    z-index: 1;
+    background-size: 0 0;
+    overflow: hidden; }
     app-recipeitem div.recipe > div, div[data-is=app-recipeitem] div.recipe > div {
       display: inline-block;
       vertical-align: top; }
+      app-recipeitem div.recipe > div span, div[data-is=app-recipeitem] div.recipe > div span {
+        color: #ffffff; }
       app-recipeitem div.recipe > div > div, div[data-is=app-recipeitem] div.recipe > div > div {
         margin-bottom: 8px; }
+    app-recipeitem div.recipe::after, div[data-is=app-recipeitem] div.recipe::after {
+      content: "";
+      z-index: -1;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(25, 29, 28, 0.4); }
+    app-recipeitem div.recipe::before, div[data-is=app-recipeitem] div.recipe::before {
+      content: "";
+      z-index: -1;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: inherit;
+      background-position: center;
+      filter: blur(15px);
+      -webkit-filter: blur(15px); }
     app-recipeitem div.recipe > div.price, div[data-is=app-recipeitem] div.recipe > div.price {
       position: absolute;
       top: 50%;

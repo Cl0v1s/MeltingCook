@@ -142,7 +142,6 @@ ErrorHandler.State = {
 ErrorHandler.Instance = new ErrorHandler();
 class App {
     static diagnosticForm(formname, errors) {
-        console.log(errors);
         for (var field in errors[formname]) {
             var nodes = document.getElementsByName(field);
             if (nodes.length <= 0)
@@ -261,6 +260,7 @@ class App {
         }
     }
     static showLoading() {
+        App.LoadingCounter++;
         if (document.getElementById("loading") != null)
             return;
         var e = document.createElement("div");
@@ -268,15 +268,20 @@ class App {
         document.body.appendChild(e);
     }
     static hideLoading() {
+        App.LoadingCounter--;
+        if (App.LoadingCounter > 0)
+            return;
         var e = document.getElementById("loading");
         if (e == null)
             return;
         e.remove();
+        App.LoadingCounter = 0;
     }
 }
 App.Address = "http://localhost:8080/API";
 App.Page = null;
 App.PopUp = null;
+App.LoadingCounter = 0;
 class Login {
     constructor() {
         this.token = null;

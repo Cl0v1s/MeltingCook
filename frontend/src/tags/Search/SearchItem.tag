@@ -1,6 +1,6 @@
 <app-searchitem>
     <div>
-        <img>
+        <div class="img"></div>
         <div>
             <h2>A vos assiettes !</h2>
             <span>Cuisinez en bonne compagnie</span>

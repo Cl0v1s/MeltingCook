@@ -23,6 +23,12 @@ app-header, div[data-is=app-header]
         background-size: 150% 150%;
         background-position: center;
         background-repeat:no-repeat;
+
+        transition: all 0.2s ease;
+        &:hover
+        {
+            transform: scale(1.1,1.1);
+        }
     }
 
     &>nav 

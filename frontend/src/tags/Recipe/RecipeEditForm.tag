@@ -1,7 +1,7 @@
 <app-recipeeditform>
     <form name="edit-recipe" if="{ recipe != null }">
-        <div>
-            <h2>Informations de base</h2>
+        <section>
+            <h1>Informations de base</h1>
             <div>
                 <label>Nom de la recette *</label>
                 <input type="text" value="{ recipe.name }" placeholder="Nom de la recette" ref="name" name="fullname">
@@ -23,10 +23,10 @@
                     Ce champ est requis. Il doit contenir une url valide comportant moins de 400 caractères.
                 </p>
             </div>
-        </div>
+        </section>
 
-        <div>
-            <h2>Ingrédients et origine</h2>
+        <section>
+            <h1>Ingrédients et origine</h1>
             <div>
                 <label>Type de cuisine *</label>
                 <app-origininput ref="origin" name="origin" origin="{ recipe.origin }"></app-origininput>
@@ -48,10 +48,10 @@
                     Ce champ est requis et ne peut contenir plus de 1000 caractères.
                 </p>
             </div>
-        </div>
+        </section>
 
-        <div>
-            <h2>Organisation</h2>
+        <section>
+            <h1>Organisation</h1>
             <div>
                 <label>Prix de la participation *</label>
                 <input type="number" ref="price" name="price" value="{ recipe.price }" placeholder="Prix de la participation">
@@ -87,7 +87,7 @@
                     Ce champ est requis.
                 </p>
             </div>
-        </div>
+        </section>
 
         <p>
             Les champs marqués d'une * sont requis.

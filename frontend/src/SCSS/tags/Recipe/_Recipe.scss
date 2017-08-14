@@ -3,6 +3,7 @@ app-recipe, div[data-is=app-recipe]
     div.infos
     {
         display: inline-block;
+        vertical-align: top;
         width: 65%;
         @media screen and (max-width: 650px) {
             display: block;
@@ -80,6 +81,7 @@ app-recipe, div[data-is=app-recipe]
         div.join
         {
             text-align: center;
+            min-width: 210px;
             h2
             {
                 font-size: $font-size-big;

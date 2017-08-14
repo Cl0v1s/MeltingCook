@@ -3,17 +3,19 @@
     <app-tabbar tabs={ tabs }></app-tabbar>
     <div>
         <div class="header">
-            <div class="img" style="background-image: url('{user.picture}');"></div>    
-            <div class="identity">
-                <h2>Bonjour {user.username}</h2>
-                <ul>
-                    <li><a onclick='{ edit }'>Modifier votre profil</a></li>
-                    <li><a onclick='{ see }'>Voir votre profil public</a></li>
-                </ul>
+            <div>
+                <div class="img" style="background-image: url('{user.picture}');"></div>
+                <div class="identity">
+                    <h2>Bonjour {user.username}</h2>
+                    <ul>
+                        <li><a onclick='{ edit }'>> Modifier votre profil</a></li>
+                        <li><a onclick='{ see }'>> Voir votre profil public</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="comments">
-            <h2>Commentaires Récents</h2>
+            <h1>Commentaires Récents</h1>
             <app-comments ref="comments" if='{ comments != null }' comments='{ comments }'></app-comments>
         </div>
 

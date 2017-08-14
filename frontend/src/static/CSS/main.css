@@ -155,10 +155,17 @@ div#popup {
 h1 {
   font-size: 20px;
   font-family: "Lobster";
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+  background-color: #fbc0b8;
+  color: #ffffff;
+  padding: 8px; }
 
 h2 {
   font-size: 20px;
+  margin-bottom: 20px; }
+
+section {
+  border-bottom: 2px dotted #fbc0b8;
   margin-bottom: 20px; }
 
 img.profile {
@@ -353,26 +360,47 @@ div.Hearts {
 app-accountkitchen, div[data-is=app-accountkitchen] {
   display: block; }
   app-accountkitchen div.header, div[data-is=app-accountkitchen] div.header {
-    margin-top: 20px; }
-    app-accountkitchen div.header div.img, div[data-is=app-accountkitchen] div.header div.img {
-      display: inline-block;
-      width: 100px;
-      height: 100px;
-      border-radius: 100%;
-      background-size: cover;
-      background-position: center;
-      margin: 20px;
-      margin-top: 0;
-      margin-bottom: 0;
-      vertical-align: middle; }
-    app-accountkitchen div.header div.identity, div[data-is=app-accountkitchen] div.header div.identity {
-      display: inline-block;
-      vertical-align: top;
-      padding: 20px; }
-      app-accountkitchen div.header div.identity li, div[data-is=app-accountkitchen] div.header div.identity li {
-        margin-bottom: 8px; }
-        app-accountkitchen div.header div.identity li a, div[data-is=app-accountkitchen] div.header div.identity li a {
-          cursor: pointer; }
+    padding-top: 20px;
+    background-color: #e3dfd6; }
+    app-accountkitchen div.header > div, div[data-is=app-accountkitchen] div.header > div {
+      width: 80%;
+      margin: auto;
+      padding-top: 20px; }
+      app-accountkitchen div.header > div div.img, div[data-is=app-accountkitchen] div.header > div div.img {
+        display: inline-block;
+        width: 80px;
+        height: 80px;
+        border-radius: 100%;
+        background-size: cover;
+        background-position: center;
+        margin: auto;
+        margin-top: 0;
+        margin-bottom: 0;
+        vertical-align: top; }
+        @media screen and (max-width: 528px) {
+          app-accountkitchen div.header > div div.img, div[data-is=app-accountkitchen] div.header > div div.img {
+            display: block;
+            margin-bottom: 20px; } }
+      app-accountkitchen div.header > div div.identity, div[data-is=app-accountkitchen] div.header > div div.identity {
+        display: inline-block;
+        font-family: "Raleway";
+        width: 320px;
+        overflow: hidden;
+        text-wrap: normal;
+        line-break: normal;
+        word-break: break-all;
+        white-space: wrap;
+        padding: 20px;
+        padding-top: 0; }
+        @media screen and (max-width: 528px) {
+          app-accountkitchen div.header > div div.identity, div[data-is=app-accountkitchen] div.header > div div.identity {
+            display: block;
+            margin: auto;
+            text-align: center; } }
+        app-accountkitchen div.header > div div.identity li, div[data-is=app-accountkitchen] div.header > div div.identity li {
+          margin-bottom: 8px; }
+          app-accountkitchen div.header > div div.identity li a, div[data-is=app-accountkitchen] div.header > div div.identity li a {
+            cursor: pointer; }
   app-accountkitchen div.comments, div[data-is=app-accountkitchen] div.comments {
     width: 100%;
     margin: 8px;
@@ -394,7 +422,8 @@ app-accountrecipes app-recipes, div[data-is=app-accountrecipes] app-recipes {
 
 app-useritem, div[data-is=app-useritem] {
   display: block;
-  padding: 20px; }
+  padding: 20px;
+  min-width: 210px; }
   app-useritem div.head, div[data-is=app-useritem] div.head {
     margin-bottom: 20px; }
     @media screen and (max-width: 650px) {
@@ -485,6 +514,9 @@ app-usereditform div.picture > div.img, div[data-is=app-usereditform] div.pictur
   margin: auto;
   margin-bottom: 20px; }
 
+app-usereditform div.submit, div[data-is=app-usereditform] div.submit {
+  margin-bottom: 20px; }
+
 app-user > div div.banner, div[data-is=app-user] > div div.banner {
   display: block;
   width: 100%;
@@ -561,16 +593,29 @@ app-dateinput {
 app-tabbar {
   display: block;
   width: 100%;
-  background-color: #e3dfd6;
-  padding-bottom: 8px;
+  border-bottom: 10px solid #e0de91;
   position: relative; }
   app-tabbar span {
     display: inline-block;
     height: 32px;
     padding: 20px;
-    padding-right: 20px;
-    background-color: #ffffff;
+    padding-top: 8px;
+    background-color: #fbc0b8;
+    font-family: "Lobster";
+    color: #ffffff;
+    margin-right: 20px;
     cursor: pointer; }
+    @media screen and (max-width: 600px) {
+      app-tabbar span {
+        display: block;
+        margin: auto;
+        text-align: center; }
+        app-tabbar span:first-of-type {
+          margin-left: 0 !important; }
+        app-tabbar span:last-of-type {
+          display: none; } }
+    app-tabbar span:first-of-type {
+      margin-left: 40px; }
     app-tabbar span:last-of-type {
       cursor: initial;
       position: absolute;
@@ -580,7 +625,7 @@ app-tabbar {
       app-tabbar span:last-of-type:hover {
         background-color: #ffffff; }
     app-tabbar span.selected, app-tabbar span:hover {
-      background-color: #e3dfd6; }
+      background-color: #e0de91; }
 
 app-searcher {
   display: block;
@@ -620,6 +665,7 @@ app-searcher {
 
 app-recipe div.infos, div[data-is=app-recipe] div.infos {
   display: inline-block;
+  vertical-align: top;
   width: 65%; }
   @media screen and (max-width: 650px) {
     app-recipe div.infos, div[data-is=app-recipe] div.infos {
@@ -665,7 +711,8 @@ app-recipe div.user, div[data-is=app-recipe] div.user {
       display: block;
       width: 100%; } }
   app-recipe div.user div.join, div[data-is=app-recipe] div.user div.join {
-    text-align: center; }
+    text-align: center;
+    min-width: 210px; }
     app-recipe div.user div.join h2, div[data-is=app-recipe] div.user div.join h2 {
       font-size: 20px; }
     app-recipe div.user div.join .price, div[data-is=app-recipe] div.user div.join .price {
@@ -684,7 +731,8 @@ app-recipeitem, div[data-is=app-recipeitem] {
   width: 90%;
   margin: auto;
   text-align: center;
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+  cursor: pointer; }
   app-recipeitem div.user, div[data-is=app-recipeitem] div.user {
     display: inline-block;
     padding: 8px;
@@ -735,10 +783,10 @@ app-recipeeditform, div[data-is=app-recipeeditform] {
   app-recipeeditform > form, div[data-is=app-recipeeditform] > form {
     text-align: center;
     margin-bottom: 20px; }
-    app-recipeeditform > form > div, div[data-is=app-recipeeditform] > form > div {
-      display: inline-block;
+    app-recipeeditform > form > section, div[data-is=app-recipeeditform] > form > section {
+      display: block;
       text-align: left;
-      width: 45%;
+      width: 100%;
       vertical-align: top;
       min-width: 380px;
       padding: 20px; }
@@ -783,7 +831,10 @@ app-header, div[data-is=app-header] {
     background-image: url("/static/images/logo-noir.svg");
     background-size: 150% 150%;
     background-position: center;
-    background-repeat: no-repeat; }
+    background-repeat: no-repeat;
+    transition: all 0.2s ease; }
+    app-header > div.img:hover, div[data-is=app-header] > div.img:hover {
+      transform: scale(1.1, 1.1); }
   app-header > nav, div[data-is=app-header] > nav {
     display: inline-block;
     padding: 0 !important;

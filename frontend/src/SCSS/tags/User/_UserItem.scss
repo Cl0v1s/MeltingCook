@@ -2,10 +2,7 @@ app-useritem, div[data-is=app-useritem]
 {
     display: block;
     padding: $space-normal;
-
-                    @media screen and (max-width: 650px) {
-                                    
-                    }
+    min-width: 210px;
 
     div.head
     {

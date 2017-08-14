@@ -106,11 +106,21 @@ h1
   font-size: $font-size-big;
   font-family: $font-secondary;
   margin-bottom: $space-normal;
+  background-color: $color-front-straw;
+
+  color: $color-back-primary;
+  padding: $space-small;
 }
 
 h2
 {
   font-size: $font-size-big;
+  margin-bottom: $space-normal;
+}
+
+section
+{
+  border-bottom: 2px dotted $color-front-straw;
   margin-bottom: $space-normal;
 }
 

@@ -5,6 +5,7 @@ app-recipeitem, div[data-is=app-recipeitem]
     margin: auto;
     text-align: center;
     margin-bottom: $space-normal;
+    cursor: pointer;
     div.user
     {
         display: inline-block;

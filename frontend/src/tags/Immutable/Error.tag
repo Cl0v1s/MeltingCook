@@ -4,7 +4,7 @@
         <h1>Ooops... Quelque chose s'est mal passé.</h1>
         <div>
             <p>
-                Nous somme désolé pour ce petit soucis.
+                Nous sommes désolés pour ce petit soucis.
             </p>
             <p if="{ message != null }">
                 { message }

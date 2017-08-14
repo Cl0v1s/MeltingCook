@@ -4,39 +4,57 @@ app-accountkitchen, div[data-is=app-accountkitchen]
 
   div.header
   {
-    margin-top: $space-normal;
-    div.img
-    {
-      display: inline-block;
+    padding-top: $space-normal;
+    background-color: $color-back-secondary;
+    &>div {
+      width: 80%;
+      margin: auto;
+      padding-top: $space-normal;
+      div.img {
+        display: inline-block;
+        $side : 80px;
+        width: $side;
+        height: $side;
+        border-radius: 100%;
 
-      width: 100px;
-      height: 100px;
-      border-radius: 100%;
+        background-size: cover;
+        background-position: center;
 
-      background-size: cover;
-      background-position: center;
+        margin: auto;
+        margin-top: 0;
+        margin-bottom: 0;
 
-      margin: $space-normal;
-      margin-top: 0;
-      margin-bottom: 0;
+        vertical-align: top;
+        @media screen and (max-width: 528px) {
+          display: block;
+          margin-bottom: $space-normal;
+        }
+      }
 
-      vertical-align: middle;
-    }
+      div.identity {
+        display: inline-block;
+        font-family: $font-primary;
+        width: 320px;
+        overflow: hidden;
+        text-wrap: normal;
+        line-break: normal;
+        word-break: break-all;
+        white-space: wrap;
+        padding: $space-normal;
+        padding-top: 0;
 
-    div.identity
-    {
-      display: inline-block;
-      vertical-align: top;
+        @media screen and (max-width: 528px) {
+          display: block;
+          margin: auto;
+          text-align: center;
+        }
 
-      padding: $space-normal;
+        li {
+          margin-bottom: $space-small;
 
-
-      li
-      {
-        margin-bottom: $space-small;
-
-        a{
-          cursor: pointer;
+          a {
+            cursor: pointer;
+          }
         }
       }
     }

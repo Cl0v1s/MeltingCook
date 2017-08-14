@@ -2,8 +2,8 @@ app-tabbar
 {
   display: block;
   width: 100%;
-  background-color: $color-back-secondary;
-  padding-bottom: $space-small;
+  //background-color: $color-front-avocado;
+  border-bottom: 10px solid $color-front-avocado;
   position: relative;
 
   span
@@ -12,10 +12,35 @@ app-tabbar
     display: inline-block;
     height: $height;
     padding: $space-normal;
-    padding-right: $space-normal;
-    background-color: $color-back-primary;
+    padding-top: $space-small;
+    background-color: $color-front-straw;
+    font-family: $font-secondary;
+    color: $color-back-primary;
+    margin-right: $space-normal;
 
     cursor: pointer;
+
+    @media screen and (max-width: 600px) {
+      display: block;
+      margin: auto;
+      text-align: center;
+
+      &:first-of-type
+      {
+        margin-left: 0 !important;
+      }
+
+      &:last-of-type
+      {
+        display: none;
+      }
+    }
+
+    &:first-of-type
+    {
+      margin-left: $space-big;
+    }
+
     &:last-of-type
     {
       cursor: initial;
@@ -32,7 +57,7 @@ app-tabbar
 
     &.selected, &:hover
     {
-      background-color: $color-back-secondary;
+      background-color: $color-front-avocado;
     }
   }
 }

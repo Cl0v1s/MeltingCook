@@ -5,7 +5,6 @@
         <a class='Button register' if="{ logged == false }" onclick='{ register }'><span>Inscription</span></a>
         <a class='Button login' if="{ logged == false }" onclick='{ login }'><span>Connexion</span></a>
         <a if="{ logged == true }" onclick='{ account }'>
-            <span>{ user.username }</span>
             <div class="img" style="background-image: url('{user.picture}');"></div>
         </a>
     </nav>

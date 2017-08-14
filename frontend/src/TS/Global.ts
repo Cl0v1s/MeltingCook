@@ -5,10 +5,10 @@ class App
 
     private static Page = null;
     private static PopUp = null;
+    private static LoadingCounter = 0;
 
     public static diagnosticForm(formname : string , errors : Object)
     {
-        console.log(errors);
         for(var field in errors[formname])
         {
                 var nodes : NodeList = document.getElementsByName(field);
@@ -162,6 +162,7 @@ class App
 
     public static showLoading()
     {
+        App.LoadingCounter++;
         if(document.getElementById("loading") != null)
             return;
         var e = document.createElement("div");
@@ -171,10 +172,14 @@ class App
 
     public static hideLoading()
     {
+        App.LoadingCounter--;
+        if(App.LoadingCounter > 0)
+            return;
         var e = document.getElementById("loading");
         if(e == null)
             return;
         e.remove();
+        App.LoadingCounter = 0;
     }
 
 }

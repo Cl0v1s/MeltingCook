@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Lun 07 Août 2017 à 12:29
+-- Généré le :  Lun 14 Août 2017 à 11:00
 -- Version du serveur :  5.7.17-0ubuntu0.16.04.1
 -- Version de PHP :  7.0.15-0ubuntu0.16.04.4
 
@@ -59,6 +59,13 @@ CREATE TABLE `Origin` (
   `name` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Contenu de la table `Origin`
+--
+
+INSERT INTO `Origin` (`id`, `name`) VALUES
+(1, 'Française');
+
 -- --------------------------------------------------------
 
 --
@@ -66,8 +73,16 @@ CREATE TABLE `Origin` (
 --
 
 CREATE TABLE `Pins` (
+  `id` int(11) NOT NULL,
   `name` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `Pins`
+--
+
+INSERT INTO `Pins` (`id`, `name`) VALUES
+(1, 'Halal');
 
 -- --------------------------------------------------------
 
@@ -79,7 +94,7 @@ CREATE TABLE `Recipe` (
   `id` int(11) NOT NULL,
   `name` varchar(400) NOT NULL,
   `description` varchar(1000) NOT NULL,
-  `picture` varchar(100) NOT NULL,
+  `picture` varchar(400) NOT NULL,
   `User_id` int(11) NOT NULL,
   `origin` varchar(400) NOT NULL,
   `items` varchar(1000) NOT NULL,
@@ -92,6 +107,14 @@ CREATE TABLE `Recipe` (
   `pins` varchar(1000) DEFAULT NULL,
   `place` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `Recipe`
+--
+
+INSERT INTO `Recipe` (`id`, `name`, `description`, `picture`, `User_id`, `origin`, `items`, `date_start`, `date_end`, `price`, `latitude`, `longitude`, `places`, `pins`, `place`) VALUES
+(1, 'Gloubiboulga', 'La recette préférée de Casimir Il en mange tout le temps ce gros porc.', 'http://img0.encyclopedie-incomplete.com/local/cache-vignettes/L468xH340/casimir_hippolyte_gloubiboulga-c017e.jpg', 1, 'Française', 'Saucisse de morteau;Caca;prout', 1502229600, 1503612000, 1, 44.8026, -0.588054, 1, 'Halal', '45.9;-1.033333'),
+(2, 'Un bon gros caca', 'Du bon gros caca en boite comme on l\'aime tous, cuisiné avec amour putain', 'http://borkborkiamdoggo.com/wp-content/uploads/2016/12/alex-g-did-me-a-scare-is-not-a-trump-is-a-doggofoxxo.jpg', 1, 'Française', 'Caca', 1502834400, 1504130400, 12, 44.8026, -0.588054, 42, 'Halal', 'Hénin-Beaumont');
 
 -- --------------------------------------------------------
 
@@ -186,6 +209,13 @@ ALTER TABLE `Origin`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `Pins`
+--
+ALTER TABLE `Pins`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
 -- Index pour la table `Recipe`
 --
 ALTER TABLE `Recipe`
@@ -224,7 +254,7 @@ ALTER TABLE `User`
 -- AUTO_INCREMENT pour la table `Comment`
 --
 ALTER TABLE `Comment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT pour la table `Notification`
 --
@@ -236,6 +266,11 @@ ALTER TABLE `Notification`
 ALTER TABLE `Origin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
+-- AUTO_INCREMENT pour la table `Pins`
+--
+ALTER TABLE `Pins`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT pour la table `Recipe`
 --
 ALTER TABLE `Recipe`
@@ -244,7 +279,7 @@ ALTER TABLE `Recipe`
 -- AUTO_INCREMENT pour la table `Report`
 --
 ALTER TABLE `Report`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT pour la table `Reservation`
 --

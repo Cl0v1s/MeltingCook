@@ -1,40 +1,30 @@
-div.Hearts
+app-hearts
 {
 
     display: inline-block;
-    width: 120px;
-    height: 25px;
+    width: 200px;
+    height: 40px;
     vertical-align: middle;
-    background-color: pink;
     margin: $space-small;
+    text-align: center;
 
-    &.nb-0
+    &>div
     {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
 
+        background-size: contain;
+        background-repeat: no-repeat;
     }
 
-    &.nb-1
+    .empty
     {
-        
+        background-image: url("/static/images/heart_vide.svg");
     }
 
-    &.nb-2
+    .full
     {
-        
-    }
-
-    &.nb-3
-    {
-        
-    }
-
-    &.nb-4
-    {
-        
-    }
-
-    &.nb-5
-    {
-        
+        background-image: url("/static/images/heart_plein.svg");
     }
 }

@@ -73,11 +73,9 @@ table {
 
 .content {
   min-width: 320px;
+  max-width: 900px;
   width: 80%;
-  margin: auto;
-  margin-top: 20px;
-  box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.1);
-  padding: 8px; }
+  margin: auto; }
 
 @keyframes loading {
   0% {
@@ -85,7 +83,7 @@ table {
     background-color: #ffc172; }
   50% {
     left: 150%;
-    background-color: #fbc0b8; }
+    background-color: #f7b3aa; }
   100% {
     left: -300px;
     background-color: #ffc172; } }
@@ -156,7 +154,7 @@ h1 {
   font-size: 20px;
   font-family: "Lobster";
   margin-bottom: 20px;
-  background-color: #fbc0b8;
+  background-color: #f7b3aa;
   color: #ffffff;
   padding: 8px; }
 
@@ -165,7 +163,7 @@ h2 {
   margin-bottom: 20px; }
 
 section {
-  border-bottom: 2px dotted #fbc0b8;
+  border-bottom: 2px dotted #f7b3aa;
   margin-bottom: 20px; }
 
 img.profile {
@@ -216,7 +214,7 @@ a.Button {
   a.Button.login {
     background-image: url("/static/images/on.svg"); }
     a.Button.login > span {
-      color: #fbc0b8; }
+      color: #f7b3aa; }
   a.Button.fb {
     background-position: center;
     background-size: auto 250%;
@@ -270,8 +268,8 @@ input[type=button] {
   display: inline-block;
   margin: 8px;
   box-sizing: border-box;
-  background-color: #fbc0b8;
-  border: 0;
+  background-color: #f7b3aa;
+  border: 1px solid #EA968B;
   color: #ffffff;
   padding: 8px;
   border-radius: 2px;
@@ -286,6 +284,12 @@ input[type=button] {
     margin-top: 20px; }
   input[type=button]:hover {
     transform: scale(1.1, 1.1); }
+  input[type=button].peach {
+    background-color: #ffc172;
+    border: 1px solid #EA968B; }
+  input[type=button]:hover {
+    background-color: #e0de91;
+    border: 1px solid #C1B449; }
 
 .Pins {
   display: inline-block;
@@ -307,16 +311,19 @@ input[type=button] {
     padding-left: 8px;
     padding-right: 8px;
     border-radius: 2px; }
+    .Pins:hover span, .Pins:active span, .Pins.open span {
+      color: #ffffff; }
   .Pins::first-letter {
     display: block;
     color: #ffffff; }
   .Pins span {
     font-size: 14px;
-    vertical-align: middle; }
+    vertical-align: middle;
+    color: transparent; }
   .Pins:nth-of-type(3n) {
     background-color: #ffc172; }
   .Pins:nth-of-type(3n+1) {
-    background-color: #fbc0b8; }
+    background-color: #f7b3aa; }
   .Pins:nth-of-type(3n+2) {
     background-color: #e0de91; }
 
@@ -367,13 +374,23 @@ div label + .error + p.hint {
   width: 100%;
   text-align: center; }
 
-div.Hearts {
+app-hearts {
   display: inline-block;
-  width: 120px;
-  height: 25px;
+  width: 200px;
+  height: 40px;
   vertical-align: middle;
-  background-color: pink;
-  margin: 8px; }
+  margin: 8px;
+  text-align: center; }
+  app-hearts > div {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-size: contain;
+    background-repeat: no-repeat; }
+  app-hearts .empty {
+    background-image: url("/static/images/heart_vide.svg"); }
+  app-hearts .full {
+    background-image: url("/static/images/heart_plein.svg"); }
 
 /** Importation des styles des tags **/
 app-accountkitchen, div[data-is=app-accountkitchen] {
@@ -442,45 +459,54 @@ app-accountrecipes app-recipes, div[data-is=app-accountrecipes] app-recipes {
 app-useritem, div[data-is=app-useritem] {
   display: block;
   padding: 20px;
-  min-width: 210px; }
+  min-width: 210px;
+  background-image: url("/static/images/black_paper.png");
+  color: #ffffff; }
   app-useritem div.head, div[data-is=app-useritem] div.head {
-    margin-bottom: 20px; }
-    @media screen and (max-width: 650px) {
-      app-useritem div.head, div[data-is=app-useritem] div.head {
-        display: inline-block;
-        vertical-align: top;
-        float: left; } }
+    margin-bottom: 20px;
+    text-align: center; }
     app-useritem div.head img, div[data-is=app-useritem] div.head img {
       display: inline-block;
-      width: 50px;
-      height: 50px;
-      vertical-align: middle; }
+      width: 100px;
+      height: 100px;
+      border-radius: 100%;
+      margin-bottom: 20px; }
     app-useritem div.head > div, div[data-is=app-useritem] div.head > div {
-      display: inline-block;
-      padding-left: 8px; }
+      display: block;
+      padding-left: 8px;
+      vertical-align: top; }
       app-useritem div.head > div span, div[data-is=app-useritem] div.head > div span {
         display: inline-block;
+        font-size: 20px;
         width: 100%;
-        vertical-align: middle; }
+        vertical-align: middle;
+        color: #ffffff; }
   app-useritem div.body, div[data-is=app-useritem] div.body {
     margin-bottom: 20px; }
-    @media screen and (max-width: 650px) {
-      app-useritem div.body, div[data-is=app-useritem] div.body {
-        display: inline-block; } }
-    app-useritem div.body div.Hearts, div[data-is=app-useritem] div.body div.Hearts {
+    app-useritem div.body app-hearts, div[data-is=app-useritem] div.body app-hearts {
       display: block;
       margin: auto;
-      margin-bottom: 20px !important; }
-    app-useritem div.body div.style, div[data-is=app-useritem] div.body div.style {
-      margin-bottom: 20px;
-      text-align: center; }
-      app-useritem div.body div.style span:first-of-type, div[data-is=app-useritem] div.body div.style span:first-of-type {
-        display: block;
-        font-size: 14px; }
-      app-useritem div.body div.style span:last-of-type, div[data-is=app-useritem] div.body div.style span:last-of-type {
-        font-size: 20px; }
-    app-useritem div.body div.style + div, div[data-is=app-useritem] div.body div.style + div {
-      text-align: center; }
+      width: 100%; }
+  app-useritem div.style, div[data-is=app-useritem] div.style {
+    margin-bottom: 20px;
+    text-align: center; }
+    app-useritem div.style span:first-of-type, div[data-is=app-useritem] div.style span:first-of-type {
+      display: block;
+      font-size: 14px;
+      color: #ffffff; }
+    app-useritem div.style span:last-of-type, div[data-is=app-useritem] div.style span:last-of-type {
+      font-size: 20px;
+      color: #ffffff;
+      font-family: "Lobster"; }
+  app-useritem div.style + div, div[data-is=app-useritem] div.style + div {
+    text-align: center; }
+    app-useritem div.style + div div.pins:hover, app-useritem div.style + div div.pins:active, div[data-is=app-useritem] div.style + div div.pins:hover, div[data-is=app-useritem] div.style + div div.pins:active {
+      color: #191d1c; }
+    app-useritem div.style + div div.pins::first-letter, div[data-is=app-useritem] div.style + div div.pins::first-letter {
+      color: #191d1c; }
+  app-useritem div.foot input, div[data-is=app-useritem] div.foot input {
+    background-color: #ffc172;
+    color: #191d1c; }
 
 app-usereditform div.left, div[data-is=app-usereditform] div.left {
   display: inline-block;
@@ -536,6 +562,12 @@ app-usereditform div.picture > div.img, div[data-is=app-usereditform] div.pictur
 app-usereditform div.submit, div[data-is=app-usereditform] div.submit {
   margin-bottom: 20px; }
 
+app-user > div h1, div[data-is=app-user] > div h1 {
+  color: #191d1c;
+  background-color: transparent;
+  padding-left: 0;
+  margin-bottom: 8px; }
+
 app-user > div div.banner, div[data-is=app-user] > div div.banner {
   display: block;
   width: 100%;
@@ -550,39 +582,66 @@ app-user > div div.head, div[data-is=app-user] > div div.head {
   app-user > div div.head > img, div[data-is=app-user] > div div.head > img {
     display: inline-block;
     width: 114px;
-    height: 114px; }
+    height: 114px;
+    border-radius: 2px; }
   app-user > div div.head > div, div[data-is=app-user] > div div.head > div {
     display: inline-block;
     margin-left: 20px;
     font-size: 16px; }
     app-user > div div.head > div.identity span, div[data-is=app-user] > div div.head > div.identity span {
       display: block;
-      font-size: 20px; }
-  app-user > div div.head > a.Button, div[data-is=app-user] > div div.head > a.Button {
+      font-size: 20px;
+      font-family: "Raleway"; }
+      app-user > div div.head > div.identity span:first-of-type, div[data-is=app-user] > div div.head > div.identity span:first-of-type {
+        font-family: "Lobster"; }
+  app-user > div div.head > a.verified, div[data-is=app-user] > div div.head > a.verified {
     vertical-align: initial;
-    margin-left: 20px; }
+    margin-left: 20px;
+    font-family: "Lobster"; }
+
+app-user > div nav, div[data-is=app-user] > div nav {
+  display: block;
+  text-align: center;
+  margin: 20px; }
+  app-user > div nav input[type=button], div[data-is=app-user] > div nav input[type=button] {
+    margin: 0;
+    margin-right: 8px; }
 
 app-user > div div.description, div[data-is=app-user] > div div.description {
-  padding-left: 40px;
-  padding-right: 40px;
-  margin-bottom: 40px; }
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px dotted #ffc172; }
   app-user > div div.description p, div[data-is=app-user] > div div.description p {
-    font-size: 16px; }
+    font-size: 16px;
+    font-family: "Raleway"; }
 
 app-user > div div.more, div[data-is=app-user] > div div.more {
-  padding-left: 40px;
-  padding-right: 40px; }
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-bottom: 20px; }
   app-user > div div.more > div, div[data-is=app-user] > div div.more > div {
     vertical-align: top;
     display: inline-block;
     margin-right: 80px;
     margin-bottom: 20px; }
+  app-user > div div.more ul, div[data-is=app-user] > div div.more ul {
+    padding-left: 20px; }
+    app-user > div div.more ul li, div[data-is=app-user] > div div.more ul li {
+      list-style-type: disc;
+      font-family: "Raleway"; }
 
 app-user > div div.comments, div[data-is=app-user] > div div.comments {
   padding-left: 40px;
-  padding-right: 40px; }
-  app-user > div div.comments h2, div[data-is=app-user] > div div.comments h2 {
+  padding-right: 40px;
+  margin-bottom: 20px; }
+  app-user > div div.comments h1, div[data-is=app-user] > div div.comments h1 {
     display: inline-block; }
+  app-user > div div.comments app-hearts, div[data-is=app-user] > div div.comments app-hearts {
+    display: inline-block;
+    padding-top: 5px;
+    vertical-align: middle; }
 
 app-manyinputs {
   display: block; }
@@ -619,7 +678,7 @@ app-tabbar {
     height: 32px;
     padding: 20px;
     padding-top: 8px;
-    background-color: #fbc0b8;
+    background-color: #f7b3aa;
     font-family: "Lobster";
     color: #ffffff;
     margin-right: 20px;
@@ -645,6 +704,35 @@ app-tabbar {
         background-color: #ffffff; }
     app-tabbar span.selected, app-tabbar span:hover {
       background-color: #e0de91; }
+
+app-placehint, div[data-is=app-placehint] {
+  display: block;
+  cursor: pointer;
+  overflow: hidden; }
+  app-placehint div.img, div[data-is=app-placehint] div.img {
+    display: inline-block;
+    background-image: url("/static/images/location.png");
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    width: 50px;
+    height: 50px;
+    vertical-align: middle;
+    margin-right: 8px; }
+  app-placehint > div > div, div[data-is=app-placehint] > div > div {
+    display: inline-block; }
+  app-placehint > div.map, div[data-is=app-placehint] > div.map {
+    margin-top: 20px;
+    transition: all 0.2s ease; }
+    app-placehint > div.map.close, div[data-is=app-placehint] > div.map.close {
+      height: 0; }
+    app-placehint > div.map.open, div[data-is=app-placehint] > div.map.open {
+      height: 100px; }
+    app-placehint > div.map iframe, div[data-is=app-placehint] > div.map iframe {
+      display: block;
+      width: 100%;
+      height: 200px;
+      margin: auto;
+      border-radius: 2px; }
 
 app-searcher {
   display: block;
@@ -682,45 +770,79 @@ app-searcher {
     font-family: "Lobster";
     margin-bottom: 8px; }
 
+app-recipe div.banner, div[data-is=app-recipe] div.banner {
+  display: block;
+  width: 100%;
+  height: 150px;
+  position: relative;
+  z-index: 1;
+  background-size: 0 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  overflow: hidden; }
+  app-recipe div.banner::after, div[data-is=app-recipe] div.banner::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: inherit;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center; }
+  app-recipe div.banner::before, div[data-is=app-recipe] div.banner::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: inherit;
+    background-size: cover;
+    background-position: center;
+    filter: blur(15px);
+    -webkit-filter: blur(15px); }
+
 app-recipe div.infos, div[data-is=app-recipe] div.infos {
   display: inline-block;
+  padding: 40px;
   vertical-align: top;
   width: 65%; }
   @media screen and (max-width: 650px) {
     app-recipe div.infos, div[data-is=app-recipe] div.infos {
       display: block;
       width: 100%; } }
-  app-recipe div.infos div.banner, div[data-is=app-recipe] div.infos div.banner {
-    width: 100%;
-    height: 105px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center; }
   app-recipe div.infos div.base, div[data-is=app-recipe] div.infos div.base {
-    margin: 20px; }
-    app-recipe div.infos div.base div.name, div[data-is=app-recipe] div.infos div.base div.name {
-      margin-bottom: 20px; }
-      app-recipe div.infos div.base div.name h1, div[data-is=app-recipe] div.infos div.base div.name h1 {
-        display: inline-block;
-        width: auto;
-        font-size: 40px;
-        vertical-align: middle; }
-      app-recipe div.infos div.base div.name > div, div[data-is=app-recipe] div.infos div.base div.name > div {
-        vertical-align: middle;
-        margin-top: 8px;
-        margin-bottom: 8px;
-        display: inline-block; }
+    padding-bottom: 8px;
+    border-bottom: 1px dotted #ffc172; }
+    app-recipe div.infos div.base div.name h1, div[data-is=app-recipe] div.infos div.base div.name h1 {
+      display: inline-block;
+      width: auto;
+      font-size: 40px;
+      background-color: transparent;
+      color: #191d1c;
+      height: 56px;
+      padding: 0; }
+    app-recipe div.infos div.base div.name > div, div[data-is=app-recipe] div.infos div.base div.name > div {
+      vertical-align: middle;
+      display: inline-block;
+      height: 56px;
+      padding-top: 7px; }
   app-recipe div.infos div.geolocation, div[data-is=app-recipe] div.infos div.geolocation {
     width: 100%;
-    margin: 20px; }
+    margin-top: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px dotted #ffc172; }
   app-recipe div.infos div.details, div[data-is=app-recipe] div.infos div.details {
-    margin: 20px; }
+    margin-top: 20px; }
     app-recipe div.infos div.details h2, div[data-is=app-recipe] div.infos div.details h2 {
-      font-size: 20px; }
+      font-family: "Lobster"; }
     app-recipe div.infos div.details ul, div[data-is=app-recipe] div.infos div.details ul {
       padding-left: 40px;
-      list-style: initial;
-      list-style-type: disc; }
+      list-style: disc; }
 
 app-recipe div.user, div[data-is=app-recipe] div.user {
   display: inline-block;
@@ -731,19 +853,36 @@ app-recipe div.user, div[data-is=app-recipe] div.user {
       width: 100%; } }
   app-recipe div.user div.join, div[data-is=app-recipe] div.user div.join {
     text-align: center;
-    min-width: 210px; }
+    min-width: 210px;
+    background-color: #f7b3aa;
+    padding: 20px; }
     app-recipe div.user div.join h2, div[data-is=app-recipe] div.user div.join h2 {
-      font-size: 20px; }
+      font-family: "Lobster";
+      color: #ffffff; }
     app-recipe div.user div.join .price, div[data-is=app-recipe] div.user div.join .price {
+      width: 100px;
+      height: 100px;
+      line-height: 100px;
+      background-color: #ffffff;
+      color: #f7b3aa;
+      font-size: 30px;
+      font-weight: bold;
+      font-family: "Raleway";
       margin: 0;
-      margin-bottom: 8px; }
+      margin-bottom: 20px; }
     app-recipe div.user div.join .price + div, div[data-is=app-recipe] div.user div.join .price + div {
       font-weight: bold;
+      font-family: "Raleway";
+      color: #ffffff;
       margin-bottom: 8px; }
-    app-recipe div.user div.join form div input[type=checkbox], div[data-is=app-recipe] div.user div.join form div input[type=checkbox] {
-      margin-bottom: 8px; }
-    app-recipe div.user div.join input[type=button], div[data-is=app-recipe] div.user div.join input[type=button] {
-      margin-top: 8px; }
+    app-recipe div.user div.join form, div[data-is=app-recipe] div.user div.join form {
+      display: block;
+      width: 100%;
+      text-align: left; }
+      app-recipe div.user div.join form div, div[data-is=app-recipe] div.user div.join form div {
+        color: #ffffff; }
+      app-recipe div.user div.join form input[type=button], div[data-is=app-recipe] div.user div.join form input[type=button] {
+        background-color: #ffc172; }
 
 app-recipes, div[data-is=app-recipes] {
   display: block;

@@ -2,6 +2,13 @@ app-user, div[data-is=app-user]
 {
     &>div
     {
+        h1
+        {
+            color: $color-text-primary;
+            background-color: transparent;
+            padding-left: 0;
+            margin-bottom: $space-small;
+        }
         div.banner
         {
             display: block;
@@ -22,6 +29,7 @@ app-user, div[data-is=app-user]
                 display: inline-block;
                 width: 114px;
                 height: 114px;
+                border-radius: 2px;
             }
 
             &>div
@@ -36,34 +44,62 @@ app-user, div[data-is=app-user]
                     {
                         display: block;
                         font-size: $font-size-big;
+                        font-family: $font-primary;
+
+                        &:first-of-type
+                        {
+                            font-family: $font-secondary;
+                        }
                     }
                 }
+
             }
 
-            &>a.Button
+
+
+            &>a.verified
             {
                 vertical-align: initial;
                 margin-left: $space-normal;
+                font-family: $font-secondary;
             }
 
+        }
+
+        nav
+        {
+            display: block;
+            text-align: center;
+            margin: $space-normal;
+
+            input[type=button]
+            {
+                margin: 0;
+                margin-right: $space-small;
+            }
         }
 
         div.description
         {
-            padding-left: $space-big;
-            padding-right: $space-big;
-            margin-bottom: $space-big;
+            margin-left: $space-big;
+            margin-right: $space-big;
+            margin-bottom: $space-normal;
 
             p
             {
                 font-size: $font-size-normal;
+                font-family: $font-primary;
             }
+
+            padding-bottom: $space-normal;
+            border-bottom: 1px dotted $color-front-peach;
         }
 
         div.more
         {
-            padding-left: $space-big;
-            padding-right: $space-big;
+            margin-left: $space-big;
+            margin-right: $space-big;
+            margin-bottom: $space-normal;
 
             &>div
             {
@@ -72,16 +108,37 @@ app-user, div[data-is=app-user]
                 margin-right: $space-big * 2;
                 margin-bottom: $space-normal;
             }
+
+            ul
+            {
+                padding-left: $space-normal;
+
+                li
+                {
+                    list-style-type: disc;
+                    font-family: $font-primary;
+                }
+            }
+            padding-bottom: $space-normal;
+            border-bottom: 1px dotted $color-front-peach;
+
         }
 
         div.comments
         {
             padding-left: $space-big;
             padding-right: $space-big;
+            margin-bottom: $space-normal;
 
-            h2
+            h1
             {
                 display: inline-block;
+            }
+            app-hearts
+            {
+                display: inline-block;
+                padding-top: 5px;
+                vertical-align: middle;
             }
         }
     }

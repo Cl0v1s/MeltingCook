@@ -7,10 +7,10 @@
         </div>
     </div>
     <div class="body">
-        <div class="Hearts nb-{ user.likes }">
+        <app-hearts repeat="{ hearts }"></app-hearts>
         </div>
         <div class='{style : true, invisible: user.style == null || user.style == ""}'>
-            <span>Son style</span>
+            <span>Son style de cuisine</span>
             <span>{ user.style }</span>
         </div>
         <div>
@@ -28,11 +28,13 @@
         var tag = this;
 
         tag.user = null;
+        tag.hearts = null;
         tag.reduced = false;
 
         tag.on("before-mount", function()
         {
             tag.user = Adapter.adaptUser(tag.opts.user);
+            tag.hearts = new Array(tag.user.likes);
             if(tag.opts.reduced != null)
                 tag.reduced = tag.opts.reduced;
         });

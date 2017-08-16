@@ -32,6 +32,11 @@
         padding-left: $space-small;
         padding-right: $space-small;
         border-radius: 2px;
+
+        span
+        {
+            color: $color-back-primary;
+        }
     }
 
     &::first-letter
@@ -44,6 +49,7 @@
     {
         font-size: $font-size-small;
         vertical-align: middle;
+        color: transparent;
     }
 
     &:nth-of-type(3n)

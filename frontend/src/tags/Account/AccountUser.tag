@@ -1,7 +1,7 @@
 <app-accountuser>
     <app-header ></app-header>
     <app-tabbar tabs='{ tabs }'></app-tabbar>
-    <div>
+    <div class="content">
         <app-usereditform ref="form" user='{ user }' callback='{ send }'></app-usereditform>
     </div>
     <app-footer></app-footer>

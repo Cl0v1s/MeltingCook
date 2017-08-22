@@ -3,7 +3,7 @@
     <app-tabbar tabs={ tabs }></app-tabbar>
     <div>
         <div class="header">
-            <h2>La dernière recette proposée</h2>
+            <h1>La dernière recette proposée</h1>
             <div>
                 <app-recipeitem if='{ last_recipe != null }' recipe='{ last_recipe }'></app-recipeitem>
                 <div if='{ last_recipe == null }'>
@@ -86,15 +86,17 @@
             tag.refs.recipes.setRecipes(tag.list);
         };
 
-        tag.showFutur = function()
+        tag.showFuture = function()
         {
             var lst = tag.sortRecipes(true);
+            console.log(lst);
             tag.showRecipes(lst);
         };
 
         tag.showPast = function()
         {
             var lst = tag.sortRecipes(false);
+            console.log(lst);
             tag.showRecipes(lst);
         }
     </script>

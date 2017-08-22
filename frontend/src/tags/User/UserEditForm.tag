@@ -1,6 +1,7 @@
 <app-usereditform>
     <form name="edit-user" if={ user != null }>
-        <div class="left">
+        <div>
+            <h1>Présentation du compte</h1>
             <div class="banner">
                 <div class="img" ref="banner_preview" style="background-image: url('{ user.banner }');"></div>
                 <div>
@@ -30,16 +31,17 @@
         </div>
 
 
-        <div class="right">
+        <div>
+            <h1>Informations de base</h1>
             <div class="base">
-                <div class={ invisible: user.id != null }>
+                <div class='{ invisible: user.id != null }'>
                     <label>Nom d'utilisateur: </label>
                     <input type="text" name="username" ref="username" value={ user.username }>
                     <p class="hint">Ce champ doit contenir entre 5 et 400 caractères.</p>
                     <p>
                     Vous ne pourrez plus changer de nom d'utilisateur après l'inscription. Choisissez avec sagesse.</p>
                 </div>
-                <div class={ invisible: user.id != null }>
+                <div class='{ invisible: user.id != null }'>
                     <label>Mot de passe: </label>
                     <input type="password" name="password" ref="password">
                     <p class="hint">
@@ -47,7 +49,7 @@
                         Le mot de passe et sa confirmation doivent correspondre.
                     </p>
                 </div>
-                <div class={ invisible: user.id != null }>
+                <div class='{ invisible: user.id != null }'>
                     <label>Confirmation mot de passe: </label>
                     <input type="password" name="password_confirm" ref="password_confirm">
                     <p class="hint">
@@ -69,6 +71,11 @@
                         Ce champ doit contenir un numéro de téléphone valide.
                     </p>
                 </div>
+            </div>
+        </div>
+        <div>
+            <div class="bills">
+                <h1>Informations de facturation</h1>
                 <div>
                     <label>Adresse Email associée au compte Paypal:</label>
                     <input type="text" name="mail" ref="mail" value={ user.mail }>
@@ -107,7 +114,10 @@
                     </p>
                 </div>
             </div>
+        </div>
+        <div>
             <div class="more">
+                <h1>Détails importants</h1>
                 <div>
                     <label>Mes allergies:</label>
                     <div>
@@ -143,16 +153,16 @@
         </div>
 
 
-        <div class="left">
-            <div class={action : true, invisible: (user.id==null) }>
-                <input type="button" class="large" value="Voir mon profil" onclick={ details }>
-                <input type="button" class="large" value="Réinitialiser mon mot de passe" onclick={ changePassword }>
-                <!--<input type="button" class="large" value="Me désinscrire" onclick={ removeAccount }>-->
+        <div>
+            <h1>Actions</h1>
+            <div class='{action : true, invisible: (user.id==null) }'>
+                <input type="button" class="large" value="Réinitialiser mon mot de passe" onclick='{ changePassword }'>
+                <!--<input type="button" class="large" value="Me désinscrire" onclick='{ removeAccount }'>-->
             </div>
         </div>
 
 
-            <div class="submit">
+            <div>
                 <input type="button" class="large" value="Enregistrer" onclick='{ validate }'>
             </div>
 

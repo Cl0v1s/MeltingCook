@@ -104,10 +104,11 @@ h1
   font-size: $font-size-big;
   font-family: $font-secondary;
   margin-bottom: $space-normal;
-  background-color: $color-front-straw;
+  //background-color: $color-front-straw;
 
-  color: $color-back-primary;
+  //color: $color-back-primary;
   padding: $space-small;
+  padding-left: 0;
 }
 
 h2

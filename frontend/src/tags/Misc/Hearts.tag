@@ -12,6 +12,9 @@
         {
             if(tag.opts.repeat > 0)
                 tag.repeat = new Array(tag.opts.repeat);
+            console.log(tag.opts.repeat);
+            console.log(5-tag.opts.repeat);
+
             tag.empties = new Array(5-tag.opts.repeat);
         });
 

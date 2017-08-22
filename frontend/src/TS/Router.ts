@@ -92,6 +92,17 @@ class Router
                 return;
             }
             var recipe = Adapter.adaptRecipe(response.data);
+            var requestRecipe = Promise.resolve(recipe);
+            var requestUser = App.request(App.Address + "/getuser", {
+                "id" : recipe.User_id
+            });
+            return Promise.all([requestRecipe, requestUser]);
+
+        }).then(function(responses: any)
+        {
+            var recipe = responses[0];
+            var user = responses[1].data;
+            recipe.user = user;
             App.changePage("app-recipe", {
                 "recipe" : recipe
             });

@@ -2,6 +2,11 @@ app-accountrecipes, div[data-is=app-accountrecipes] {
   div.header {
     margin-top: $space-normal;
     padding: $space-normal;
+
+    &>div
+    {
+      text-align: center;
+    }
   }
 
   div nav
@@ -10,6 +15,8 @@ app-accountrecipes, div[data-is=app-accountrecipes] {
 
     a{
       cursor: pointer;
+      font-family: $font-primary;
+      text-decoration: underline;
       margin-right: $space-normal;
     }
   }

@@ -1,6 +1,8 @@
 <app-recipeedit>
     <app-header></app-header>
-    <app-recipeeditform ref="form"  recipe="{ recipe }"></app-recipeeditform>
+    <div class="content">
+        <app-recipeeditform ref="form"  recipe="{ recipe }"></app-recipeeditform>
+    </div>
     <app-footer></app-footer>
     <script>
         var tag = this;

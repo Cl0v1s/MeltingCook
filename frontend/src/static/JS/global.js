@@ -361,7 +361,7 @@ class Router {
                 route("/error/404");
                 return;
             }
-            var requestUser = App.request(App.Address + "/getrecipe", {
+            var requestUser = App.request(App.Address + "/getuser", {
                 "id": response.data.User_id
             });
             var filters = {
@@ -372,6 +372,7 @@ class Router {
             });
             return Promise.all([Promise.resolve(response.data), requestUser, requestReservations]);
         }).then(function (responses) {
+            console.log(responses);
             if (responses[1].data == null) {
                 route("/error/404");
                 return;

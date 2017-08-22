@@ -1,8 +1,8 @@
 <app-reservation>
     <app-header></app-header>
     <div class="content">
-        <div>
-            <h1>RECAPITULATIF DE CUISINE</h1>
+        <section>
+            <h1>Récapitulatif de cuisine</h1>
             <div>
                 <div>
                     <label>Qui cuisine ?</label>
@@ -10,17 +10,25 @@
                 </div>
                 <div>
                     <label>Qui participe ?</label>
-                    <app-users users="{ recipe.guests }"></app-users>
+                    <table>
+                        <tr each="{ guest in recipe.guests }">
+                            <td>{ guest.username }</td>
+                            <td><a onclick="{ userDetails }" data-id="{ guest.id }">Voir le profil</a></td>
+                        </tr>
+                    </table>
+                    <div class="guests" if="{ recipe.guests.length <= 0 }">
+                        Vous etes le seul participant pour le moment.
+                    </div>
                 </div>
-                <div>
+                <div class="recipe">
                     <label>Apprentissage de:</label>
                     <app-recipeitem recipe="{ recipe }"></app-recipeitem>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div>
-            <h1>FAISONS LES COMPTES</h1>
+        <section>
+            <h1>Faisons les comptes</h1>
             <div>
                 <table>
                     <tr>
@@ -50,25 +58,40 @@
 
                 </table>
             </div>
-        </div>
+        </section>
 
-        <div>
-            <h1>PAIEMENT EN LIGNE PAR PAYPAL</h1>
-            <div>
+        <section>
+            <h1>Paiement en ligne par Paypal</h1>
+            <div class="checkout">
                 <p>Vous allez pouvoir accéder à Paypal pour finaliser votre paiement.</p>
                 <input type="button" value="Payer { recipe.price+2 }€" onclick="{ paypal }">
                 <p>En validant le paiement, vous accepter les CGU et la charte de bonne conduite de Melting Cook.</p>
             </div>
-        </div>
+        </section>
     </div>
     <app-footer></app-footer>
 
     <script>
         var tag = this;
 
+        tag.recipe = null;
+
+        tag.on("before-mount", function()
+        {
+            tag.recipe = Adapter.adaptRecipe(tag.opts.recipe);
+            if(tag.recipe == null)
+                throw new Error("Recipe cant be null.");
+        });
+
         tag.paypal = function()
         {
             vex.dialog.alert("Not Implemented");
         };
+
+        tag.userDetails = function(e)
+        {
+            var id = e.target.getAttribute("data-id");
+            route("/user/"+id);
+        }
     </script>
 </app-reservation>

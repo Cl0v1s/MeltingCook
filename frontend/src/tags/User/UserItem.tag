@@ -1,4 +1,4 @@
-<app-useritem onclick='{ details }'>
+<app-useritem>
     <div class="head">
         <img src={ user.picture }>
         <div>

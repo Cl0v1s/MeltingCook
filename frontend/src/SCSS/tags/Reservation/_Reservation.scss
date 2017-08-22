@@ -1,0 +1,53 @@
+app-reservation, div[data-is=app-reservation]
+{
+
+  h1
+  {
+    margin-bottom: 0;
+  }
+
+
+  h1+div
+  {
+    padding: $space-small;
+    label
+    {
+      display: block;
+      font-size: $font-size-big;
+      margin-bottom: $space-small;
+      margin-top: $space-normal;
+    }
+
+    label+div, label+app-useritem, label+app-users
+    {
+    }
+    margin-bottom: $space-normal;
+  }
+
+  div.recipe
+  {
+    text-align: center;
+
+    label
+    {
+      text-align: left;
+    }
+  }
+
+  div.guests
+  {
+    font-family: $font-primary;
+    text-align: center;
+  }
+
+  div.checkout
+  {
+    text-align: center;
+  }
+
+
+  app-useritem
+  {
+    border-radius: 5px;
+  }
+}

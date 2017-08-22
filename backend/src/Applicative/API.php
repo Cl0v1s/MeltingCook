@@ -414,16 +414,16 @@ class API
 
     public static function GetAllReservation($token, $filters = null)
     {
-        $current = API::Auth($token);
+        //$current = API::Auth($token);
         $reservations = API::GetAll($token, "Reservation", $filters);
         $results = array();
         for($i =0; $i < count($reservations); $i++)
         {
             $reservation = get_object_vars($reservations[$i]);
             $reservation["recipe"] = API::Get($token, "Recipe", $reservation["Recipe_id"]);
-            // On ne retourne pas les réservations de recettes passées
+            /* On ne retourne pas les réservations de recettes passées
             if(intval($reservation["recipe"]["date_end"]) < time() && $current->Rights() < 2)
-                continue;
+                continue;*/
             $reservation["host"] = API::Get($token, "User",  $reservation["host_id"]);
             $reservation["guest"] = API::Get($token, "User",  $reservation["guest_id"]);
 

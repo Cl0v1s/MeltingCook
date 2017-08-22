@@ -158,12 +158,25 @@ h1 {
   padding-left: 0; }
 
 h2 {
+  font-family: "Raleway";
   font-size: 20px;
   margin-bottom: 20px; }
 
 section {
   border-bottom: 2px dotted #f7b3aa;
   margin-bottom: 20px; }
+
+table {
+  table-layout: fixed;
+  width: 100%; }
+  table tr {
+    border-bottom: 1px dotted; }
+  table tr:last-of-type {
+    border: 0; }
+  table td {
+    padding: 8px; }
+  table td:last-of-type {
+    text-align: right; }
 
 img.profile {
   border-radius: 100%;
@@ -978,6 +991,33 @@ app-recipeeditform, div[data-is=app-recipeeditform] {
       vertical-align: top;
       min-width: 380px;
       padding: 20px; }
+
+app-reservation h1, div[data-is=app-reservation] h1 {
+  margin-bottom: 0; }
+
+app-reservation h1 + div, div[data-is=app-reservation] h1 + div {
+  padding: 8px;
+  margin-bottom: 20px; }
+  app-reservation h1 + div label, div[data-is=app-reservation] h1 + div label {
+    display: block;
+    font-size: 20px;
+    margin-bottom: 8px;
+    margin-top: 20px; }
+
+app-reservation div.recipe, div[data-is=app-reservation] div.recipe {
+  text-align: center; }
+  app-reservation div.recipe label, div[data-is=app-reservation] div.recipe label {
+    text-align: left; }
+
+app-reservation div.guests, div[data-is=app-reservation] div.guests {
+  font-family: "Raleway";
+  text-align: center; }
+
+app-reservation div.checkout, div[data-is=app-reservation] div.checkout {
+  text-align: center; }
+
+app-reservation app-useritem, div[data-is=app-reservation] app-useritem {
+  border-radius: 5px; }
 
 app-commentitem, div[data-is=app-commentitem] {
   display: block;

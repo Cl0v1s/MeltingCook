@@ -113,6 +113,7 @@ h1
 
 h2
 {
+  font-family: $font-primary;
   font-size: $font-size-big;
   margin-bottom: $space-normal;
 }
@@ -121,6 +122,33 @@ section
 {
   border-bottom: 2px dotted $color-front-straw;
   margin-bottom: $space-normal;
+}
+
+table
+{
+  table-layout: fixed;
+  width: 100%;
+
+  tr
+  {
+    border-bottom: 1px dotted
+  }
+
+  tr:last-of-type
+  {
+    border:0;
+  }
+
+  td
+  {
+    padding: $space-small;
+  }
+
+  td:last-of-type
+  {
+    text-align: right;
+  }
+
 }
 
 img.profile

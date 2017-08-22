@@ -15,8 +15,8 @@
       <file leaf-file-name="API.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Applicative/API.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3518">
-              <caret line="423" column="32" lean-forward="false" selection-start-line="423" selection-start-column="32" selection-end-line="423" selection-end-column="32" />
+            <state relative-caret-position="308">
+              <caret line="404" column="46" lean-forward="true" selection-start-line="404" selection-start-column="46" selection-end-line="404" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -81,7 +81,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -153,6 +152,7 @@
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -279,11 +279,12 @@
       <workItem from="1502268315369" duration="252000" />
       <workItem from="1502286866655" duration="16000" />
       <workItem from="1503408510106" duration="27000" />
+      <workItem from="1503412398068" duration="801000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30060000" />
+    <option name="totallyTimeSpent" value="30861000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="30" width="1600" height="870" extended-state="6" />
@@ -721,8 +722,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Applicative/API.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3518">
-          <caret line="423" column="32" lean-forward="false" selection-start-line="423" selection-start-column="32" selection-end-line="423" selection-end-column="32" />
+        <state relative-caret-position="308">
+          <caret line="404" column="46" lean-forward="true" selection-start-line="404" selection-start-column="46" selection-end-line="404" selection-end-column="46" />
           <folding />
         </state>
       </provider>

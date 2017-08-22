@@ -41,6 +41,8 @@ class Adapter
             }
         }
 
+        recipe.price = parseInt(recipe.price);
+
         return recipe;
     }
 

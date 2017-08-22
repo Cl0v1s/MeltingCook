@@ -33,6 +33,7 @@ class Adapter {
                 recipe.longitude = geolocation[1];
             }
         }
+        recipe.price = parseInt(recipe.price);
         return recipe;
     }
     static adaptUser(user) {
@@ -350,6 +351,45 @@ class Router {
         route.start(true);
     }
     /////////////////////////////////////////////////////////////////
+    // Reservation
+    reservationRecipe(id) {
+        var requestRecipe = App.request(App.Address + "/getrecipe", {
+            "id": id
+        });
+        requestRecipe.then(function (response) {
+            if (response.data == null) {
+                route("/error/404");
+                return;
+            }
+            var requestUser = App.request(App.Address + "/getrecipe", {
+                "id": response.data.User_id
+            });
+            var filters = {
+                "Recipe_id": response.data.id
+            };
+            var requestReservations = App.request(App.Address + "/getreservations", {
+                "filters": JSON.stringify(filters)
+            });
+            return Promise.all([Promise.resolve(response.data), requestUser, requestReservations]);
+        }).then(function (responses) {
+            if (responses[1].data == null) {
+                route("/error/404");
+                return;
+            }
+            var recipe = responses[0];
+            recipe.user = responses[1].data;
+            recipe.guests = new Array();
+            responses[2].data.forEach(function (reservation) {
+                recipe.guests.push(reservation.guest);
+            });
+            App.changePage("app-reservation", {
+                "recipe": recipe
+            });
+        }).catch(function (error) {
+            if (error instanceof Error)
+                ErrorHandler.alertIfError(error);
+        });
+    }
     // Error
     error(message) {
         if (message != null)
@@ -412,13 +452,16 @@ class Router {
             return Promise.all([requestRecipe, requestUser]);
         }).then(function (responses) {
             var recipe = responses[0];
+            if (responses[1].data === null) {
+                route("/error/404");
+                return;
+            }
             var user = responses[1].data;
             recipe.user = user;
             App.changePage("app-recipe", {
                 "recipe": recipe
             });
-        });
-        request.catch(function (error) {
+        }).catch(function (error) {
             ErrorHandler.alertIfError(error);
         });
     }
@@ -537,6 +580,8 @@ class Router {
     }
     ///////////////////////////////////////////////////////////////
     setRoutes() {
+        // Reservation
+        route("/reservation/recipe/*", this.reservationRecipe);
         // Account
         route("/account/recipes", this.accountRecipes);
         route("/account/reservations", this.accountReservations);

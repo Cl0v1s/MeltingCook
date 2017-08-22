@@ -76,7 +76,17 @@
         });
 
         tag.join = function () {
-
+            if(tag.refs.cgu.checked == false)
+            {
+                vex.dialog.alert("Vous devez accepter les CGU pour etre en mesure de réserver avec Melting Cook.");
+                return;
+            }
+            if(tag.refs.pc.checked == false)
+            {
+                vex.dialog.alert("Vous devez accepter la charte de bonne conduite pour etre en mesure de réserver avec Melting Cook.");
+                return;
+            }
+            route("/reservation/recipe/"+tag.recipe.id);
         }
     </script>
 </app-recipe>

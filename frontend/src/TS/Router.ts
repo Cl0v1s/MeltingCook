@@ -26,6 +26,56 @@ class Router
 
     /////////////////////////////////////////////////////////////////
 
+    // Reservation
+    private reservationRecipe(id) : void
+    {
+        var requestRecipe = App.request(App.Address + "/getrecipe", {
+            "id" : id
+        });
+        requestRecipe.then(function(response : any)
+        {
+            if(response.data == null)
+            {
+                route("/error/404");
+                return;
+            }
+
+            var requestUser = App.request(App.Address+ "/getrecipe", {
+                "id" : response.data.User_id
+            });
+            var filters = {
+                "Recipe_id" : response.data.id
+            };
+            var requestReservations = App.request(App.Address+"/getreservations", {
+                "filters" : JSON.stringify(filters)
+            });
+
+            return Promise.all([Promise.resolve(response.data), requestUser, requestReservations]);
+        }).then(function(responses : any)
+        {
+            if(responses[1].data == null)
+            {
+                route("/error/404");
+                return;
+            }
+            var recipe = responses[0];
+            recipe.user = responses[1].data;
+            recipe.guests = new Array();
+            responses[2].data.forEach(function(reservation)
+            {
+                recipe.guests.push(reservation.guest);
+            });
+            App.changePage("app-reservation", {
+                "recipe" : recipe
+            });
+        }).catch(function(error)
+        {
+            if(error instanceof Error)
+                ErrorHandler.alertIfError(error);
+        });
+    }
+
+
     // Error
     private error(message:string) : void
     {
@@ -101,13 +151,17 @@ class Router
         }).then(function(responses: any)
         {
             var recipe = responses[0];
+            if(responses[1].data === null)
+            {
+                route("/error/404");
+                return;
+            }
             var user = responses[1].data;
             recipe.user = user;
             App.changePage("app-recipe", {
                 "recipe" : recipe
             });
-        });
-        request.catch(function(error)
+        }).catch(function(error)
         {
             ErrorHandler.alertIfError(error);
         });
@@ -254,6 +308,10 @@ class Router
 
     private setRoutes() : void
     {
+        // Reservation
+        route("/reservation/recipe/*", this.reservationRecipe);
+
+
         // Account
         route("/account/recipes", this.accountRecipes);
         route("/account/reservations", this.accountReservations);

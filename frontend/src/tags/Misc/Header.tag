@@ -44,8 +44,7 @@
             var callback = function()
             {
                 App.hidePopUp();
-                tag.auth();
-                tag.update();
+                route("index");
             };
             App.showPopUp("app-login", "Connexion", {
                 "callback" : callback

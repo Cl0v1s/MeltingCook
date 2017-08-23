@@ -280,18 +280,32 @@ class Router
     }
 
     // SEARCH
-    private searchresults(recipes : string) : void
+    private searchresults(recipes : string, params : string = null) : void
     {
+        var pars : Array<string> = null;
+        if(params != null)
+        {
+            pars = params.split(",");
+        }
+
         var filters : any = {};
-        if(recipes != null)
+        if(recipes != null && recipes != "null")
             filters.id = recipes.split(",");
+        else
+        {
+            App.changePage("app-searchresults", {
+                "recipes" : [],
+                "params" : pars
+            });
+        }
         var request = App.request(App.Address+"/getrecipes", {
             "filters" : JSON.stringify(filters)
         });
         request.then(function(response : any)
         {
             App.changePage("app-searchresults", {
-                "recipes" : response.data
+                "recipes" : response.data,
+                "params" : pars
             });
         });
         request.catch(function(error)
@@ -331,7 +345,9 @@ class Router
         });
         route("/recipe/*", this.recipe);
 
+
         // Search
+        route("/search/results/*/params/*", this.searchresults);
         route("/search/results/*", this.searchresults);
         route("/search/results", this.search);
         route("/search", this.search);
@@ -351,7 +367,8 @@ class Router
             App.changePage("app-home", null);
         });
 
-        route('', function () {
+        route("index", function()
+        {
             App.changePage("app-home", null);
         });
         /*

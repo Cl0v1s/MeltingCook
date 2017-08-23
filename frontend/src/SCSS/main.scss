@@ -29,6 +29,7 @@
 
 @import "tags/Search/Searcher";
 @import "tags/Search/SearchItem";
+@import "tags/Search/SearchResults";
 
 @import 'tags/Recipe/Recipe';
 @import 'tags/Recipe/RecipeList';
@@ -43,6 +44,13 @@
 @import 'tags/Header';
 @import 'tags/Footer';
 @import "tags/Error";
+
+
+html, body
+{
+  height: 100%;
+  overflow-x: hidden;
+}
 
 *
 {

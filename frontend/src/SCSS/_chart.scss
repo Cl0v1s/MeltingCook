@@ -19,9 +19,9 @@ $font-size-big : 20px;
 $color-back-primary : #ffffff;
 $color-back-secondary : #e3dfd6;
 
-$color-front-peach: #ffc172;
-$color-front-avocado: #e0de91;
-$color-front-straw: #f7b3aa;
+$color-front-peach: #FDC279;
+$color-front-avocado: #DED479;
+$color-front-straw: #F3B1A6;
 
 $color-text-primary: #191d1c;
 $color-text-secondary: #f2f4f3;
@@ -29,3 +29,7 @@ $color-text-secondary: #f2f4f3;
 $space-small: 8px;
 $space-normal: 20px;
 $space-big: 40px;
+
+$border-small: 1px dottted $color-front-peach;
+$border-normal: 1px solid rgba(#cccccc, 0.3);
+$border-big : 5px dotted $color-front-peach;

@@ -1,8 +1,8 @@
 <app-accountrecipes>
     <app-header></app-header>
     <app-tabbar tabs={ tabs }></app-tabbar>
-    <div>
-        <div class="header">
+    <div class="content">
+        <section class="header">
             <h1>La dernière recette proposée</h1>
             <div>
                 <app-recipeitem if='{ last_recipe != null }' recipe='{ last_recipe }'></app-recipeitem>
@@ -10,7 +10,7 @@
                     Aucune recette proposée
                 </div>
             </div>
-        </div>
+        </section>
         <nav>
             <a onclick='{ showFuture }'>A venir</a>
             <a onclick='{ showPast }'>Passées</a>

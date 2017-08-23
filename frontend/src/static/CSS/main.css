@@ -71,22 +71,29 @@ table {
 .invisible {
   display: none !important; }
 
+div#app {
+  min-height: 100%; }
+
 .content {
   min-width: 320px;
   max-width: 900px;
+  min-height: 100%;
   width: 80%;
-  margin: auto; }
+  margin: auto;
+  margin-bottom: 20px; }
+  .content.no-margin {
+    width: 100%; }
 
 @keyframes loading {
   0% {
     left: -300px;
-    background-color: #ffc172; }
+    background-color: #FDC279; }
   50% {
     left: 150%;
-    background-color: #f7b3aa; }
+    background-color: #F3B1A6; }
   100% {
     left: -300px;
-    background-color: #ffc172; } }
+    background-color: #FDC279; } }
 
 div#loading {
   position: fixed;
@@ -103,7 +110,7 @@ div#loading {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #ffc172;
+    background-color: #FDC279;
     animation: loading 2s infinite; }
 
 div#popup {
@@ -116,7 +123,7 @@ div#popup {
   background-color: #ffffff;
   border-radius: 2px;
   z-index: 1;
-  border: 1px solid #ffc172;
+  border: 1px solid #FDC279;
   box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.2);
   padding: 20px;
   padding-top: 60px;
@@ -133,7 +140,7 @@ div#popup {
     font-family: "Raleway";
     padding: 8px;
     font-size: 20px;
-    background-color: #ffc172;
+    background-color: #FDC279;
     color: #ffffff; }
   div#popup div.close {
     content: "🞩";
@@ -163,7 +170,7 @@ h2 {
   margin-bottom: 20px; }
 
 section {
-  border-bottom: 2px dotted #f7b3aa;
+  border-bottom: 2px dotted #F3B1A6;
   margin-bottom: 20px; }
 
 table {
@@ -188,7 +195,7 @@ img.profile {
   position: relative;
   width: 50px;
   height: 50px;
-  background-color: #ffc172;
+  background-color: #FDC279;
   color: #ffffff;
   border-radius: 100%;
   line-height: 50px;
@@ -222,11 +229,11 @@ a.Button {
   a.Button.register {
     background-image: url("/static/images/chef.svg"); }
     a.Button.register > span {
-      color: #e0de91; }
+      color: #DED479; }
   a.Button.login {
     background-image: url("/static/images/on.svg"); }
     a.Button.login > span {
-      color: #f7b3aa; }
+      color: #F3B1A6; }
   a.Button.fb {
     background-position: center;
     background-size: auto 250%;
@@ -260,7 +267,7 @@ a.Action {
   padding: 8px;
   padding-top: 0;
   padding-left: 30px;
-  background-color: #ffc172;
+  background-color: #FDC279;
   background-image: url("/static/images/add.svg");
   background-size: 20px 20px;
   background-position: 8px;
@@ -280,7 +287,7 @@ input[type=button] {
   display: inline-block;
   margin: 8px;
   box-sizing: border-box;
-  background-color: #f7b3aa;
+  background-color: #F3B1A6;
   border: 1px solid #EA968B;
   color: #ffffff;
   padding: 8px;
@@ -297,10 +304,10 @@ input[type=button] {
   input[type=button]:hover {
     transform: scale(1.1, 1.1); }
   input[type=button].peach {
-    background-color: #ffc172;
+    background-color: #FDC279;
     border: 1px solid #EA968B; }
   input[type=button]:hover {
-    background-color: #e0de91;
+    background-color: #DED479;
     border: 1px solid #C1B449; }
 
 .Pins {
@@ -333,11 +340,11 @@ input[type=button] {
     vertical-align: middle;
     color: transparent; }
   .Pins:nth-of-type(3n) {
-    background-color: #ffc172; }
+    background-color: #FDC279; }
   .Pins:nth-of-type(3n+1) {
-    background-color: #f7b3aa; }
+    background-color: #F3B1A6; }
   .Pins:nth-of-type(3n+2) {
-    background-color: #e0de91; }
+    background-color: #DED479; }
 
 input[type=text], select, input[type=password], textarea, .selectize-input, input[type=number] {
   padding: 10px !important;
@@ -454,10 +461,10 @@ app-accountkitchen, div[data-is=app-accountkitchen] {
     margin: 8px;
     padding: 20px; }
 
-app-accountrecipes div.header, div[data-is=app-accountrecipes] div.header {
+app-accountrecipes section.header, div[data-is=app-accountrecipes] section.header {
   margin-top: 20px;
   padding: 20px; }
-  app-accountrecipes div.header > div, div[data-is=app-accountrecipes] div.header > div {
+  app-accountrecipes section.header > div, div[data-is=app-accountrecipes] section.header > div {
     text-align: center; }
 
 app-accountrecipes div nav, div[data-is=app-accountrecipes] div nav {
@@ -521,13 +528,13 @@ app-useritem, div[data-is=app-useritem] {
     app-useritem div.style + div div.pins::first-letter, div[data-is=app-useritem] div.style + div div.pins::first-letter {
       color: #191d1c; }
   app-useritem div.foot input, div[data-is=app-useritem] div.foot input {
-    background-color: #ffc172;
+    background-color: #FDC279;
     color: #191d1c; }
 
 app-usereditform form > div, div[data-is=app-usereditform] form > div {
   padding: 20px;
   margin-bottom: 20px;
-  border-bottom: 2px dotted #ffc172; }
+  border-bottom: 2px dotted #FDC279; }
 
 app-usereditform div input + p, div[data-is=app-usereditform] div input + p {
   font-size: 14px;
@@ -613,7 +620,7 @@ app-user > div div.description, div[data-is=app-user] > div div.description {
   margin-right: 40px;
   margin-bottom: 20px;
   padding-bottom: 20px;
-  border-bottom: 1px dotted #ffc172; }
+  border-bottom: 1px dotted #FDC279; }
   app-user > div div.description p, div[data-is=app-user] > div div.description p {
     font-size: 16px;
     font-family: "Raleway"; }
@@ -623,7 +630,7 @@ app-user > div div.more, div[data-is=app-user] > div div.more {
   margin-right: 40px;
   margin-bottom: 20px;
   padding-bottom: 20px;
-  border-bottom: 1px dotted #ffc172; }
+  border-bottom: 1px dotted #FDC279; }
   app-user > div div.more > div, div[data-is=app-user] > div div.more > div {
     vertical-align: top;
     display: inline-block;
@@ -672,16 +679,17 @@ app-dateinput {
     height: 36px; }
 
 app-tabbar {
+  margin-top: 20px;
   display: block;
   width: 100%;
-  border-bottom: 10px solid #e0de91;
+  border-bottom: 10px solid #DED479;
   position: relative; }
   app-tabbar span {
     display: inline-block;
     height: 32px;
     padding: 20px;
     padding-top: 8px;
-    background-color: #f7b3aa;
+    background-color: #F3B1A6;
     font-family: "Lobster";
     color: #ffffff;
     margin-right: 20px;
@@ -706,7 +714,7 @@ app-tabbar {
       app-tabbar span:last-of-type:hover {
         background-color: #ffffff; }
     app-tabbar span.selected, app-tabbar span:hover {
-      background-color: #e0de91; }
+      background-color: #DED479; }
 
 app-placehint, div[data-is=app-placehint] {
   display: block;
@@ -741,7 +749,9 @@ app-searcher {
   display: block;
   background-color: #e3dfd6;
   padding: 20px;
-  text-align: center; }
+  text-align: center;
+  border: 1px solid rgba(204, 204, 204, 0.3);
+  border-radius: 2px; }
   app-searcher div.img {
     width: 60px;
     height: 60px;
@@ -761,9 +771,9 @@ app-searcher {
     app-searcher > form * {
       margin-bottom: 8px;
       margin-right: 8px; }
-    app-searcher > form app-placeinput, app-searcher > form app-origininput, app-searcher > form app-dateinput, app-searcher > form input[type=text] {
+    app-searcher > form app-placeinput, app-searcher > form app-origininput, app-searcher > form app-dateinput, app-searcher > form input[type=text], app-searcher > form input[type=number] {
       display: inline-block;
-      width: 170px; }
+      width: 170px !important; }
     app-searcher > form input[type=button] {
       vertical-align: top; }
     @media screen and (max-width: 560px) {
@@ -772,6 +782,36 @@ app-searcher {
   app-searcher h3 {
     font-family: "Lobster";
     margin-bottom: 8px; }
+
+app-searchitem, div[data-is=app-searchitem] {
+  display: block;
+  width: 100%;
+  min-width: 320px;
+  margin-bottom: 20px;
+  padding: 20px; }
+  app-searchitem.reduced, div[data-is=app-searchitem].reduced {
+    display: inline-block;
+    max-width: 200px; }
+  app-searchitem div.img, div[data-is=app-searchitem] div.img {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background-image: url("/static/images/dish.svg");
+    background-size: 70% auto;
+    background-repeat: no-repeat;
+    background-position: center top;
+    vertical-align: top; }
+  app-searchitem div.img + div, div[data-is=app-searchitem] div.img + div {
+    display: inline-block;
+    height: 100px;
+    vertical-align: top; }
+  app-searchitem input[type=button], div[data-is=app-searchitem] input[type=button] {
+    display: block;
+    margin: auto;
+    margin-top: 20px; }
+
+app-searchresults app-searcher, div[data-is=app-searchresults] app-searcher {
+  margin-bottom: 20px; }
 
 app-recipe div.banner, div[data-is=app-recipe] div.banner {
   display: block;
@@ -820,7 +860,7 @@ app-recipe div.infos, div[data-is=app-recipe] div.infos {
       width: 100%; } }
   app-recipe div.infos div.base, div[data-is=app-recipe] div.infos div.base {
     padding-bottom: 8px;
-    border-bottom: 1px dotted #ffc172; }
+    border-bottom: 1px dotted #FDC279; }
     app-recipe div.infos div.base div.name h1, div[data-is=app-recipe] div.infos div.base div.name h1 {
       display: inline-block;
       width: auto;
@@ -838,7 +878,7 @@ app-recipe div.infos, div[data-is=app-recipe] div.infos {
     width: 100%;
     margin-top: 20px;
     padding-bottom: 8px;
-    border-bottom: 1px dotted #ffc172; }
+    border-bottom: 1px dotted #FDC279; }
   app-recipe div.infos div.details, div[data-is=app-recipe] div.infos div.details {
     margin-top: 20px; }
     app-recipe div.infos div.details h2, div[data-is=app-recipe] div.infos div.details h2 {
@@ -857,7 +897,7 @@ app-recipe div.user, div[data-is=app-recipe] div.user {
   app-recipe div.user div.join, div[data-is=app-recipe] div.user div.join {
     text-align: center;
     min-width: 210px;
-    background-color: #f7b3aa;
+    background-color: #F3B1A6;
     padding: 20px; }
     app-recipe div.user div.join h2, div[data-is=app-recipe] div.user div.join h2 {
       font-family: "Lobster";
@@ -867,7 +907,7 @@ app-recipe div.user, div[data-is=app-recipe] div.user {
       height: 100px;
       line-height: 100px;
       background-color: #ffffff;
-      color: #f7b3aa;
+      color: #F3B1A6;
       font-size: 30px;
       font-weight: bold;
       font-family: "Raleway";
@@ -885,7 +925,7 @@ app-recipe div.user, div[data-is=app-recipe] div.user {
       app-recipe div.user div.join form div, div[data-is=app-recipe] div.user div.join form div {
         color: #ffffff; }
       app-recipe div.user div.join form input[type=button], div[data-is=app-recipe] div.user div.join form input[type=button] {
-        background-color: #ffc172; }
+        background-color: #FDC279; }
 
 app-recipes, div[data-is=app-recipes] {
   display: block;
@@ -1050,7 +1090,8 @@ app-header, div[data-is=app-header] {
   padding: 20px;
   padding-top: 8px;
   padding-bottom: 8px;
-  background-color: #ffffff; }
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(204, 204, 204, 0.3); }
   app-header > div.img, div[data-is=app-header] > div.img {
     display: inline-block;
     width: 150px;
@@ -1128,6 +1169,10 @@ app-error > div, div[data-is=app-error] > div {
   padding: 20px; }
   app-error > div p, div[data-is=app-error] > div p {
     margin-bottom: 8px; }
+
+html, body {
+  height: 100%;
+  overflow-x: hidden; }
 
 * {
   box-sizing: border-box;

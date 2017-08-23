@@ -7,6 +7,9 @@ app-searcher
   padding: $space-normal;
   text-align: center;
 
+  border: $border-normal;
+  border-radius: 2px;
+
   div.img
   {
     width: $img-size;
@@ -41,10 +44,10 @@ app-searcher
       margin-right: $space-small;
     }
 
-    app-placeinput, app-origininput, app-dateinput, input[type=text]
+    app-placeinput, app-origininput, app-dateinput, input[type=text], input[type=number]
     {
       display: inline-block;
-      width: 170px;
+      width: 170px !important;
     }
 
     input[type=button]

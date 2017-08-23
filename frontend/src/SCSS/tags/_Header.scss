@@ -12,6 +12,8 @@ app-header, div[data-is=app-header]
 
     background-color: $color-back-primary;
 
+    border-bottom: $border-normal;
+
     &>div.img
     {
         display: inline-block;

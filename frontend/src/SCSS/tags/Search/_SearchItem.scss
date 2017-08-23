@@ -1,4 +1,43 @@
 app-searchitem, div[data-is=app-searchitem]
 {
+  display: block;
+  width: 100%;
+  min-width: 320px;
+  margin-bottom: $space-normal;
 
+  padding: $space-normal;
+
+  &.reduced
+  {
+    display: inline-block;
+    max-width: 200px;
+  }
+
+  $headsize : 100px;
+
+  div.img
+  {
+    display: inline-block;
+    width: $headsize;
+    height: $headsize;
+    background-image: url("/static/images/dish.svg");
+    background-size: 70% auto;
+    background-repeat: no-repeat;
+    background-position: center top;
+    vertical-align: top;
+  }
+
+  div.img+div
+  {
+    display: inline-block;
+    height: $headsize;
+    vertical-align: top;
+  }
+
+  input[type=button]
+  {
+    display: block;
+    margin: auto;
+    margin-top: $space-normal;
+  }
 }

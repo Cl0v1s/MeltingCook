@@ -5,12 +5,27 @@
   display: none !important;
 }
 
+div#app
+{
+  min-height:100%;
+}
+
 .content
 {
-        min-width: 320px;
-        max-width: 900px;
-        width: 80%;
-        margin: auto;
+  min-width: 320px;
+  max-width: 900px;
+  min-height:100%;
+  width: 80%;
+  margin: auto;
+  margin-bottom: $space-normal;
+  //border: $border-normal;
+  //border-top: 0;
+
+  &.no-margin
+  {
+    width: 100%;
+  }
+
 }
 
 @keyframes loading {
@@ -188,6 +203,8 @@ p
 {
   font-family: $font-primary;
 }
+
+
 
 
 

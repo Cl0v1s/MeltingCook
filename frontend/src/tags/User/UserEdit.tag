@@ -1,8 +1,8 @@
 <app-useredit>
     <app-header ></app-header>
-
-    <app-usereditform ref="form" user='{ {} }' callback='{ send }'></app-usereditform>
-
+    <div class="content">
+        <app-usereditform ref="form" user='{ {} }' callback='{ send }'></app-usereditform>
+    </div>
     <app-footer></app-footer>
     <script>
         var tag = this;

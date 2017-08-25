@@ -153,7 +153,7 @@
         </div>
 
 
-        <div>
+        <div if="{ user.id != null }">
             <h1>Actions</h1>
             <div class='{action : true, invisible: (user.id==null) }'>
                 <input type="button" class="large" value="Réinitialiser mon mot de passe" onclick='{ changePassword }'>

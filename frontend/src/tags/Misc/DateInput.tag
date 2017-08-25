@@ -1,19 +1,10 @@
 <app-dateinput>
 
-    <input type="text" ref="date" name="date" id="date" placeholder="Date" value="{ opts.date }">
+    <input type="text" ref="date" name="date" id="date" placeholder="Date">
 
     <script>
         var tag = this;
         tag.value = null;
-
-
-        tag.on("before-mount", function()
-        {
-            if(tag.opts.date != null)
-            {
-                tag.setValue(tag.opts.date);
-            }
-        });
 
         tag.on("mount", () => {
             var picker = $('input', tag.root).pickadate({
@@ -34,15 +25,26 @@
                     var date = $('input', tag.root).pickadate('picker').get("value");
                     if(date === null)
                         return;
-                    tag.setValue(date);
+                    date = date.split("/");
+                    date = new Date(date[2], parseInt(date[1]) - 1, date[0]);
+                    tag.value = Math.round(date.getTime() / 1000);
                 });
+
+            if(tag.opts.date != null)
+            {
+                tag.setValueFromStamp(tag.opts.date);
+            }
         });
 
-        tag.setValue = function(date)
+        tag.setValueFromStamp = function(date)
         {
-            date = date.split("/");
-            date = new Date(date[2], parseInt(date[1]) - 1, date[0]);
-            tag.value = Math.round(date.getTime() / 1000);
+            console.log(date);
+            tag.value = date;
+            var readable = new Date();
+            readable.setTime(parseInt(date) * 1000);
+            console.log(readable.getDate()+"/"+(readable.getMonth()+1)+"/"+readable.getFullYear());
+            tag.refs.date.value = readable.getDate()+"/"+(readable.getMonth()+1)+"/"+readable.getFullYear();
+            console.log(tag.refs.date.value);
         }
     </script>
 </app-dateinput>

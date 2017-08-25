@@ -4066,6 +4066,10 @@ class App {
             if (document.querySelector("div#popup") != null)
                 document.querySelector("div#popup").remove();
         }
+        var hide = document.createElement("div");
+        hide.id = "hidder";
+        hide.addEventListener("click", App.hidePopUp);
+        document.body.appendChild(hide);
         var e = document.createElement("div");
         e.id = "popup";
         e.setAttribute("data-name", title);
@@ -4087,6 +4091,8 @@ class App {
             });
             if (document.querySelector("div#popup") != null)
                 document.querySelector("div#popup").remove();
+            if (document.querySelector("div#hidder") != null)
+                document.querySelector("div#hidder").remove();
         }
     }
     static showLoading() {
@@ -4519,17 +4525,9 @@ module.exports = riot.tag2('app-login', '<form name="login"> <div> <label for="u
 });
 },{"riot":6}],19:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-dateinput', '<input type="text" ref="date" name="date" id="date" placeholder="Date" riot-value="{opts.date}">', '', '', function(opts) {
+module.exports = riot.tag2('app-dateinput', '<input type="text" ref="date" name="date" id="date" placeholder="Date">', '', '', function(opts) {
         var tag = this;
         tag.value = null;
-
-        tag.on("before-mount", function()
-        {
-            if(tag.opts.date != null)
-            {
-                tag.setValue(tag.opts.date);
-            }
-        });
 
         tag.on("mount", () => {
             var picker = $('input', tag.root).pickadate({
@@ -4549,15 +4547,26 @@ module.exports = riot.tag2('app-dateinput', '<input type="text" ref="date" name=
                     var date = $('input', tag.root).pickadate('picker').get("value");
                     if(date === null)
                         return;
-                    tag.setValue(date);
+                    date = date.split("/");
+                    date = new Date(date[2], parseInt(date[1]) - 1, date[0]);
+                    tag.value = Math.round(date.getTime() / 1000);
                 });
+
+            if(tag.opts.date != null)
+            {
+                tag.setValueFromStamp(tag.opts.date);
+            }
         });
 
-        tag.setValue = function(date)
+        tag.setValueFromStamp = function(date)
         {
-            date = date.split("/");
-            date = new Date(date[2], parseInt(date[1]) - 1, date[0]);
-            tag.value = Math.round(date.getTime() / 1000);
+            console.log(date);
+            tag.value = date;
+            var readable = new Date();
+            readable.setTime(parseInt(date) * 1000);
+            console.log(readable.getDate()+"/"+(readable.getMonth()+1)+"/"+readable.getFullYear());
+            tag.refs.date.value = readable.getDate()+"/"+(readable.getMonth()+1)+"/"+readable.getFullYear();
+            console.log(tag.refs.date.value);
         }
 });
 },{"riot":6}],20:[function(require,module,exports){

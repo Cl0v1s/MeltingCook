@@ -200,6 +200,11 @@ class App
             if(document.querySelector("div#popup") != null)
                 document.querySelector("div#popup").remove();
         }
+        var hide = document.createElement("div");
+        hide.id="hidder";
+        hide.addEventListener("click", App.hidePopUp);
+        document.body.appendChild(hide);
+
         var e = document.createElement("div");
         e.id = "popup";
         e.setAttribute("data-name", title);
@@ -225,6 +230,8 @@ class App
             });
             if(document.querySelector("div#popup") != null)
                 document.querySelector("div#popup").remove();
+            if(document.querySelector("div#hidder") != null)
+                document.querySelector("div#hidder").remove();
         }
     }
 

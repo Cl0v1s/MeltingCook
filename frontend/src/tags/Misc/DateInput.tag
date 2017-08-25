@@ -6,6 +6,15 @@
         var tag = this;
         tag.value = null;
 
+
+        tag.on("before-mount", function()
+        {
+            if(tag.opts.date != null)
+            {
+                tag.setValue(tag.opts.date);
+            }
+        });
+
         tag.on("mount", () => {
             var picker = $('input', tag.root).pickadate({
                 format: 'dd/mm/yyyy',
@@ -25,10 +34,15 @@
                     var date = $('input', tag.root).pickadate('picker').get("value");
                     if(date === null)
                         return;
-                    date = date.split("/");
-                    date = new Date(date[2], parseInt(date[1]) - 1, date[0]);
-                    tag.value = Math.round(date.getTime() / 1000);
+                    tag.setValue(date);
                 });
         });
+
+        tag.setValue = function(date)
+        {
+            date = date.split("/");
+            date = new Date(date[2], parseInt(date[1]) - 1, date[0]);
+            tag.value = Math.round(date.getTime() / 1000);
+        }
     </script>
 </app-dateinput>

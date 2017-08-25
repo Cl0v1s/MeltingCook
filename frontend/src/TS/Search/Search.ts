@@ -17,6 +17,8 @@ class Search {
             if(price_end != null)
                 filters["price_end"] = price_end;
 
+
+            console.log(filters);
             var retrieve = App.request(App.Address + "/getrecipes", {
                 "filters": JSON.stringify(filters)
             });

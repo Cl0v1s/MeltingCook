@@ -4,6 +4,12 @@
         var tag = this;
         tag.value = "";
 
+        tag.on("before-mount", function()
+        {
+           if(tag.opts.origin != null)
+               tag.value = tag.opts.origin;
+        });
+
          tag.on("mount", function()
         {
             tag.retrieve();

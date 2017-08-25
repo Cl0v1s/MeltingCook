@@ -4,6 +4,14 @@
         var tag = this;
         tag.value = "";
 
+        tag.on("before-mount", function()
+        {
+            if(tag.opts.place != null) {
+                tag.value = tag.opts.place;
+            }
+        });
+
+
         tag.on("mount", function()
         {
             tag.retrieveCities();
@@ -25,7 +33,6 @@
                     options: response.cities,
                     onChange : function(value) {
                         tag.value = value;
-                        console.log(tag.value);
                     }
                 });
             });

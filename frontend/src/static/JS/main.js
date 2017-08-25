@@ -434,6 +434,7 @@ class Router {
                 "recipes": [],
                 "params": pars
             });
+            return;
         }
         var request = App.request(App.Address + "/getrecipes", {
             "filters": JSON.stringify(filters)
@@ -720,14 +721,6 @@ App.LoadingCounter = 0;
 window.addEventListener("load", function () {
     Router.GetInstance().start();
 });
-/// <reference path="Login.ts" />
-/// <reference path="Router.ts" />
-/// <reference path="Global.ts" />
-/// <reference path="Adapter.ts" />
-window.Login = Login;
-window.Router = Router;
-window.App = App;
-window.Adapter = Adapter;
 class Search {
     static search(place, origin, date, price_start, price_end) {
         return new Promise((resolve, reject) => {
@@ -744,6 +737,7 @@ class Search {
                 filters["price_start"] = price_start;
             if (price_end != null)
                 filters["price_end"] = price_end;
+            console.log(filters);
             var retrieve = App.request(App.Address + "/getrecipes", {
                 "filters": JSON.stringify(filters)
             });
@@ -760,4 +754,14 @@ class Search {
         });
     }
 }
+/// <reference path="Login.ts" />
+/// <reference path="Router.ts" />
+/// <reference path="Global.ts" />
+/// <reference path="Adapter.ts" />
+/// <reference path="Search/Search.ts" />
+window.Login = Login;
+window.Router = Router;
+window.App = App;
+window.Adapter = Adapter;
+window.Search = Search;
 //# sourceMappingURL=main.js.map

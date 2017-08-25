@@ -3828,6 +3828,7 @@ class Router {
                 "recipes": [],
                 "params": pars
             });
+            return;
         }
         var request = App.request(App.Address + "/getrecipes", {
             "filters": JSON.stringify(filters)
@@ -4114,14 +4115,6 @@ App.LoadingCounter = 0;
 window.addEventListener("load", function () {
     Router.GetInstance().start();
 });
-/// <reference path="Login.ts" />
-/// <reference path="Router.ts" />
-/// <reference path="Global.ts" />
-/// <reference path="Adapter.ts" />
-window.Login = Login;
-window.Router = Router;
-window.App = App;
-window.Adapter = Adapter;
 class Search {
     static search(place, origin, date, price_start, price_end) {
         return new Promise((resolve, reject) => {
@@ -4138,6 +4131,7 @@ class Search {
                 filters["price_start"] = price_start;
             if (price_end != null)
                 filters["price_end"] = price_end;
+            console.log(filters);
             var retrieve = App.request(App.Address + "/getrecipes", {
                 "filters": JSON.stringify(filters)
             });
@@ -4154,6 +4148,16 @@ class Search {
         });
     }
 }
+/// <reference path="Login.ts" />
+/// <reference path="Router.ts" />
+/// <reference path="Global.ts" />
+/// <reference path="Adapter.ts" />
+/// <reference path="Search/Search.ts" />
+window.Login = Login;
+window.Router = Router;
+window.App = App;
+window.Adapter = Adapter;
+window.Search = Search;
 
 },{"./../../tags/Account/AccountKitchen.tag":8,"./../../tags/Account/AccountRecipes.tag":9,"./../../tags/Account/AccountReservations.tag":10,"./../../tags/Account/AccountUser.tag":11,"./../../tags/Comment/CommentEditForm.tag":12,"./../../tags/Comment/CommentItem.tag":13,"./../../tags/Comment/CommentList.tag":14,"./../../tags/Comment/Comments.tag":15,"./../../tags/Immutable/Error.tag":16,"./../../tags/Immutable/Home.tag":17,"./../../tags/Immutable/Login.tag":18,"./../../tags/Misc/DateInput.tag":19,"./../../tags/Misc/Footer.tag":20,"./../../tags/Misc/Header.tag":21,"./../../tags/Misc/Hearts.tag":22,"./../../tags/Misc/ManyInputs.tag":23,"./../../tags/Misc/OriginInput.tag":24,"./../../tags/Misc/PinsInput.tag":25,"./../../tags/Misc/PlaceHint.tag":26,"./../../tags/Misc/PlaceInput.tag":27,"./../../tags/Misc/TabBar.tag":28,"./../../tags/Misc/TimeInput.tag":29,"./../../tags/Recipe/Recipe.tag":30,"./../../tags/Recipe/RecipeEdit.tag":31,"./../../tags/Recipe/RecipeEditForm.tag":32,"./../../tags/Recipe/RecipeItem.tag":33,"./../../tags/Recipe/RecipeList.tag":34,"./../../tags/Recipe/Recipes.tag":35,"./../../tags/Report/ReportEditForm.tag":36,"./../../tags/Report/ReportItem.tag":37,"./../../tags/Report/Reports.tag":38,"./../../tags/Reservation/Reservation.tag":39,"./../../tags/Reservation/ReservationItem.tag":40,"./../../tags/Reservation/Reservations.tag":41,"./../../tags/Search/Search.tag":42,"./../../tags/Search/SearchItem.tag":43,"./../../tags/Search/SearchResults.tag":44,"./../../tags/Search/Searcher.tag":45,"./../../tags/User/User.tag":46,"./../../tags/User/UserEdit.tag":47,"./../../tags/User/UserEditForm.tag":48,"./../../tags/User/UserItem.tag":49,"./../../tags/User/UserPasswordForm.tag":50,"./../../tags/User/Users.tag":51,"js-cookie":4,"md5":5,"riot":6}],8:[function(require,module,exports){
 var riot = require('riot');
@@ -4519,6 +4523,14 @@ module.exports = riot.tag2('app-dateinput', '<input type="text" ref="date" name=
         var tag = this;
         tag.value = null;
 
+        tag.on("before-mount", function()
+        {
+            if(tag.opts.date != null)
+            {
+                tag.setValue(tag.opts.date);
+            }
+        });
+
         tag.on("mount", () => {
             var picker = $('input', tag.root).pickadate({
                 format: 'dd/mm/yyyy',
@@ -4537,11 +4549,16 @@ module.exports = riot.tag2('app-dateinput', '<input type="text" ref="date" name=
                     var date = $('input', tag.root).pickadate('picker').get("value");
                     if(date === null)
                         return;
-                    date = date.split("/");
-                    date = new Date(date[2], parseInt(date[1]) - 1, date[0]);
-                    tag.value = Math.round(date.getTime() / 1000);
+                    tag.setValue(date);
                 });
         });
+
+        tag.setValue = function(date)
+        {
+            date = date.split("/");
+            date = new Date(date[2], parseInt(date[1]) - 1, date[0]);
+            tag.value = Math.round(date.getTime() / 1000);
+        }
 });
 },{"riot":6}],20:[function(require,module,exports){
 var riot = require('riot');
@@ -4673,6 +4690,12 @@ module.exports = riot.tag2('app-origininput', '<input type="text" ref="origin" n
         var tag = this;
         tag.value = "";
 
+        tag.on("before-mount", function()
+        {
+           if(tag.opts.origin != null)
+               tag.value = tag.opts.origin;
+        });
+
          tag.on("mount", function()
         {
             tag.retrieve();
@@ -4779,6 +4802,13 @@ module.exports = riot.tag2('app-placeinput', '<input type="text" ref="city" name
         var tag = this;
         tag.value = "";
 
+        tag.on("before-mount", function()
+        {
+            if(tag.opts.place != null) {
+                tag.value = tag.opts.place;
+            }
+        });
+
         tag.on("mount", function()
         {
             tag.retrieveCities();
@@ -4800,7 +4830,6 @@ module.exports = riot.tag2('app-placeinput', '<input type="text" ref="city" name
                     options: response.cities,
                     onChange : function(value) {
                         tag.value = value;
-                        console.log(tag.value);
                     }
                 });
             });

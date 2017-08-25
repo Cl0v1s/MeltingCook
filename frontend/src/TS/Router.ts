@@ -297,6 +297,7 @@ class Router
                 "recipes" : [],
                 "params" : pars
             });
+            return;
         }
         var request = App.request(App.Address+"/getrecipes", {
             "filters" : JSON.stringify(filters)

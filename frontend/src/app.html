@@ -21,27 +21,27 @@
     <link rel="stylesheet" href="static/CSS/vendor/pickadate.time.css">
 
 
-    <!-- Importation des tags -->
+    <!-- Importation des tags
 
-    <!-- Account -->
+    <!-- Account
     <script src="tags/Account/AccountKitchen.tag" type="riot/tag"></script>
     <script src="tags/Account/AccountRecipes.tag" type="riot/tag"></script>
     <script src="tags/Account/AccountReservations.tag" type="riot/tag"></script>
     <script src="tags/Account/AccountUser.tag" type="riot/tag"></script>
 
-    <!--Comment-->
+    <!--Comment
     <script src="tags/Comment/CommentEditForm.tag" type="riot/tag"></script>
     <script src="tags/Comment/CommentItem.tag" type="riot/tag"></script>
     <script src="tags/Comment/Comments.tag" type="riot/tag"></script>
     <script src="tags/Comment/CommentList.tag" type="riot/tag"></script>
 
 
-    <!--Immutable-->
+    <!--Immutable
     <script src="tags/Immutable/Home.tag" type="riot/tag"></script>
     <script src="tags/Immutable/Login.tag" type="riot/tag"></script>
     <script src="tags/Immutable/Error.tag" type="riot/tag"></script>
 
-    <!--Misc-->
+    <!--Misc
     <script src="tags/Misc/DateInput.tag" type="riot/tag"></script>
     <script src="tags/Misc/TimeInput.tag" type="riot/tag"></script>
     <script src="tags/Misc/OriginInput.tag" type="riot/tag"></script>
@@ -54,7 +54,7 @@
     <script src="tags/Misc/ManyInputs.tag" type="riot/tag"></script>
     <script src="tags/Misc/Hearts.tag" type="riot/tag"></script>
 
-    <!--Recipe-->
+    <!--Recipe
     <script src="tags/Recipe/RecipeList.tag" type="riot/tag"></script>
     <script src="tags/Recipe/Recipe.tag" type="riot/tag"></script>
     <script src="tags/Recipe/Recipes.tag" type="riot/tag"></script>
@@ -62,23 +62,23 @@
     <script src="tags/Recipe/RecipeEdit.tag" type="riot/tag"></script>
     <script src="tags/Recipe/RecipeEditForm.tag" type="riot/tag"></script>
 
-    <!-- Report -->
+    <!-- Report
     <script src="tags/Report/ReportEditForm.tag" type="riot/tag"></script>
     <script src="tags/Report/ReportItem.tag" type="riot/tag"></script>
     <script src="tags/Report/Reports.tag" type="riot/tag"></script>
 
-    <!-- Reservation -->
+    <!-- Reservation
     <script src="tags/Reservation/Reservation.tag" type="riot/tag"></script>
     <script src="tags/Reservation/Reservations.tag" type="riot/tag"></script>
     <script src="tags/Reservation/ReservationItem.tag" type="riot/tag"></script>
 
-    <!--Search-->
+    <!--Search
     <script src="tags/Search/Search.tag" type="riot/tag"></script>
     <script src="tags/Search/Searcher.tag" type="riot/tag"></script>
     <script src="tags/Search/SearchItem.tag" type="riot/tag"></script>
     <script src="tags/Search/SearchResults.tag" type="riot/tag"></script>
 
-    <!--User-->
+    <!--User
     <script src="tags/User/User.tag" type="riot/tag"></script>
     <script src="tags/User/UserPasswordForm.tag" type="riot/tag"></script>
     <script src="tags/User/UserItem.tag" type="riot/tag"></script>
@@ -87,11 +87,8 @@
 
 
     <!-- include riot.js and the compiler, et les dépendances JS-->
-    <script src="static/JS/vendor/riot+compiler.min.js"></script>
     <script src="static/JS/vendor/route.min.js"></script>
     <script src="static/JS/vendor/ajax.min.js"></script>
-    <script src="static/JS/vendor/md5.js"></script>
-    <script src="static/JS/vendor/cookie.js"></script>
     <script src="static/JS/vendor/validatinator.min.js"></script>
     <script src="static/JS/vendor/awesomplete.min.js"></script>
     <script src="static/JS/vendor/jquery-3.2.1.min.js"></script>
@@ -103,7 +100,7 @@
 
 
     <!-- Importation du coeur de l'application-->
-    <script src="static/JS/global.js"></script>
+    <script src="static/JS/index.js"></script>
 
     <script>
         vex.defaultOptions.className = 'vex-theme-wireframe'
@@ -113,11 +110,7 @@
 
     <!-- Définition des routes -->
     <script>
-        window.addEventListener("load", function () {
-
-            Router.GetInstance().start();
-
-        });
+        Router.GetInstance().start();
     </script>
 </head>
 

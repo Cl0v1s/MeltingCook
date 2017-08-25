@@ -38,7 +38,7 @@ interface CompilerResult
 
    type RiotElement = any;
 
-   interface Base
+   interface Riot
    {
       version: string;
       settings: Settings;
@@ -59,5 +59,5 @@ interface CompilerResult
       route: Router;
    }
 
-   declare var riot: Base;
+   declare var riot: Riot;
    declare var route : Router;

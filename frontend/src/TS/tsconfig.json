@@ -4,7 +4,7 @@
     "module":"system",
     "target": "es6",
     "sourceMap": true,
-    "outFile": "./../static/JS/global.js",
-    "watch": true
+    "outFile": "./../static/JS/main.js",
+    "watch": false
   }
 }

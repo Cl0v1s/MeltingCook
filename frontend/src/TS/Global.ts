@@ -1,7 +1,75 @@
+var riot = <Riot>require("riot");
+
+var tags =
+    {
+        // ACCOUNT
+        "app-accountkitchen": require("./../../tags/Account/AccountKitchen.tag"),
+        "app-accountrecipes": require("./../../tags/Account/AccountRecipes.tag"),
+        "app-accountreservations": require("./../../tags/Account/AccountReservations.tag"),
+        "app-accountuser": require("./../../tags/Account/AccountUser.tag"),
+
+        // COMMENT
+        "app-commenteditform": require("./../../tags/Comment/CommentEditForm.tag"),
+        "app-commentitem": require("./../../tags/Comment/CommentItem.tag"),
+        "app-commentlist": require("./../../tags/Comment/CommentList.tag"),
+        "app-comments": require("./../../tags/Comment/Comments.tag"),
+
+        // IMMUTABLE
+        "app-error": require("./../../tags/Immutable/Error.tag"),
+        "app-home": require("./../../tags/Immutable/Home.tag"),
+        "app-login": require("./../../tags/Immutable/Login.tag"),
+
+        // MISC
+        "app-dateinput": require("./../../tags/Misc/DateInput.tag"),
+        "app-footer": require("./../../tags/Misc/Footer.tag"),
+        "app-header": require("./../../tags/Misc/Header.tag"),
+        "app-hearts": require("./../../tags/Misc/Hearts.tag"),
+        "app-manyinputs": require("./../../tags/Misc/ManyInputs.tag"),
+        "app-origininput": require("./../../tags/Misc/OriginInput.tag"),
+        "app-pinsinput": require("./../../tags/Misc/PinsInput.tag"),
+        "app-placehint": require("./../../tags/Misc/PlaceHint.tag"),
+        "app-placeinput": require("./../../tags/Misc/PlaceInput.tag"),
+        "app-tabbar": require("./../../tags/Misc/TabBar.tag"),
+        "app-timeinput": require("./../../tags/Misc/TimeInput.tag"),
+
+        // RECIPE
+        "app-recipe": require("./../../tags/Recipe/Recipe.tag"),
+        "app-recipeedit": require("./../../tags/Recipe/RecipeEdit.tag"),
+        "app-recipeeditform": require("./../../tags/Recipe/RecipeEditForm.tag"),
+        "app-recipeitem": require("./../../tags/Recipe/RecipeItem.tag"),
+        "app-recipelist": require("./../../tags/Recipe/RecipeList.tag"),
+        "app-recipes": require("./../../tags/Recipe/Recipes.tag"),
+
+        // REPORT
+        "app-reports": require("./../../tags/Report/Reports.tag"),
+        "app-reportitem": require("./../../tags/Report/ReportItem.tag"),
+        "app-reporteditform": require("./../../tags/Report/ReportEditForm.tag"),
+        
+        // RESERVATION
+        "app-reservation": require("./../../tags/Reservation/Reservation.tag"),
+        "app-reservationitem": require("./../../tags/Reservation/ReservationItem.tag"),
+        "app-reservations": require("./../../tags/Reservation/Reservations.tag"),
+        
+        // SEARCH
+        "app-search": require("./../../tags/Search/Search.tag"),
+        "app-searchitem": require("./../../tags/Search/SearchItem.tag"),
+        "app-searcher": require("./../../tags/Search/Searcher.tag"),
+        "app-searchresults": require("./../../tags/Search/SearchResults.tag"),
+        
+        // USER
+
+        "app-user": require("./../../tags/User/User.tag"),
+        "app-useredit": require("./../../tags/User/UserEdit.tag"),
+        "app-usereditform": require("./../../tags/User/UserEditForm.tag"),
+        "app-useritem": require("./../../tags/User/UserItem.tag"),
+        "app-userpasswordform": require("./../../tags/User/UserPasswordForm.tag"),
+        "app-users": require("./../../tags/User/Users.tag"),
+        
+    };
+
 class App
 {
     public static Address : string = "http://localhost:8080/API";
-
 
     private static Page = null;
     private static PopUp = null;
@@ -118,7 +186,7 @@ class App
             document.body.appendChild(e);
         }
         App.hideLoading();
-        App.Page = riot.mount("div#app", tag, data);
+        App.Page = riot.mount("div#app", tags[tag], data);
     }
 
     public static showPopUp(tag, title, data)
@@ -184,3 +252,8 @@ class App
 
 }
 
+window.addEventListener("load", function () {
+
+    Router.GetInstance().start();
+
+});

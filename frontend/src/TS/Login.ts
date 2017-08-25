@@ -1,3 +1,5 @@
+var Cookies = <Cookies>require("js-cookie");
+var md5 = <MD5>require("md5");
 class Login
 {
     private static Instance : Login = new Login();
@@ -12,8 +14,9 @@ class Login
 
     constructor()
     {
-        this.token = Cookies.getItem("token");
-        this.user = JSON.parse(Cookies.getItem("user"));
+        this.token = Cookies.get("token");
+        if(Cookies.get("user") != null)
+            this.user = JSON.parse(Cookies.get("user"));
     }
 
     public Token() : string
@@ -29,13 +32,13 @@ class Login
     public setToken(token : string) : void 
     {
         this.token = token;
-        Cookies.setItem("token", token, null, "/");
+        Cookies.set("token", token);
     }
 
     public setUser(user : Object) : void 
     {
         this.user = user;
-        Cookies.setItem("user", JSON.stringify(user), null, "/");
+        Cookies.set("user", JSON.stringify(user));
     }
 
     public logout() : void 
@@ -51,14 +54,14 @@ class Login
         return true;
     }
 
-    public auth(username, password) : Promise
+    public auth(username, password) : Promise<any>
     {
         return new Promise((resolve, reject) => {
             var tmptoken = md5(username+md5(password));
             var retrieve = App.request(App.Address+"/auth", {
                 token : tmptoken
             }, false);
-            retrieve.then((response) => {
+            retrieve.then((response : any) => {
                 this.setToken(tmptoken);
                 this.setUser(response.data);
                 resolve(response.data);

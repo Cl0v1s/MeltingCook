@@ -82,7 +82,8 @@ div#app {
   margin: auto;
   margin-bottom: 20px; }
   .content.no-margin {
-    width: 100%; }
+    width: 100%;
+    max-width: 100%; }
 
 @keyframes loading {
   0% {
@@ -185,10 +186,15 @@ table {
   table-layout: fixed;
   width: 100%; }
   table tr {
-    border-bottom: 1px dotted; }
+    border-bottom: 1px dotted black; }
+  table.dark tr {
+    border-bottom: 1px dotted white; }
+  table.dark a {
+    color: #f2f4f3; }
   table tr:last-of-type {
     border: 0; }
   table td {
+    font-family: "Raleway";
     padding: 8px; }
   table td:last-of-type {
     text-align: right; }
@@ -420,6 +426,23 @@ app-hearts {
     background-image: url("/static/images/heart_plein.svg"); }
 
 /** Importation des styles des tags **/
+app-adminreports div.search, div[data-is=app-adminreports] div.search {
+  background-image: url("/static/images/black_paper.png");
+  padding: 20px;
+  text-align: center; }
+  app-adminreports div.search form, div[data-is=app-adminreports] div.search form {
+    margin: auto;
+    max-width: 900px;
+    padding: 20px;
+    margin-top: 20px; }
+    app-adminreports div.search form h2, div[data-is=app-adminreports] div.search form h2 {
+      width: 100%;
+      color: #f2f4f3; }
+    app-adminreports div.search form table td, div[data-is=app-adminreports] div.search form table td {
+      color: #f2f4f3; }
+  app-adminreports div.search input[type=button], div[data-is=app-adminreports] div.search input[type=button] {
+    display: inline-block; }
+
 app-accountkitchen, div[data-is=app-accountkitchen] {
   display: block; }
   app-accountkitchen div.header, div[data-is=app-accountkitchen] div.header {

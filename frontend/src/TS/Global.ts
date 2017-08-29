@@ -64,7 +64,11 @@ var tags =
         "app-useritem": require("./../../tags/User/UserItem.tag"),
         "app-userpasswordform": require("./../../tags/User/UserPasswordForm.tag"),
         "app-users": require("./../../tags/User/Users.tag"),
-        
+
+        // ADMIN
+        "app-adminreports" : require("./../../tags/Admin/AdminReports.tag"),
+        "app-adminreservations" : require("./../../tags/Admin/AdminReservations.tag"),
+
     };
 
 class App

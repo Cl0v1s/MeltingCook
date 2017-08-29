@@ -24,6 +24,7 @@ div#app
   &.no-margin
   {
     width: 100%;
+    max-width: 100%;
   }
 
 }
@@ -157,8 +158,20 @@ table
 
   tr
   {
-    border-bottom: 1px dotted
+    border-bottom: 1px dotted black;
   }
+
+  &.dark
+  {
+    tr
+    {
+      border-bottom: 1px dotted white;
+    }
+
+    a
+    { color: $color-text-secondary;}
+  }
+
 
   tr:last-of-type
   {
@@ -167,6 +180,7 @@ table
 
   td
   {
+    font-family: $font-primary;
     padding: $space-small;
   }
 

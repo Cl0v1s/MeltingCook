@@ -320,6 +320,29 @@ class Router
         App.changePage("app-search", null);
     }
 
+    // Admin
+
+    private adminReports(target_id : number, author_id : number) : void
+    {
+        var filters : any = {};
+        if(target_id != null)
+            filters.target_id = target_id;
+        if(author_id != null)
+            filters.author_id = author_id;
+        var request = App.request(App.Address + "/getreports", {
+            "filters" : JSON.stringify(filters)
+        });
+        request.then(function(response : any){
+            App.changePage("app-adminreports", {
+                "reports" : response.data
+            });
+        });
+        request.catch(function(error)
+        {
+            ErrorHandler.alertIfError(error);
+        });
+    }
+
 
     ///////////////////////////////////////////////////////////////
 
@@ -327,6 +350,11 @@ class Router
     {
         // Reservation
         route("/reservation/recipe/*", this.reservationRecipe);
+
+        // Admin
+        route("/admin/reports/by/*", (author_id) => { this.adminReports(null, author_id)});
+        route("/admin/reports/to/*", (target_id) => { this.adminReports(target_id, null)});
+        route("/admin/reports", () => { this.adminReports(null, null)});
 
 
         // Account

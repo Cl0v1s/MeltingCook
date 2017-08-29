@@ -393,6 +393,7 @@ class API
             $user = get_object_vars($users[$i]);
             $user["phone"] = "";
             $user["mail"] = "";
+            $user["password"] = "";
             array_push($results, $user);
         }
         return $results;

@@ -5,14 +5,7 @@
             <a onclick={ showCurrents }>En cours</a>
             <a onclick={ showEnds }>Terminés</a>
         </nav>
-        <div>
-            <label>Chercher par cible</label>
-            <input type="number" ref="target"><input type="button" value="Afficher" onclick={ showForTarget }>
-        </div>
-        <div>
-            <label>Chercher par auteur</label>
-            <input type="number" ref="author"><input type="button" value="Afficher" onclick={ showForAuthor }>
-        </div>
+
         <div>
             <input type="button" value="Tout Afficher" onclick={ showAll }>
         </div>
@@ -31,32 +24,12 @@
 
         tag.on("before-mount", function () {
             tag.reports = tag.opts.reports;
-
             if (tag.reports == null)
-                tag.retrieveReports();
-            else
-                tag.sortReports();
+                throw new Error("Reports cant be null.");
+            tag.sortReports();
         });
 
-        tag.retrieveReports = function (filters = null) {
-            var data = {};
-            if(filters != null)
-                data.filters = JSON.stringify(filters);
-
-            var request = App.request(App.Address + "/getreports", data);
-            request.then((response) => {
-                tag.reports = response.data;
-                tag.sortReports();
-            });
-            request.catch((error) => {
-                        ErrorHandler.alertIfError(error);
-
-            });
-        }
-
         tag.sortReports = function () {
-            if (tag.reports == null)
-                return;
             tag.news = new Array();
             tag.currents = new Array();
             tag.ends = new Array();
@@ -79,7 +52,7 @@
             });
             tag.list = tag.news;
             tag.update();
-        }
+        };
 
         tag.showNews = function()
         {

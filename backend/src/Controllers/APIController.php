@@ -128,6 +128,9 @@ class APIController extends Controller
                 case "getrecipes":
                     $this->GetAll("Recipe");
                     break;
+                case "getusers":
+                    $this->GetAll("User");
+                    break;
                 case "getnotifications":
                     $this->GetAll("Notification");
                     break;

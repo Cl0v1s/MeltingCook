@@ -452,10 +452,33 @@ class Router {
     search() {
         App.changePage("app-search", null);
     }
+    // Admin
+    adminReports(target_id, author_id) {
+        var filters = {};
+        if (target_id != null)
+            filters.target_id = target_id;
+        if (author_id != null)
+            filters.author_id = author_id;
+        var request = App.request(App.Address + "/getreports", {
+            "filters": JSON.stringify(filters)
+        });
+        request.then(function (response) {
+            App.changePage("app-adminreports", {
+                "reports": response.data
+            });
+        });
+        request.catch(function (error) {
+            ErrorHandler.alertIfError(error);
+        });
+    }
     ///////////////////////////////////////////////////////////////
     setRoutes() {
         // Reservation
         route("/reservation/recipe/*", this.reservationRecipe);
+        // Admin
+        route("/admin/reports/by/*", (author_id) => { this.adminReports(null, author_id); });
+        route("/admin/reports/to/*", (target_id) => { this.adminReports(target_id, null); });
+        route("/admin/reports", () => { this.adminReports(null, null); });
         // Account
         route("/account/recipes", this.accountRecipes);
         route("/account/reservations", this.accountReservations);
@@ -575,6 +598,9 @@ var tags = {
     "app-useritem": require("./../../tags/User/UserItem.tag"),
     "app-userpasswordform": require("./../../tags/User/UserPasswordForm.tag"),
     "app-users": require("./../../tags/User/Users.tag"),
+    // ADMIN
+    "app-adminreports": require("./../../tags/Admin/AdminReports.tag"),
+    "app-adminreservations": require("./../../tags/Admin/AdminReservations.tag"),
 };
 class App {
     static diagnosticForm(formname, errors) {
@@ -770,4 +796,5 @@ window.Router = Router;
 window.App = App;
 window.Adapter = Adapter;
 window.Search = Search;
+window.ErrorHandler = ErrorHandler;
 //# sourceMappingURL=main.js.map

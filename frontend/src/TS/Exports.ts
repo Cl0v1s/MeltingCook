@@ -10,3 +10,4 @@
 (<any>window).App = App;
 (<any>window).Adapter = Adapter;
 (<any>window).Search = Search;
+(<any>window).ErrorHandler = ErrorHandler;

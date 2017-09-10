@@ -1,5 +1,14 @@
 app-user, div[data-is=app-user]
 {
+
+    //background-image: $image-back-primary;
+
+
+    div.content
+    {
+        margin-bottom:  0;
+    }
+
     &>div
     {
         h1
@@ -44,13 +53,19 @@ app-user, div[data-is=app-user]
                     span
                     {
                         display: block;
-                        font-size: $font-size-big;
+                        font-size: $font-size-normal;
                         font-family: $font-primary;
 
                         &:first-of-type
                         {
                             font-family: $font-secondary;
-                            font-size: $font-size-big*1.3;
+                            font-size: $font-size-big;
+                        }
+
+                        &:last-of-type
+                        {
+                            display: block;
+
                         }
                     }
                 }
@@ -61,10 +76,7 @@ app-user, div[data-is=app-user]
 
             &>a.verified
             {
-                display: block;
-                vertical-align: initial;
-                margin-left: $space-normal;
-                font-family: $font-secondary;
+
             }
 
         }
@@ -88,6 +100,7 @@ app-user, div[data-is=app-user]
             margin-right: $space-big;
             margin-bottom: $space-normal;
 
+
             p
             {
                 font-size: $font-size-normal;
@@ -102,7 +115,7 @@ app-user, div[data-is=app-user]
         {
             margin-left: $space-big;
             margin-right: $space-big;
-            margin-bottom: $space-normal;
+            //margin-bottom: $space-normal;
 
             &>div
             {
@@ -130,8 +143,12 @@ app-user, div[data-is=app-user]
         div.comments
         {
             padding-left: $space-big;
+
             padding-right: $space-big;
-            margin-bottom: $space-normal;
+            //margin-bottom: $space-normal;
+            background-color: $color-back-primary;
+
+            overflow: hidden;
 
             h1
             {

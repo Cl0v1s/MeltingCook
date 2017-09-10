@@ -1,8 +1,7 @@
 <app-searchresults>
     <app-header></app-header>
+    <app-searcher expanded="{ true }" params="{ opts.params }"></app-searcher>
     <div class="content">
-        <app-searcher expanded="{ true }" params="{ opts.params }"></app-searcher>
-
         <section>
             <h1>Résultats de la recherche</h1>
             <app-recipes recipes={ opts.recipes }></app-recipes>

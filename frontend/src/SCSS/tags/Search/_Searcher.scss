@@ -1,6 +1,6 @@
 app-searcher
 {
-  $img-size: 60px;
+  $img-size: 100px;
 
   display: block;
   //background-color: $color-back-secondary;
@@ -11,18 +11,26 @@ app-searcher
   border: $border-normal;
   border-radius: 2px;
 
+  h1, h2
+  {
+    margin-bottom: 5px;
+    padding: 0;
+  }
+
   div.img
   {
     width: $img-size;
     height: $img-size;
 
-    display: inline-block;
+    display: block;
+    margin: auto;
 
     background-image: url("/static/images/dish.svg");
     background-size: auto 120%;
     background-position: center -15px;
 
     vertical-align: top;
+    padding: 0;
   }
 
   &>div div
@@ -30,6 +38,7 @@ app-searcher
     display: inline-block;
     vertical-align: top;
     padding: $space-small;
+    padding-top: 0;
   }
 
   &>form

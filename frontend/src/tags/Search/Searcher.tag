@@ -2,10 +2,10 @@
     <div>
         <div class="img"></div>
         <div>
-            <h3>A vos cuisines... Partez !</h3>
-            <p>
+            <h1>A vos cuisines... Partez !</h1>
+            <h2>
                 La découverte dans vos assiettes.
-            </p>
+            </h2>
         </div>
     </div>
     <form>

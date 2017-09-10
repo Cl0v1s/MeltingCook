@@ -175,7 +175,7 @@ h1 {
 
 h2 {
   font-family: "Raleway";
-  font-size: 26px;
+  font-size: 20px;
   margin-bottom: 20px; }
 
 section {
@@ -443,6 +443,35 @@ app-adminreports div.search, div[data-is=app-adminreports] div.search {
   app-adminreports div.search input[type=button], div[data-is=app-adminreports] div.search input[type=button] {
     display: inline-block; }
 
+app-home, div[data-is=app-home] {
+  display: block; }
+  app-home div.slider, div[data-is=app-home] div.slider {
+    background-image: url("/static/images/Image home.jpg");
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 350px; }
+  app-home div.ask, div[data-is=app-home] div.ask {
+    background-image: url("/static/images/fond1.jpg");
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    text-align: center;
+    color: #e3dfd6;
+    padding: 20px; }
+    app-home div.ask > div, div[data-is=app-home] div.ask > div {
+      width: 320px;
+      overflow: hidden;
+      margin: auto; }
+    app-home div.ask h1, div[data-is=app-home] div.ask h1 {
+      color: #e3dfd6; }
+    app-home div.ask p, div[data-is=app-home] div.ask p {
+      color: #e3dfd6;
+      display: block; }
+    app-home div.ask a, div[data-is=app-home] div.ask a {
+      margin-top: 20px;
+      font-family: "Raleway"; }
+
 app-accountkitchen, div[data-is=app-accountkitchen] {
   display: block; }
   app-accountkitchen div.header, div[data-is=app-accountkitchen] div.header {
@@ -604,6 +633,9 @@ app-usereditform div.picture > div.img, div[data-is=app-usereditform] div.pictur
 app-usereditform div.submit, div[data-is=app-usereditform] div.submit {
   margin-bottom: 20px; }
 
+app-user div.content, div[data-is=app-user] div.content {
+  margin-bottom: 0; }
+
 app-user > div h1, div[data-is=app-user] > div h1 {
   color: #191d1c;
   background-color: transparent;
@@ -632,16 +664,13 @@ app-user > div div.head, div[data-is=app-user] > div div.head {
     font-size: 16px; }
     app-user > div div.head > div.identity span, div[data-is=app-user] > div div.head > div.identity span {
       display: block;
-      font-size: 26px;
+      font-size: 16px;
       font-family: "Raleway"; }
       app-user > div div.head > div.identity span:first-of-type, div[data-is=app-user] > div div.head > div.identity span:first-of-type {
         font-family: "Lobster";
-        font-size: 33.8px; }
-  app-user > div div.head > a.verified, div[data-is=app-user] > div div.head > a.verified {
-    display: block;
-    vertical-align: initial;
-    margin-left: 20px;
-    font-family: "Lobster"; }
+        font-size: 26px; }
+      app-user > div div.head > div.identity span:last-of-type, div[data-is=app-user] > div div.head > div.identity span:last-of-type {
+        display: block; }
 
 app-user > div nav, div[data-is=app-user] > div nav {
   display: block;
@@ -664,7 +693,6 @@ app-user > div div.description, div[data-is=app-user] > div div.description {
 app-user > div div.more, div[data-is=app-user] > div div.more {
   margin-left: 40px;
   margin-right: 40px;
-  margin-bottom: 20px;
   padding-bottom: 20px;
   border-bottom: 1px dotted #FDC279; }
   app-user > div div.more > div, div[data-is=app-user] > div div.more > div {
@@ -681,7 +709,8 @@ app-user > div div.more, div[data-is=app-user] > div div.more {
 app-user > div div.comments, div[data-is=app-user] > div div.comments {
   padding-left: 40px;
   padding-right: 40px;
-  margin-bottom: 20px; }
+  background-color: #ffffff;
+  overflow: hidden; }
   app-user > div div.comments h1, div[data-is=app-user] > div div.comments h1 {
     display: inline-block; }
   app-user > div div.comments app-hearts, div[data-is=app-user] > div div.comments app-hearts {
@@ -796,18 +825,24 @@ app-searcher {
   text-align: center;
   border: 1px solid rgba(204, 204, 204, 0.3);
   border-radius: 2px; }
+  app-searcher h1, app-searcher h2 {
+    margin-bottom: 5px;
+    padding: 0; }
   app-searcher div.img {
-    width: 60px;
-    height: 60px;
-    display: inline-block;
+    width: 100px;
+    height: 100px;
+    display: block;
+    margin: auto;
     background-image: url("/static/images/dish.svg");
     background-size: auto 120%;
     background-position: center -15px;
-    vertical-align: top; }
+    vertical-align: top;
+    padding: 0; }
   app-searcher > div div {
     display: inline-block;
     vertical-align: top;
-    padding: 8px; }
+    padding: 8px;
+    padding-top: 0; }
   app-searcher > form {
     display: inline-block;
     vertical-align: top;

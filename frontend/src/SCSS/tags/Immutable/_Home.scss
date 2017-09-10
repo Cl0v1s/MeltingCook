@@ -1,0 +1,47 @@
+app-home, div[data-is=app-home]
+{
+  display: block;
+  div.slider
+  {
+    background-image: url("/static/images/Image home.jpg");
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 350px;
+  }
+  div.ask
+  {
+    background-image: url("/static/images/fond1.jpg");
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    text-align: center;
+    color: $color-back-secondary;
+    padding: $space-normal;
+
+    &>div
+    {
+      width: 320px;
+      overflow: hidden;;
+      margin: auto;
+    }
+    h1
+    {
+      color: $color-back-secondary;
+
+    }
+
+    p
+    {
+      color: $color-back-secondary;
+      display: block;
+
+    }
+
+    a
+    {
+      margin-top: $space-normal;
+      font-family: $font-primary;
+    }
+  }
+}

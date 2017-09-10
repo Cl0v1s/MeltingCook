@@ -4,7 +4,7 @@ app-tabbar
   display: block;
   width: 100%;
   //background-color: $color-front-avocado;
-  border-bottom: 10px solid $color-front-avocado;
+  border-bottom: 10px solid $color-front-peach;
   position: relative;
 
   span
@@ -17,7 +17,13 @@ app-tabbar
     background-color: $color-front-straw;
     font-family: $font-secondary;
     color: $color-back-primary;
-    margin-right: $space-normal;
+    margin-right: 1px;
+
+    border: 1px solid darken($color-front-straw, 5);
+
+
+    border-bottom: 0;
+    border-top-right-radius: $border-radius;
 
     cursor: pointer;
 
@@ -49,6 +55,7 @@ app-tabbar
       width: 100%;
       height: $height;
       background-color: $color-back-primary;
+      border:0;
       &:hover
       {
         background-color: $color-back-primary;
@@ -58,7 +65,15 @@ app-tabbar
 
     &.selected, &:hover
     {
-      background-color: $color-front-avocado;
+      background-color: $color-front-peach;
+      border: 1px solid darken($color-front-peach, 5);
+      border-bottom: 0;
+
+      &:last-of-type
+      {
+
+        border: 0;
+      }
     }
   }
 }

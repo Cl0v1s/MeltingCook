@@ -140,7 +140,7 @@ div#popup {
     content: attr(data-name);
     font-family: "Raleway";
     padding: 8px;
-    font-size: 20px;
+    font-size: 26px;
     background-color: #FDC279;
     color: #ffffff; }
   div#popup div.close {
@@ -151,7 +151,7 @@ div#popup {
     display: inline-block;
     top: 0;
     right: 0;
-    font-size: 20px;
+    font-size: 26px;
     text-align: right;
     padding-top: 8px;
     padding-right: 8px;
@@ -167,7 +167,7 @@ div#hidder {
   background-color: rgba(0, 0, 0, 0.3); }
 
 h1 {
-  font-size: 20px;
+  font-size: 26px;
   font-family: "Lobster";
   margin-bottom: 20px;
   padding: 8px;
@@ -175,7 +175,7 @@ h1 {
 
 h2 {
   font-family: "Raleway";
-  font-size: 20px;
+  font-size: 26px;
   margin-bottom: 20px; }
 
 section {
@@ -286,7 +286,7 @@ a.Action {
   background-size: 20px 20px;
   background-position: 8px;
   background-repeat: no-repeat;
-  border-radius: 2px;
+  border-radius: 15px;
   transition: all 0.2s ease; }
   a.Action > span {
     height: 45px;
@@ -305,7 +305,7 @@ input[type=button] {
   border: 1px solid #EA968B;
   color: #ffffff;
   padding: 8px;
-  border-radius: 2px;
+  border-radius: 15px;
   text-align: center;
   transition: all 0.2s ease; }
   input[type=button].large {
@@ -447,11 +447,13 @@ app-accountkitchen, div[data-is=app-accountkitchen] {
   display: block; }
   app-accountkitchen div.header, div[data-is=app-accountkitchen] div.header {
     padding-top: 20px;
-    background-color: #e3dfd6; }
+    background-image: url("/static/images/vintage-concrete.png"); }
+    app-accountkitchen div.header h2, div[data-is=app-accountkitchen] div.header h2 {
+      font-weight: bold; }
     app-accountkitchen div.header > div, div[data-is=app-accountkitchen] div.header > div {
       width: 80%;
       margin: auto;
-      padding-top: 20px; }
+      padding-top: 0; }
       app-accountkitchen div.header > div div.img, div[data-is=app-accountkitchen] div.header > div div.img {
         display: inline-block;
         width: 80px;
@@ -484,9 +486,10 @@ app-accountkitchen, div[data-is=app-accountkitchen] {
             margin: auto;
             text-align: center; } }
         app-accountkitchen div.header > div div.identity li, div[data-is=app-accountkitchen] div.header > div div.identity li {
-          margin-bottom: 8px; }
+          margin-bottom: 0; }
           app-accountkitchen div.header > div div.identity li a, div[data-is=app-accountkitchen] div.header > div div.identity li a {
-            cursor: pointer; }
+            cursor: pointer;
+            font-size: 14px; }
   app-accountkitchen div.comments, div[data-is=app-accountkitchen] div.comments {
     width: 100%;
     margin: 8px;
@@ -549,7 +552,7 @@ app-useritem, div[data-is=app-useritem] {
       font-size: 14px;
       color: #ffffff; }
     app-useritem div.style span:last-of-type, div[data-is=app-useritem] div.style span:last-of-type {
-      font-size: 20px;
+      font-size: 26px;
       color: #ffffff;
       font-family: "Lobster"; }
   app-useritem div.style + div, div[data-is=app-useritem] div.style + div {
@@ -610,30 +613,32 @@ app-user > div h1, div[data-is=app-user] > div h1 {
 app-user > div div.banner, div[data-is=app-user] > div div.banner {
   display: block;
   width: 100%;
-  height: 140px;
+  height: 190px;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat; }
 
 app-user > div div.head, div[data-is=app-user] > div div.head {
-  margin-top: -80px;
+  margin-top: -68px;
   padding: 20px; }
   app-user > div div.head > img, div[data-is=app-user] > div div.head > img {
     display: inline-block;
     width: 114px;
     height: 114px;
-    border-radius: 2px; }
+    border-radius: 100%; }
   app-user > div div.head > div, div[data-is=app-user] > div div.head > div {
     display: inline-block;
     margin-left: 20px;
     font-size: 16px; }
     app-user > div div.head > div.identity span, div[data-is=app-user] > div div.head > div.identity span {
       display: block;
-      font-size: 20px;
+      font-size: 26px;
       font-family: "Raleway"; }
       app-user > div div.head > div.identity span:first-of-type, div[data-is=app-user] > div div.head > div.identity span:first-of-type {
-        font-family: "Lobster"; }
+        font-family: "Lobster";
+        font-size: 33.8px; }
   app-user > div div.head > a.verified, div[data-is=app-user] > div div.head > a.verified {
+    display: block;
     vertical-align: initial;
     margin-left: 20px;
     font-family: "Lobster"; }
@@ -713,7 +718,7 @@ app-tabbar {
   margin-top: 20px;
   display: block;
   width: 100%;
-  border-bottom: 10px solid #DED479;
+  border-bottom: 10px solid #FDC279;
   position: relative; }
   app-tabbar span {
     display: inline-block;
@@ -723,7 +728,10 @@ app-tabbar {
     background-color: #F3B1A6;
     font-family: "Lobster";
     color: #ffffff;
-    margin-right: 20px;
+    margin-right: 1px;
+    border: 1px solid #f09d90;
+    border-bottom: 0;
+    border-top-right-radius: 15px;
     cursor: pointer; }
     @media screen and (max-width: 600px) {
       app-tabbar span {
@@ -741,11 +749,16 @@ app-tabbar {
       position: absolute;
       width: 100%;
       height: 32px;
-      background-color: #ffffff; }
+      background-color: #ffffff;
+      border: 0; }
       app-tabbar span:last-of-type:hover {
         background-color: #ffffff; }
     app-tabbar span.selected, app-tabbar span:hover {
-      background-color: #DED479; }
+      background-color: #FDC279;
+      border: 1px solid #fdb760;
+      border-bottom: 0; }
+      app-tabbar span.selected:last-of-type, app-tabbar span:hover:last-of-type {
+        border: 0; }
 
 app-placehint, div[data-is=app-placehint] {
   display: block;
@@ -778,7 +791,7 @@ app-placehint, div[data-is=app-placehint] {
 
 app-searcher {
   display: block;
-  background-color: #e3dfd6;
+  background-image: url("/static/images/vintage-concrete.png");
   padding: 20px;
   text-align: center;
   border: 1px solid rgba(204, 204, 204, 0.3);
@@ -895,7 +908,7 @@ app-recipe div.infos, div[data-is=app-recipe] div.infos {
     app-recipe div.infos div.base div.name h1, div[data-is=app-recipe] div.infos div.base div.name h1 {
       display: inline-block;
       width: auto;
-      font-size: 40px;
+      font-size: 52px;
       background-color: transparent;
       color: #191d1c;
       height: 56px;
@@ -1071,7 +1084,7 @@ app-reservation h1 + div, div[data-is=app-reservation] h1 + div {
   margin-bottom: 20px; }
   app-reservation h1 + div label, div[data-is=app-reservation] h1 + div label {
     display: block;
-    font-size: 20px;
+    font-size: 26px;
     margin-bottom: 8px;
     margin-top: 20px; }
 
@@ -1104,7 +1117,7 @@ app-commentitem, div[data-is=app-commentitem] {
     max-width: 70%;
     vertical-align: top; }
     app-commentitem > div > div:first-of-type, div[data-is=app-commentitem] > div > div:first-of-type {
-      font-size: 20px;
+      font-size: 26px;
       margin-bottom: 20px; }
     app-commentitem > div > div:last-of-type, div[data-is=app-commentitem] > div > div:last-of-type {
       font-size: 16px; }
@@ -1116,7 +1129,7 @@ app-commentitem, div[data-is=app-commentitem] {
 app-header, div[data-is=app-header] {
   display: block;
   width: 100%;
-  height: 70px;
+  height: 108px;
   position: relative;
   padding: 20px;
   padding-top: 8px;
@@ -1129,7 +1142,7 @@ app-header, div[data-is=app-header] {
     height: 100%;
     cursor: pointer;
     background-image: url("/static/images/logo-noir.svg");
-    background-size: 150% 150%;
+    background-size: 160% 160%;
     background-position: center;
     background-repeat: no-repeat;
     transition: all 0.2s ease; }
@@ -1139,7 +1152,10 @@ app-header, div[data-is=app-header] {
     display: inline-block;
     padding: 0 !important;
     position: absolute;
-    right: 20px; }
+    right: 20px;
+    height: 100px;
+    line-height: 100px;
+    vertical-align: middle; }
     app-header > nav > a, div[data-is=app-header] > nav > a {
       margin-right: 20px;
       cursor: pointer; }
@@ -1149,7 +1165,7 @@ app-header, div[data-is=app-header] {
       margin-left: 8px;
       width: 45px;
       height: 45px;
-      border-radius: 2px;
+      border-radius: 100%;
       background-position: center;
       background-size: cover;
       background-repeat: no-repeat;

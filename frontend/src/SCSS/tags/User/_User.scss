@@ -13,7 +13,7 @@ app-user, div[data-is=app-user]
         {
             display: block;
             width: 100%;
-            height: 140px;
+            height: 190px;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -21,7 +21,7 @@ app-user, div[data-is=app-user]
 
         div.head
         {
-            margin-top: -60px - $space-normal;
+            margin-top: -60px - $space-small;
             padding: $space-normal;
 
             &>img
@@ -29,7 +29,8 @@ app-user, div[data-is=app-user]
                 display: inline-block;
                 width: 114px;
                 height: 114px;
-                border-radius: 2px;
+                border-radius: 100%;
+
             }
 
             &>div
@@ -49,6 +50,7 @@ app-user, div[data-is=app-user]
                         &:first-of-type
                         {
                             font-family: $font-secondary;
+                            font-size: $font-size-big*1.3;
                         }
                     }
                 }
@@ -59,6 +61,7 @@ app-user, div[data-is=app-user]
 
             &>a.verified
             {
+                display: block;
                 vertical-align: initial;
                 margin-left: $space-normal;
                 font-family: $font-secondary;

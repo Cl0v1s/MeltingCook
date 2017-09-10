@@ -19,6 +19,7 @@ a.Button
 
     transition: all 0.2s ease;
 
+
     &:hover
     {
         transform: scale(1.2, 1.2);
@@ -116,7 +117,7 @@ a.Action
     background-position: $space-small;
     background-repeat: no-repeat;
 
-    border-radius: 2px;
+    border-radius: $border-radius;
 
     &>span
     {
@@ -149,7 +150,7 @@ input[type=button]
     border: 1px solid #EA968B;
     color: $color-back-primary;
     padding: $space-small;
-    border-radius: 2px;
+    border-radius: $border-radius;
     text-align: center;
     transition: all 0.2s ease;
 

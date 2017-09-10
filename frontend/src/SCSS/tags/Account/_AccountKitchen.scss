@@ -5,11 +5,18 @@ app-accountkitchen, div[data-is=app-accountkitchen]
   div.header
   {
     padding-top: $space-normal;
-    background-color: $color-back-secondary;
+    //background-color: $color-back-secondary;
+    background-image: $image-back-primary;
+
+    h2
+    {
+      font-weight:bold;
+    }
+
     &>div {
       width: 80%;
       margin: auto;
-      padding-top: $space-normal;
+      padding-top: 0;
       div.img {
         display: inline-block;
         $side : 80px;
@@ -50,10 +57,11 @@ app-accountkitchen, div[data-is=app-accountkitchen]
         }
 
         li {
-          margin-bottom: $space-small;
+          margin-bottom: 0;
 
           a {
             cursor: pointer;
+            font-size: $font-size-small;
           }
         }
       }

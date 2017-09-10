@@ -3,7 +3,8 @@ app-searcher
   $img-size: 60px;
 
   display: block;
-  background-color: $color-back-secondary;
+  //background-color: $color-back-secondary;
+  background-image: $image-back-primary;
   padding: $space-normal;
   text-align: center;
 

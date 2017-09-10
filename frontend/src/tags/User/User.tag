@@ -9,10 +9,9 @@
                 <div class="identity">
                     <span>{ user.username }</span>
                     <span>{ user.age } ans</span>
-                </div>
-                <a class="verified">
                     <span>Cuisinnier vérifié</span>
-                </a>
+
+                </div>
 
             </div>
 

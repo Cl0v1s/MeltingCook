@@ -1,0 +1,38 @@
+.stain
+{
+  display: inline-block;
+
+  background-position: center center;
+  background-size: contain;
+
+  padding: $space-big+$space-normal;
+
+  text-align: center;
+
+  div
+  {
+    font-family: $font-secondary;
+  }
+
+  span
+  {
+    font-size: 9px;
+    font-family: $font-primary;
+  }
+
+  &.avocado
+  {
+    background-image: url("/static/images/tache-avocat.svg");
+  }
+
+  &.peach
+  {
+    background-image: url("/static/images/tache-passion.svg");
+
+  }
+
+  &.straw
+  {
+    background-image: url("/static/images/tache-fraise.svg");
+  }
+}

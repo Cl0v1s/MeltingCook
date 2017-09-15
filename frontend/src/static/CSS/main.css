@@ -425,6 +425,24 @@ app-hearts {
   app-hearts .full {
     background-image: url("/static/images/heart_plein.svg"); }
 
+.stain {
+  display: inline-block;
+  background-position: center center;
+  background-size: contain;
+  padding: 60px;
+  text-align: center; }
+  .stain div {
+    font-family: "Lobster"; }
+  .stain span {
+    font-size: 9px;
+    font-family: "Raleway"; }
+  .stain.avocado {
+    background-image: url("/static/images/tache-avocat.svg"); }
+  .stain.peach {
+    background-image: url("/static/images/tache-passion.svg"); }
+  .stain.straw {
+    background-image: url("/static/images/tache-fraise.svg"); }
+
 /** Importation des styles des tags **/
 app-adminreports div.search, div[data-is=app-adminreports] div.search {
   background-image: url("/static/images/black_paper.png");
@@ -471,6 +489,13 @@ app-home, div[data-is=app-home] {
     app-home div.ask a, div[data-is=app-home] div.ask a {
       margin-top: 20px;
       font-family: "Raleway"; }
+  app-home div.whom, div[data-is=app-home] div.whom {
+    display: block;
+    margin: auto;
+    max-width: 800px;
+    padding: 40px; }
+    app-home div.whom > div, div[data-is=app-home] div.whom > div {
+      text-align: center; }
 
 app-accountkitchen, div[data-is=app-accountkitchen] {
   display: block; }

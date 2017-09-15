@@ -13,6 +13,41 @@
 
             </div>
         </div>
+        <div class="whom">
+            <h1>Nous cuisinons tous les jours.<br>Chez qui allez-vous manger ajourd'hui ?</h1>
+            <div>
+                <div class="stain peach">
+                    <div>Bordeaux</div>
+                    <span>JAPONNAIS</span>
+                    <div>
+                        <span>A partir de</span>
+                        <div>
+                            5€
+                        </div>
+                    </div>
+                </div>
+                <div class="stain straw">
+                    <div>Bordeaux</div>
+                    <span>JAPONNAIS</span>
+                    <div>
+                        <span>A partir de</span>
+                        <div>
+                            5€
+                        </div>
+                    </div>
+                </div>
+                <div class="stain avocado">
+                    <div>Bordeaux</div>
+                    <span>JAPONNAIS</span>
+                    <div>
+                        <span>A partir de</span>
+                        <div>
+                            5€
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <app-footer></app-footer>
 

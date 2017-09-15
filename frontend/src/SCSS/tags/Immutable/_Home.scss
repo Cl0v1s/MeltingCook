@@ -44,4 +44,18 @@ app-home, div[data-is=app-home]
       font-family: $font-primary;
     }
   }
+  div.whom
+  {
+    display: block;
+    margin: auto;
+    max-width: 800px;
+
+
+    padding: $space-big;
+
+    &>div
+    {
+      text-align: center;
+    }
+  }
 }

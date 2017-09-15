@@ -463,6 +463,9 @@ app-adminreports div.search, div[data-is=app-adminreports] div.search {
 
 app-home, div[data-is=app-home] {
   display: block; }
+  app-home div.content, div[data-is=app-home] div.content {
+    padding-bottom: 0;
+    margin-bottom: 0; }
   app-home div.slider, div[data-is=app-home] div.slider {
     background-image: url("/static/images/Image home.jpg");
     background-size: cover;
@@ -496,6 +499,26 @@ app-home, div[data-is=app-home] {
     padding: 40px; }
     app-home div.whom > div, div[data-is=app-home] div.whom > div {
       text-align: center; }
+  app-home div.description, div[data-is=app-home] div.description {
+    background-image: url("/static/images/vintage-concrete.png");
+    padding: 20px;
+    text-align: center; }
+    app-home div.description div.tab, div[data-is=app-home] div.description div.tab {
+      display: inline-block;
+      padding: 20px; }
+      app-home div.description div.tab div.img, div[data-is=app-home] div.description div.tab div.img {
+        display: block;
+        width: 100%;
+        height: 100px;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat; }
+      app-home div.description div.tab.share div.img, div[data-is=app-home] div.description div.tab.share div.img {
+        background-image: url("/static/images/conversation.svg"); }
+      app-home div.description div.tab.trust div.img, div[data-is=app-home] div.description div.tab.trust div.img {
+        background-image: url("/static/images/heart_plein.svg"); }
+      app-home div.description div.tab.kitchen div.img, div[data-is=app-home] div.description div.tab.kitchen div.img {
+        background-image: url("/static/images/cooking.svg"); }
 
 app-accountkitchen, div[data-is=app-accountkitchen] {
   display: block; }

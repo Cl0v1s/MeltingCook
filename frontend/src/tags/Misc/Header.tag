@@ -1,7 +1,7 @@
 <app-header>
     <div class="img" onclick="{ home }"></div>
     <nav>
-        <a class='Action' onclick="{ addrecipe }"><span>Partager un voyage culinaire</span></a>
+        <a class='Action' href="#/recipe/add"><span>Partager un voyage culinaire</span></a>
         <a class='Button register' if="{ logged == false }" onclick='{ register }'><span>Inscription</span></a>
         <a class='Button login' if="{ logged == false }" onclick='{ login }'><span>Connexion</span></a>
         <a if="{ logged == true }" onclick='{ account }'>

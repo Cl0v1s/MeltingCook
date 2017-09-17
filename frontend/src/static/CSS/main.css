@@ -287,6 +287,7 @@ a.Action {
   background-position: 8px;
   background-repeat: no-repeat;
   border-radius: 15px;
+  text-decoration: none;
   transition: all 0.2s ease; }
   a.Action > span {
     height: 45px;
@@ -363,8 +364,8 @@ input[type=button] {
 input[type=text], select, input[type=password], textarea, .selectize-input, input[type=number] {
   padding: 10px !important;
   border-radius: 10px !important;
-  border: 1px solid #CCCCCC !important;
-  background-color: #ffffff !important;
+  border: 1px solid #b8b8b8 !important;
+  background-image: linear-gradient(to bottom, #fefefe, #f2f2f2) !important;
   color: #808080 !important;
   text-align: left !important;
   box-sizing: border-box !important;
@@ -373,9 +374,16 @@ input[type=text], select, input[type=password], textarea, .selectize-input, inpu
   width: 90% !important;
   margin: auto;
   margin-top: 8px;
-  margin-bottom: 8px; }
+  margin-bottom: 8px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  font-family: Raleway;
+  font-size: 13px; }
   input[type=text].selectize-input, select.selectize-input, input[type=password].selectize-input, textarea.selectize-input, .selectize-input.selectize-input, input[type=number].selectize-input {
     width: 100% !important; }
+  input[type=text].picker__input, select.picker__input, input[type=password].picker__input, textarea.picker__input, .selectize-input.picker__input, input[type=number].picker__input {
+    font-family: Raleway;
+    font-size: 13px; }
 
 .selectize-control {
   width: 90% !important;
@@ -1158,6 +1166,24 @@ app-recipeeditform, div[data-is=app-recipeeditform] {
       vertical-align: top;
       min-width: 380px;
       padding: 20px; }
+
+app-reportitem {
+  display: inline-block;
+  min-width: 320px;
+  border: 1px solid rgba(204, 204, 204, 0.3);
+  padding: 20px;
+  width: 200px; }
+  app-reportitem span b {
+    font-weight: bold; }
+  app-reportitem div {
+    margin-bottom: 8px; }
+
+app-reports, div[data-is=app-reports] {
+  display: block;
+  text-align: center; }
+  app-reports nav, div[data-is=app-reports] nav {
+    width: 100%;
+    text-align: left; }
 
 app-reservation h1, div[data-is=app-reservation] h1 {
   margin-bottom: 0; }

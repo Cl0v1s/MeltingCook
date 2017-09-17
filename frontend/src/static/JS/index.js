@@ -484,7 +484,7 @@ function isSlowBuffer (obj) {
 })();
 
 },{"charenc":1,"crypt":2,"is-buffer":3}],6:[function(require,module,exports){
-/* Riot v3.7.0, @license MIT */
+/* Riot v3.6.3, @license MIT */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
 	typeof define === 'function' && define.amd ? define(['exports'], factory) :
@@ -493,7 +493,6 @@ function isSlowBuffer (obj) {
 
 var __TAGS_CACHE = [];
 var __TAG_IMPL = {};
-var YIELD_TAG = 'yield';
 var GLOBAL_MIXIN = '__global_mixin';
 var ATTRS_PREFIX = 'riot-';
 var REF_DIRECTIVES = ['ref', 'data-ref'];
@@ -503,7 +502,6 @@ var LOOP_DIRECTIVE = 'each';
 var LOOP_NO_REORDER_DIRECTIVE = 'no-reorder';
 var SHOW_DIRECTIVE = 'show';
 var HIDE_DIRECTIVE = 'hide';
-var KEY_DIRECTIVE = 'key';
 var RIOT_EVENTS_KEY = '__riot-events__';
 var T_STRING = 'string';
 var T_OBJECT = 'object';
@@ -1874,7 +1872,9 @@ function updateExpression(expr) {
 
     if (attrName === 'value' && dom.value !== value) {
       dom.value = value;
-    } else if (hasValue && value !== false) {
+    }
+
+    if (hasValue && value !== false) {
       setAttr(dom, attrName, value);
     }
 
@@ -2085,22 +2085,6 @@ function append(root, isVirtual) {
 }
 
 /**
- * Return the value we want to use to lookup the postion of our items in the collection
- * @param   { String }  keyAttr         - lookup string or expression
- * @param   { * }       originalItem    - original item from the collection
- * @param   { Object }  keyedItem       - object created by riot via { item, i in collection }
- * @param   { Boolean } hasKeyAttrExpr  - flag to check whether the key is an expression
- * @returns { * } value that we will use to figure out the item position via collection.indexOf
- */
-function getItemId(keyAttr, originalItem, keyedItem, hasKeyAttrExpr) {
-  if (keyAttr) {
-    return hasKeyAttrExpr ?  tmpl(keyAttr, keyedItem) :  originalItem[keyAttr]
-  }
-
-  return originalItem
-}
-
-/**
  * Manage tags having the 'each'
  * @param   { HTMLElement } dom - DOM node we need to loop
  * @param   { Tag } parent - parent tag instance where the dom node is contained
@@ -2109,8 +2093,6 @@ function getItemId(keyAttr, originalItem, keyedItem, hasKeyAttrExpr) {
  */
 function _each(dom, parent, expr) {
   var mustReorder = typeof getAttr(dom, LOOP_NO_REORDER_DIRECTIVE) !== T_STRING || remAttr(dom, LOOP_NO_REORDER_DIRECTIVE);
-  var keyAttr = getAttr(dom, KEY_DIRECTIVE);
-  var hasKeyAttrExpr = keyAttr ? tmpl.hasExpr(keyAttr) : false;
   var tagName = getTagName(dom);
   var impl = __TAG_IMPL[tagName];
   var parentNode = dom.parentNode;
@@ -2126,7 +2108,6 @@ function _each(dom, parent, expr) {
 
   // remove the each property from the original tag
   remAttr(dom, LOOP_DIRECTIVE);
-  remAttr(dom, KEY_DIRECTIVE);
 
   // parse the each expression
   expr = tmpl.loopKeys(expr);
@@ -2146,7 +2127,6 @@ function _each(dom, parent, expr) {
     var frag = createFrag();
     var isObject$$1 = !isArray(items) && !isString(items);
     var root = placeholder.parentNode;
-    var tmpItems = [];
 
     // if this DOM was removed the update here is useless
     // this condition fixes also a weird async issue on IE in our unit test
@@ -2171,18 +2151,18 @@ function _each(dom, parent, expr) {
     }
 
     // loop all the new items
-    each(items, function (_item, i) {
-      var item = !hasKeys && expr.key ? mkitem(expr, _item, i) : _item;
-      var itemId = getItemId(keyAttr, _item, item, hasKeyAttrExpr);
+    each(items, function (item, i) {
       // reorder only if the items are objects
-      var doReorder = mustReorder && typeof _item === T_OBJECT && !hasKeys;
-      var oldPos = oldItems.indexOf(itemId);
+      var doReorder = mustReorder && typeof item === T_OBJECT && !hasKeys;
+      var oldPos = oldItems.indexOf(item);
       var isNew = oldPos === -1;
       var pos = !isNew && doReorder ? oldPos : i;
       // does a tag exist in this position?
       var tag = tags[pos];
       var mustAppend = i >= oldItems.length;
       var mustCreate =  doReorder && isNew || !doReorder && !tag;
+
+      item = !hasKeys && expr.key ? mkitem(expr, item, i) : item;
 
       // new tag
       if (mustCreate) {
@@ -2209,7 +2189,7 @@ function _each(dom, parent, expr) {
         if (child) { arrayishAdd(parent.tags, tagName, tag, true); }
       } else if (pos !== i && doReorder) {
         // move
-        if (keyAttr || contains(items, oldItems[pos])) {
+        if (contains(items, oldItems[pos])) {
           move.apply(tag, [root, tags[i], isVirtual]);
           // move the old tag instance
           tags.splice(i, 0, tags.splice(pos, 1)[0]);
@@ -2231,8 +2211,6 @@ function _each(dom, parent, expr) {
       tag.__.index = i;
       tag.__.parent = parent;
 
-      tmpItems[i] = itemId;
-
       if (!mustCreate) { tag.update(item); }
     });
 
@@ -2240,7 +2218,7 @@ function _each(dom, parent, expr) {
     unmountRedundant(items, tags);
 
     // clone the items array
-    oldItems = tmpItems.slice();
+    oldItems = items.slice();
 
     root.insertBefore(frag, placeholder);
   };
@@ -2374,7 +2352,7 @@ function parseAttributes(dom, attrs, fn) {
     var bool = isBoolAttr(name);
     var expr;
 
-    if (contains(REF_DIRECTIVES, name) && dom.tagName.toLowerCase() !== YIELD_TAG) {
+    if (contains(REF_DIRECTIVES, name)) {
       expr =  Object.create(RefExpr).init(dom, this$1, name, attr.value);
     } else if (tmpl.hasExpr(attr.value)) {
       expr = {dom: dom, expr: attr.value, attr: name, bool: bool};
@@ -2684,7 +2662,7 @@ function unregister$1(name) {
   __TAG_IMPL[name] = null;
 }
 
-var version$1 = 'v3.7.0';
+var version$1 = 'v3.6.3';
 
 
 var core = Object.freeze({
@@ -2726,24 +2704,12 @@ function updateOpts(isLoop, parent, isAnonymous, opts, instAttrs) {
 }
 
 /**
- * Manage the mount state of a tag triggering also the observable events
+ * Toggle the isMounted flag
  * @this Tag
  * @param { Boolean } value - ..of the isMounted flag
  */
-function setMountState(value) {
-  var ref = this.__;
-  var isAnonymous = ref.isAnonymous;
-
+function setIsMounted(value) {
   defineProperty(this, 'isMounted', value);
-
-  if (!isAnonymous) {
-    if (value) { this.trigger('mount'); }
-    else {
-      this.trigger('unmount');
-      this.off('*');
-      this.__.wasCreated = false;
-    }
-  }
 }
 
 
@@ -2781,7 +2747,7 @@ function Tag$1(impl, conf, innerHTML) {
   if (impl.name && root._tag) { root._tag.unmount(true); }
 
   // not yet mounted
-  defineProperty(this, 'isMounted', false);
+  setIsMounted.call(this, false);
 
   defineProperty(this, '__', {
     isAnonymous: isAnonymous,
@@ -2901,7 +2867,7 @@ function Tag$1(impl, conf, innerHTML) {
 
       // init method will be called automatically
       if (instance.init)
-        { instance.init.bind(this$1)(opts); }
+        { instance.init.bind(this$1)(); }
     });
     return this
   }.bind(this));
@@ -2963,11 +2929,13 @@ function Tag$1(impl, conf, innerHTML) {
     if (!skipAnonymous && this.parent) {
       var p = getImmediateCustomParentTag(this.parent);
       p.one(!p.isMounted ? 'mount' : 'updated', function () {
-        setMountState.call(this$1, true);
+        setIsMounted.call(this$1, true);
+        this$1.trigger('mount');
       });
     } else {
       // otherwise it's not a child tag we can trigger its mount event
-      setMountState.call(this, true);
+      setIsMounted.call(this, true);
+      if (!skipAnonymous) { this.trigger('mount'); }
     }
 
     this.__.wasCreated = true;
@@ -3046,12 +3014,15 @@ function Tag$1(impl, conf, innerHTML) {
     // custom internal unmount function to avoid relying on the observable
     if (this.__.onUnmount) { this.__.onUnmount(); }
 
-    // weird fix for a weird edge case #2409 and #2436
-    // some users might use your software not as you've expected
-    // so I need to add these dirty hacks to mitigate unexpected issues
-    if (!this.isMounted) { setMountState.call(this, true); }
+    if (!skipAnonymous) {
+      // weird fix for a weird edge case #2409
+      if (!this.isMounted) { this.trigger('mount'); }
+      this.trigger('unmount');
+      this.off('*');
+    }
 
-    setMountState.call(this, false);
+    defineProperty(this, 'isMounted', false);
+    this.__.wasCreated = false;
 
     delete this.root._tag;
 
@@ -4662,7 +4633,7 @@ module.exports = riot.tag2('app-error', '<app-header></app-header> <div> <h1>Ooo
 });
 },{"riot":6}],19:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-home', '<app-header></app-header> <div class="content no-margin"> <div class="slider"></div> <app-searcher></app-searcher> <div class="ask"> <div> <h1>Disponible dans vos cuisines ?</h1> <p> Partagez vos frais en apprenant votre savoir et en passant un agréable moment. </p> <a class="Action" onclick="{addrecipe}"><span>Partager un voyage culinaire</span></a> </div> </div> <div class="whom"> <h1>Nous cuisinons tous les jours.<br>Chez qui allez-vous manger ajourd\'hui ?</h1> <div> <div class="stain peach"> <div>Bordeaux</div> <span>JAPONNAIS</span> <div> <span>A partir de</span> <div> 5€ </div> </div> </div> <div class="stain straw"> <div>Bordeaux</div> <span>JAPONNAIS</span> <div> <span>A partir de</span> <div> 5€ </div> </div> </div> <div class="stain avocado"> <div>Bordeaux</div> <span>JAPONNAIS</span> <div> <span>A partir de</span> <div> 5€ </div> </div> </div> </div> </div> <div class="description"> <h1>La cuisine c\'est bien, à plusieurs c\'est mieux !</h1> <div> <div class="tab share"> <div class="img"></div> <h2>Partage</h2> <p> </p> </div> <div class="tab trust"> <div class="img"></div> <h2>Confiance</h2> <p> </p> </div> <div class="tab kitchen"> <div class="img"></div> <h2>Cuisine</h2> <p> </p> </div> </div> </div> </div> <app-footer></app-footer>', '', '', function(opts) {
+module.exports = riot.tag2('app-home', '<app-header></app-header> <div class="content no-margin"> <div class="slider"></div> <app-searcher></app-searcher> <div class="ask"> <div> <h1>Disponible dans vos cuisines ?</h1> <p> Partagez vos frais en apprenant votre savoir et en passant un agréable moment. </p> <a class="Action" href="#/recipe/add"><span>Partager un voyage culinaire</span></a> </div> </div> <div class="whom"> <h1>Nous cuisinons tous les jours.<br>Chez qui allez-vous manger ajourd\'hui ?</h1> <div> <div class="stain peach"> <div>Bordeaux</div> <span>JAPONNAIS</span> <div> <span>A partir de</span> <div> 5€ </div> </div> </div> <div class="stain straw"> <div>Bordeaux</div> <span>JAPONNAIS</span> <div> <span>A partir de</span> <div> 5€ </div> </div> </div> <div class="stain avocado"> <div>Bordeaux</div> <span>JAPONNAIS</span> <div> <span>A partir de</span> <div> 5€ </div> </div> </div> </div> </div> <div class="description"> <h1>La cuisine c\'est bien, à plusieurs c\'est mieux !</h1> <div> <div class="tab share"> <div class="img"></div> <h2>Partage</h2> <p> </p> </div> <div class="tab trust"> <div class="img"></div> <h2>Confiance</h2> <p> </p> </div> <div class="tab kitchen"> <div class="img"></div> <h2>Cuisine</h2> <p> </p> </div> </div> </div> </div> <app-footer></app-footer>', '', '', function(opts) {
 });
 },{"riot":6}],20:[function(require,module,exports){
 var riot = require('riot');
@@ -4751,7 +4722,7 @@ module.exports = riot.tag2('app-footer', '<div> <h3>Infos pratiques</h3> <ul> <l
 });
 },{"riot":6}],23:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-header', '<div class="img" onclick="{home}"></div> <nav> <a class="Action" onclick="{addrecipe}"><span>Partager un voyage culinaire</span></a> <a class="Button register" if="{logged == false}" onclick="{register}"><span>Inscription</span></a> <a class="Button login" if="{logged == false}" onclick="{login}"><span>Connexion</span></a> <a if="{logged == true}" onclick="{account}"> <div class="img" riot-style="background-image: url(\'{user.picture}\');"></div> </a> </nav>', '', '', function(opts) {
+module.exports = riot.tag2('app-header', '<div class="img" onclick="{home}"></div> <nav> <a class="Action" href="#/recipe/add"><span>Partager un voyage culinaire</span></a> <a class="Button register" if="{logged == false}" onclick="{register}"><span>Inscription</span></a> <a class="Button login" if="{logged == false}" onclick="{login}"><span>Connexion</span></a> <a if="{logged == true}" onclick="{account}"> <div class="img" riot-style="background-image: url(\'{user.picture}\');"></div> </a> </nav>', '', '', function(opts) {
         var tag = this;
         tag.logged = false;
         tag.user = null;
@@ -5365,7 +5336,7 @@ module.exports = riot.tag2('app-reporteditform', '<form name="edit-report"> <div
 });
 },{"riot":6}],39:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-reportitem', '<div class="identity"> <span>Par: <a onclick="{author}">{report.author.username}</a></span> <span>Concerne: <a onclick="{target}">{report.target.username}</a></span> </div> <div class="body"> <div> <span>Etat: {report.message_state}</span> </div> <p> {report.content} </p> </div> <div class="foot"> <input type="button" class="large" value="Mettre à jour" onclick="{edit}"> </div>', '', '', function(opts) {
+module.exports = riot.tag2('app-reportitem', '<div class="identity"> <span><b>Par:</b> <a target="_blank" href="#/user/{report.author.id}">{report.author.username}</a></span> <span><b>Concerne:</b> <a target="_blank" href="#/user/{report.target.id}">{report.target.username}</a></span> </div> <div class="body"> <div> <span><b>Etat:</b> {report.message_state}</span> </div> <p> {report.content} </p> </div> <div class="foot"> <input type="button" class="large" value="Mettre à jour" onclick="{edit}"> </div>', '', '', function(opts) {
         var tag = this;
 
         tag.report = null;

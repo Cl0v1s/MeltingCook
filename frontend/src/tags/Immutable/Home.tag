@@ -9,7 +9,7 @@
                 <p>
                     Partagez vos frais en apprenant votre savoir et en passant un agréable moment.
                 </p>
-                <a class='Action' onclick="{ addrecipe }"><span>Partager un voyage culinaire</span></a>
+                <a class='Action' href="#/recipe/add"><span>Partager un voyage culinaire</span></a>
 
             </div>
         </div>

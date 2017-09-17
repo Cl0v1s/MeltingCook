@@ -1,11 +1,11 @@
 <app-reportitem>
     <div class="identity">
-        <span>Par: <a onclick={ author }>{ report.author.username }</a></span>
-        <span>Concerne: <a onclick={ target }>{ report.target.username}</a></span>
+        <span><b>Par:</b> <a target="_blank" href="#/user/{report.author.id}">{ report.author.username }</a></span>
+        <span><b>Concerne:</b> <a target="_blank" href="#/user/{report.target.id}">{ report.target.username}</a></span>
     </div>
     <div class="body">
         <div>
-            <span>Etat: { report.message_state }</span> 
+            <span><b>Etat:</b> { report.message_state }</span>
         </div>
         <p>
             { report.content }

@@ -1,0 +1,22 @@
+app-reportitem
+{
+  display: inline-block;
+  min-width: 320px;
+  border: $border-normal;
+  padding : $space-normal;
+
+  width: 200px;
+
+  span
+  {
+    b
+    {
+      font-weight: bold;
+    }
+  }
+
+  div
+  {
+    margin-bottom: $space-small;
+  }
+}

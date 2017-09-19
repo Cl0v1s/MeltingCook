@@ -137,12 +137,16 @@ div#popup {
     top: 0;
     left: 0;
     width: 100%;
+    height: 40px;
     content: attr(data-name);
     font-family: "Raleway";
     padding: 8px;
     font-size: 26px;
     background-color: #FDC279;
-    color: #ffffff; }
+    color: #ffffff;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; }
   div#popup div.close {
     content: "🞩";
     display: inline-block;
@@ -185,6 +189,9 @@ section {
 table {
   table-layout: fixed;
   width: 100%; }
+  table thead tr td {
+    font-weight: bold;
+    border-bottom: 1px dotted black; }
   table tr {
     border-bottom: 1px dotted black; }
   table.dark tr {
@@ -219,6 +226,9 @@ img.profile {
 
 p {
   font-family: "Raleway"; }
+
+a.onclick {
+  cursor: pointer; }
 
 a.Button {
   display: inline-block;
@@ -288,13 +298,15 @@ a.Action {
   background-repeat: no-repeat;
   border-radius: 15px;
   text-decoration: none;
+  font-family: "Raleway";
   transition: all 0.2s ease; }
   a.Action > span {
     height: 45px;
     line-height: 45px;
     vertical-align: middle;
     font-size: 14px;
-    color: #ffffff; }
+    color: #ffffff;
+    font-family: "Raleway"; }
   a.Action:hover {
     transform: scale(1.1, 1.1); }
 
@@ -468,6 +480,14 @@ app-adminreports div.search, div[data-is=app-adminreports] div.search {
       color: #f2f4f3; }
   app-adminreports div.search input[type=button], div[data-is=app-adminreports] div.search input[type=button] {
     display: inline-block; }
+
+div[data-is=app-adminpins] a.Action, div[data-is=app-adminorigins] a.Action {
+  display: block;
+  width: 200px;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center; }
 
 app-home, div[data-is=app-home] {
   display: block; }

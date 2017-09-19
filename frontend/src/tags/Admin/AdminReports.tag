@@ -63,6 +63,17 @@
                     name : "Transactions",
                     route : "/admin/reservations",
                     selected : false
+                },
+                {
+                    name : "Origines",
+                    route :"/admin/origins",
+                    selected : false
+                }
+                ,
+                {
+                    name : "Les Plus",
+                    route :"/admin/pins",
+                    selected : false
                 }
             ];
         });

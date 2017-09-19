@@ -343,6 +343,34 @@ class Router
         });
     }
 
+    private adminOrigins() : void
+    {
+        let request = App.request(App.Address + "/getorigins", null);
+        request.then(function(response  : any){
+            App.changePage("app-adminorigins", {
+                "origins" : response.data
+            });
+        });
+        request.catch(function(error)
+        {
+           ErrorHandler.alertIfError(error);
+        });
+    }
+
+    private adminPins() : void
+    {
+        let request = App.request(App.Address + "/getpinses", null);
+        request.then(function(response  : any){
+            App.changePage("app-adminpins", {
+                "pins" : response.data
+            });
+        });
+        request.catch(function(error)
+        {
+            ErrorHandler.alertIfError(error);
+        });
+    }
+
 
     ///////////////////////////////////////////////////////////////
 
@@ -355,6 +383,8 @@ class Router
         route("/admin/reports/by/*", (author_id) => { this.adminReports(null, author_id)});
         route("/admin/reports/to/*", (target_id) => { this.adminReports(target_id, null)});
         route("/admin/reports", () => { this.adminReports(null, null)});
+        route("/admin/origins", () => { this.adminOrigins()});
+        route("/admin/pins", () => { this.adminPins()});
 
 
         // Account

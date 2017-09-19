@@ -240,7 +240,7 @@ class APIController extends Controller
             return;
         }
         $func = "Update" . get_class($item);
-        API::$func($_POST["token"], $item);
+        //API::$func($_POST["token"], $item);
         if(method_exists("API", $func) == false)
             API::Update($_POST["token"], $item);
         else

@@ -44,7 +44,14 @@ var tags =
         "app-reports": require("./../../tags/Report/Reports.tag"),
         "app-reportitem": require("./../../tags/Report/ReportItem.tag"),
         "app-reporteditform": require("./../../tags/Report/ReportEditForm.tag"),
-        
+
+        // ORIGIN
+        "app-origineditform": require("./../../tags/Origin/OriginEditForm.tag"),
+
+        // PIN
+        "app-pineditform": require("./../../tags/Pin/PinEditForm.tag"),
+
+
         // RESERVATION
         "app-reservation": require("./../../tags/Reservation/Reservation.tag"),
         "app-reservationitem": require("./../../tags/Reservation/ReservationItem.tag"),
@@ -67,6 +74,8 @@ var tags =
 
         // ADMIN
         "app-adminreports" : require("./../../tags/Admin/AdminReports.tag"),
+        "app-adminorigins" : require("./../../tags/Admin/AdminOrigins.tag"),
+        "app-adminpins" : require("./../../tags/Admin/AdminPins.tag"),
         "app-adminreservations" : require("./../../tags/Admin/AdminReservations.tag"),
 
     };

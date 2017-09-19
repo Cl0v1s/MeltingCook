@@ -89,12 +89,16 @@ div#popup
     top: 0;
     left: 0;
     width: 100%;
+    height: $space-big;
     content: attr(data-name);
     font-family: $font-primary;
     padding: $space-small;
     font-size: $font-size-big;
     background-color: $color-front-peach;
     color: $color-back-primary;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   div.close
@@ -155,6 +159,15 @@ table
 {
   table-layout: fixed;
   width: 100%;
+
+  thead{
+    tr td
+    {
+      font-weight: bold;
+      border-bottom: 1px dotted black;
+
+    }
+  }
 
   tr
   {

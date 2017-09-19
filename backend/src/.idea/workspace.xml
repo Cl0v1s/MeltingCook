@@ -11,21 +11,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="API.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="API.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Applicative/API.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="488">
-              <caret line="420" column="51" lean-forward="true" selection-start-line="420" selection-start-column="51" selection-end-line="420" selection-end-column="51" />
+            <state relative-caret-position="6030">
+              <caret line="402" column="5" lean-forward="false" selection-start-line="402" selection-start-column="5" selection-end-line="402" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="APIController.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="APIController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Controllers/APIController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1830">
-              <caret line="122" column="32" lean-forward="false" selection-start-line="122" selection-start-column="32" selection-end-line="122" selection-end-column="32" />
+            <state relative-caret-position="150">
+              <caret line="203" column="47" lean-forward="true" selection-start-line="203" selection-start-column="47" selection-end-line="203" selection-end-column="47" />
               <folding />
             </state>
           </provider>
@@ -58,8 +58,8 @@
         <option value="$PROJECT_DIR$/Core/Annotations.php" />
         <option value="$PROJECT_DIR$/Model/User.php" />
         <option value="$PROJECT_DIR$/Model/Pins.php" />
-        <option value="$PROJECT_DIR$/Controllers/APIController.php" />
         <option value="$PROJECT_DIR$/Applicative/API.php" />
+        <option value="$PROJECT_DIR$/Controllers/APIController.php" />
       </list>
     </option>
   </component>
@@ -90,9 +90,19 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="src" type="b2602c69:ProjectViewProjectNode" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -221,17 +231,18 @@
       <workItem from="1503412398068" duration="801000" />
       <workItem from="1504012512741" duration="90000" />
       <workItem from="1504600036540" duration="16000" />
+      <workItem from="1505834274503" duration="52000" />
+      <workItem from="1505834456480" duration="29000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30967000" />
+    <option name="totallyTimeSpent" value="31048000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="30" width="1920" height="1050" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="117" width="1920" height="1050" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2484375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2484375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -249,6 +260,9 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -623,18 +637,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Controllers/APIController.php">
+    <entry file="file://$PROJECT_DIR$/Applicative/API.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1830">
-          <caret line="122" column="32" lean-forward="false" selection-start-line="122" selection-start-column="32" selection-end-line="122" selection-end-column="32" />
+        <state relative-caret-position="6030">
+          <caret line="402" column="5" lean-forward="false" selection-start-line="402" selection-start-column="5" selection-end-line="402" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Applicative/API.php">
+    <entry file="file://$PROJECT_DIR$/Controllers/APIController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="488">
-          <caret line="420" column="51" lean-forward="true" selection-start-line="420" selection-start-column="51" selection-end-line="420" selection-end-column="51" />
+        <state relative-caret-position="150">
+          <caret line="203" column="47" lean-forward="true" selection-start-line="203" selection-start-column="47" selection-end-line="203" selection-end-column="47" />
           <folding />
         </state>
       </provider>

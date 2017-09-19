@@ -1,3 +1,8 @@
+a.onclick
+{
+    cursor: pointer;
+}
+
 a.Button
 {
     $side: 45px;
@@ -121,6 +126,9 @@ a.Action
 
     text-decoration: none;
 
+    font-family: $font-primary;
+
+
     &>span
     {
         height: $height;
@@ -131,6 +139,9 @@ a.Action
         font-size: $font-size-small;
 
         color: $color-back-primary;
+
+        font-family: $font-primary;
+
 
     }
 

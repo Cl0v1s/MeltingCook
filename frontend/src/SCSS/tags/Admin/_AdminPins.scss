@@ -1,0 +1,13 @@
+div[data-is=app-adminpins], div[data-is=app-adminorigins]
+{
+  a.Action
+  {
+    display: block;
+    width: 200px;
+    margin: auto;
+    margin-top: $space-normal;
+    margin-bottom: $space-normal;
+
+    text-align: center;
+  }
+}

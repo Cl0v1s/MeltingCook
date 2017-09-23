@@ -5211,7 +5211,13 @@ module.exports = riot.tag2('app-placeinput', '<input type="text" ref="city" name
 
         tag.on("mount", function()
         {
-            tag.retrieveCities();
+            if(localStorage.getItem("cities") != null)
+            {
+                alert("loading from store");
+                tag.setCities(JSON.parse(localStorage.getItem("cities")));
+            }
+            else
+                tag.retrieveCities();
         });
 
         tag.retrieveCities = function()
@@ -5221,23 +5227,29 @@ module.exports = riot.tag2('app-placeinput', '<input type="text" ref="city" name
             var retrieve = App.request("/static/JS/cities.json");
             retrieve.then(function(response)
             {
-                var control = $('#city', tag.root).selectize({
-                    persist: false,
-                    maxItems: 1,
-                    valueField: [tag.opts.valuefield],
-                    labelField: 'name',
-                    searchField: ['name'],
-                    options: response.cities,
-                    onChange : function(value) {
-                        tag.value = value;
-                    }
-                });
+                tag.setCities(response.cities);
             });
             retrieve.catch(function(error)
             {
                         ErrorHandler.alertIfError(error);
 
             });
+        }
+
+        tag.setCities = function(data)
+        {
+            var control = $('#city', tag.root).selectize({
+                persist: false,
+                maxItems: 1,
+                valueField: [tag.opts.valuefield],
+                labelField: 'name',
+                searchField: ['name'],
+                options: data,
+                onChange : function(value) {
+                    tag.value = value;
+                }
+            });
+            localStorage.setItem("cities", JSON.stringify(data));
         }
 });
 },{"riot":6}],32:[function(require,module,exports){
@@ -5453,7 +5465,7 @@ module.exports = riot.tag2('app-recipeeditform', '<form name="edit-recipe" if="{
                 "edit-recipe": {
                     "fullname" : "required|maxLength:400",
                     "description" : "required|minLength:50|maxLength:1000",
-                    "picture" : "required|maxLength:400|url",
+                    "picture" : "required|maxLength:1000|url",
                     "price" : "required|number|min:0",
                     "places" : "required|number|min:1"
                 }

@@ -14,8 +14,8 @@
       <file leaf-file-name="Recipe.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Model/Recipe.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="24" column="7" lean-forward="true" selection-start-line="24" selection-start-column="7" selection-end-line="24" selection-end-column="7" />
+            <state relative-caret-position="330">
+              <caret line="22" column="12" lean-forward="true" selection-start-line="22" selection-start-column="12" selection-end-line="22" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -60,7 +60,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="y" value="117" />
     <option name="width" value="1910" />
     <option name="height" value="787" />
@@ -228,15 +228,15 @@
       <workItem from="1504600036540" duration="16000" />
       <workItem from="1505834274503" duration="52000" />
       <workItem from="1505834456480" duration="29000" />
-      <workItem from="1506179356442" duration="286000" />
+      <workItem from="1506179356442" duration="326000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31334000" />
+    <option name="totallyTimeSpent" value="31374000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="117" width="1920" height="1050" extended-state="6" />
+    <frame x="0" y="117" width="1920" height="1050" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2484375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -645,8 +645,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Model/Recipe.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="7" lean-forward="true" selection-start-line="24" selection-start-column="7" selection-end-line="24" selection-end-column="7" />
+        <state relative-caret-position="330">
+          <caret line="22" column="12" lean-forward="true" selection-start-line="22" selection-start-column="12" selection-end-line="22" selection-end-column="12" />
           <folding />
         </state>
       </provider>

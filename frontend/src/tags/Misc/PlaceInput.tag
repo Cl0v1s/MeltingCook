@@ -14,7 +14,12 @@
 
         tag.on("mount", function()
         {
-            tag.retrieveCities();
+            if(localStorage.getItem("cities") != null)
+            {
+                tag.setCities(JSON.parse(localStorage.getItem("cities")));
+            }
+            else
+                tag.retrieveCities();
         });
 
         tag.retrieveCities = function()
@@ -24,23 +29,29 @@
             var retrieve = App.request("/static/JS/cities.json");
             retrieve.then(function(response)
             {
-                var control = $('#city', tag.root).selectize({
-                    persist: false,
-                    maxItems: 1,
-                    valueField: [tag.opts.valuefield],
-                    labelField: 'name',
-                    searchField: ['name'],
-                    options: response.cities,
-                    onChange : function(value) {
-                        tag.value = value;
-                    }
-                });
+                tag.setCities(response.cities);
             });
             retrieve.catch(function(error)
             {
                         ErrorHandler.alertIfError(error);
 
             });
+        }
+
+        tag.setCities = function(data)
+        {
+            var control = $('#city', tag.root).selectize({
+                persist: false,
+                maxItems: 1,
+                valueField: [tag.opts.valuefield],
+                labelField: 'name',
+                searchField: ['name'],
+                options: data,
+                onChange : function(value) {
+                    tag.value = value;
+                }
+            });
+            localStorage.setItem("cities", JSON.stringify(data));
         }
     </script>
 </app-placeinput>

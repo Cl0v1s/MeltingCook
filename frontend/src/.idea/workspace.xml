@@ -50,11 +50,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PlaceInput.tag" pinned="false" current-in-tab="true">
+      <file leaf-file-name="PlaceInput.tag" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tags/Misc/PlaceInput.tag">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="216">
               <caret line="24" column="39" lean-forward="true" selection-start-line="24" selection-start-column="39" selection-end-line="24" selection-end-column="39" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ErrorHandler.ts" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/TS/ErrorHandler.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="300">
+              <caret line="32" column="49" lean-forward="false" selection-start-line="32" selection-start-column="49" selection-end-line="32" selection-end-column="49" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PlaceHint.tag" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tags/Misc/PlaceHint.tag">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -92,7 +112,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/SCSS/tags/Search/_SearchResults.scss" />
         <option value="$PROJECT_DIR$/tags/Account/AccountKitchen.tag" />
         <option value="$PROJECT_DIR$/tags/Account/AccountRecipes.tag" />
         <option value="$PROJECT_DIR$/SCSS/tags/Account/_AccountRecipes.scss" />
@@ -143,6 +162,7 @@
         <option value="$PROJECT_DIR$/SCSS/tags/Admin/_AdminPins.scss" />
         <option value="$PROJECT_DIR$/tags/Recipe/RecipeEditForm.tag" />
         <option value="$PROJECT_DIR$/tags/Misc/PlaceInput.tag" />
+        <option value="$PROJECT_DIR$/TS/ErrorHandler.ts" />
       </list>
     </option>
   </component>
@@ -396,12 +416,12 @@
       <workItem from="1505054110250" duration="5553000" />
       <workItem from="1505497805303" duration="3474000" />
       <workItem from="1505676280470" duration="2156000" />
-      <workItem from="1506177464844" duration="2800000" />
+      <workItem from="1506177464844" duration="3570000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="104942000" />
+    <option name="totallyTimeSpent" value="105712000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -449,20 +469,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/static/JS/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="4297" column="0" lean-forward="true" selection-start-line="4297" selection-start-column="0" selection-end-line="4297" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TS/DT/riot.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="61" column="25" lean-forward="false" selection-start-line="61" selection-start-column="25" selection-end-line="61" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/TS/DT/require.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -816,10 +822,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tags/Misc/PlaceHint.tag">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/tags/Misc/PlaceInput.tag">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
           <caret line="24" column="39" lean-forward="true" selection-start-line="24" selection-start-column="39" selection-end-line="24" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TS/ErrorHandler.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="32" column="49" lean-forward="false" selection-start-line="32" selection-start-column="49" selection-end-line="32" selection-end-column="49" />
           <folding />
         </state>
       </provider>

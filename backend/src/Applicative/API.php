@@ -145,6 +145,18 @@ class API
         return API::Add($token, $item, false);
     }
 
+    /***
+     * @param $token
+     * @param $item Reservation
+     */
+    public static function AddReservation($token, $item)
+    {
+        $existing = API::GetAll($token, "Reservation", '{ "Recipe_id" : "'.$item->RecipeId().'", "guest_id" : "'.$item->GuestId().'"  }');
+        if(count($existing) > 0)
+            throw new Exception("Impossible de réserver deux fois pour la même recette", 2);
+        return API::Add($token, $item);
+    }
+
     private static function UpdateUserAsAdmin($token, $item)
     {
         API::Update($token, $item);

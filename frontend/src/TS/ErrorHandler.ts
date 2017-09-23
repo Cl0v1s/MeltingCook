@@ -28,6 +28,10 @@ class ErrorHandler
                 error.message = "Vous n'avez pas les droits suffisants."
                 error.name = ErrorHandler.State.FATAL;
             break;
+            case 2:
+                error.name = ErrorHandler.State.ERROR;
+                error.message = response.message+".";
+                break;
             case "23000":
             case 23000:
                 error = this.handleSQL(response);

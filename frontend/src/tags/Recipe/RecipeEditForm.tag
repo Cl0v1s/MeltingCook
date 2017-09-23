@@ -118,7 +118,7 @@
                 "edit-recipe": {
                     "fullname" : "required|maxLength:400",
                     "description" : "required|minLength:50|maxLength:1000",
-                    "picture" : "required|maxLength:400|url",
+                    "picture" : "required|maxLength:1000|url",
                     "price" : "required|number|min:0",
                     "places" : "required|number|min:1"
                 }

@@ -28,7 +28,7 @@ class Recipe extends StorageItem
     /**
      * @Required
      * @Word
-     * @Size(min=1, max=400)
+     * @Size(min=1, max=1000)
      */
     public $picture;
 

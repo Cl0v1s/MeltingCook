@@ -7,7 +7,7 @@
     "run": "concurrently 'superstatic' 'vogue'",
     "build": "tsc --project TS && browserify static/JS/main.js --standalone app > static/JS/index.js",
     "docker": "docker start BBCK && docker exec BBCK /usr/sbin/service apache2 restart && docker exec BBCK /usr/sbin/service mysql restart",
-    "style" : "node-sass SCSS/main.scss static/CSS/main.css"
+    "style": "node-sass SCSS/main.scss static/CSS/main.css"
   },
   "author": "Clovis Portron, Charlène Verrier",
   "license": "ISC",
@@ -26,6 +26,7 @@
   "dependencies": {
     "js-cookie": "^2.1.4",
     "md5": "^2.2.1",
+    "q": "^1.5.0",
     "riot": "^3.6.3",
     "riot-compiler": "^3.2.4"
   }

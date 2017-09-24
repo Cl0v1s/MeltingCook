@@ -9,23 +9,25 @@
             if(tag.opts.place != null) {
                 tag.value = tag.opts.place;
             }
+            if(tag.opts.valuefield == null)
+                tag.opts.valuefield = "geolocation";
         });
 
 
         tag.on("mount", function()
         {
-            if(localStorage.getItem("cities") != null)
-            {
+            try{
+
                 tag.setCities(JSON.parse(localStorage.getItem("cities")));
             }
-            else
+            catch (e) {
                 tag.retrieveCities();
+            }
         });
 
         tag.retrieveCities = function()
         {
-            if(tag.opts.valuefield == null)
-                tag.opts.valuefield = "geolocation";
+            console.log("Downloading Cities");
             var retrieve = App.request("/static/JS/cities.json");
             retrieve.then(function(response)
             {
@@ -33,8 +35,7 @@
             });
             retrieve.catch(function(error)
             {
-                        ErrorHandler.alertIfError(error);
-
+                ErrorHandler.alertIfError(error);
             });
         }
 

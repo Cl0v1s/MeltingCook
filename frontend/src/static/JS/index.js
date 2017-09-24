@@ -3522,6 +3522,10 @@ class ErrorHandler {
                 error.message = "Vous n'avez pas les droits suffisants.";
                 error.name = ErrorHandler.State.FATAL;
                 break;
+            case 2:
+                error.name = ErrorHandler.State.ERROR;
+                error.message = response.message + ".";
+                break;
             case "23000":
             case 23000:
                 error = this.handleSQL(response);
@@ -5207,23 +5211,24 @@ module.exports = riot.tag2('app-placeinput', '<input type="text" ref="city" name
             if(tag.opts.place != null) {
                 tag.value = tag.opts.place;
             }
+            if(tag.opts.valuefield == null)
+                tag.opts.valuefield = "geolocation";
         });
 
         tag.on("mount", function()
         {
-            if(localStorage.getItem("cities") != null)
-            {
-                alert("loading from store");
+            try{
+
                 tag.setCities(JSON.parse(localStorage.getItem("cities")));
             }
-            else
+            catch (e) {
                 tag.retrieveCities();
+            }
         });
 
         tag.retrieveCities = function()
         {
-            if(tag.opts.valuefield == null)
-                tag.opts.valuefield = "geolocation";
+            console.log("Downloading Cities");
             var retrieve = App.request("/static/JS/cities.json");
             retrieve.then(function(response)
             {
@@ -5231,13 +5236,13 @@ module.exports = riot.tag2('app-placeinput', '<input type="text" ref="city" name
             });
             retrieve.catch(function(error)
             {
-                        ErrorHandler.alertIfError(error);
-
+                ErrorHandler.alertIfError(error);
             });
         }
 
         tag.setCities = function(data)
         {
+            console.log(data);
             var control = $('#city', tag.root).selectize({
                 persist: false,
                 maxItems: 1,
@@ -6007,7 +6012,7 @@ module.exports = riot.tag2('app-searchresults', '<app-header></app-header> <app-
 });
 },{"riot":6}],51:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-searcher', '<div> <div class="img"></div> <div> <h1>A vos cuisines... Partez !</h1> <h2> La découverte dans vos assiettes. </h2> </div> </div> <form> <app-placeinput ref="place" place="{place}"></app-placeinput> <app-origininput ref="origin" origin="{origin}"></app-origininput> <app-dateinput ref="date" date="{date}"></app-dateinput> <div if="{expanded}"> <input ref="price_start" name="price_start" placeholder="Prix entre" riot-value="{price_start}" type="{\'number\'}"> - <input riot-value="{price_end}" name="price_end" ref="price_end" placeholder="Et" type="{\'number\'}"> </div> <input type="button" value="Chercher un moment sympa !" onclick="{send}"> </form>', '', '', function(opts) {
+module.exports = riot.tag2('app-searcher', '<div> <div class="img"></div> <div> <h1>A vos cuisines... Partez !</h1> <h2> La découverte dans vos assiettes. </h2> </div> </div> <form> <app-placeinput ref="place"></app-placeinput> <app-origininput ref="origin" origin="{origin}"></app-origininput> <app-dateinput ref="date" date="{date}"></app-dateinput> <div if="{expanded}"> <input ref="price_start" name="price_start" placeholder="Prix entre" riot-value="{price_start}" type="{\'number\'}"> - <input riot-value="{price_end}" name="price_end" ref="price_end" placeholder="Et" type="{\'number\'}"> </div> <input type="button" value="Chercher un moment sympa !" onclick="{send}"> </form>', '', '', function(opts) {
         var tag = this;
 
         tag.expanded = false;
@@ -6027,7 +6032,7 @@ module.exports = riot.tag2('app-searcher', '<div> <div class="img"></div> <div> 
                     tag.place = tag.opts.params[0];
                 if(tag.opts.params.length >= 2)
                     tag.origin = tag.opts.params[1];
-                if(tag.opts.params.length >= 3)
+                if(tag.opts.params.length >= 3 && tag.opts.params[2].trim().length > 0)
                     tag.date = tag.opts.params[2];
                 if(tag.opts.params.length >= 4)
                     tag.price_start = tag.opts.params[3];

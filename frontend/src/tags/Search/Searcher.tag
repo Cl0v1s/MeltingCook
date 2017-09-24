@@ -9,7 +9,7 @@
         </div>
     </div>
     <form>
-        <app-placeinput ref="place" place="{ place }"></app-placeinput>
+        <app-placeinput ref="place" ></app-placeinput>
         <app-origininput ref="origin" origin="{ origin }"></app-origininput>
         <app-dateinput ref="date" date="{ date }"></app-dateinput>
         <div if="{ expanded }">
@@ -39,7 +39,7 @@
                     tag.place = tag.opts.params[0];
                 if(tag.opts.params.length >= 2)
                     tag.origin = tag.opts.params[1];
-                if(tag.opts.params.length >= 3)
+                if(tag.opts.params.length >= 3 && tag.opts.params[2].trim().length > 0)
                     tag.date = tag.opts.params[2];
                 if(tag.opts.params.length >= 4)
                     tag.price_start = tag.opts.params[3];

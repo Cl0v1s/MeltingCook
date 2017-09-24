@@ -169,6 +169,16 @@ class Router
         });
     }
 
+    private recipeAdd() : void
+    {
+        if(Login.GetInstance().isLogged() == false)
+        {
+            route("/register");
+            return;
+        }
+        App.changePage("app-recipeedit", null);
+    }
+
     private recipeEdit(id : number) : void
     {
         var request = App.request(App.Address + "/getrecipe", {
@@ -398,10 +408,7 @@ class Router
 
         // Recipe
         route("/recipe/edit/*", this.recipeEdit);
-        route("/recipe/add", function()
-        {
-            App.changePage("app-recipeedit", null);
-        });
+        route("/recipe/add", this.recipeAdd);
         route("/recipe/*", this.recipe);
 
 

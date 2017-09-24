@@ -331,6 +331,13 @@ class Router {
             ErrorHandler.alertIfError(error);
         });
     }
+    recipeAdd() {
+        if (Login.GetInstance().isLogged() == false) {
+            route("/register");
+            return;
+        }
+        App.changePage("app-recipeedit", null);
+    }
     recipeEdit(id) {
         var request = App.request(App.Address + "/getrecipe", {
             "id": id
@@ -516,9 +523,7 @@ class Router {
         route("/user/*", this.user);
         // Recipe
         route("/recipe/edit/*", this.recipeEdit);
-        route("/recipe/add", function () {
-            App.changePage("app-recipeedit", null);
-        });
+        route("/recipe/add", this.recipeAdd);
         route("/recipe/*", this.recipe);
         // Search
         route("/search/results/*/params/*", this.searchresults);

@@ -275,5 +275,5 @@ class App
 window.addEventListener("load", function () {
 
     Router.GetInstance().start();
-
+    NotificationManager.GetInstance().start();
 });

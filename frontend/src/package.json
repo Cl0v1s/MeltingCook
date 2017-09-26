@@ -26,6 +26,7 @@
   "dependencies": {
     "js-cookie": "^2.1.4",
     "md5": "^2.2.1",
+    "pnotify": "^3.2.1",
     "q": "^1.5.0",
     "riot": "^3.6.3",
     "riot-compiler": "^3.2.4"

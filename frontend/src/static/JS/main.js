@@ -791,6 +791,7 @@ App.PopUp = null;
 App.LoadingCounter = 0;
 window.addEventListener("load", function () {
     Router.GetInstance().start();
+    NotificationManager.GetInstance().start();
 });
 class Search {
     static search(place, origin, date, price_start, price_end) {
@@ -825,15 +826,84 @@ class Search {
         });
     }
 }
+var PNotify = require("pnotify");
+class NotificationManager {
+    constructor() {
+        this.interval = null;
+        this.session = [];
+    }
+    static GetInstance() {
+        return NotificationManager.Instance;
+    }
+    run() {
+        if (Login.GetInstance().isLogged() == false)
+            return;
+        let filters = {
+            "User_id": Login.GetInstance().User().id,
+            "new": "1"
+        };
+        let request = App.request(App.Address + "/getNotifications", {
+            "filters": JSON.stringify(filters)
+        });
+        request.then((response) => {
+            response.data.forEach((n) => {
+                let found = false;
+                this.session.forEach(function (s) {
+                    if (s == n.id) {
+                        found = true;
+                    }
+                });
+                if (found)
+                    return;
+                this.session.push(n.id);
+                let notice = new PNotify({
+                    title: "Hey !",
+                    text: n.content + "<br><br><center>Cliquez pour fermer</center>",
+                    type: n.type,
+                    buttons: {
+                        closer: false,
+                        sticker: false
+                    }
+                });
+                notice.get().click(function () {
+                    notice.remove();
+                    let request = App.request(App.Address + "/updatenotification", {
+                        "id": n.id,
+                        "new": 0
+                    });
+                });
+            });
+        });
+        request.catch(function (error) {
+            ErrorHandler.GetInstance().handle(error);
+        });
+    }
+    start() {
+        if (this.interval != null)
+            return;
+        this.run();
+        PNotify.prototype.options.delay = PNotify.prototype.options.delay + 10000;
+        this.interval = setInterval(() => { this.run(); }, 60000);
+    }
+    stop() {
+        if (this.interval == null)
+            return;
+        clearInterval(this.interval);
+        this.interval = null;
+    }
+}
+NotificationManager.Instance = new NotificationManager();
 /// <reference path="Login.ts" />
 /// <reference path="Router.ts" />
 /// <reference path="Global.ts" />
 /// <reference path="Adapter.ts" />
 /// <reference path="Search/Search.ts" />
+/// <reference path="Notification/NotificationManager.ts" />
 window.Login = Login;
 window.Router = Router;
 window.App = App;
 window.Adapter = Adapter;
 window.Search = Search;
 window.ErrorHandler = ErrorHandler;
+window.NotificationManager = NotificationManager;
 //# sourceMappingURL=main.js.map

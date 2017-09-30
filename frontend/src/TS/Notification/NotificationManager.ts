@@ -17,6 +17,25 @@ class NotificationManager
         this.session = [];
     }
 
+    public static showNotification(content : string, type : string, closer : boolean = true) : any
+    {
+        let n =  new PNotify({
+            title: "Hey !",
+            text : content+"<br><br><center>Cliquez pour fermer</center>",
+            type : type,
+            buttons: {
+                closer: closer,
+                sticker: closer
+            }
+        });
+        if(closer)
+            n.get().click(function() {
+                n.remove();
+            });
+
+        return n;
+    }
+
     private run() : void
     {
         if(Login.GetInstance().isLogged() == false)
@@ -40,15 +59,7 @@ class NotificationManager
                 if(found)
                     return;
                 this.session.push(n.id);
-                let notice = new PNotify({
-                    title: "Hey !",
-                    text : n.content+"<br><br><center>Cliquez pour fermer</center>",
-                    type : n.type,
-                    buttons: {
-                        closer: false,
-                        sticker: false
-                    }
-                });
+                let notice = NotificationManager.showNotification(n.content, n.type, false);
                 notice.get().click(function() {
                     notice.remove();
                     let request = App.request(App.Address+"/updatenotification", {

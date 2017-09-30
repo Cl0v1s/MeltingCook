@@ -324,8 +324,8 @@ class APIController extends Controller
         $reservation->setGuestId($_POST["guest_id"]);
         $reservation->setHostId($_POST["host_id"]);
         $reservation->setRecipeId($_POST["Recipe_id"]);
-        $reservation->setDone(0);
-        $reservation->setPaid(0);
+        $reservation->setDone("0");
+        $reservation->setPaid("0");
         $this->Add($reservation);
     }
 

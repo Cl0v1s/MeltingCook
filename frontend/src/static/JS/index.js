@@ -13789,7 +13789,7 @@ class ErrorHandler {
                 break;
             case 2:
                 error.name = ErrorHandler.State.ERROR;
-                error.message = response.message + ".";
+                error.message = response.message.split("#")[0] + ".";
                 break;
             case "23000":
             case 23000:
@@ -13824,7 +13824,7 @@ class ErrorHandler {
     }
     static alertIfError(error) {
         if (error instanceof Error)
-            vex.dialog.alert(error.message);
+            NotificationManager.showNotification(error.message, "error");
     }
 }
 ErrorHandler.State = {
@@ -14523,6 +14523,22 @@ class NotificationManager {
     static GetInstance() {
         return NotificationManager.Instance;
     }
+    static showNotification(content, type, closer = true) {
+        let n = new PNotify({
+            title: "Hey !",
+            text: content + "<br><br><center>Cliquez pour fermer</center>",
+            type: type,
+            buttons: {
+                closer: closer,
+                sticker: closer
+            }
+        });
+        if (closer)
+            n.get().click(function () {
+                n.remove();
+            });
+        return n;
+    }
     run() {
         if (Login.GetInstance().isLogged() == false)
             return;
@@ -14544,15 +14560,7 @@ class NotificationManager {
                 if (found)
                     return;
                 this.session.push(n.id);
-                let notice = new PNotify({
-                    title: "Hey !",
-                    text: n.content + "<br><br><center>Cliquez pour fermer</center>",
-                    type: n.type,
-                    buttons: {
-                        closer: false,
-                        sticker: false
-                    }
-                });
+                let notice = NotificationManager.showNotification(n.content, n.type, false);
                 notice.get().click(function () {
                     notice.remove();
                     let request = App.request(App.Address + "/updatenotification", {
@@ -15209,7 +15217,7 @@ module.exports = riot.tag2('app-comments', '<app-commentitem each="{comment in c
 });
 },{"riot":8}],22:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-error', '<app-header></app-header> <div> <h1>Ooops... Quelque chose s\'est mal passé.</h1> <div> <p> Nous sommes désolés pour ce petit soucis. </p> <p if="{message != null}"> {message} </p> </div> </div> <app-footer></app-footer>', '', '', function(opts) {
+module.exports = riot.tag2('app-error', '<app-header></app-header> <div class="content"> <h1>Ooops... Quelque chose s\'est mal passé.</h1> <div> <p> Nous sommes désolés pour ce petit soucis. </p> <p if="{message != null}"> {message} </p> </div> </div> <app-footer></app-footer>', '', '', function(opts) {
         var tag = this;
 
         tag.message = null;
@@ -16168,10 +16176,11 @@ module.exports = riot.tag2('app-reports', '<div> <nav> <a onclick="{showNews}">N
 });
 },{"riot":8}],47:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-reservation', '<app-header></app-header> <div class="content"> <section> <h1>Récapitulatif de cuisine</h1> <div> <div> <label>Qui cuisine ?</label> <app-useritem user="{recipe.user}"></app-useritem> </div> <div> <label>Qui participe ?</label> <table> <tr each="{guest in recipe.guests}"> <td>{guest.username}</td> <td><a onclick="{userDetails}" data-id="{guest.id}">Voir le profil</a></td> </tr> </table> <div class="guests" if="{recipe.guests.length <= 0}"> Vous etes le seul participant pour le moment. </div> </div> <div class="recipe"> <label>Apprentissage de:</label> <app-recipeitem recipe="{recipe}"></app-recipeitem> </div> </div> </section> <section> <h1>Faisons les comptes</h1> <div> <table> <tr> <td> 1x Assiette </td> <td> {recipe.price}€ </td> </tr> <tr> <td> Frais de réservation </td> <td> 2€ </td> </tr> <tr> <td> TOTAL </td> <td> {recipe.price+2}€ </td> </tr> </table> </div> </section> <section> <h1>Paiement en ligne par Paypal</h1> <div class="checkout"> <p>Vous allez pouvoir accéder à Paypal pour finaliser votre paiement.</p> <input type="button" riot-value="Payer {recipe.price+2}€" onclick="{paypal}"> <p>En validant le paiement, vous accepter les CGU et la charte de bonne conduite de Melting Cook.</p> </div> </section> </div> <app-footer></app-footer>', '', '', function(opts) {
+module.exports = riot.tag2('app-reservation', '<app-header></app-header> <div class="content"> <section> <h1>Récapitulatif de cuisine</h1> <div> <div> <label>Qui cuisine ?</label> <app-useritem user="{recipe.user}"></app-useritem> </div> <div> <label>Qui participe ?</label> <table> <tr each="{guest in recipe.guests}"> <td>{guest.username}</td> <td><a onclick="{userDetails}" data-id="{guest.id}">Voir le profil</a></td> </tr> </table> <div class="guests" if="{recipe.guests.length <= 0}"> Vous etes le seul participant pour le moment. </div> </div> <div class="recipe"> <label>Apprentissage de:</label> <app-recipeitem recipe="{recipe}"></app-recipeitem> </div> </div> </section> <section> <h1>Faisons les comptes</h1> <div> <table> <tr> <td> 1x Assiette </td> <td> {recipe.price}€ </td> </tr> <tr> <td> Frais de réservation </td> <td> 2€ </td> </tr> <tr> <td> TOTAL </td> <td> {recipe.price+2}€ </td> </tr> </table> </div> </section> <section> <h1>Paiement en ligne par Paypal</h1> <div class="checkout"> <div if="{reservation == null}"> <p>Vous allez pouvoir accéder à Paypal pour finaliser votre paiement.</p> <input type="button" riot-value="Payer {recipe.price+2}€" onclick="{createReservation}"> </div> <div if="{reservation != null}"> <p>Cliquez encore une fois sur le bouton ci-dessous pour confirmer le paiment</p> <input type="button" value="PLACEHOLDER PAYPAL" onclick="{paypal}"> </div> <p>En validant le paiement, vous accepter les CGU et la charte de bonne conduite de Melting Cook.</p> </div> </section> </div> <app-footer></app-footer>', '', '', function(opts) {
         var tag = this;
 
         tag.recipe = null;
+        tag.reservation = null;
 
         tag.on("before-mount", function()
         {
@@ -16179,6 +16188,22 @@ module.exports = riot.tag2('app-reservation', '<app-header></app-header> <div cl
             if(tag.recipe == null)
                 throw new Error("Recipe cant be null.");
         });
+
+        tag.createReservation = function()
+        {
+            let request = App.request(App.Address+"/addreservation", {
+                "host_id" : tag.recipe.User_id,
+                "guest_id" : Login.GetInstance().User().id,
+                "Recipe_id" : tag.recipe.id
+            });
+            request.then(function(response){
+                tag.reservation = response.data;
+                tag.update();
+            });
+            request.catch(function(error){
+               ErrorHandler.alertIfError(error);
+            });
+        };
 
         tag.paypal = function()
         {

@@ -151,6 +151,7 @@ class API
      */
     public static function AddReservation($token, $item)
     {
+
         $existing = API::GetAll($token, "Reservation", '{ "Recipe_id" : "'.$item->RecipeId().'", "guest_id" : "'.$item->GuestId().'"  }');
         if(count($existing) > 0)
             throw new Exception("Impossible de réserver deux fois pour la même recette", 2);
@@ -293,7 +294,7 @@ class API
         $recipe["users"] = array();
         foreach ($reservations as $reservation)
         {
-            $user = API::GetUser($token, $reservation["guest_id"]);
+            $user = API::GetUser($token, $reservation->GuestId());
             array_push($recipe["users"], $user);
         }
         return $recipe;

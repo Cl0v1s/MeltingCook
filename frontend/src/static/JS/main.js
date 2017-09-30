@@ -101,7 +101,7 @@ class ErrorHandler {
                 break;
             case 2:
                 error.name = ErrorHandler.State.ERROR;
-                error.message = response.message + ".";
+                error.message = response.message.split("#")[0] + ".";
                 break;
             case "23000":
             case 23000:
@@ -136,7 +136,7 @@ class ErrorHandler {
     }
     static alertIfError(error) {
         if (error instanceof Error)
-            vex.dialog.alert(error.message);
+            NotificationManager.showNotification(error.message, "error");
     }
 }
 ErrorHandler.State = {
@@ -835,6 +835,22 @@ class NotificationManager {
     static GetInstance() {
         return NotificationManager.Instance;
     }
+    static showNotification(content, type, closer = true) {
+        let n = new PNotify({
+            title: "Hey !",
+            text: content + "<br><br><center>Cliquez pour fermer</center>",
+            type: type,
+            buttons: {
+                closer: closer,
+                sticker: closer
+            }
+        });
+        if (closer)
+            n.get().click(function () {
+                n.remove();
+            });
+        return n;
+    }
     run() {
         if (Login.GetInstance().isLogged() == false)
             return;
@@ -856,15 +872,7 @@ class NotificationManager {
                 if (found)
                     return;
                 this.session.push(n.id);
-                let notice = new PNotify({
-                    title: "Hey !",
-                    text: n.content + "<br><br><center>Cliquez pour fermer</center>",
-                    type: n.type,
-                    buttons: {
-                        closer: false,
-                        sticker: false
-                    }
-                });
+                let notice = NotificationManager.showNotification(n.content, n.type, false);
                 notice.get().click(function () {
                     notice.remove();
                     let request = App.request(App.Address + "/updatenotification", {

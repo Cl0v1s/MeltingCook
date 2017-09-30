@@ -30,7 +30,7 @@ class ErrorHandler
             break;
             case 2:
                 error.name = ErrorHandler.State.ERROR;
-                error.message = response.message+".";
+                error.message = response.message.split("#")[0]+".";
                 break;
             case "23000":
             case 23000:
@@ -70,6 +70,6 @@ class ErrorHandler
     public static alertIfError(error : any) : void 
     {
         if(error instanceof Error)
-            vex.dialog.alert(error.message);
+            NotificationManager.showNotification(error.message, "error");
     }
 }

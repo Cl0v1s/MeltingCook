@@ -1,0 +1,42 @@
+span.Switch
+{
+  $selected: $color-front-avocado;
+  $back: $color-front-straw;
+  display: inline-block;
+  background-color: $back;
+  border-radius: 25px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border: 1px solid darken($back,7);
+
+  a{
+    cursor: pointer;
+    display: inline-block;
+    padding: 15px;
+    border-radius: 25px;
+    color: white;
+    text-transform: uppercase;
+    font-family: 'Raleway';
+    letter-spacing: 2px;
+    color: darken($back, 20);
+    font-size: 12px;
+
+    &.selected
+    {
+      color: white;
+      background-color: $selected;
+      border:1x solid darken($selected, 10);
+
+
+    }
+
+    &:hover
+    {
+      color: white;
+
+    }
+
+
+  }
+
+}

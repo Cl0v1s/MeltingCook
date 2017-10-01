@@ -1,4 +1,5 @@
 var PNotify = require("pnotify");
+(<any>window).PNotify = PNotify;
 
 class NotificationManager
 {

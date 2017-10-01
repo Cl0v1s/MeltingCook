@@ -377,7 +377,7 @@ class API
             $recipe["users"] = array();
             foreach ($reservations as $reservation)
             {
-                array_push($recipe["users"], $reservation["guest_id"]);
+                array_push($recipe["users"], $reservation->GuestId());
             }
             array_push($results, $recipe);
         }

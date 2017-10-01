@@ -11,10 +11,12 @@
                 </div>
             </div>
         </section>
-        <nav>
-            <a onclick='{ showFuture }'>A venir</a>
-            <a onclick='{ showPast }'>Passées</a>
-        </nav>
+        <div class="SwitchHandler">
+            <span class="Switch">
+                <a onclick='{ showFuture }' class="{ selected : state == 0 }">A venir</a>
+                <a onclick='{ showPast }' class="{ selected : state == 1 }">Passées</a>
+            </span>
+        </div>
         <app-recipes ref="recipes" recipes='{ list }' if='{ list != null }'></app-recipes>
     </div>
     <app-footer></app-footer>
@@ -25,6 +27,8 @@
         tag.last_recipe = null;
         tag.recipes = null;
         tag.list = null;
+
+        tag.state = 0;
 
         tag.on("before-mount", function()
         {
@@ -55,6 +59,9 @@
                     selected : false
                 }
             ];
+
+            tag.state = 0;
+
         });
 
 
@@ -86,18 +93,19 @@
             tag.refs.recipes.setRecipes(tag.list);
         };
 
-        tag.showFuture = function()
+        tag.showFuture = function(a)
         {
             var lst = tag.sortRecipes(true);
-            console.log(lst);
             tag.showRecipes(lst);
+            tag.state = 0;
         };
 
-        tag.showPast = function()
+        tag.showPast = function(a)
         {
             var lst = tag.sortRecipes(false);
-            console.log(lst);
             tag.showRecipes(lst);
+            tag.state = 1;
+
         }
     </script>
 </app-accountrecipes>

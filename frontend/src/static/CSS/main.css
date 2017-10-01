@@ -463,6 +463,31 @@ app-hearts {
   .stain.straw {
     background-image: url("/static/images/tache-fraise.svg"); }
 
+span.Switch {
+  display: inline-block;
+  background-color: #F3B1A6;
+  border-radius: 25px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border: 1px solid #ef9587; }
+  span.Switch a {
+    cursor: pointer;
+    display: inline-block;
+    padding: 15px;
+    border-radius: 25px;
+    color: white;
+    text-transform: uppercase;
+    font-family: 'Raleway';
+    letter-spacing: 2px;
+    color: #e7624c;
+    font-size: 12px; }
+    span.Switch a.selected {
+      color: white;
+      background-color: #DED479;
+      border: 1x solid #d4c750; }
+    span.Switch a:hover {
+      color: white; }
+
 /** Importation des styles des tags **/
 app-adminreports div.search, div[data-is=app-adminreports] div.search {
   background-image: url("/static/images/black_paper.png");
@@ -613,6 +638,10 @@ app-accountrecipes div nav, div[data-is=app-accountrecipes] div nav {
     font-family: "Raleway";
     text-decoration: underline;
     margin-right: 20px; }
+
+app-accountrecipes div.SwitchHandler, div[data-is=app-accountrecipes] div.SwitchHandler {
+  width: 100%;
+  text-align: center; }
 
 app-accountrecipes app-recipes, div[data-is=app-accountrecipes] app-recipes {
   width: 100%;

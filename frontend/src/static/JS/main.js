@@ -827,6 +827,7 @@ class Search {
     }
 }
 var PNotify = require("pnotify");
+window.PNotify = PNotify;
 class NotificationManager {
     constructor() {
         this.interval = null;

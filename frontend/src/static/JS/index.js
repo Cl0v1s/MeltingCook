@@ -14515,6 +14515,7 @@ class Search {
     }
 }
 var PNotify = require("pnotify");
+window.PNotify = PNotify;
 class NotificationManager {
     constructor() {
         this.interval = null;
@@ -14652,13 +14653,15 @@ module.exports = riot.tag2('app-accountkitchen', '<app-header></app-header> <app
 });
 },{"riot":8}],11:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-accountrecipes', '<app-header></app-header> <app-tabbar tabs="{tabs}"></app-tabbar> <div class="content"> <section class="header"> <h1>La dernière recette proposée</h1> <div> <app-recipeitem if="{last_recipe != null}" recipe="{last_recipe}"></app-recipeitem> <div if="{last_recipe == null}"> Aucune recette proposée </div> </div> </section> <nav> <a onclick="{showFuture}">A venir</a> <a onclick="{showPast}">Passées</a> </nav> <app-recipes ref="recipes" recipes="{list}" if="{list != null}"></app-recipes> </div> <app-footer></app-footer>', '', '', function(opts) {
+module.exports = riot.tag2('app-accountrecipes', '<app-header></app-header> <app-tabbar tabs="{tabs}"></app-tabbar> <div class="content"> <section class="header"> <h1>La dernière recette proposée</h1> <div> <app-recipeitem if="{last_recipe != null}" recipe="{last_recipe}"></app-recipeitem> <div if="{last_recipe == null}"> Aucune recette proposée </div> </div> </section> <div class="SwitchHandler"> <span class="Switch"> <a onclick="{showFuture}" class="{selected : state == 0}">A venir</a> <a onclick="{showPast}" class="{selected : state == 1}">Passées</a> </span> </div> <app-recipes ref="recipes" recipes="{list}" if="{list != null}"></app-recipes> </div> <app-footer></app-footer>', '', '', function(opts) {
         var tag = this;
         tag.tabs = null;
 
         tag.last_recipe = null;
         tag.recipes = null;
         tag.list = null;
+
+        tag.state = 0;
 
         tag.on("before-mount", function()
         {
@@ -14689,6 +14692,9 @@ module.exports = riot.tag2('app-accountrecipes', '<app-header></app-header> <app
                     selected : false
                 }
             ];
+
+            tag.state = 0;
+
         });
 
         tag.sortRecipes = function(futur)
@@ -14719,18 +14725,19 @@ module.exports = riot.tag2('app-accountrecipes', '<app-header></app-header> <app
             tag.refs.recipes.setRecipes(tag.list);
         };
 
-        tag.showFuture = function()
+        tag.showFuture = function(a)
         {
             var lst = tag.sortRecipes(true);
-            console.log(lst);
             tag.showRecipes(lst);
+            tag.state = 0;
         };
 
-        tag.showPast = function()
+        tag.showPast = function(a)
         {
             var lst = tag.sortRecipes(false);
-            console.log(lst);
             tag.showRecipes(lst);
+            tag.state = 1;
+
         }
 });
 },{"riot":8}],12:[function(require,module,exports){

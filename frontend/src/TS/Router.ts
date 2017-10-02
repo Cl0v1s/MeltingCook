@@ -381,6 +381,20 @@ class Router
         });
     }
 
+    private adminReservations() :  void
+    {
+        let request = App.request(App.Address + "/getreservations", {
+        });
+        request.then(function(response : any){
+            App.changePage("app-adminreservations", {
+                "reservations" : response.data
+            });
+        });
+        request.catch(function(error){
+           ErrorHandler.alertIfError(error);
+        });
+    }
+
 
     ///////////////////////////////////////////////////////////////
 
@@ -395,6 +409,9 @@ class Router
         route("/admin/reports", () => { this.adminReports(null, null)});
         route("/admin/origins", () => { this.adminOrigins()});
         route("/admin/pins", () => { this.adminPins()});
+        route("/admin/reservations", () => {
+            this.adminReservations();
+        });
 
 
         // Account

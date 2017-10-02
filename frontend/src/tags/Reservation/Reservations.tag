@@ -1,23 +1,27 @@
 <app-reservations>
-    <div if={ admin }>
-        <div>
-            <label>Chercher par hôte</label>
-            <input type="number" ref="host"><input type="button" value="Afficher" onclick={ showForHost }>
-        </div>
-        <div>
-            <label>Chercher par invité</label>
-            <input type="number" ref="guest"><input type="button" value="Afficher" onclick={ showForGuest }>
-        </div>
-        <div>
-            <input type="button" value="Tout Afficher" onclick={ showAll }>
-        </div>
+    <div class="SwitchHandler">
+        <br><br>
+        <span class="Switch">
+                <a onclick='{ showCurrents }' class="{ selected : list == currents }">En Cours</a>
+                <a onclick='{ showDone }' class="{ selected : list == done }">A Verser</a>
+                <a onclick='{ showRefunds }' class="{ selected :  list == refunds }">A Rembourser</a>
+                <a onclick='{ showOthers }' class="{ selected :  list == others }">Autre</a>
+        </span>
+        <br><br>
     </div>
-    <app-reservationitem each={ reservation in reservations} reservation={ reservation }></app-reservationitem>
+    <app-reservationitem each={ reservation in list } reservation={ reservation }></app-reservationitem>
     <script>
         var tag = this;
 
         tag.admin = false;
         tag.reservations = null;
+
+        tag.list = null;
+
+        tag.done = null;
+        tag.currents = null;
+        tag.refunds = null;
+        tag.others = null;
 
         tag.on("before-mount", function()
         {
@@ -25,61 +29,78 @@
             if(tag.opts.admin != null)
                 tag.admin = tag.opts.admin;
             if(tag.reservations == null)
-                tag.retrieveReservations();
+                throw new Error("Reservations cant be null.")
+
+            tag.sortReservations();
+
         });
-
-        tag.retrieveReservations = function(filters = null)
-        {
-            var data = {};
-            if(filters != null)
-                data.filters = JSON.stringify(filters);
-            var request = App.request(App.Address + "/getreservations", data);
-            request.then((response) => {
-                    tag.setReservations(response.data);
-            });
-            request.catch((error) => {
-                ErrorHandler.alertIfError(error);
-            });
-        }
-
-        tag.showForHost = function()
-        {
-            var value = null;
-            try
-            {
-                value = parseInt(tag.refs.host.value);
-            }
-            catch(e)
-            {
-                vex.dialog.alert("Vous devez entrer l'identifiant numérique d'un utilisateur.");
-                return;
-            }
-            tag.retrieveReservations({
-                host_id : value
-            });
-        }
-
-        tag.showForGuest = function()
-        {
-            var value = null;
-            try
-            {
-                value = parseInt(tag.refs.host.value);
-            }
-            catch(e)
-            {
-                vex.dialog.alert("Vous devez entrer l'identifiant numérique d'un utilisateur.");
-                return;
-            }
-            tag.retrieveReservations({
-                guest_id : value
-            });
-        }
 
         tag.setReservations = function(reservations)
         {
             tag.reservations = reservations;
             tag.update();
         }
+
+        tag.sortReservations = function()
+        {
+            tag.done = [];
+            tag.refunds = [];
+            tag.currents = [];
+            tag.others = [];
+
+            tag.reservations.forEach((res) => {
+                if(res.done == "1")
+                {
+                    tag.done.push(res);
+                    return;
+                }
+
+                if(res.paid == "2")
+                {
+                    tag.refunds.push(res);
+                    return;
+                }
+
+                if(res.paid == "1" && res.done == "0")
+                {
+                    tag.currents.push(res);
+                    return;
+                }
+
+                tag.others.push(res);
+            });
+
+            console.log(tag.done);
+            console.log(tag.refunds);
+            console.log(tag.currents);
+            console.log(tag.others);
+
+            tag.list = tag.currents;
+        };
+
+        tag.showRefunds = function()
+        {
+            tag.list = tag.refunds;
+            tag.update();
+        };
+
+        tag.showDone = function()
+        {
+            tag.list = tag.done;
+            tag.update();
+        };
+
+        tag.showCurrents = function()
+        {
+            tag.list = tag.currents;
+            tag.update();
+        };
+
+        tag.showOthers = function()
+        {
+            tag.list = tag.others;
+            console.log(tag.list);
+            tag.update();
+        };
     </script>
 </app-reservations>

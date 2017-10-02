@@ -25,8 +25,9 @@ class Adapter {
             recipe.items.pop();
         if (recipe.pins[recipe.pins.length - 1] == "" || recipe.pins[recipe.pins.length - 1] == null)
             recipe.pins.pop();
-        recipe.place_left = parseInt(recipe.places) - recipe.users.length;
+        recipe.place_left = parseInt(recipe.places);
         if (recipe.user != null) {
+            recipe.place_left -= recipe.users.length;
             var geolocation = recipe.user.geolocation.split(",");
             if (geolocation.length == 2) {
                 recipe.latitude = geolocation[0];
@@ -504,6 +505,17 @@ class Router {
             ErrorHandler.alertIfError(error);
         });
     }
+    adminReservations() {
+        let request = App.request(App.Address + "/getreservations", {});
+        request.then(function (response) {
+            App.changePage("app-adminreservations", {
+                "reservations": response.data
+            });
+        });
+        request.catch(function (error) {
+            ErrorHandler.alertIfError(error);
+        });
+    }
     ///////////////////////////////////////////////////////////////
     setRoutes() {
         // Reservation
@@ -514,6 +526,9 @@ class Router {
         route("/admin/reports", () => { this.adminReports(null, null); });
         route("/admin/origins", () => { this.adminOrigins(); });
         route("/admin/pins", () => { this.adminPins(); });
+        route("/admin/reservations", () => {
+            this.adminReservations();
+        });
         // Account
         route("/account/recipes", this.accountRecipes);
         route("/account/reservations", this.accountReservations);
@@ -604,6 +619,7 @@ var tags = {
     "app-placeinput": require("./../../tags/Misc/PlaceInput.tag"),
     "app-tabbar": require("./../../tags/Misc/TabBar.tag"),
     "app-timeinput": require("./../../tags/Misc/TimeInput.tag"),
+    "app-userselector": require("./../../tags/Misc/UserSelector.tag"),
     // RECIPE
     "app-recipe": require("./../../tags/Recipe/Recipe.tag"),
     "app-recipeedit": require("./../../tags/Recipe/RecipeEdit.tag"),

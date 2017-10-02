@@ -1,14 +1,13 @@
 <app-reports>
     <div>
-        <nav>
-            <a onclick={ showNews }>Nouveaux</a>
-            <a onclick={ showCurrents }>En cours</a>
-            <a onclick={ showEnds }>Terminés</a>
-        </nav>
-
-        <div>
-            <input type="button" value="Tout Afficher" onclick={ showAll }>
-        </div>
+        <br><br>
+        <span class="Switch">
+            <a onclick={ showNews } class="{ selected : list == news }">Nouveaux</a>
+            <a onclick={ showCurrents } class="{ selected : list == currents }">En cours</a>
+            <a onclick={ showEnds } class="{ selected : list == ends }">Terminés</a>
+            <a onclick={ showAll } class="{ selected : list == reports }">Tout</a>
+        </span>
+        <br><br>
     </div>
     <app-reportitem each={ report in list} report={ report }></app-reportitem>
     <script>
@@ -108,7 +107,7 @@
 
         tag.showAll = function()
         {
-            tag.retrieveReports();
+            tag.list = tag.reports;
         }
     </script>
 </app-reports>

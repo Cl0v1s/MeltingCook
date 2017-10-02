@@ -506,6 +506,26 @@ app-adminreports div.search, div[data-is=app-adminreports] div.search {
   app-adminreports div.search input[type=button], div[data-is=app-adminreports] div.search input[type=button] {
     display: inline-block; }
 
+app-adminreservations div.search, div[data-is=app-adminreservations] div.search {
+  background-image: url("/static/images/black_paper.png");
+  padding: 20px;
+  text-align: center; }
+  app-adminreservations div.search form, div[data-is=app-adminreservations] div.search form {
+    margin: auto;
+    max-width: 900px;
+    padding: 20px;
+    margin-top: 20px; }
+    app-adminreservations div.search form h2, div[data-is=app-adminreservations] div.search form h2 {
+      width: 100%;
+      color: #f2f4f3; }
+    app-adminreservations div.search form table td, div[data-is=app-adminreservations] div.search form table td {
+      color: #f2f4f3; }
+  app-adminreservations div.search input[type=button], div[data-is=app-adminreservations] div.search input[type=button] {
+    display: inline-block; }
+
+app-adminreservations div.SwitchHandler, div[data-is=app-adminreservations] div.SwitchHandler {
+  text-align: center; }
+
 div[data-is=app-adminpins] a.Action, div[data-is=app-adminorigins] a.Action {
   display: block;
   width: 200px;

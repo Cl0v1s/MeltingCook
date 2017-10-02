@@ -29,10 +29,11 @@ class Adapter
         if(recipe.pins[recipe.pins.length -1 ] == "" || recipe.pins[recipe.pins.length -1 ] == null)
             recipe.pins.pop();
 
-        recipe.place_left = parseInt(recipe.places) - recipe.users.length; 
+        recipe.place_left = parseInt(recipe.places);
 
         if(recipe.user != null)
         {
+            recipe.place_left -= recipe.users.length;
             var geolocation = recipe.user.geolocation.split(",");
             if(geolocation.length == 2)
             {

@@ -31,6 +31,8 @@ var tags =
         "app-placeinput": require("./../../tags/Misc/PlaceInput.tag"),
         "app-tabbar": require("./../../tags/Misc/TabBar.tag"),
         "app-timeinput": require("./../../tags/Misc/TimeInput.tag"),
+        "app-userselector": require("./../../tags/Misc/UserSelector.tag"),
+
 
         // RECIPE
         "app-recipe": require("./../../tags/Recipe/Recipe.tag"),

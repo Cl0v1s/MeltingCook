@@ -18,7 +18,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr each="{ reservation in list }">
+            <tr each="{ reservation in list }" name="reservation-{ reservation.id }">
                 <td>{ reservation.id }</td>
                 <td>{ reservation.host.mail }</td>
                 <td>{ reservation.guest.mail }</td>
@@ -88,12 +88,21 @@
 
         tag.finish = function(e)
         {
-            let id = e.target.Attribute('data-id');
+            let id = e.target.getAttribute('data-id');
             vex.dialog.confirm({
-                message: 'Etes-vous sûr de vouloir marquer cette réservation comme validée ? (Cela signifie que vous avez fait le nécessaire via Paypal. )',
+                message: 'Etes-vous sûr de vouloir marquer cette réservation comme finalisée ? (Cela signifie que vous avez fait le nécessaire via Paypal. )',
                 callback: function (value) {
                     if (value) {
-                        let request = App.request(App.Address + "/")
+                        let request = App.request(App.Address + "/fullfillreservation", {
+                            "id" : id
+                        });
+                        request.then(function(response){
+                            let tr = tag.root.querySelector("tr[name=reservation-"+id+"]");
+                            tr.remove();
+                        });
+                        request.catch(function(error){
+                           ErrorHandler.alertIfError(error);
+                        });
                     }
                 }
             })

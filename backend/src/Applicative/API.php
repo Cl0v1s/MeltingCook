@@ -77,7 +77,7 @@ class API
         // la reservation doit avoir été provisionnée
         if($reservation->Paid() != "1" && $reservation->Paid() != "2")
         {
-            throw new Exception("Impossible de terminer une réservation non provisionnée.");
+            throw new Exception("Impossible de terminer une réservation non provisionnée#",2);
         }
 
         API::Remove($token, "Reservation", $reservation->Id());
@@ -106,7 +106,14 @@ class API
         // Cette action ne peut être effectuée que sur une reservation provisionnée
         if($reservation->Paid() != "1")
         {
-            throw new Exception("Impossible de valider une réservation non provisionnée.");
+            throw new Exception("Impossible de valider une réservation non provisionnée#",2);
+        }
+
+        $recipe = new Recipe($storage, $reservation->RecipeId());
+        $recipe = $storage->find($recipe);
+        if(time() < intval($recipe->DateEnd()))
+        {
+            throw new Exception("Impossible de valider une réservation n'ayant pas encore eu lieu#",2);
         }
 
         $reservation->setDone(1);

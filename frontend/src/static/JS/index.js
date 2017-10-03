@@ -16311,7 +16311,7 @@ module.exports = riot.tag2('app-reservationitem', '<span>Vous pouvez joindre l\'
 });
 },{"riot":8}],50:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br><br> <span class="Switch"> <a onclick="{showDone}" class="{selected : list == done}">A Verser</a> <a onclick="{showRefunds}" class="{selected :  list == refunds}">A Rembourser</a> </span> <br><br> </div> <table> <thead> <tr> <td>Identifiant</td> <td>Hôte</td> <td>Invité</td> <td>Montant</td> <td>Action</td> </tr> </thead> <tbody> <tr each="{reservation in list}"> <td>{reservation.id}</td> <td>{reservation.host.mail}</td> <td>{reservation.guest.mail}</td> <td>{reservation.recipe.price}</td> <td> <input type="button" value="Marquée comme terminée" data-id="{reservation.id}" onclick="{finish}"> </td> </tr> </tbody> </table>', '', '', function(opts) {
+module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br><br> <span class="Switch"> <a onclick="{showDone}" class="{selected : list == done}">A Verser</a> <a onclick="{showRefunds}" class="{selected :  list == refunds}">A Rembourser</a> </span> <br><br> </div> <table> <thead> <tr> <td>Identifiant</td> <td>Hôte</td> <td>Invité</td> <td>Montant</td> <td>Action</td> </tr> </thead> <tbody> <tr each="{reservation in list}" name="reservation-{reservation.id}"> <td>{reservation.id}</td> <td>{reservation.host.mail}</td> <td>{reservation.guest.mail}</td> <td>{reservation.recipe.price}</td> <td> <input type="button" value="Marquée comme terminée" data-id="{reservation.id}" onclick="{finish}"> </td> </tr> </tbody> </table>', '', '', function(opts) {
         var tag = this;
 
         tag.admin = false;
@@ -16370,12 +16370,21 @@ module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br>
 
         tag.finish = function(e)
         {
-            let id = e.target.Attribute('data-id');
+            let id = e.target.getAttribute('data-id');
             vex.dialog.confirm({
-                message: 'Etes-vous sûr de vouloir marquer cette réservation comme validée ? (Cela signifie que vous avez fait le nécessaire via Paypal. )',
+                message: 'Etes-vous sûr de vouloir marquer cette réservation comme finalisée ? (Cela signifie que vous avez fait le nécessaire via Paypal. )',
                 callback: function (value) {
                     if (value) {
-                        let request = App.request(App.Address + "/")
+                        let request = App.request(App.Address + "/fullfillreservation", {
+                            "id" : id
+                        });
+                        request.then(function(response){
+                            let tr = tag.root.querySelector("tr[name=reservation-"+id+"]");
+                            tr.remove();
+                        });
+                        request.catch(function(error){
+                           ErrorHandler.alertIfError(error);
+                        });
                     }
                 }
             })

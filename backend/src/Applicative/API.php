@@ -8,6 +8,115 @@
  */
 class API
 {
+
+    // Fonctions spéciales liées aux processus de réservation
+
+    /**
+     * @param $token
+     * @param $reservation Reservation
+     * @throws Exception
+     */
+    public static function RefundOrCancelReservation($token, $reservation)
+    {
+        $storage = Engine::Instance()->Persistence("DatabaseStorage");
+        $reservation = $storage->find($reservation);
+        if($reservation == null)
+        {
+            throw new Exception("Not Enought Power", 1);
+        }
+
+        $user = API::Auth($token);
+        // Seuls l'invité, l'hôte ou un admin peuvent effectuer cette action
+        if($user->Id() != $reservation->GuestId() && $user->Id() != $reservation->HostId() && $user->Rights() < 2)
+        {
+            throw new Exception("Not Enought Power", 1);
+        }
+
+        // Si finalisé
+        if($reservation->Done() == "1")
+        {
+            throw new Exception("Impossible d'annuler ou de demander un remboursement sur une réservation finalisée#", 2);
+        }
+
+        // Si pas provisionné, on supprime
+        if($reservation->Paid() == "0")
+        {
+            API::Remove($token, "Reservation", $reservation->Id());
+            return;
+        }
+
+        // Si provisionné, on marque à rembourser
+        if($reservation->Paid() == "1")
+        {
+            $reservation->setPaid(2);
+            API::Update($token, $reservation);
+            return;
+        }
+    }
+
+    /**
+     * @param $token
+     * @param $reservation Reservation
+     */
+    public static function FullFillReservation($token, $reservation)
+    {
+        $storage = Engine::Instance()->Persistence("DatabaseStorage");
+        $reservation = $storage->find($reservation);
+        if($reservation == null)
+        {
+            throw new Exception("Not Enought Power", 1);
+        }
+
+        $user = API::Auth($token);
+        // Seul un admin peut effectier cette action
+        if($user->Rights() < 2)
+        {
+            throw new Exception("Not Enought Power", 1);
+        }
+
+        // la reservation doit avoir été provisionnée
+        if($reservation->Paid() != "1" && $reservation->Paid() != "2")
+        {
+            throw new Exception("Impossible de terminer une réservation non provisionnée.");
+        }
+
+        API::Remove($token, "Reservation", $reservation->Id());
+    }
+
+    /**
+     * @param $token
+     * @param $reservation Reservation
+     */
+    public static function ValidateReservation($token, $reservation)
+    {
+        $storage = Engine::Instance()->Persistence("DatabaseStorage");
+        $reservation = $storage->find($reservation);
+        if($reservation == null)
+        {
+            throw new Exception("Not Enought Power", 1);
+        }
+
+        $user = API::Auth($token);
+        // Seul l'invité peut effectuer cette action
+        if($user->Id() != $reservation->GuestId())
+        {
+            throw new Exception("Not Enought Power", 1);
+        }
+
+        // Cette action ne peut être effectuée que sur une reservation provisionnée
+        if($reservation->Paid() != "1")
+        {
+            throw new Exception("Impossible de valider une réservation non provisionnée.");
+        }
+
+        $reservation->setDone(1);
+        API::Update($token, $reservation);
+    }
+
+
+
+
+
     /**
      * @param $token
      * @return User
@@ -191,6 +300,7 @@ class API
         else
             API::Update($token, $item, false);
     }
+
 
     public static function GetUser($token, $id, $hide = true)
     {

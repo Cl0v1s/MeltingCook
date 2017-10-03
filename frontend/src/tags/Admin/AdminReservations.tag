@@ -15,7 +15,9 @@
             </div>
         </form>
     </div>
-    <app-reservations admin={ true } reservations="{ reservations }"></app-reservations>
+    <div class="content">
+        <app-reservations admin={ true } reservations="{ reservations }"></app-reservations>
+    </div>
     <script>
         var tag = this;
 

@@ -140,6 +140,15 @@ class APIController extends Controller
                 case "getpinses":
                     $this->GetAll("Pins");
                     break;
+                case "refundorcancelreservation":
+                    $this->RefundOrCancelReservation();
+                    break;
+                case "fullfillreservation":
+                    $this->FullFillReservation();
+                    break;
+                case "validatereservation":
+                    $this->ValidateReservation();
+                    break;
                 default:
                     http_response_code(404);
                     return;
@@ -149,6 +158,46 @@ class APIController extends Controller
             $this->Write(APIController::$NO, $e->getCode(), $e->getMessage() . "\n\n" . $e->getTraceAsString());
             return;
         }
+    }
+
+
+    // Fonctions spéciales liées aux processus de réservation
+
+    private function RefundOrCancelReservation()
+    {
+        if(isset($_POST["id"]) == false || isset($_POST["token"]) == false)
+        {
+            $this->Write(APIController::$NO, null, "Missing Data");
+            return;
+        }
+        $reservation = new Reservation(null, $_POST["id"]);
+        API::RefundOrCancelReservation($_POST["token"], $reservation);
+        $this->Write(APIController::$OK, null);
+    }
+
+
+    private function FullFillReservation()
+    {
+        if(isset($_POST["id"]) == false || isset($_POST["token"]) == false)
+        {
+            $this->Write(APIController::$NO, null, "Missing Data");
+            return;
+        }
+        $reservation = new Reservation(null, $_POST["id"]);
+        API::FullFillReservation($_POST["token"], $reservation);
+        $this->Write(APIController::$OK, null);
+    }
+
+    private function ValidateReservation()
+    {
+        if(isset($_POST["id"]) == false || isset($_POST["token"]) == false)
+        {
+            $this->Write(APIController::$NO, null, "Missing Data");
+            return;
+        }
+        $reservation = new Reservation(null, $_POST["id"]);
+        API::ValidateReservation($_POST["token"], $reservation);
+        $this->Write(APIController::$OK, null);
     }
 
     private function Auth()

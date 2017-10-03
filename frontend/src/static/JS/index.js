@@ -15121,7 +15121,7 @@ module.exports = riot.tag2('app-adminreports', '<app-header></app-header> <app-t
 });
 },{"riot":8}],17:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-adminreservations', '<app-header></app-header> <app-tabbar tabs="{tabs}"></app-tabbar> <div class="search"> <form> <div> <h2>Chercher par hôte</h2> <app-userselector ref="host"></app-userselector> <input type="button" value="Afficher" onclick="{showForHost}"> </div> <div> <h2>Chercher par invité</h2> <app-userselector ref="guest"></app-userselector> <input type="button" value="Afficher" onclick="{showForGuest}"> </div> </form> </div> <app-reservations admin="{true}" reservations="{reservations}"></app-reservations>', '', '', function(opts) {
+module.exports = riot.tag2('app-adminreservations', '<app-header></app-header> <app-tabbar tabs="{tabs}"></app-tabbar> <div class="search"> <form> <div> <h2>Chercher par hôte</h2> <app-userselector ref="host"></app-userselector> <input type="button" value="Afficher" onclick="{showForHost}"> </div> <div> <h2>Chercher par invité</h2> <app-userselector ref="guest"></app-userselector> <input type="button" value="Afficher" onclick="{showForGuest}"> </div> </form> </div> <div class="content"> <app-reservations admin="{true}" reservations="{reservations}"></app-reservations> </div>', '', '', function(opts) {
         var tag = this;
 
         tag.tabs = null;
@@ -16311,7 +16311,7 @@ module.exports = riot.tag2('app-reservationitem', '<span>Vous pouvez joindre l\'
 });
 },{"riot":8}],50:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br><br> <span class="Switch"> <a onclick="{showCurrents}" class="{selected : list == currents}">En Cours</a> <a onclick="{showDone}" class="{selected : list == done}">A Verser</a> <a onclick="{showRefunds}" class="{selected :  list == refunds}">A Rembourser</a> <a onclick="{showOthers}" class="{selected :  list == others}">Autre</a> </span> <br><br> </div> <app-reservationitem each="{reservation in list}" reservation="{reservation}"></app-reservationitem>', '', '', function(opts) {
+module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br><br> <span class="Switch"> <a onclick="{showDone}" class="{selected : list == done}">A Verser</a> <a onclick="{showRefunds}" class="{selected :  list == refunds}">A Rembourser</a> </span> <br><br> </div> <table> <thead> <tr> <td>Identifiant</td> <td>Hôte</td> <td>Invité</td> <td>Montant</td> <td>Action</td> </tr> </thead> <tbody> <tr each="{reservation in list}"> <td>{reservation.id}</td> <td>{reservation.host.mail}</td> <td>{reservation.guest.mail}</td> <td>{reservation.recipe.price}</td> <td> <input type="button" value="Marquée comme terminée" data-id="{reservation.id}" onclick="{finish}"> </td> </tr> </tbody> </table>', '', '', function(opts) {
         var tag = this;
 
         tag.admin = false;
@@ -16320,9 +16320,7 @@ module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br>
         tag.list = null;
 
         tag.done = null;
-        tag.currents = null;
         tag.refunds = null;
-        tag.others = null;
 
         tag.on("before-mount", function()
         {
@@ -16336,18 +16334,10 @@ module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br>
 
         });
 
-        tag.setReservations = function(reservations)
-        {
-            tag.reservations = reservations;
-            tag.update();
-        }
-
         tag.sortReservations = function()
         {
             tag.done = [];
             tag.refunds = [];
-            tag.currents = [];
-            tag.others = [];
 
             tag.reservations.forEach((res) => {
                 if(res.done == "1")
@@ -16361,22 +16351,9 @@ module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br>
                     tag.refunds.push(res);
                     return;
                 }
-
-                if(res.paid == "1" && res.done == "0")
-                {
-                    tag.currents.push(res);
-                    return;
-                }
-
-                tag.others.push(res);
             });
 
-            console.log(tag.done);
-            console.log(tag.refunds);
-            console.log(tag.currents);
-            console.log(tag.others);
-
-            tag.list = tag.currents;
+            tag.list = tag.done;
         };
 
         tag.showRefunds = function()
@@ -16391,18 +16368,19 @@ module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br>
             tag.update();
         };
 
-        tag.showCurrents = function()
+        tag.finish = function(e)
         {
-            tag.list = tag.currents;
-            tag.update();
-        };
+            let id = e.target.Attribute('data-id');
+            vex.dialog.confirm({
+                message: 'Etes-vous sûr de vouloir marquer cette réservation comme validée ? (Cela signifie que vous avez fait le nécessaire via Paypal. )',
+                callback: function (value) {
+                    if (value) {
+                        let request = App.request(App.Address + "/")
+                    }
+                }
+            })
+        }
 
-        tag.showOthers = function()
-        {
-            tag.list = tag.others;
-            console.log(tag.list);
-            tag.update();
-        };
 });
 },{"riot":8}],51:[function(require,module,exports){
 var riot = require('riot');

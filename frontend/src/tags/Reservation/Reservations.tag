@@ -2,14 +2,33 @@
     <div class="SwitchHandler">
         <br><br>
         <span class="Switch">
-                <a onclick='{ showCurrents }' class="{ selected : list == currents }">En Cours</a>
                 <a onclick='{ showDone }' class="{ selected : list == done }">A Verser</a>
                 <a onclick='{ showRefunds }' class="{ selected :  list == refunds }">A Rembourser</a>
-                <a onclick='{ showOthers }' class="{ selected :  list == others }">Autre</a>
         </span>
         <br><br>
     </div>
-    <app-reservationitem each={ reservation in list } reservation={ reservation }></app-reservationitem>
+    <table>
+        <thead>
+            <tr>
+                <td>Identifiant</td>
+                <td>Hôte</td>
+                <td>Invité</td>
+                <td>Montant</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr each="{ reservation in list }">
+                <td>{ reservation.id }</td>
+                <td>{ reservation.host.mail }</td>
+                <td>{ reservation.guest.mail }</td>
+                <td>{ reservation.recipe.price }</td>
+                <td>
+                    <input type="button" value="Marquée comme terminée" data-id="{ reservation.id }" onclick="{ finish }">
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <script>
         var tag = this;
 
@@ -19,9 +38,7 @@
         tag.list = null;
 
         tag.done = null;
-        tag.currents = null;
         tag.refunds = null;
-        tag.others = null;
 
         tag.on("before-mount", function()
         {
@@ -35,18 +52,10 @@
 
         });
 
-        tag.setReservations = function(reservations)
-        {
-            tag.reservations = reservations;
-            tag.update();
-        }
-
         tag.sortReservations = function()
         {
             tag.done = [];
             tag.refunds = [];
-            tag.currents = [];
-            tag.others = [];
 
             tag.reservations.forEach((res) => {
                 if(res.done == "1")
@@ -60,22 +69,9 @@
                     tag.refunds.push(res);
                     return;
                 }
-
-                if(res.paid == "1" && res.done == "0")
-                {
-                    tag.currents.push(res);
-                    return;
-                }
-
-                tag.others.push(res);
             });
 
-            console.log(tag.done);
-            console.log(tag.refunds);
-            console.log(tag.currents);
-            console.log(tag.others);
-
-            tag.list = tag.currents;
+            tag.list = tag.done;
         };
 
         tag.showRefunds = function()
@@ -90,17 +86,19 @@
             tag.update();
         };
 
-        tag.showCurrents = function()
+        tag.finish = function(e)
         {
-            tag.list = tag.currents;
-            tag.update();
-        };
+            let id = e.target.Attribute('data-id');
+            vex.dialog.confirm({
+                message: 'Etes-vous sûr de vouloir marquer cette réservation comme validée ? (Cela signifie que vous avez fait le nécessaire via Paypal. )',
+                callback: function (value) {
+                    if (value) {
+                        let request = App.request(App.Address + "/")
+                    }
+                }
+            })
+        }
 
-        tag.showOthers = function()
-        {
-            tag.list = tag.others;
-            console.log(tag.list);
-            tag.update();
-        };
+
     </script>
 </app-reservations>

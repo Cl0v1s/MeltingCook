@@ -16365,7 +16365,7 @@ module.exports = riot.tag2('app-reservationvalidateform', '<h2> Merci d\'avoir u
 });
 },{"riot":8}],51:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br><br> <span class="Switch"> <a onclick="{showFunds}" class="{selected :  list == funds}">Provisionnées</a> <a onclick="{showDone}" class="{selected : list == done}">A Verser</a> <a onclick="{showRefunds}" class="{selected :  list == refunds}">A Rembourser</a> </span> <br><br> </div> <table> <thead> <tr> <td>Identifiant</td> <td>Hôte</td> <td>Invité</td> <td>Montant</td> <td>Action</td> </tr> </thead> <tbody> <tr each="{reservation in list}" name="reservation-{reservation.id}"> <td>{reservation.id}</td> <td>{reservation.host.mail}</td> <td>{reservation.guest.mail}</td> <td>{reservation.recipe.price}</td> <td> <input if="{admin == true}" type="button" value="Marquer comme terminée" data-id="{reservation.id}" onclick="{fullfill}"> <input if="{admin == false && reservation.paid == \'1\' && reservation.done == \'0\'}" type="button" value="Je finalise" data-id="{reservation.id}" onclick="{validate}"> <input if="{admin == false && reservation.paid != \'2\' && reservation.done != \'1\'}" type="button" value="J\'annule" data-id="{reservation.id}" onclick="{refund}"> </td> </tr> </tbody> </table>', '', '', function(opts) {
+module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br><br> <span class="Switch"> <a onclick="{showFunds}" class="{selected :  list == funds}">Provisionnées</a> <a onclick="{showDone}" class="{selected : list == done}">A Verser</a> <a onclick="{showRefunds}" class="{selected :  list == refunds}">A Rembourser</a> </span> <br><br> </div> <table> <thead> <tr> <td>Identifiant</td> <td>Hôte</td> <td>Invité</td> <td>Montant</td> <td>Action</td> </tr> </thead> <tbody> <tr each="{reservation in list}" id="reservation-{reservation.id}"> <td>{reservation.id}</td> <td>{reservation.host.mail}</td> <td>{reservation.guest.mail}</td> <td>{reservation.recipe.price}</td> <td> <input if="{admin == true}" type="button" value="Marquer comme terminée" data-id="{reservation.id}" onclick="{fullfill}"> <input if="{admin == false && reservation.paid == \'1\' && reservation.done == \'0\'}" type="button" value="Je finalise" data-id="{reservation.id}" onclick="{validate}"> <input if="{admin == false && reservation.paid != \'2\' && reservation.done != \'1\'}" type="button" value="J\'annule" data-id="{reservation.id}" onclick="{refund}"> </td> </tr> </tbody> </table>', '', '', function(opts) {
         var tag = this;
 
         tag.admin = false;
@@ -16386,7 +16386,6 @@ module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br>
                 throw new Error("Reservations cant be null.");
 
             tag.sortReservations();
-            console.log(tag.admin);
 
         });
 
@@ -16447,8 +16446,7 @@ module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br>
                             "id" : id
                         });
                         request.then(function(response){
-                            let tr = tag.root.querySelector("tr[name=reservation-"+id+"]");
-                            tr.remove();
+                            tag.reload();
                         });
                         request.catch(function(error){
                            ErrorHandler.alertIfError(error);
@@ -16470,6 +16468,7 @@ module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br>
                 requestvalidate.then(function(response){
                     App.hidePopUp();
                     NotificationManager.showNotification("L'attestation a bien été prise en compte. Vous serez informé de l'état d'avancement de votre demande.", "success");
+                    tag.reload();
                 });
                 requestvalidate.catch(function(error){
                     ErrorHandler.alertIfError(error);
@@ -16501,8 +16500,7 @@ module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br>
                             "id" : id
                         });
                         request.then(function(response){
-                            let tr = tag.root.querySelector("tr[name=reservation-"+id+"]");
-                            tr.remove();
+                            tag.reload();
                             NotificationManager.showNotification("L'annulation a bien été prise en compte. Vous serez informé de l'état d'avancement de votre demande.", "success");
                         });
                         request.catch(function(error){
@@ -16511,6 +16509,19 @@ module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br>
                     }
                 }
             })
+        };
+
+        tag.reload = function()
+        {
+            let request = App.request(App.Address + "/getreservations", null);
+            request.then(function(response){
+                tag.reservations = response.data;
+                tag.sortReservations();
+                tag.update();
+            });
+            request.catch(function(error){
+               ErrorHandler.alertIfError(error);
+            });
         };
 
 });

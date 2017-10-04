@@ -20,7 +20,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr each="{ reservation in list }" name="reservation-{ reservation.id }">
+            <tr each="{ reservation in list }" id="reservation-{ reservation.id }">
                 <td>{ reservation.id }</td>
                 <td>{ reservation.host.mail }</td>
                 <td>{ reservation.guest.mail }</td>
@@ -54,7 +54,6 @@
                 throw new Error("Reservations cant be null.");
 
             tag.sortReservations();
-            console.log(tag.admin);
 
         });
 
@@ -115,8 +114,7 @@
                             "id" : id
                         });
                         request.then(function(response){
-                            let tr = tag.root.querySelector("tr[name=reservation-"+id+"]");
-                            tr.remove();
+                            tag.reload();
                         });
                         request.catch(function(error){
                            ErrorHandler.alertIfError(error);
@@ -138,6 +136,7 @@
                 requestvalidate.then(function(response){
                     App.hidePopUp();
                     NotificationManager.showNotification("L'attestation a bien été prise en compte. Vous serez informé de l'état d'avancement de votre demande.", "success");
+                    tag.reload();
                 });
                 requestvalidate.catch(function(error){
                     ErrorHandler.alertIfError(error);
@@ -169,8 +168,7 @@
                             "id" : id
                         });
                         request.then(function(response){
-                            let tr = tag.root.querySelector("tr[name=reservation-"+id+"]");
-                            tr.remove();
+                            tag.reload();
                             NotificationManager.showNotification("L'annulation a bien été prise en compte. Vous serez informé de l'état d'avancement de votre demande.", "success");
                         });
                         request.catch(function(error){
@@ -179,6 +177,19 @@
                     }
                 }
             })
+        };
+
+        tag.reload = function()
+        {
+            let request = App.request(App.Address + "/getreservations", null);
+            request.then(function(response){
+                tag.reservations = response.data;
+                tag.sortReservations();
+                tag.update();
+            });
+            request.catch(function(error){
+               ErrorHandler.alertIfError(error);
+            });
         };
 
 

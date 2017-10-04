@@ -30,11 +30,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Reservations.tag" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Reservations.tag" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tags/Reservation/Reservations.tag">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="32" column="17" lean-forward="true" selection-start-line="32" selection-start-column="17" selection-end-line="32" selection-end-column="17" />
+            <state relative-caret-position="495">
+              <caret line="156" column="48" lean-forward="true" selection-start-line="156" selection-start-column="48" selection-end-line="156" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -60,11 +60,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CommentEditForm.tag" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CommentEditForm.tag" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tags/Comment/CommentEditForm.tag">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="39" column="37" lean-forward="false" selection-start-line="39" selection-start-column="37" selection-end-line="39" selection-end-column="37" />
+            <state relative-caret-position="331">
+              <caret line="44" column="0" lean-forward="false" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Hearts.tag" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tags/Misc/Hearts.tag">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="436">
+              <caret line="46" column="40" lean-forward="false" selection-start-line="46" selection-start-column="40" selection-end-line="46" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -124,7 +134,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/SCSS/parts/_Stain.scss" />
         <option value="$PROJECT_DIR$/SCSS/tags/Immutable/_Home.scss" />
         <option value="$PROJECT_DIR$/SCSS/parts/_Inputs.scss" />
@@ -171,10 +180,11 @@
         <option value="$PROJECT_DIR$/tags/Admin/AdminReservations.tag" />
         <option value="$PROJECT_DIR$/tags/Reservation/ReservationValidateForm.tag.html" />
         <option value="$PROJECT_DIR$/tags/Account/AccountReservations.tag" />
-        <option value="$PROJECT_DIR$/tags/Reservation/Reservations.tag" />
         <option value="$PROJECT_DIR$/TS/Global.ts" />
         <option value="$PROJECT_DIR$/tags/Reservation/ReservationValidateForm.tag" />
+        <option value="$PROJECT_DIR$/tags/Misc/Hearts.tag" />
         <option value="$PROJECT_DIR$/tags/Comment/CommentEditForm.tag" />
+        <option value="$PROJECT_DIR$/tags/Reservation/Reservations.tag" />
       </list>
     </option>
   </component>
@@ -238,6 +248,12 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="tags" type="462c0819:PsiDirectoryNode" />
               <item name="Comment" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="src" type="b2602c69:ProjectViewProjectNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="tags" type="462c0819:PsiDirectoryNode" />
+              <item name="Misc" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="src" type="b2602c69:ProjectViewProjectNode" />
@@ -460,12 +476,12 @@
       <workItem from="1506951704705" duration="5227000" />
       <workItem from="1506965717098" duration="1796000" />
       <workItem from="1507050536018" duration="2008000" />
-      <workItem from="1507115155071" duration="3957000" />
+      <workItem from="1507115155071" duration="5733000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="143641000" />
+    <option name="totallyTimeSpent" value="145417000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -513,13 +529,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/SCSS/_misc.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2505">
-          <caret line="167" column="0" lean-forward="false" selection-start-line="167" selection-start-column="0" selection-end-line="167" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tags/Misc/Header.tag">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -818,18 +827,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tags/Reservation/Reservations.tag">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" column="17" lean-forward="true" selection-start-line="32" selection-start-column="17" selection-end-line="32" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/TS/Global.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="57" column="96" lean-forward="false" selection-start-line="57" selection-start-column="96" selection-end-line="57" selection-end-column="96" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tags/Misc/Hearts.tag">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="436">
+          <caret line="46" column="40" lean-forward="false" selection-start-line="46" selection-start-column="40" selection-end-line="46" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tags/Comment/CommentEditForm.tag">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="331">
+          <caret line="44" column="0" lean-forward="false" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -842,10 +859,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tags/Comment/CommentEditForm.tag">
+    <entry file="file://$PROJECT_DIR$/tags/Reservation/Reservations.tag">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="39" column="37" lean-forward="false" selection-start-line="39" selection-start-column="37" selection-end-line="39" selection-end-column="37" />
+        <state relative-caret-position="495">
+          <caret line="156" column="48" lean-forward="true" selection-start-line="156" selection-start-column="48" selection-end-line="156" selection-end-column="48" />
           <folding />
         </state>
       </provider>

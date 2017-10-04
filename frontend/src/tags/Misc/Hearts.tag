@@ -1,22 +1,54 @@
 <app-hearts>
-    <div class="full" each="{ rpt in repeat}">
+    <div each="{ ht in hearts}" class="{ ht.state }" data-index="{ ht.index }"  onclick="{ set }">
     </div>
-    <div class="empty" each="{ rpt in empties }">
 
-    </div>
     <script>
         var tag = this;
-        tag.empties = null;
-        tag.repeat = null;
+        tag.hearts = null;
+
+        tag.interactive = false;
+        tag.index = null;
+
+        tag.value = 3;
+
         tag.on("before-mount", function()
         {
-            if(tag.opts.repeat > 0)
-                tag.repeat = new Array(tag.opts.repeat);
-            console.log(tag.opts.repeat);
-            console.log(5-tag.opts.repeat);
 
-            tag.empties = new Array(5-tag.opts.repeat);
+            if(tag.opts.interactive != null)
+                tag.interactive = tag.opts.interactive;
+
+            if(tag.interactive == true) {
+                tag.opts.repeat = tag.value;
+            }
+            tag.createHearts();
         });
+
+        tag.createHearts = function()
+        {
+            tag.hearts = [];
+            for(let i = 0; i < 5; i++) {
+                let state = "empty";
+                if (i < tag.opts.repeat)
+                    state = "full";
+                tag.hearts.push({
+                    "state" : state,
+                    "index" : i+1
+                });
+            }
+        };
+
+        tag.set = function(e)
+        {
+            if(tag.interactive == false)
+                return;
+            let ind = parseInt(e.target.getAttribute('data-index'));
+            console.log(ind);
+            tag.value = ind;
+            tag.opts.repeat = tag.value;
+            tag.createHearts();
+            tag.update();
+
+        }
 
     </script>
 </app-hearts>

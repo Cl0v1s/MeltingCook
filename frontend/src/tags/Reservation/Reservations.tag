@@ -128,13 +128,22 @@
 
         tag.validate = function(e)
         {
+            let id = e.target.getAttribute('data-id');
+
             let callback = function()
             {
-                alert("ok");
+                let requestvalidate = App.request(App.Address + "/validatereservation", {
+                    "id" : id
+                });
+                requestvalidate.then(function(response){
+                    App.hidePopUp();
+                    NotificationManager.showNotification("L'attestation a bien été prise en compte. Vous serez informé de l'état d'avancement de votre demande.", "success");
+                });
+                requestvalidate.catch(function(error){
+                    ErrorHandler.alertIfError(error);
+                });
             };
 
-
-            let id = e.target.getAttribute('data-id');
             let request = App.request(App.Address+ "/getreservation", {
                 "id" : id
             });

@@ -1,11 +1,15 @@
 <app-commenteditform>
     <form name="edit-comment" class={ invisible : tag.comment==null }>
         <div>
+            <label>Note</label>
+            <app-hearts interactive="{ true }" ref="note"></app-hearts>
+        </div>
+        <div>
             <label>Contenu de l'avis</label>
             <textarea name="content" ref="content">
                 { comment.content }
             </textarea>
-            <p>
+            <p class="hint">
                 Ce champ doit contenir entre 10 et 400 caractères.
             </p>
         </div>
@@ -26,7 +30,7 @@
                         "content": "required|minLength:10|maxLength:400"
                     }
                 });
-                if (valid.passes("edit-user")) {
+                if (valid.passes("edit-comment")) {
                     var url = App.Address + "/updatecomment";
                     var cmt = tag.comment;
                     if(cmt == null || cmt.id == null)
@@ -37,7 +41,7 @@
                         cmt.target_id = tag.target.id;
                     }
                     cmt.content = tag.refs.content.value;
-                    console.log(cmt);
+                    cmt.note = tag.refs.note.value;
                     var request = App.request(url, cmt);
                     request.then((response) => {
                         tag.callback();

@@ -15163,7 +15163,7 @@ module.exports = riot.tag2('app-adminreservations', '<app-header></app-header> <
 });
 },{"riot":8}],18:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-commenteditform', '<form name="edit-comment" class="{invisible : tag.comment==null}"> <div> <label>Contenu de l\'avis</label> <textarea name="content" ref="content"> {comment.content} </textarea> <p> Ce champ doit contenir entre 10 et 400 caractères. </p> </div> <input type="button" class="large" value="Envoyer" onclick="{send}"> </form>', '', '', function(opts) {
+module.exports = riot.tag2('app-commenteditform', '<form name="edit-comment" class="{invisible : tag.comment==null}"> <div> <label>Note</label> <app-hearts interactive="{true}" ref="note"></app-hearts> </div> <div> <label>Contenu de l\'avis</label> <textarea name="content" ref="content"> {comment.content} </textarea> <p class="hint"> Ce champ doit contenir entre 10 et 400 caractères. </p> </div> <input type="button" class="large" value="Envoyer" onclick="{send}"> </form>', '', '', function(opts) {
         var tag = this;
 
         tag.comment = tag.opts.comment;
@@ -15177,7 +15177,7 @@ module.exports = riot.tag2('app-commenteditform', '<form name="edit-comment" cla
                         "content": "required|minLength:10|maxLength:400"
                     }
                 });
-                if (valid.passes("edit-user")) {
+                if (valid.passes("edit-comment")) {
                     var url = App.Address + "/updatecomment";
                     var cmt = tag.comment;
                     if(cmt == null || cmt.id == null)
@@ -15188,6 +15188,7 @@ module.exports = riot.tag2('app-commenteditform', '<form name="edit-comment" cla
                         cmt.target_id = tag.target.id;
                     }
                     cmt.content = tag.refs.content.value;
+                    cmt.note = tag.refs.note.value;
                     var request = App.request(url, cmt);
                     request.then((response) => {
                         tag.callback();
@@ -15421,19 +15422,53 @@ module.exports = riot.tag2('app-header', '<div class="img" onclick="{home}"></di
 });
 },{"riot":8}],28:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-hearts', '<div class="full" each="{rpt in repeat}"> </div> <div class="empty" each="{rpt in empties}"> </div>', '', '', function(opts) {
+module.exports = riot.tag2('app-hearts', '<div each="{ht in hearts}" class="{ht.state}" data-index="{ht.index}" onclick="{set}"> </div>', '', '', function(opts) {
         var tag = this;
-        tag.empties = null;
-        tag.repeat = null;
+        tag.hearts = null;
+
+        tag.interactive = false;
+        tag.index = null;
+
+        tag.value = 3;
+
         tag.on("before-mount", function()
         {
-            if(tag.opts.repeat > 0)
-                tag.repeat = new Array(tag.opts.repeat);
-            console.log(tag.opts.repeat);
-            console.log(5-tag.opts.repeat);
 
-            tag.empties = new Array(5-tag.opts.repeat);
+            if(tag.opts.interactive != null)
+                tag.interactive = tag.opts.interactive;
+
+            if(tag.interactive == true) {
+                tag.opts.repeat = tag.value;
+            }
+            tag.createHearts();
         });
+
+        tag.createHearts = function()
+        {
+            tag.hearts = [];
+            for(let i = 0; i < 5; i++) {
+                let state = "empty";
+                if (i < tag.opts.repeat)
+                    state = "full";
+                tag.hearts.push({
+                    "state" : state,
+                    "index" : i+1
+                });
+            }
+        };
+
+        tag.set = function(e)
+        {
+            if(tag.interactive == false)
+                return;
+            let ind = parseInt(e.target.getAttribute('data-index'));
+            console.log(ind);
+            tag.value = ind;
+            tag.opts.repeat = tag.value;
+            tag.createHearts();
+            tag.update();
+
+        }
 
 });
 },{"riot":8}],29:[function(require,module,exports){
@@ -16425,12 +16460,22 @@ module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br>
 
         tag.validate = function(e)
         {
+            let id = e.target.getAttribute('data-id');
+
             let callback = function()
             {
-                alert("ok");
+                let requestvalidate = App.request(App.Address + "/validatereservation", {
+                    "id" : id
+                });
+                requestvalidate.then(function(response){
+                    App.hidePopUp();
+                    NotificationManager.showNotification("L'attestation a bien été prise en compte. Vous serez informé de l'état d'avancement de votre demande.", "success");
+                });
+                requestvalidate.catch(function(error){
+                    ErrorHandler.alertIfError(error);
+                });
             };
 
-            let id = e.target.getAttribute('data-id');
             let request = App.request(App.Address+ "/getreservation", {
                 "id" : id
             });

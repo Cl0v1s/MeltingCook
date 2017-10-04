@@ -15122,7 +15122,7 @@ module.exports = riot.tag2('app-adminreports', '<app-header></app-header> <app-t
 });
 },{"riot":8}],17:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-adminreservations', '<app-header></app-header> <app-tabbar tabs="{tabs}"></app-tabbar> <div class="search"> <form> <div> <h2>Chercher par hôte</h2> <app-userselector ref="host"></app-userselector> <input type="button" value="Afficher" onclick="{showForHost}"> </div> <div> <h2>Chercher par invité</h2> <app-userselector ref="guest"></app-userselector> <input type="button" value="Afficher" onclick="{showForGuest}"> </div> </form> </div> <div class="content"> <app-reservations admin="{true}" reservations="{reservations}"></app-reservations> </div>', '', '', function(opts) {
+module.exports = riot.tag2('app-adminreservations', '<app-header></app-header> <app-tabbar tabs="{tabs}"></app-tabbar> <div class="search"> <form> <div> <h2>Chercher par hôte</h2> <app-userselector ref="host"></app-userselector> <input type="button" value="Afficher" onclick="{showForHost}"> </div> <div> <h2>Chercher par invité</h2> <app-userselector ref="guest"></app-userselector> <input type="button" value="Afficher" onclick="{showForGuest}"> </div> </form> </div> <div class="content"> <app-reservations ref="reservations" admin="{true}" reservations="{reservations}"></app-reservations> </div>', '', '', function(opts) {
         var tag = this;
 
         tag.tabs = null;
@@ -15159,6 +15159,46 @@ module.exports = riot.tag2('app-adminreservations', '<app-header></app-header> <
                 }
             ];
         });
+
+        tag.showForHost = function()
+        {
+            let id = tag.refs.host.value;
+            if(id == "" || id == null)
+                return;
+            let filters = {
+                "host_id" : id
+            };
+            let request = App.request(App.Address + "/getreservations", {
+                "filters" : JSON.stringify(filters)
+            });
+            request.then(function(response){
+                tag.refs.reservations.reservations = response.data;
+                tag.refs.reservations.reload();
+            });
+            request.catch(function(error){
+               ErrorHandler.alertIfError(error);
+            });
+        };
+
+        tag.showForGuest = function()
+        {
+            let id = tag.refs.guest.value;
+            if(id == "" || id == null)
+                return;
+            let filters = {
+                "guest_id" : id
+            };
+            let request = App.request(App.Address + "/getreservations", {
+                "filters" : JSON.stringify(filters)
+            });
+            request.then(function(response){
+                tag.refs.reservations.reservations = response.data;
+                tag.refs.reservations.reload();
+            });
+            request.catch(function(error){
+                ErrorHandler.alertIfError(error);
+            });
+        };
 
 });
 },{"riot":8}],18:[function(require,module,exports){

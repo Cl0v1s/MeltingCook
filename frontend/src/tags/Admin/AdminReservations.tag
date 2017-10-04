@@ -16,7 +16,7 @@
         </form>
     </div>
     <div class="content">
-        <app-reservations admin={ true } reservations="{ reservations }"></app-reservations>
+        <app-reservations ref="reservations" admin={ true } reservations="{ reservations }"></app-reservations>
     </div>
     <script>
         var tag = this;
@@ -57,6 +57,46 @@
                 }
             ];
         });
+
+        tag.showForHost = function()
+        {
+            let id = tag.refs.host.value;
+            if(id == "" || id == null)
+                return;
+            let filters = {
+                "host_id" : id
+            };
+            let request = App.request(App.Address + "/getreservations", {
+                "filters" : JSON.stringify(filters)
+            });
+            request.then(function(response){
+                tag.refs.reservations.reservations = response.data;
+                tag.refs.reservations.reload();
+            });
+            request.catch(function(error){
+               ErrorHandler.alertIfError(error);
+            });
+        };
+
+        tag.showForGuest = function()
+        {
+            let id = tag.refs.guest.value;
+            if(id == "" || id == null)
+                return;
+            let filters = {
+                "guest_id" : id
+            };
+            let request = App.request(App.Address + "/getreservations", {
+                "filters" : JSON.stringify(filters)
+            });
+            request.then(function(response){
+                tag.refs.reservations.reservations = response.data;
+                tag.refs.reservations.reload();
+            });
+            request.catch(function(error){
+                ErrorHandler.alertIfError(error);
+            });
+        };
 
 
 

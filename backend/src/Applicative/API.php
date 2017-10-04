@@ -61,7 +61,7 @@ class API
         // Si pas provisionné, on supprime
         if($reservation->Paid() == "0")
         {
-            API::GenerateNotification($token, $reservation->GuestId(), "info", "Votre réservation concernant la recette ".$recipe->Name()." a été annulée.");
+            API::GenerateNotification($token, $reservation->GuestId(), "info", "Votre réservation concernant la recette ".$recipe["name"]." a été annulée.");
             API::Remove($token, "Reservation", $reservation->Id());
             return;
         }
@@ -69,8 +69,8 @@ class API
         // Si provisionné, on marque à rembourser
         if($reservation->Paid() == "1")
         {
-            API::GenerateNotification($token, $reservation->GuestId(), "info", "Votre réservation concernant la recette ".$recipe->Name()." a été annulée. Vous serez remboursé sous peu selon les conditions MeltingCook.");
-            API::GenerateNotification($token, $reservation->HostId(), "info", "Une réservation concernant la recette ".$recipe->Name()." a été annulée.");
+            API::GenerateNotification($token, $reservation->GuestId(), "info", "Votre réservation concernant la recette ".$recipe["name"]." a été annulée. Vous serez remboursé sous peu selon les conditions MeltingCook.");
+            API::GenerateNotification($token, $reservation->HostId(), "info", "Une réservation concernant la recette ".$recipe["name"]." a été annulée.");
 
             $reservation->setPaid(2);
             API::Update($token, $reservation);
@@ -107,12 +107,12 @@ class API
         }
 
         if($reservation->Paid() == "1") {
-            API::GenerateNotification($token, $reservation->GuestId(), "success", "Votre réservation concernant la recette " . $recipe->Name() . " a été finalisée. Votre hôte a reçu votre compensation et vous remercie !");
-            API::GenerateNotification($token, $reservation->HostId(), "success", "Vous avez reçu une compensation relative à la recette " . $recipe->Name() . " ! Allez jeter un oeil à votre compte Paypal !");
+            API::GenerateNotification($token, $reservation->GuestId(), "success", "Votre réservation concernant la recette " . $recipe["name"] . " a été finalisée. Votre hôte a reçu votre compensation et vous remercie !");
+            API::GenerateNotification($token, $reservation->HostId(), "success", "Vous avez reçu une compensation relative à la recette " . $recipe["name"] . " ! Allez jeter un oeil à votre compte Paypal !");
         }
 
         if($reservation->Paid() == "2") {
-            API::GenerateNotification($token, $reservation->GuestId(), "success", "Votre réservation concernant la recette " . $recipe->Name() . " a été remboursée !");
+            API::GenerateNotification($token, $reservation->GuestId(), "success", "Votre réservation concernant la recette " . $recipe["name"] . " a été remboursée !");
         }
 
         API::Remove($token, "Reservation", $reservation->Id());
@@ -315,7 +315,7 @@ class API
             throw new Exception("Impossible de réserver une recette après sa date de début#", 2);
 
 
-        API::GenerateNotification($token, $item->HostId(), "success", $user->Username()." a lancé une procédure de réservation relative à votre recette ".$recipe->Name().".");
+        API::GenerateNotification($token, $item->HostId(), "success", $user->Username()." a lancé une procédure de réservation relative à votre recette ".$recipe["name"].".");
 
         return API::Add($token, $item);
     }

@@ -19,7 +19,7 @@ class Notification extends StorageItem
 
     /**
      * @Required
-     * @Numeric
+     * @Word
      */
     public $type;
 
@@ -84,7 +84,7 @@ class Notification extends StorageItem
     public function setContent($content)
     {
         $this->content = $content;
-        $this->checkIntegrity("Content");
+        $this->checkIntegrity("content");
 
     }
 

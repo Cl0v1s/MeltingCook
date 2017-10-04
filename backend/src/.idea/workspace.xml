@@ -14,8 +14,18 @@
       <file leaf-file-name="API.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Applicative/API.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="363">
-              <caret line="297" column="46" lean-forward="true" selection-start-line="297" selection-start-column="46" selection-end-line="297" selection-end-column="46" />
+            <state relative-caret-position="678">
+              <caret line="114" column="142" lean-forward="false" selection-start-line="114" selection-start-column="142" selection-end-line="114" selection-end-column="142" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Notification.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Model/Notification.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="233">
+              <caret line="73" column="20" lean-forward="true" selection-start-line="73" selection-start-column="20" selection-end-line="73" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -67,7 +77,6 @@
       <list>
         <option value="$PROJECT_DIR$/Model/Report.php" />
         <option value="$PROJECT_DIR$/Model/Reservation.php" />
-        <option value="$PROJECT_DIR$/Model/Notification.php" />
         <option value="$PROJECT_DIR$/Model/Comment.php" />
         <option value="$PROJECT_DIR$/Model/Origin.php" />
         <option value="$PROJECT_DIR$/index.php" />
@@ -76,6 +85,7 @@
         <option value="$PROJECT_DIR$/Model/Pins.php" />
         <option value="$PROJECT_DIR$/Model/Recipe.php" />
         <option value="$PROJECT_DIR$/Controllers/APIController.php" />
+        <option value="$PROJECT_DIR$/Model/Notification.php" />
         <option value="$PROJECT_DIR$/Applicative/API.php" />
       </list>
     </option>
@@ -87,7 +97,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="5" />
     <option name="y" value="225" />
     <option name="width" value="1910" />
@@ -276,15 +286,15 @@
       <workItem from="1506966937777" duration="585000" />
       <workItem from="1507049986226" duration="5034000" />
       <workItem from="1507056434763" duration="291000" />
-      <workItem from="1507126699582" duration="3929000" />
+      <workItem from="1507126699582" duration="4888000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46446000" />
+    <option name="totallyTimeSpent" value="47405000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="30" width="1920" height="1050" extended-state="7" />
+    <frame x="0" y="30" width="1920" height="1050" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.115625" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -604,13 +614,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Model/Notification.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="34" column="7" lean-forward="true" selection-start-line="34" selection-start-column="7" selection-end-line="34" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -692,10 +695,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Model/Notification.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="233">
+          <caret line="73" column="20" lean-forward="true" selection-start-line="73" selection-start-column="20" selection-end-line="73" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Applicative/API.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="297" column="46" lean-forward="true" selection-start-line="297" selection-start-column="46" selection-end-line="297" selection-end-column="46" />
+        <state relative-caret-position="678">
+          <caret line="114" column="142" lean-forward="false" selection-start-line="114" selection-start-column="142" selection-end-line="114" selection-end-column="142" />
           <folding />
         </state>
       </provider>

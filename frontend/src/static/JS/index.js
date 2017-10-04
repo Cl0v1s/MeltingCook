@@ -14324,6 +14324,7 @@ var tags = {
     // PIN
     "app-pineditform": require("./../../tags/Pin/PinEditForm.tag"),
     // RESERVATION
+    "app-reservationvalidateform": require("./../../tags/Reservation/ReservationValidateForm.tag"),
     "app-reservation": require("./../../tags/Reservation/Reservation.tag"),
     "app-reservationitem": require("./../../tags/Reservation/ReservationItem.tag"),
     "app-reservations": require("./../../tags/Reservation/Reservations.tag"),
@@ -14620,7 +14621,7 @@ window.Search = Search;
 window.ErrorHandler = ErrorHandler;
 window.NotificationManager = NotificationManager;
 
-},{"./../../tags/Account/AccountKitchen.tag":10,"./../../tags/Account/AccountRecipes.tag":11,"./../../tags/Account/AccountReservations.tag":12,"./../../tags/Account/AccountUser.tag":13,"./../../tags/Admin/AdminOrigins.tag":14,"./../../tags/Admin/AdminPins.tag":15,"./../../tags/Admin/AdminReports.tag":16,"./../../tags/Admin/AdminReservations.tag":17,"./../../tags/Comment/CommentEditForm.tag":18,"./../../tags/Comment/CommentItem.tag":19,"./../../tags/Comment/CommentList.tag":20,"./../../tags/Comment/Comments.tag":21,"./../../tags/Immutable/Error.tag":22,"./../../tags/Immutable/Home.tag":23,"./../../tags/Immutable/Login.tag":24,"./../../tags/Misc/DateInput.tag":25,"./../../tags/Misc/Footer.tag":26,"./../../tags/Misc/Header.tag":27,"./../../tags/Misc/Hearts.tag":28,"./../../tags/Misc/ManyInputs.tag":29,"./../../tags/Misc/OriginInput.tag":30,"./../../tags/Misc/PinsInput.tag":31,"./../../tags/Misc/PlaceHint.tag":32,"./../../tags/Misc/PlaceInput.tag":33,"./../../tags/Misc/TabBar.tag":34,"./../../tags/Misc/TimeInput.tag":35,"./../../tags/Misc/UserSelector.tag":36,"./../../tags/Origin/OriginEditForm.tag":37,"./../../tags/Pin/PinEditForm.tag":38,"./../../tags/Recipe/Recipe.tag":39,"./../../tags/Recipe/RecipeEdit.tag":40,"./../../tags/Recipe/RecipeEditForm.tag":41,"./../../tags/Recipe/RecipeItem.tag":42,"./../../tags/Recipe/RecipeList.tag":43,"./../../tags/Recipe/Recipes.tag":44,"./../../tags/Report/ReportEditForm.tag":45,"./../../tags/Report/ReportItem.tag":46,"./../../tags/Report/Reports.tag":47,"./../../tags/Reservation/Reservation.tag":48,"./../../tags/Reservation/ReservationItem.tag":49,"./../../tags/Reservation/Reservations.tag":50,"./../../tags/Search/Search.tag":51,"./../../tags/Search/SearchItem.tag":52,"./../../tags/Search/SearchResults.tag":53,"./../../tags/Search/Searcher.tag":54,"./../../tags/User/User.tag":55,"./../../tags/User/UserEdit.tag":56,"./../../tags/User/UserEditForm.tag":57,"./../../tags/User/UserItem.tag":58,"./../../tags/User/UserPasswordForm.tag":59,"./../../tags/User/Users.tag":60,"js-cookie":5,"md5":6,"pnotify":7,"riot":8}],10:[function(require,module,exports){
+},{"./../../tags/Account/AccountKitchen.tag":10,"./../../tags/Account/AccountRecipes.tag":11,"./../../tags/Account/AccountReservations.tag":12,"./../../tags/Account/AccountUser.tag":13,"./../../tags/Admin/AdminOrigins.tag":14,"./../../tags/Admin/AdminPins.tag":15,"./../../tags/Admin/AdminReports.tag":16,"./../../tags/Admin/AdminReservations.tag":17,"./../../tags/Comment/CommentEditForm.tag":18,"./../../tags/Comment/CommentItem.tag":19,"./../../tags/Comment/CommentList.tag":20,"./../../tags/Comment/Comments.tag":21,"./../../tags/Immutable/Error.tag":22,"./../../tags/Immutable/Home.tag":23,"./../../tags/Immutable/Login.tag":24,"./../../tags/Misc/DateInput.tag":25,"./../../tags/Misc/Footer.tag":26,"./../../tags/Misc/Header.tag":27,"./../../tags/Misc/Hearts.tag":28,"./../../tags/Misc/ManyInputs.tag":29,"./../../tags/Misc/OriginInput.tag":30,"./../../tags/Misc/PinsInput.tag":31,"./../../tags/Misc/PlaceHint.tag":32,"./../../tags/Misc/PlaceInput.tag":33,"./../../tags/Misc/TabBar.tag":34,"./../../tags/Misc/TimeInput.tag":35,"./../../tags/Misc/UserSelector.tag":36,"./../../tags/Origin/OriginEditForm.tag":37,"./../../tags/Pin/PinEditForm.tag":38,"./../../tags/Recipe/Recipe.tag":39,"./../../tags/Recipe/RecipeEdit.tag":40,"./../../tags/Recipe/RecipeEditForm.tag":41,"./../../tags/Recipe/RecipeItem.tag":42,"./../../tags/Recipe/RecipeList.tag":43,"./../../tags/Recipe/Recipes.tag":44,"./../../tags/Report/ReportEditForm.tag":45,"./../../tags/Report/ReportItem.tag":46,"./../../tags/Report/Reports.tag":47,"./../../tags/Reservation/Reservation.tag":48,"./../../tags/Reservation/ReservationItem.tag":49,"./../../tags/Reservation/ReservationValidateForm.tag":50,"./../../tags/Reservation/Reservations.tag":51,"./../../tags/Search/Search.tag":52,"./../../tags/Search/SearchItem.tag":53,"./../../tags/Search/SearchResults.tag":54,"./../../tags/Search/Searcher.tag":55,"./../../tags/User/User.tag":56,"./../../tags/User/UserEdit.tag":57,"./../../tags/User/UserEditForm.tag":58,"./../../tags/User/UserItem.tag":59,"./../../tags/User/UserPasswordForm.tag":60,"./../../tags/User/Users.tag":61,"js-cookie":5,"md5":6,"pnotify":7,"riot":8}],10:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-accountkitchen', '<app-header></app-header> <app-tabbar tabs="{tabs}"></app-tabbar> <div class="content no-margin"> <div class="header"> <div> <div class="img" riot-style="background-image: url(\'{user.picture}\');"></div> <div class="identity"> <h2>Bonjour {user.username}</h2> <ul> <li><a onclick="{edit}">> Modifier votre profil</a></li> <li><a onclick="{see}">> Voir votre profil public</a></li> </ul> </div> </div> </div> <div class="comments"> <h1>Commentaires Récents</h1> <app-comments ref="comments" if="{comments != null}" comments="{comments}"></app-comments> </div> </div> <app-footer></app-footer>', '', '', function(opts) {
         var tag = this;
@@ -14758,7 +14759,7 @@ module.exports = riot.tag2('app-accountrecipes', '<app-header></app-header> <app
 });
 },{"riot":8}],12:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-accountreservations', '<app-header></app-header> <app-tabbar tabs="{tabs}"></app-tabbar> <div> <app-reservations reservations="{reservations}" ref="reservations"></app-reservations> </div> <app-footer></app-footer>', '', '', function(opts) {
+module.exports = riot.tag2('app-accountreservations', '<app-header></app-header> <app-tabbar tabs="{tabs}"></app-tabbar> <div class="content"> <app-reservations admin="{false}" reservations="{reservations}" ref="reservations"></app-reservations> </div> <app-footer></app-footer>', '', '', function(opts) {
         var tag = this;
 
         tag.tabs = null;
@@ -15179,14 +15180,14 @@ module.exports = riot.tag2('app-commenteditform', '<form name="edit-comment" cla
                 if (valid.passes("edit-user")) {
                     var url = App.Address + "/updatecomment";
                     var cmt = tag.comment;
-                    if(cmt.id == null)
+                    if(cmt == null || cmt.id == null)
                     {
                         url = App.Address + "/addcomment";
                         cmt = {};
                         cmt.author_id = tag.author.id;
                         cmt.target_id = tag.target.id;
                     }
-                    cmt.content = tag.refs.content.value
+                    cmt.content = tag.refs.content.value;
                     var request = App.request(url, cmt);
                     request.then((response) => {
                         tag.callback();
@@ -16311,7 +16312,25 @@ module.exports = riot.tag2('app-reservationitem', '<span>Vous pouvez joindre l\'
 });
 },{"riot":8}],50:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br><br> <span class="Switch"> <a onclick="{showDone}" class="{selected : list == done}">A Verser</a> <a onclick="{showRefunds}" class="{selected :  list == refunds}">A Rembourser</a> </span> <br><br> </div> <table> <thead> <tr> <td>Identifiant</td> <td>Hôte</td> <td>Invité</td> <td>Montant</td> <td>Action</td> </tr> </thead> <tbody> <tr each="{reservation in list}" name="reservation-{reservation.id}"> <td>{reservation.id}</td> <td>{reservation.host.mail}</td> <td>{reservation.guest.mail}</td> <td>{reservation.recipe.price}</td> <td> <input type="button" value="Marquée comme terminée" data-id="{reservation.id}" onclick="{finish}"> </td> </tr> </tbody> </table>', '', '', function(opts) {
+module.exports = riot.tag2('app-reservationvalidateform', '<h2> Merci d\'avoir utilisé Melting Cook ! </h2> <p> Nous espérons que vous avez appris des choses et passé un bon moment ! </p> <br> <p> Après cette opération, votre demande de validation sera prise en compte. Votre hôte recevra bientôt sa compensation !<br> </p> <br> <br> <h2>Avant de partir, pouvez-vous laisser un avis sur l\'accueil que votre hôte vous a réservé ci-dessous ?</h2> <app-commenteditform target="{reservation.host}" author="{reservation.guest}" callback="{callback}"></app-commenteditform>', '', '', function(opts) {
+        var tag = this;
+
+        tag.reservation = null;
+        tag.callback = null;
+
+        tag.on("before-mount", function(){
+           tag.reservation = tag.opts.reservation;
+           if(tag.reservation == null)
+           {
+               throw new Error("Reservation cant be null.");
+           }
+           tag.callback = tag.opts.callback;
+        });
+
+});
+},{"riot":8}],51:[function(require,module,exports){
+var riot = require('riot');
+module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br><br> <span class="Switch"> <a onclick="{showFunds}" class="{selected :  list == funds}">Provisionnées</a> <a onclick="{showDone}" class="{selected : list == done}">A Verser</a> <a onclick="{showRefunds}" class="{selected :  list == refunds}">A Rembourser</a> </span> <br><br> </div> <table> <thead> <tr> <td>Identifiant</td> <td>Hôte</td> <td>Invité</td> <td>Montant</td> <td>Action</td> </tr> </thead> <tbody> <tr each="{reservation in list}" name="reservation-{reservation.id}"> <td>{reservation.id}</td> <td>{reservation.host.mail}</td> <td>{reservation.guest.mail}</td> <td>{reservation.recipe.price}</td> <td> <input if="{admin == true}" type="button" value="Marquer comme terminée" data-id="{reservation.id}" onclick="{fullfill}"> <input if="{admin == false && reservation.paid == \'1\' && reservation.done == \'0\'}" type="button" value="Je finalise" data-id="{reservation.id}" onclick="{validate}"> <input if="{admin == false && reservation.paid != \'2\' && reservation.done != \'1\'}" type="button" value="J\'annule" data-id="{reservation.id}" onclick="{refund}"> </td> </tr> </tbody> </table>', '', '', function(opts) {
         var tag = this;
 
         tag.admin = false;
@@ -16321,6 +16340,7 @@ module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br>
 
         tag.done = null;
         tag.refunds = null;
+        tag.funds = null;
 
         tag.on("before-mount", function()
         {
@@ -16328,9 +16348,10 @@ module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br>
             if(tag.opts.admin != null)
                 tag.admin = tag.opts.admin;
             if(tag.reservations == null)
-                throw new Error("Reservations cant be null.")
+                throw new Error("Reservations cant be null.");
 
             tag.sortReservations();
+            console.log(tag.admin);
 
         });
 
@@ -16338,6 +16359,7 @@ module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br>
         {
             tag.done = [];
             tag.refunds = [];
+            tag.funds = [];
 
             tag.reservations.forEach((res) => {
                 if(res.done == "1")
@@ -16351,9 +16373,14 @@ module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br>
                     tag.refunds.push(res);
                     return;
                 }
-            });
 
-            tag.list = tag.done;
+                if(res.paid == "1")
+                    tag.funds.push(res);
+            });
+            if(tag.admin == true)
+                tag.list = tag.done;
+            else
+                tag.list = tag.funds;
         };
 
         tag.showRefunds = function()
@@ -16368,7 +16395,13 @@ module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br>
             tag.update();
         };
 
-        tag.finish = function(e)
+        tag.showFunds = function()
+        {
+            tag.list = tag.funds;
+            tag.update();
+        };
+
+        tag.fullfill = function(e)
         {
             let id = e.target.getAttribute('data-id');
             vex.dialog.confirm({
@@ -16387,16 +16420,61 @@ module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler"> <br>
                         });
                     }
                 }
+            });
+        };
+
+        tag.validate = function(e)
+        {
+            let callback = function()
+            {
+                alert("ok");
+            };
+
+            let id = e.target.getAttribute('data-id');
+            let request = App.request(App.Address+ "/getreservation", {
+                "id" : id
+            });
+            request.then(function(response){
+                App.showPopUp("app-reservationvalidateform", "Attestation de la réservation", {
+                    "reservation" :  response.data,
+                    "callback" : callback
+                });
+            });
+            request.catch(function(error){
+               ErrorHandler.alertIfError(error);
+            });
+        };
+
+        tag.refund = function(e)
+        {
+            let id = e.target.getAttribute('data-id');
+            vex.dialog.confirm({
+                message: 'Etes-vous sûr de vouloir annuler cette réservation ? (Si celle-ci a été provisionnée vous serez remboursé selon les conditions Melting Cook.)',
+                callback: function (value) {
+                    if (value) {
+                        let request = App.request(App.Address + "/refundorcancelreservation", {
+                            "id" : id
+                        });
+                        request.then(function(response){
+                            let tr = tag.root.querySelector("tr[name=reservation-"+id+"]");
+                            tr.remove();
+                            NotificationManager.showNotification("L'annulation a bien été prise en compte. Vous serez informé de l'état d'avancement de votre demande.", "success");
+                        });
+                        request.catch(function(error){
+                            ErrorHandler.alertIfError(error);
+                        });
+                    }
+                }
             })
-        }
+        };
 
 });
-},{"riot":8}],51:[function(require,module,exports){
+},{"riot":8}],52:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-search', '<app-header></app-header> <app-searchitem></app-searchitem> <app-footer></app-footer>', '', '', function(opts) {
         var tag = this;
 });
-},{"riot":8}],52:[function(require,module,exports){
+},{"riot":8}],53:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-searchitem', '<div> <div class="img"></div> <div> <h2>A vos assiettes !</h2> <span>Cuisinez en bonne compagnie</span> </div> </div> <form name="edit-search"> <app-placeinput ref="place"></app-placeinput> <app-dateinput ref="date"></app-dateinput> <app-origininput ref="origin"></app-origininput> <input ref="price_start" name="price_start" placeholder="Entre" type="number"> - <input name="price_end" ref="price_end" placeholder="Et" type="number"> <input type="button" value="A vos ustensiles !" onclick="{send}"> </form>', '', '', function(opts) {
         var tag = this;
@@ -16454,13 +16532,13 @@ module.exports = riot.tag2('app-searchitem', '<div> <div class="img"></div> <div
 
         }
 });
-},{"riot":8}],53:[function(require,module,exports){
+},{"riot":8}],54:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-searchresults', '<app-header></app-header> <app-searcher expanded="{true}" params="{opts.params}"></app-searcher> <div class="content"> <section> <h1>Résultats de la recherche</h1> <app-recipes recipes="{opts.recipes}"></app-recipes> </section> </div> <app-footer></app-footer>', '', '', function(opts) {
         var tag = this;
 
 });
-},{"riot":8}],54:[function(require,module,exports){
+},{"riot":8}],55:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-searcher', '<div> <div class="img"></div> <div> <h1>A vos cuisines... Partez !</h1> <h2> La découverte dans vos assiettes. </h2> </div> </div> <form> <app-placeinput ref="place"></app-placeinput> <app-origininput ref="origin" origin="{origin}"></app-origininput> <app-dateinput ref="date" date="{date}"></app-dateinput> <div if="{expanded}"> <input ref="price_start" name="price_start" placeholder="Prix entre" riot-value="{price_start}" type="{\'number\'}"> - <input riot-value="{price_end}" name="price_end" ref="price_end" placeholder="Et" type="{\'number\'}"> </div> <input type="button" value="Chercher un moment sympa !" onclick="{send}"> </form>', '', '', function(opts) {
         var tag = this;
@@ -16539,7 +16617,7 @@ module.exports = riot.tag2('app-searcher', '<div> <div class="img"></div> <div> 
             });
         };
 });
-},{"riot":8}],55:[function(require,module,exports){
+},{"riot":8}],56:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-user', '<app-header></app-header> <div> <div class="banner" riot-style="background-image: url(\'{user.banner}\');"> </div> <div class="content"> <div class="head"> <img riot-src="{user.picture}"> <div class="identity"> <span>{user.username}</span> <span>{user.age} ans</span> <span>Cuisinnier vérifié</span> </div> </div> <nav> <input type="button" onclick="{showRecipes}" value="Voir les recettes"> <input if="{owner==true}" type="button" onclick="{manage}" value="Gérer mon profil"> <input if="{owner==false}" class="peach" type="button" onclick="{report}" value="Signaler"> </nav> <div class="description"> <h1>Présentation du chef</h1> <p> {user.description} </p> </div> <div class="more"> <div class="{discease : true, invisible : user.discease.length <= 0}"> <h1>Ses allergies</h1> <ul> <li each="{d in user.discease}">{d}</li> </ul> </div> <div class="{preference : true, invisible : user.preference.length <= 0}"> <h1>Ses inspirations</h1> <ul> <li each="{p in user.preference}">{p}</li> </ul> </div> <div> <h1>Ses "plus"</h1> <div class="Pins open" each="{p in user.pins}"><span>{p}</span></div> </div> </div> <div class="comments"> <h1>Ses avis</h1> <app-hearts repeat="{user.likes}"></app-hearts> <app-comments comments="{user.comments}"></app-comments> </div> </div> </div> <app-footer></app-footer>', '', '', function(opts) {
         var tag = this;
@@ -16591,7 +16669,7 @@ module.exports = riot.tag2('app-user', '<app-header></app-header> <div> <div cla
             });
         }
 });
-},{"riot":8}],56:[function(require,module,exports){
+},{"riot":8}],57:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-useredit', '<app-header></app-header> <div class="content"> <app-usereditform ref="form" user="{{}}" callback="{send}"></app-usereditform> </div> <app-footer></app-footer>', '', '', function(opts) {
         var tag = this;
@@ -16609,7 +16687,7 @@ module.exports = riot.tag2('app-useredit', '<app-header></app-header> <div class
             route("/");
         }
 });
-},{"riot":8}],57:[function(require,module,exports){
+},{"riot":8}],58:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user != null}"> <div> <h1>Présentation du compte</h1> <div class="banner"> <div class="img" ref="banner_preview" riot-style="background-image: url(\'{user.banner}\');"></div> <div> <label>Télécharger une bannière:</label> <input type="text" name="banner" ref="banner" riot-value="{user.banner}" onchange="{updateBanner}"> <p class="hint"> Ce champ doit contenir une adresse URL valide. </p> <p> Les dimensions recommandées pour un résultat optimal sont 1500 x 500 pixels </p> </div> </div> <div class="picture"> <div class="img" ref="picture_preview" riot-style="background-image: url(\'{user.picture}\');"></div> <div> <label>Télécharger une photo de profil:</label> <input type="text" name="picture" ref="picture" riot-value="{user.picture}" onchange="{updatePicture}"> <p class="hint"> Ce champ doit contenir une adresse URL valide. </p> <p> Les dimensions recommandées pour un résultat optimal sont 400 x 400 pixels </p> </div> </div> </div> <div> <h1>Informations de base</h1> <div class="base"> <div class="{invisible: user.id != null}"> <label>Nom d\'utilisateur: </label> <input type="text" name="username" ref="username" riot-value="{user.username}"> <p class="hint">Ce champ doit contenir entre 5 et 400 caractères.</p> <p> Vous ne pourrez plus changer de nom d\'utilisateur après l\'inscription. Choisissez avec sagesse.</p> </div> <div class="{invisible: user.id != null}"> <label>Mot de passe: </label> <input type="password" name="password" ref="password"> <p class="hint"> Ce champ doit contenir entre 8 et 100 caractères.<br> Le mot de passe et sa confirmation doivent correspondre. </p> </div> <div class="{invisible: user.id != null}"> <label>Confirmation mot de passe: </label> <input type="password" name="password_confirm" ref="password_confirm"> <p class="hint"> Ce champ doit contenir entre 8 et 100 caractères.<br> Le mot de passe et sa confirmation doivent correspondre. </p> </div> <div> <label>Age: </label> <input type="text" name="age" ref="age" riot-value="{user.age}"> <p class="hint"> Ce champ doit contenir une valeur numérique comprise entre 0 et 100. </p> </div> <div> <label>Numéro de téléphone:</label> <input type="text" name="phone" ref="phone" riot-value="{user.phone}"> <p class="hint"> Ce champ doit contenir un numéro de téléphone valide. </p> </div> </div> </div> <div> <div class="bills"> <h1>Informations de facturation</h1> <div> <label>Adresse Email associée au compte Paypal:</label> <input type="text" name="mail" ref="mail" riot-value="{user.mail}"> <p class="hint">Ce champ doit contenir une adresse email valide.</p> <p>Pensez à vérifier qu\'il s\'agit bien de l\'adresse email associée à votre compte Paypal. Nous allons l\'utiliser pour vous verser votre dû.</p> </div> <div> <label>Présentation: </label> <textarea name="description" ref="description"> {user.description} </textarea> <p class="hint"> Ce champ doit contenir entre 50 et 1000 caractères. </p> </div> <div> <label>Adresse:</label> <input type="text" name="address" ref="address" riot-value="{user.address}"> <p class="hint"> Ce champ doit contenir votre adresse de facturation. </p> </div> <div> <label>Prénom:</label> <input type="text" name="firstname" ref="firstname" riot-value="{user.firstname}"> <p class="hint"> Ce champ doit contenir le prénom qui sera utilisé sur les factures. </p> </div> <div> <label>Nom:</label> <input type="text" name="lastname" ref="lastname" riot-value="{user.lastname}"> <p class="hint"> Ce champ doit contenir le nom qui sera utilisé sur les factures. </p> </div> </div> </div> <div> <div class="more"> <h1>Détails importants</h1> <div> <label>Mes allergies:</label> <div> <input type="text" name="discease" ref="discease" id="discease" riot-value="{user.discease}"> </div> <p class="hint">Ce champ ne peut contenir plus de 1000 caractères.</p> <p> Veuillez renseigner les informations relatives à vos éventuelles allergies et contre-indications alimentaires. </p> </div> <div> <label>Mes inspirations:</label> <app-origininput ref="preference"></app-origininput> <p class="hint"> Ce champ ne peut contenir plus de 1000 caractères. </p> <p> Indiquez aux autres utilisateurs quelles sont vos sources d\'inspiration alimentaires ! </p> </div> <div> <label>Mes plus:</label> <app-pinsinput ref="pins"></app-pinsinput> <p class="hint"> Ce champ ne peut contenir plus de 1000 caractères. </p> <p> Indiquez aux autres utilisateurs vos petit plus !<br> e.g: Bio, Vegan, Sans-gluten, Halal </p> </div> </div> </div> <div if="{user.id != null}"> <h1>Actions</h1> <div class="{action : true, invisible: (user.id==null)}"> <input type="button" class="large" value="Réinitialiser mon mot de passe" onclick="{changePassword}"> </div> </div> <div> <input type="button" class="large" value="Enregistrer" onclick="{validate}"> </div> </form>', '', '', function(opts) {
         var tag = this;
@@ -16820,7 +16898,7 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
             });
         }
 });
-},{"riot":8}],58:[function(require,module,exports){
+},{"riot":8}],59:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-useritem', '<div class="head"> <img riot-src="{user.picture}"> <div> <span>{user.username}</span> <span>{user.age} ans</span> </div> </div> <div class="body"> <app-hearts repeat="{user.likes}"></app-hearts> </div> <div class="{style : true, invisible: user.style == null || user.style == ⁗⁗}"> <span>Son style de cuisine</span> <span>{user.style}</span> </div> <div> <div class="Pins" each="{pin in user.pins}"> {pin} </div> </div> </div> <div class="foot" if="{reduced == false}"> <input type="button" class="large" value="Connaître le chef" onclick="{details}"> </div>', '', '', function(opts) {
         var tag = this;
@@ -16847,7 +16925,7 @@ module.exports = riot.tag2('app-useritem', '<div class="head"> <img riot-src="{u
             route("/user/"+tag.user.id);
         }
 });
-},{"riot":8}],59:[function(require,module,exports){
+},{"riot":8}],60:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-userpasswordform', '<form name="edit-userpassword"> <div> <label>Votre nouveau mot de passe:</label> <input type="password" name="password" ref="password"> </div> <div> <label>Confirmation du nouveau mot de passe:</label> <input type="password" name="password_confirm" ref="password_confirm"> </div> <input type="button" value="Envoyer" onclick="{send}"> </form>', '', '', function(opts) {
         var tag = this;
@@ -16890,7 +16968,7 @@ module.exports = riot.tag2('app-userpasswordform', '<form name="edit-userpasswor
         }
 
 });
-},{"riot":8}],60:[function(require,module,exports){
+},{"riot":8}],61:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-users', '<app-useritem each="{user in users}" user="{user}" reduced="{true}"></app-useritem>', '', '', function(opts) {
         var tag = this;

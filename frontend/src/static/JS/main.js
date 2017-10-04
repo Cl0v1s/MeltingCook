@@ -636,6 +636,7 @@ var tags = {
     // PIN
     "app-pineditform": require("./../../tags/Pin/PinEditForm.tag"),
     // RESERVATION
+    "app-reservationvalidateform": require("./../../tags/Reservation/ReservationValidateForm.tag"),
     "app-reservation": require("./../../tags/Reservation/Reservation.tag"),
     "app-reservationitem": require("./../../tags/Reservation/ReservationItem.tag"),
     "app-reservations": require("./../../tags/Reservation/Reservations.tag"),

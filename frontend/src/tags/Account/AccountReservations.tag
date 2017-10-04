@@ -1,8 +1,8 @@
 <app-accountreservations>
     <app-header></app-header>
     <app-tabbar tabs={ tabs }></app-tabbar>
-    <div>
-        <app-reservations reservations="{ reservations }" ref="reservations"></app-reservations>
+    <div class="content">
+        <app-reservations admin="{ false }" reservations="{ reservations }" ref="reservations"></app-reservations>
     </div>
     <app-footer></app-footer>
     <script>

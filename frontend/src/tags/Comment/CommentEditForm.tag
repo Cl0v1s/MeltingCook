@@ -9,7 +9,7 @@
                 Ce champ doit contenir entre 10 et 400 caractères.
             </p>
         </div>
-        <input type="button" class="large" value="Envoyer" onclick={ send }>
+        <input type="button" class="large" value="Envoyer" onclick='{ send }'>
     </form>
 
     <script>
@@ -29,14 +29,15 @@
                 if (valid.passes("edit-user")) {
                     var url = App.Address + "/updatecomment";
                     var cmt = tag.comment;
-                    if(cmt.id == null)
+                    if(cmt == null || cmt.id == null)
                     {
                         url = App.Address + "/addcomment";
                         cmt = {};
                         cmt.author_id = tag.author.id;
                         cmt.target_id = tag.target.id;
                     }
-                    cmt.content = tag.refs.content.value   
+                    cmt.content = tag.refs.content.value;
+                    console.log(cmt);
                     var request = App.request(url, cmt);
                     request.then((response) => {
                         tag.callback();

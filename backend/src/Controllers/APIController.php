@@ -573,8 +573,8 @@ class APIController extends Controller
             $recipe->setDateStart($_POST["date_start"]);
         if(isset($_POST["date_end"]))
             $recipe->setDateEnd($_POST["date_end"]);
-        if(isset($_POST["price"]))
-            $recipe->setPrice($_POST["price"]);
+        /*if(isset($_POST["price"]))
+            $recipe->setPrice($_POST["price"]);*/
         if(isset($_POST["places"]))
             $recipe->setPlaces($_POST["places"]);
         if(isset($_POST["pins"]))

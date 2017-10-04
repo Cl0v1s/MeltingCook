@@ -225,7 +225,9 @@ img.profile {
   margin-left: 8px; }
 
 p {
-  font-family: "Raleway"; }
+  font-family: "Raleway";
+  word-wrap: break-word;
+  overflow-wrap: break-word; }
 
 a.onclick {
   cursor: pointer; }

@@ -9,6 +9,24 @@
 class API
 {
 
+    /**
+     * Wrapper pour ajout de notification dans la base
+     * @param $token
+     * @param $User_id int
+     * @param $type string
+     * @param $content string
+     */
+    public static function GenerateNotification($token, $User_id,  $type, $content)
+    {
+        $notification = new Notification(null);
+        $notification->setUserId($User_id);
+        $notification->setType($type);
+        $notification->setContent($content);
+        $notification->setNew("1");
+        API::Add($token, $notification);
+    }
+
+
     // Fonctions spéciales liées aux processus de réservation
 
     /**
@@ -24,6 +42,8 @@ class API
         {
             throw new Exception("Not Enought Power", 1);
         }
+
+        $recipe = API::GetRecipe($token, $reservation->RecipeId());
 
         $user = API::Auth($token);
         // Seuls l'invité, l'hôte ou un admin peuvent effectuer cette action
@@ -41,6 +61,7 @@ class API
         // Si pas provisionné, on supprime
         if($reservation->Paid() == "0")
         {
+            API::GenerateNotification($token, $reservation->GuestId(), "info", "Votre réservation concernant la recette ".$recipe->Name()." a été annulée.");
             API::Remove($token, "Reservation", $reservation->Id());
             return;
         }
@@ -48,6 +69,9 @@ class API
         // Si provisionné, on marque à rembourser
         if($reservation->Paid() == "1")
         {
+            API::GenerateNotification($token, $reservation->GuestId(), "info", "Votre réservation concernant la recette ".$recipe->Name()." a été annulée. Vous serez remboursé sous peu selon les conditions MeltingCook.");
+            API::GenerateNotification($token, $reservation->HostId(), "info", "Une réservation concernant la recette ".$recipe->Name()." a été annulée.");
+
             $reservation->setPaid(2);
             API::Update($token, $reservation);
             return;
@@ -67,6 +91,8 @@ class API
             throw new Exception("Not Enought Power", 1);
         }
 
+        $recipe = API::GetRecipe($token, $reservation->RecipeId());
+
         $user = API::Auth($token);
         // Seul un admin peut effectier cette action
         if($user->Rights() < 2)
@@ -78,6 +104,15 @@ class API
         if($reservation->Paid() != "1" && $reservation->Paid() != "2")
         {
             throw new Exception("Impossible de terminer une réservation non provisionnée#",2);
+        }
+
+        if($reservation->Paid() == "1") {
+            API::GenerateNotification($token, $reservation->GuestId(), "success", "Votre réservation concernant la recette " . $recipe->Name() . " a été finalisée. Votre hôte a reçu votre compensation et vous remercie !");
+            API::GenerateNotification($token, $reservation->HostId(), "success", "Vous avez reçu une compensation relative à la recette " . $recipe->Name() . " ! Allez jeter un oeil à votre compte Paypal !");
+        }
+
+        if($reservation->Paid() == "2") {
+            API::GenerateNotification($token, $reservation->GuestId(), "success", "Votre réservation concernant la recette " . $recipe->Name() . " a été remboursée !");
         }
 
         API::Remove($token, "Reservation", $reservation->Id());
@@ -115,6 +150,8 @@ class API
         {
             throw new Exception("Impossible de valider une réservation n'ayant pas encore eu lieu#",2);
         }
+
+        API::GenerateNotification($token, $reservation->HostId(), "success", "Votre ancien invité ".$user->Username()." a lancé la procédure de finalisation de sa réservation! Vous devriez bientôt reçevoir votre compensation !");
 
         $reservation->setDone(1);
         API::Update($token, $reservation);
@@ -267,10 +304,19 @@ class API
      */
     public static function AddReservation($token, $item)
     {
+        $user = API::Auth($token);
 
         $existing = API::GetAll($token, "Reservation", '{ "Recipe_id" : "'.$item->RecipeId().'", "guest_id" : "'.$item->GuestId().'"  }');
         if(count($existing) > 0)
-            throw new Exception("Impossible de réserver deux fois pour la même recette", 2);
+            throw new Exception("Impossible de réserver deux fois pour la même recette#", 2);
+
+        $recipe = API::GetRecipe($token, $item->RecipeId());
+        if(time() > $recipe["date_start"])
+            throw new Exception("Impossible de réserver une recette après sa date de début#", 2);
+
+
+        API::GenerateNotification($token, $item->HostId(), "success", $user->Username()." a lancé une procédure de réservation relative à votre recette ".$recipe->Name().".");
+
         return API::Add($token, $item);
     }
 
@@ -306,6 +352,22 @@ class API
             throw new Exception("Not Enough Power", 1);
         else
             API::Update($token, $item, false);
+    }
+
+    public static function RemoveRecipe($token, $id)
+    {
+        $reservations = API::GetAllReservation($token, '{ "Recipe_id" : "'.$id.'" }');
+        foreach ($reservations as $reservation)
+        {
+            try {
+                API::RefundOrCancelReservation($token, $reservation);
+            }
+            catch(Exception $e)
+            {
+                // On avale les exceptions
+            }
+        }
+        API::Remove($token, "Recipe", $id);
     }
 
 

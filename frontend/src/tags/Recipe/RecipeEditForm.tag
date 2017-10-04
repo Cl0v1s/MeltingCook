@@ -52,7 +52,7 @@
 
         <section>
             <h1>Organisation</h1>
-            <div>
+            <div if="{ recipe == null || recipe.id == null }">
                 <label>Prix de la participation *</label>
                 <input type="number" ref="price" name="price" value="{ recipe.price }" placeholder="Prix de la participation">
                 <p class="hint">

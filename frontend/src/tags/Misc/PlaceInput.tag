@@ -17,8 +17,13 @@
         tag.on("mount", function()
         {
             try{
-
-                tag.setCities(JSON.parse(localStorage.getItem("cities")));
+                let data = JSON.parse(localStorage.getItem("cities"));
+                if(data == null)
+                {
+                    tag.retrieveCities();
+                    return;
+                }
+                tag.setCities(data);
             }
             catch (e) {
                 tag.retrieveCities();
@@ -37,11 +42,11 @@
             {
                 ErrorHandler.alertIfError(error);
             });
-        }
+        };
 
         tag.setCities = function(data)
         {
-            var control = $('#city', tag.root).selectize({
+            $('#city', tag.root).selectize({
                 persist: false,
                 maxItems: 1,
                 valueField: [tag.opts.valuefield],

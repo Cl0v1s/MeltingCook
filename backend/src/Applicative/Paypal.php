@@ -85,9 +85,10 @@ class Paypal
 {
 
     private static $SERVER =  "https://ipnpb.sandbox.paypal.com/cgi-bin/webscr";
+    // Email du compte paypal de la boutique
+    private static $EMAIL = "test@test.com";
     //private static $SERVER =  "https://ipnpb.paypal.com/cgi-bin/webscr";
-
-
+    private static $MC_PRICE = 2;
 
     /**
      * Gère les phases 1 et 2 du processus de vérification IPN
@@ -99,29 +100,91 @@ class Paypal
         set_time_limit(0);
         ob_start();
         http_response_code(200);
-// do initial processing here
         echo ""; // send the response
         header('Connection: close');
         header('Content-Length: '.ob_get_length());
         ob_end_flush();
         ob_flush();
         flush();
+
+        $this->returnEvent($ipn);
     }
 
     /**
      * Gère la phase 3 du processus de vérification IPN
      */
-    private function returnEvent()
+    private function returnEvent($ipn)
     {
-
+        $options = array(
+            'http' => array(
+                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method'  => 'POST',
+                'content' => http_build_query($ipn->rawData())
+            )
+        );
+        $context  = stream_context_create($options);
+        $result = file_get_contents(Paypal::$SERVER, false, $context);
+        if ($result === FALSE) {
+            throw new HttpException();
+        }
+        $this->finalizeEvent($ipn, $result);
     }
 
     /**
      * Gère la phase 4 du processus de vérification IPN
      */
-    private function finalizeEvent()
+    private function finalizeEvent($ipn, $word)
     {
+        if($word !== "VERIFIED")
+        {
+            throw new LogicException("Not VERIFIED");
+        }
 
+        // TODO: gérer l'état de la transaction en cas d'échec
+        // (Avertir administrateur par mail ?)
+        // Ou faire avant de dire verified
+        // Réaliser les vérifications
+        $storage = Engine::Instance()->Persistence("DatabaseStorage");
+
+        // Vérification pas un spoof
+        if($ipn->receiver_email != PAYPAL::$EMAIL)
+            throw new LogicException("Receiver email doesnt match.");
+
+        // Vérification txn_id
+        $reservations = null;
+        $storage->findAll("Reservation", $reservations, "txn_id = '".$ipn->txn_id."'");
+        if(count($reservations) > 0)
+        {
+            throw new LogicException("Txn_id already present.");
+        }
+
+        // Vérification item
+        $reservation = new Reservation($storage, $ipn->item_number);
+        $reservation = $storage->find($reservation);
+        if($reservation == null)
+            throw new LogicException("Unable to find reservation.");
+
+        // Vérification guest
+        $guest = new User($storage, $reservation->GuestId());
+        $guest = $storage->find($guest);
+        if($guest == null)
+            throw new LogicException("Unable to find guest.");
+
+        // vérfication mail guest = mail payement
+        if($guest->Mail() !== $ipn->payer_email)
+            throw new LogicException("Guest email different from Payer Email");
+
+        // Vérification recette
+        $recipe = new Recipe($storage, $ipn->RecipeId());
+        $recipe = $storage->find($recipe);
+        if($recipe == null)
+            throw new LogicException("Unable to find recipe.");
+
+        // Vérification prix
+        if(floatval($recipe->Price()) + Paypal::$MC_PRICE != floatval($ipn->payment_gross))
+            throw new LogicException("Invalid price.");
+
+        // TODO: changer l'état de la réservation
     }
 
 

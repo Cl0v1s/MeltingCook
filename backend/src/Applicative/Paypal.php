@@ -67,7 +67,7 @@ class IPN
             if(array_key_exists($property, $data))
                 $this->$property = $data[$property];
             else
-                throw new InvalidArgumentException();
+                throw new InvalidArgumentException("IPN Message was Malformed");
         }
 
     }
@@ -79,68 +79,46 @@ class IPN
 
 }
 
+require("PaypalIPN.php");
 
+use PaypalIPN;
 
 class Paypal
 {
 
-    private static $SERVER =  "https://ipnpb.sandbox.paypal.com/cgi-bin/webscr";
     // Email du compte paypal de la boutique
     private static $EMAIL = "test@test.com";
-    //private static $SERVER =  "https://ipnpb.paypal.com/cgi-bin/webscr";
+    // Prix de l'argent allant à MC
     private static $MC_PRICE = 2;
 
-    /**
-     * Gère les phases 1 et 2 du processus de vérification IPN
-     */
-    public function handleEvent($ipn)
-    {
-        // Envoi de la réponse 200 à Paypal
-        ignore_user_abort(true);
-        set_time_limit(0);
-        ob_start();
-        http_response_code(200);
-        echo ""; // send the response
-        header('Connection: close');
-        header('Content-Length: '.ob_get_length());
-        ob_end_flush();
-        ob_flush();
-        flush();
+    // Adresse email de l'administrateur
+    private static $ManagerEmail = "chaipokoi@gmail.com";
 
-        $this->returnEvent($ipn);
+
+    public static function handleError($e)
+    {
+        $body = ""
+            . "Bonjour,<br>\r\n"
+            . "La transaction ".$_POST["txn_id"]."(".$_POST["payer_email"].") pour un montant de ".$_POST["mc_gross"]." a échouée pour la raison suivante: <br>\r\n"
+            . $e->getMessage()
+            . "<br>\n" . "<br>\n". "Le ".$_POST["payment_date"];
+
+        mail(PaypalController::$ManagerEmail, "Erreur transaction #".$_POST["txn_id"], $body);
+
+        //TODO: envoyer un mail au payer en cas d'échec
+
     }
 
-    /**
-     * Gère la phase 3 du processus de vérification IPN
-     */
-    private function returnEvent($ipn)
-    {
-        $options = array(
-            'http' => array(
-                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
-                'method'  => 'POST',
-                'content' => http_build_query($ipn->rawData())
-            )
-        );
-        $context  = stream_context_create($options);
-        $result = file_get_contents(Paypal::$SERVER, false, $context);
-        if ($result === FALSE) {
-            throw new HttpException();
-        }
-        $this->finalizeEvent($ipn, $result);
-    }
 
-    /**
-     * Gère la phase 4 du processus de vérification IPN
-     */
-    private function finalizeEvent($ipn, $word)
+    public static function handleEvent($ipn)
     {
-        if($word !== "VERIFIED")
+        $paypal = new PaypalIPN();
+        $paypal->useSandbox();
+        if($paypal->verifyIPN() !=  true)
         {
-            throw new LogicException("Not VERIFIED");
+            throw new LogicException("Failed to verify IPN Message");
         }
 
-        // TODO: gérer l'état de la transaction en cas d'échec
         // (Avertir administrateur par mail ?)
         // Ou faire avant de dire verified
         // Réaliser les vérifications
@@ -170,6 +148,10 @@ class Paypal
         if($guest == null)
             throw new LogicException("Unable to find guest.");
 
+        // verification status
+        if($reservation->Paid() != "0" && $reservation->Paid() != 0)
+            throw new LogicException("Invalid reservation status.");
+
         // vérfication mail guest = mail payement
         if($guest->Mail() !== $ipn->payer_email)
             throw new LogicException("Guest email different from Payer Email");
@@ -184,7 +166,15 @@ class Paypal
         if(floatval($recipe->Price()) + Paypal::$MC_PRICE != floatval($ipn->payment_gross))
             throw new LogicException("Invalid price.");
 
-        // TODO: changer l'état de la réservation
+        // Mise à jour de l'état de la réservation
+        $reservation->setPaid("1");
+        $storage->persist($reservation, StorageState::ToUpdate);
+        $storage->flush();
+
+        // TODO: envoyer mail au guest avec numéro de téléphone du host
+        // TODO: envoyer mail à l'hote avec numéro de téléphone du guest
+        API::GenerateNotification(null, $reservation->GuestId(), "info", "Votre payement concernant la recette ".$recipe["name"]." a été traité ! Vous allez recevoir un mail contenant le numéro de votre hôte.", false);
+        API::GenerateNotification(null, $reservation->HostId(), "info", "Une réservation concernant la recette ".$recipe["name"]." a été payée ! Vous allez recevoir un mail contenant le numéro de votre invité !", false);
     }
 
 

@@ -16,14 +16,14 @@ class API
      * @param $type string
      * @param $content string
      */
-    public static function GenerateNotification($token, $User_id,  $type, $content)
+    public static function GenerateNotification($token, $User_id,  $type, $content, $check = true)
     {
         $notification = new Notification(null);
         $notification->setUserId($User_id);
         $notification->setType($type);
         $notification->setContent($content);
         $notification->setNew("1");
-        API::Add($token, $notification);
+        API::Add($token, $notification, $check);
     }
 
 

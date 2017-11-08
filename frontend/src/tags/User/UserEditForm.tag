@@ -270,13 +270,13 @@
         tag.validate = function () {
             var valid = new Validatinator({
                 "edit-user": {
-                    "banner": "maxLength:400|url",
+                    "banner": "maxLength:400",
                     "username": "required|minLength:5|maxLength:400",
                     "age": "required|number|maxLength:3",
                     "phone": "required|minLength:10|maxLength:400",
                     "mail": "required|email|maxLength:400",
                     "description": "required|minLength:50|maxLength:1000",
-                    "picture": "maxLength:400|url",
+                    "picture": "maxLength:400",
                     "discease": "maxLength:1000",
                     "lastname": "required|maxLength:400",
                     "firstname": "required|maxLength:400",
@@ -380,6 +380,7 @@
 
             var request = App.request(url, usr);
             request.then((response) => {
+                Login.GetInstance().setUser(usr);
                 tag.callback();
             });
             request.catch((error) => {

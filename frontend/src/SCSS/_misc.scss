@@ -10,21 +10,33 @@ div#app
   min-height:100%;
 }
 
+body
+{
+  background-image: url("/static/images/background.png");
+}
+
 .content
 {
   min-width: 320px;
   max-width: 900px;
   min-height:100%;
+
   width: 80%;
   margin: auto;
-  margin-bottom: $space-normal;
+  //margin-bottom: $space-normal;
   //border: $border-normal;
   //border-top: 0;
+  background-color: white;
+
+  padding: $space-normal;
+
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
 
   &.no-margin
   {
     width: 100%;
     max-width: 100%;
+    padding: 0;
   }
 
 }
@@ -140,6 +152,13 @@ h1
   //color: $color-back-primary;
   padding: $space-small;
   padding-left: 0;
+  letter-spacing: 2px;
+  background-image: url("/static/images/h1.png");
+  background-repeat: no-repeat;
+  display: inline-block;
+  background-size: 100% 100%;
+
+  background-position: 0px 0px;
 }
 
 h2
@@ -147,6 +166,7 @@ h2
   font-family: $font-primary;
   font-size: $font-size-medium;
   margin-bottom: $space-normal;
+  letter-spacing: 2px;
 }
 
 section
@@ -242,7 +262,7 @@ p
   font-family: $font-primary;
   word-wrap: break-word;
   overflow-wrap: break-word;
-
+  line-height: $line-height;
 }
 
 

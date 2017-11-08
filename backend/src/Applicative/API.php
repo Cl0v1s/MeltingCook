@@ -306,6 +306,9 @@ class API
     {
         $user = API::Auth($token);
 
+        if($item->GuestId() == $item->HostId())
+            throw new Exception("Vous ne pouvez prendre de réservation pour vos propres recettes#", 2);
+
         $existing = API::GetAll($token, "Reservation", '{ "Recipe_id" : "'.$item->RecipeId().'", "guest_id" : "'.$item->GuestId().'"  }');
         if(count($existing) > 0)
             throw new Exception("Impossible de réserver deux fois pour la même recette#", 2);

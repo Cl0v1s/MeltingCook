@@ -1,7 +1,6 @@
 <app-accountkitchen>
     <app-header></app-header>
     <app-tabbar tabs={ tabs }></app-tabbar>
-    <div class="content no-margin">
         <div class="header">
             <div>
                 <div class="img" style="background-image: url('{user.picture}');"></div>
@@ -14,12 +13,14 @@
                 </div>
             </div>
         </div>
-        <div class="comments">
-            <h1>Commentaires Récents</h1>
-            <app-comments ref="comments" if='{ comments != null }' comments='{ comments }'></app-comments>
+        <div class="content">
+            <div class="comments">
+                <h1>Commentaires Récents</h1>
+                <app-comments ref="comments" if='{ comments != null }' comments='{ comments }'></app-comments>
+            </div>
         </div>
 
-    </div>
+
     <app-footer></app-footer>
 
 

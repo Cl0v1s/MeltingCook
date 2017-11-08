@@ -14623,7 +14623,7 @@ window.NotificationManager = NotificationManager;
 
 },{"./../../tags/Account/AccountKitchen.tag":10,"./../../tags/Account/AccountRecipes.tag":11,"./../../tags/Account/AccountReservations.tag":12,"./../../tags/Account/AccountUser.tag":13,"./../../tags/Admin/AdminOrigins.tag":14,"./../../tags/Admin/AdminPins.tag":15,"./../../tags/Admin/AdminReports.tag":16,"./../../tags/Admin/AdminReservations.tag":17,"./../../tags/Comment/CommentEditForm.tag":18,"./../../tags/Comment/CommentItem.tag":19,"./../../tags/Comment/CommentList.tag":20,"./../../tags/Comment/Comments.tag":21,"./../../tags/Immutable/Error.tag":22,"./../../tags/Immutable/Home.tag":23,"./../../tags/Immutable/Login.tag":24,"./../../tags/Misc/DateInput.tag":25,"./../../tags/Misc/Footer.tag":26,"./../../tags/Misc/Header.tag":27,"./../../tags/Misc/Hearts.tag":28,"./../../tags/Misc/ManyInputs.tag":29,"./../../tags/Misc/OriginInput.tag":30,"./../../tags/Misc/PinsInput.tag":31,"./../../tags/Misc/PlaceHint.tag":32,"./../../tags/Misc/PlaceInput.tag":33,"./../../tags/Misc/TabBar.tag":34,"./../../tags/Misc/TimeInput.tag":35,"./../../tags/Misc/UserSelector.tag":36,"./../../tags/Origin/OriginEditForm.tag":37,"./../../tags/Pin/PinEditForm.tag":38,"./../../tags/Recipe/Recipe.tag":39,"./../../tags/Recipe/RecipeEdit.tag":40,"./../../tags/Recipe/RecipeEditForm.tag":41,"./../../tags/Recipe/RecipeItem.tag":42,"./../../tags/Recipe/RecipeList.tag":43,"./../../tags/Recipe/Recipes.tag":44,"./../../tags/Report/ReportEditForm.tag":45,"./../../tags/Report/ReportItem.tag":46,"./../../tags/Report/Reports.tag":47,"./../../tags/Reservation/Reservation.tag":48,"./../../tags/Reservation/ReservationItem.tag":49,"./../../tags/Reservation/ReservationValidateForm.tag":50,"./../../tags/Reservation/Reservations.tag":51,"./../../tags/Search/Search.tag":52,"./../../tags/Search/SearchItem.tag":53,"./../../tags/Search/SearchResults.tag":54,"./../../tags/Search/Searcher.tag":55,"./../../tags/User/User.tag":56,"./../../tags/User/UserEdit.tag":57,"./../../tags/User/UserEditForm.tag":58,"./../../tags/User/UserItem.tag":59,"./../../tags/User/UserPasswordForm.tag":60,"./../../tags/User/Users.tag":61,"js-cookie":5,"md5":6,"pnotify":7,"riot":8}],10:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-accountkitchen', '<app-header></app-header> <app-tabbar tabs="{tabs}"></app-tabbar> <div class="content no-margin"> <div class="header"> <div> <div class="img" riot-style="background-image: url(\'{user.picture}\');"></div> <div class="identity"> <h2>Bonjour {user.username}</h2> <ul> <li><a onclick="{edit}">> Modifier votre profil</a></li> <li><a onclick="{see}">> Voir votre profil public</a></li> </ul> </div> </div> </div> <div class="comments"> <h1>Commentaires Récents</h1> <app-comments ref="comments" if="{comments != null}" comments="{comments}"></app-comments> </div> </div> <app-footer></app-footer>', '', '', function(opts) {
+module.exports = riot.tag2('app-accountkitchen', '<app-header></app-header> <app-tabbar tabs="{tabs}"></app-tabbar> <div class="header"> <div> <div class="img" riot-style="background-image: url(\'{user.picture}\');"></div> <div class="identity"> <h2>Bonjour {user.username}</h2> <ul> <li><a onclick="{edit}">> Modifier votre profil</a></li> <li><a onclick="{see}">> Voir votre profil public</a></li> </ul> </div> </div> </div> <div class="content"> <div class="comments"> <h1>Commentaires Récents</h1> <app-comments ref="comments" if="{comments != null}" comments="{comments}"></app-comments> </div> </div> <app-footer></app-footer>', '', '', function(opts) {
         var tag = this;
         tag.tabs = null;
         tag.user = null;
@@ -15313,7 +15313,7 @@ module.exports = riot.tag2('app-error', '<app-header></app-header> <div class="c
 });
 },{"riot":8}],23:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-home', '<app-header></app-header> <div class="content no-margin"> <div class="slider"></div> <app-searcher></app-searcher> <div class="ask"> <div> <h1>Disponible dans vos cuisines ?</h1> <p> Partagez vos frais en apprenant votre savoir et en passant un agréable moment. </p> <a class="Action" href="#/recipe/add"><span>Partager un voyage culinaire</span></a> </div> </div> <div class="whom"> <h1>Nous cuisinons tous les jours.<br>Chez qui allez-vous manger ajourd\'hui ?</h1> <div> <div class="stain peach"> <div>Bordeaux</div> <span>JAPONNAIS</span> <div> <span>A partir de</span> <div> 5€ </div> </div> </div> <div class="stain straw"> <div>Bordeaux</div> <span>JAPONNAIS</span> <div> <span>A partir de</span> <div> 5€ </div> </div> </div> <div class="stain avocado"> <div>Bordeaux</div> <span>JAPONNAIS</span> <div> <span>A partir de</span> <div> 5€ </div> </div> </div> </div> </div> <div class="description"> <h1>La cuisine c\'est bien, à plusieurs c\'est mieux !</h1> <div> <div class="tab share"> <div class="img"></div> <h2>Partage</h2> <p> </p> </div> <div class="tab trust"> <div class="img"></div> <h2>Confiance</h2> <p> </p> </div> <div class="tab kitchen"> <div class="img"></div> <h2>Cuisine</h2> <p> </p> </div> </div> </div> </div> <app-footer></app-footer>', '', '', function(opts) {
+module.exports = riot.tag2('app-home', '<app-header></app-header> <div class="content no-margin"> <div class="slider"></div> <app-searcher></app-searcher> <div class="ask"> <div> <h1>Disponible dans vos cuisines ?</h1> <p> Partagez vos frais en apprenant votre savoir et en passant un agréable moment. </p> <a class="Action" href="#/recipe/add"><span>Partager un voyage culinaire</span></a> </div> </div> </div> <div class="description"> <h1>La cuisine c\'est bien, à plusieurs c\'est mieux !</h1> <div> <div class="tab share"> <div class="img"></div> <h2>Partage</h2> <p> Envie de partager vos connaissances en matières de cuisine ? </p> </div> <div class="tab trust"> <div class="img"></div> <h2>Confiance</h2> <p> Avec la vérification par SMS des chefs et aprenants, les cuisiniers se font mutuellement confiance. </p> </div> <div class="tab kitchen"> <div class="img"></div> <h2>Cuisine</h2> <p> Faire découvrir vos goûts et vos plats afin de faire connaître le monde au travers de vos assiettes. </p> </div> </div> </div> </div> <app-footer></app-footer>', '', '', function(opts) {
 });
 },{"riot":8}],24:[function(require,module,exports){
 var riot = require('riot');
@@ -16063,7 +16063,7 @@ module.exports = riot.tag2('app-recipeeditform', '<form name="edit-recipe" if="{
 });
 },{"riot":8}],42:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-recipeitem', '<div class="user"> <div class="img" riot-style="background-image: url(\'{recipe.user.picture}\');"></div> <div> <span>{recipe.user.username} - {recipe.user.age} ans</span> <div class="Hearts nb-{recipe.user.likes}"></div> <a onclick="{user}">Voir le profil</a> </div> </div> <div class="picture" if="{reduced == true}"> <div class="img" riot-style="background-image: url(\'{recipe.picture}\');"></div> </div> <div class="recipe" riot-style="background-image: url(\'{recipe.picture}\');"> <div> <div> <span>{recipe.date_start_readable} - {recipe.date_end_readable}</span> </div> <div> <span>{recipe.name} - {recipe.origin[0]}</span> </div> <div> <div class="Pins" each="{p in recipe.pins}">{p}</div> </div> </div> <div class="price"> {recipe.price}€ </div> </div>', '', 'onclick="{details}"', function(opts) {
+module.exports = riot.tag2('app-recipeitem', '<div class="recipe" riot-style="background-image: url(\'{recipe.picture}\');"> <div> <div> <span>{recipe.date_start_readable} - {recipe.date_end_readable}</span> </div> <div> <span>{recipe.name} - {recipe.origin[0]}</span> </div> <div> <div class="Pins" each="{p in recipe.pins}">{p}</div> </div> </div> <div class="price"> {recipe.price}€ </div> </div> <div class="user"> <div class="img" riot-style="background-image: url(\'{recipe.user.picture}\');"></div> <div> <span>{recipe.user.username} - {recipe.user.age} ans</span> <div class="Hearts nb-{recipe.user.likes}"></div> <a onclick="{user}">Voir le profil</a> </div> </div> <div class="picture" if="{reduced == true}"> <div class="img" riot-style="background-image: url(\'{recipe.picture}\');"></div> </div>', '', 'onclick="{details}"', function(opts) {
         var tag = this;
 
         tag.recipe = null;
@@ -16883,13 +16883,13 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
         tag.validate = function () {
             var valid = new Validatinator({
                 "edit-user": {
-                    "banner": "maxLength:400|url",
+                    "banner": "maxLength:400",
                     "username": "required|minLength:5|maxLength:400",
                     "age": "required|number|maxLength:3",
                     "phone": "required|minLength:10|maxLength:400",
                     "mail": "required|email|maxLength:400",
                     "description": "required|minLength:50|maxLength:1000",
-                    "picture": "maxLength:400|url",
+                    "picture": "maxLength:400",
                     "discease": "maxLength:1000",
                     "lastname": "required|maxLength:400",
                     "firstname": "required|maxLength:400",
@@ -16991,6 +16991,7 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
 
             var request = App.request(url, usr);
             request.then((response) => {
+                Login.GetInstance().setUser(usr);
                 tag.callback();
             });
             request.catch((error) => {

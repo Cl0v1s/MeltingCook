@@ -13,6 +13,7 @@
 
             </div>
         </div>
+        <!--
         <div class="whom">
             <h1>Nous cuisinons tous les jours.<br>Chez qui allez-vous manger ajourd'hui ?</h1>
             <div>
@@ -47,6 +48,7 @@
                     </div>
                 </div>
             </div>
+            -->
         </div>
         <div class="description">
             <h1>La cuisine c'est bien, à plusieurs c'est mieux !</h1>
@@ -55,21 +57,21 @@
                     <div class="img"></div>
                     <h2>Partage</h2>
                     <p>
-
+                        Envie de partager vos connaissances en matières de cuisine ?
                     </p>
                 </div>
                 <div class="tab trust">
                     <div class="img"></div>
                     <h2>Confiance</h2>
                     <p>
-
+                        Avec la vérification par SMS des chefs et aprenants, les cuisiniers se font mutuellement confiance.
                     </p>
                 </div>
                 <div class="tab kitchen">
                     <div class="img"></div>
                     <h2>Cuisine</h2>
                     <p>
-
+                        Faire découvrir vos goûts et vos plats afin de faire connaître le monde au travers de vos assiettes.
                     </p>
                 </div>
             </div>

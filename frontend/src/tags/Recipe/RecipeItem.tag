@@ -1,15 +1,5 @@
 <app-recipeitem onclick='{ details }'>
-    <div class="user">
-        <div class="img" style="background-image: url('{ recipe.user.picture }');"></div>
-        <div>
-            <span>{ recipe.user.username} - { recipe.user.age } ans</span>
-            <div class="Hearts nb-{ recipe.user.likes }"></div>
-            <a onclick='{ user }'>Voir le profil</a>
-        </div>
-    </div>
-    <div class="picture" if='{ reduced == true }'>
-        <div class="img" style="background-image: url('{ recipe.picture }');"></div>
-    </div>
+
     <div class="recipe" style="background-image: url('{ recipe.picture }');">
         <div>
             <div>
@@ -25,6 +15,17 @@
         <div class="price">
             { recipe.price }€
         </div>
+    </div>
+    <div class="user">
+        <div class="img" style="background-image: url('{ recipe.user.picture }');"></div>
+        <div>
+            <span>{ recipe.user.username} - { recipe.user.age } ans</span>
+            <div class="Hearts nb-{ recipe.user.likes }"></div>
+            <a onclick='{ user }'>Voir le profil</a>
+        </div>
+    </div>
+    <div class="picture" if='{ reduced == true }'>
+        <div class="img" style="background-image: url('{ recipe.picture }');"></div>
     </div>
 
     <script>

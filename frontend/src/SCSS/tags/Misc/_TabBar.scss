@@ -1,11 +1,12 @@
 app-tabbar
 {
-  margin-top: $space-normal;
+  padding-top: $space-normal;
   display: block;
   width: 100%;
   //background-color: $color-front-avocado;
   border-bottom: 10px solid $color-front-peach;
   position: relative;
+  background-color: white;
 
   span
   {

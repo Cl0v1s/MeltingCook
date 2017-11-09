@@ -1,7 +1,10 @@
 <app-recipeeditform>
     <form name="edit-recipe" if="{ recipe != null }">
         <section>
-            <h1>Informations de base</h1>
+            <h1>Proposer une recette</h1>
+        </section>
+        <section>
+            <h2>Informations de base</h2>
             <div>
                 <label>Nom de la recette *</label>
                 <input type="text" value="{ recipe.name }" placeholder="Nom de la recette" ref="name" name="fullname">
@@ -26,7 +29,7 @@
         </section>
 
         <section>
-            <h1>Ingrédients et origine</h1>
+            <h2>Ingrédients et origine</h2>
             <div>
                 <label>Type de cuisine *</label>
                 <app-origininput ref="origin" name="origin" origin="{ recipe.origin }"></app-origininput>
@@ -51,7 +54,7 @@
         </section>
 
         <section>
-            <h1>Organisation</h1>
+            <h2>Organisation</h2>
             <div if="{ recipe == null || recipe.id == null }">
                 <label>Prix de la participation *</label>
                 <input type="number" ref="price" name="price" value="{ recipe.price }" placeholder="Prix de la participation">
@@ -118,7 +121,7 @@
                 "edit-recipe": {
                     "fullname" : "required|maxLength:400",
                     "description" : "required|minLength:50|maxLength:1000",
-                    "picture" : "required|maxLength:1000|url",
+                    "picture" : "required|maxLength:1000",
                     "price" : "required|number|min:0",
                     "places" : "required|number|min:1"
                 }

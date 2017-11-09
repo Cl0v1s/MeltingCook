@@ -24,7 +24,7 @@
       <file leaf-file-name="Paypal.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Applicative/Paypal.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="504">
+            <state relative-caret-position="1755">
               <caret line="122" column="42" lean-forward="false" selection-start-line="122" selection-start-column="42" selection-end-line="122" selection-end-column="42" />
               <folding />
             </state>
@@ -34,8 +34,8 @@
       <file leaf-file-name="API.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Applicative/API.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="310" column="0" lean-forward="true" selection-start-line="310" selection-start-column="0" selection-end-line="310" selection-end-column="0" />
+            <state relative-caret-position="540">
+              <caret line="524" column="33" lean-forward="false" selection-start-line="524" selection-start-column="33" selection-end-line="524" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -130,7 +130,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="1920" />
     <option name="width" value="1280" />
     <option name="height" value="1024" />
@@ -322,15 +322,16 @@
       <workItem from="1508506959286" duration="2172000" />
       <workItem from="1508665875553" duration="2245000" />
       <workItem from="1508773519222" duration="2797000" />
-      <workItem from="1510153047011" duration="780000" />
+      <workItem from="1510153047011" duration="781000" />
+      <workItem from="1510242807311" duration="91000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="56001000" />
+    <option name="totallyTimeSpent" value="56093000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1920" y="0" width="1280" height="1024" extended-state="6" />
+    <frame x="1920" y="0" width="1280" height="1024" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09765625" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -735,7 +736,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Applicative/Paypal.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
+        <state relative-caret-position="1755">
           <caret line="122" column="42" lean-forward="false" selection-start-line="122" selection-start-column="42" selection-end-line="122" selection-end-column="42" />
           <folding />
         </state>
@@ -743,8 +744,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Applicative/API.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="310" column="0" lean-forward="true" selection-start-line="310" selection-start-column="0" selection-end-line="310" selection-end-column="0" />
+        <state relative-caret-position="540">
+          <caret line="524" column="33" lean-forward="false" selection-start-line="524" selection-start-column="33" selection-end-line="524" selection-end-column="33" />
           <folding />
         </state>
       </provider>

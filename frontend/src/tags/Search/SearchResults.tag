@@ -4,6 +4,7 @@
     <div class="content">
         <section>
             <h1>Résultats de la recherche</h1>
+            <hr>
             <app-recipes recipes={ opts.recipes }></app-recipes>
         </section>
     </div>

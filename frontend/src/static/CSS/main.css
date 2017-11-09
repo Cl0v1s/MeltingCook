@@ -189,13 +189,19 @@ h1 {
   background-size: 100% 100%;
   background-position: 0px 0px; }
 
+hr {
+  border: none;
+  border-bottom: 2px dotted #F3B1A6;
+  margin-top: -20px;
+  margin-bottom: 20px; }
+
 h2 {
   font-family: "Raleway";
   font-size: 20px;
   margin-bottom: 20px;
   letter-spacing: 2px; }
 
-section {
+form section {
   border-bottom: 2px dotted #F3B1A6;
   margin-bottom: 20px; }
 
@@ -541,7 +547,7 @@ app-adminreservations div.search, div[data-is=app-adminreservations] div.search 
 app-adminreservations div.SwitchHandler, div[data-is=app-adminreservations] div.SwitchHandler {
   text-align: center; }
 
-div[data-is=app-adminpins] a.Action, div[data-is=app-adminorigins] a.Action {
+div[data-is=app-adminpins] div.content a.Action, div[data-is=app-adminorigins] div.content a.Action {
   display: block;
   width: 200px;
   margin: auto;
@@ -990,7 +996,8 @@ app-searcher {
   z-index: 1; }
   app-searcher h1, app-searcher h2 {
     margin-bottom: 5px;
-    padding: 0; }
+    padding: 0;
+    background-image: none; }
   app-searcher div.img {
     width: 100px;
     height: 100px;
@@ -1051,6 +1058,9 @@ app-searchitem, div[data-is=app-searchitem] {
     display: block;
     margin: auto;
     margin-top: 20px; }
+
+app-recipe div.content, div[data-is=app-recipe] div.content {
+  padding: 0; }
 
 app-recipe div.banner, div[data-is=app-recipe] div.banner {
   display: block;

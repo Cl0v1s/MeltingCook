@@ -1,6 +1,11 @@
 app-recipe, div[data-is=app-recipe]
 {
 
+    div.content
+    {
+        padding: 0;
+    }
+
     div.banner
     {
         display: block;

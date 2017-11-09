@@ -822,6 +822,10 @@ class Search {
                 filters["date_start"] = date;
                 filters["date_end"] = date;
             }
+            else {
+                let now = Math.floor(new Date().getTime() / 1000);
+                filters["date_start"] = now;
+            }
             if (price_start != null)
                 filters["price_start"] = price_start;
             if (price_end != null)

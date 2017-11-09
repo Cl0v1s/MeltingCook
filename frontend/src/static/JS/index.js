@@ -14619,6 +14619,7 @@ window.Adapter = Adapter;
 window.Search = Search;
 window.ErrorHandler = ErrorHandler;
 window.NotificationManager = NotificationManager;
+window.md5 = require("md5");
 
 },{"./../../tags/Account/AccountKitchen.tag":10,"./../../tags/Account/AccountRecipes.tag":11,"./../../tags/Account/AccountReservations.tag":12,"./../../tags/Account/AccountUser.tag":13,"./../../tags/Admin/AdminOrigins.tag":14,"./../../tags/Admin/AdminPins.tag":15,"./../../tags/Admin/AdminReports.tag":16,"./../../tags/Admin/AdminReservations.tag":17,"./../../tags/Comment/CommentEditForm.tag":18,"./../../tags/Comment/CommentItem.tag":19,"./../../tags/Comment/CommentList.tag":20,"./../../tags/Comment/Comments.tag":21,"./../../tags/Immutable/Error.tag":22,"./../../tags/Immutable/Home.tag":23,"./../../tags/Immutable/Login.tag":24,"./../../tags/Misc/DateInput.tag":25,"./../../tags/Misc/Footer.tag":26,"./../../tags/Misc/Header.tag":27,"./../../tags/Misc/Hearts.tag":28,"./../../tags/Misc/ManyInputs.tag":29,"./../../tags/Misc/OriginInput.tag":30,"./../../tags/Misc/PinsInput.tag":31,"./../../tags/Misc/PlaceHint.tag":32,"./../../tags/Misc/PlaceInput.tag":33,"./../../tags/Misc/TabBar.tag":34,"./../../tags/Misc/TimeInput.tag":35,"./../../tags/Misc/UserSelector.tag":36,"./../../tags/Origin/OriginEditForm.tag":37,"./../../tags/Pin/PinEditForm.tag":38,"./../../tags/Recipe/Recipe.tag":39,"./../../tags/Recipe/RecipeEdit.tag":40,"./../../tags/Recipe/RecipeEditForm.tag":41,"./../../tags/Recipe/RecipeItem.tag":42,"./../../tags/Recipe/RecipeList.tag":43,"./../../tags/Recipe/Recipes.tag":44,"./../../tags/Report/ReportEditForm.tag":45,"./../../tags/Report/ReportItem.tag":46,"./../../tags/Report/Reports.tag":47,"./../../tags/Reservation/Reservation.tag":48,"./../../tags/Reservation/ReservationItem.tag":49,"./../../tags/Reservation/ReservationValidateForm.tag":50,"./../../tags/Reservation/Reservations.tag":51,"./../../tags/Search/Search.tag":52,"./../../tags/Search/SearchItem.tag":53,"./../../tags/Search/SearchResults.tag":54,"./../../tags/Search/Searcher.tag":55,"./../../tags/User/User.tag":56,"./../../tags/User/UserEdit.tag":57,"./../../tags/User/UserEditForm.tag":58,"./../../tags/User/UserItem.tag":59,"./../../tags/User/UserPasswordForm.tag":60,"./../../tags/User/Users.tag":61,"js-cookie":5,"md5":6,"pnotify":7,"riot":8}],10:[function(require,module,exports){
 var riot = require('riot');
@@ -16068,7 +16069,6 @@ module.exports = riot.tag2('app-recipeitem', '<div class="recipe"> <div class="i
         tag.recipe = null;
 
         tag.on("before-mount", function () {
-            console.log(tag.opts.recipe.user);
 
             if (tag.opts.recipe !== null)
                 tag.recipe = Adapter.adaptRecipe(tag.opts.recipe);

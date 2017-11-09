@@ -13,3 +13,4 @@
 (<any>window).Search = Search;
 (<any>window).ErrorHandler = ErrorHandler;
 (<any>window).NotificationManager = NotificationManager;
+(<any>window).md5 = <MD5>require("md5");

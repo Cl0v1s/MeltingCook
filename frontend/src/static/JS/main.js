@@ -931,4 +931,5 @@ window.Adapter = Adapter;
 window.Search = Search;
 window.ErrorHandler = ErrorHandler;
 window.NotificationManager = NotificationManager;
+window.md5 = require("md5");
 //# sourceMappingURL=main.js.map

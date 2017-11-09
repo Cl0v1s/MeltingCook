@@ -13716,11 +13716,6 @@ class Adapter {
         recipe.place_left = parseInt(recipe.places);
         if (recipe.user != null) {
             recipe.place_left -= recipe.users.length;
-            var geolocation = recipe.user.geolocation.split(",");
-            if (geolocation.length == 2) {
-                recipe.latitude = geolocation[0];
-                recipe.longitude = geolocation[1];
-            }
         }
         recipe.price = parseInt(recipe.price);
         return recipe;
@@ -14367,7 +14362,7 @@ class App {
             var href = window.location.href;
             if (data == null)
                 data = {};
-            if (address.indexOf(App.Address) != -1 && Login.GetInstance().isLogged() && data.token == null)
+            if (Login.GetInstance().isLogged() && data.token == null)
                 data.token = Login.GetInstance().Token();
             var request = ajax({
                 method: "POST",
@@ -16067,28 +16062,29 @@ module.exports = riot.tag2('app-recipeeditform', '<form name="edit-recipe" if="{
 });
 },{"riot":8}],42:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-recipeitem', '<div class="recipe" riot-style="background-image: url(\'{recipe.picture}\');"> <div> <div> <span>{recipe.date_start_readable} - {recipe.date_end_readable}</span> </div> <div> <span>{recipe.name} - {recipe.origin[0]}</span> </div> <div> <div class="Pins" each="{p in recipe.pins}">{p}</div> </div> </div> <div class="price"> {recipe.price}€ </div> </div> <div class="user"> <div class="img" riot-style="background-image: url(\'{recipe.user.picture}\');"></div> <div> <span>{recipe.user.username} - {recipe.user.age} ans</span> <div class="Hearts nb-{recipe.user.likes}"></div> <a onclick="{user}">Voir le profil</a> </div> </div> <div class="picture" if="{reduced == true}"> <div class="img" riot-style="background-image: url(\'{recipe.picture}\');"></div> </div>', '', 'onclick="{details}"', function(opts) {
+module.exports = riot.tag2('app-recipeitem', '<div class="recipe"> <div class="img" riot-style="background-image: url(\'{recipe.picture}\');"></div> <h1> {recipe.name} </h1> <h1> {recipe.origin[0]} </h1> <div> <span>{recipe.date_start_readable} - {recipe.date_end_readable}</span> </div> <div> <div class="Pins" if="{recipe.pins.length > 0}" each="{p in recipe.pins}">{p}</div> </div> <div class="price"> {recipe.price}€ </div> </div> <div class="user"> <div class="img" riot-style="background-image: url(\'{recipe.user.picture}\');"></div> <div class="name"> <h1> {recipe.user.username} </h1> <h2> {recipe.user.age} ans </h2> </div> <app-hearts repeat="{recipe.user.likes}"></app-hearts> </div>', '', 'onclick="{details}"', function(opts) {
         var tag = this;
 
         tag.recipe = null;
 
-        tag.on("before-mount", function(){
-            if(tag.opts.recipe !== null)
+        tag.on("before-mount", function () {
+            console.log(tag.opts.recipe.user);
+
+            if (tag.opts.recipe !== null)
                 tag.recipe = Adapter.adaptRecipe(tag.opts.recipe);
             else
                 throw new Error("Recipe cant be null");
+
         });
 
-        tag.details = function()
-        {
-            if(tag.recipe !== null)
-                route("/recipe/"+tag.recipe.id);
+        tag.details = function () {
+            if (tag.recipe !== null)
+                route("/recipe/" + tag.recipe.id);
         };
 
-        tag.user = function()
-        {
-            if(tag.recipe !== null && tag.recipe.user !== null)
-                route("/user/"+tag.recipe.user.id);
+        tag.user = function () {
+            if (tag.recipe !== null && tag.recipe.user !== null)
+                route("/user/" + tag.recipe.user.id);
         };
 
 });
@@ -16794,7 +16790,7 @@ module.exports = riot.tag2('app-useredit', '<app-header></app-header> <div class
 });
 },{"riot":8}],58:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user != null}"> <div> Création/Edition d\'un compte utilisateur </div> <div> <h2>Présentation du compte</h2> <div class="banner"> <div class="img" ref="banner_preview" riot-style="background-image: url(\'{user.banner}\');"></div> <div> <label>Télécharger une bannière:</label> <input type="text" name="banner" ref="banner" riot-value="{user.banner}" onchange="{updateBanner}"> <p class="hint"> Ce champ doit contenir une adresse URL valide. </p> <p> Les dimensions recommandées pour un résultat optimal sont 1500 x 500 pixels </p> </div> </div> <div class="picture"> <div class="img" ref="picture_preview" riot-style="background-image: url(\'{user.picture}\');"></div> <div> <label>Télécharger une photo de profil:</label> <input type="text" name="picture" ref="picture" riot-value="{user.picture}" onchange="{updatePicture}"> <p class="hint"> Ce champ doit contenir une adresse URL valide. </p> <p> Les dimensions recommandées pour un résultat optimal sont 400 x 400 pixels </p> </div> </div> </div> <div> <h2>Informations de base</h2> <div class="base"> <div class="{invisible: user.id != null}"> <label>Nom d\'utilisateur: </label> <input type="text" name="username" ref="username" riot-value="{user.username}"> <p class="hint">Ce champ doit contenir entre 5 et 400 caractères.</p> <p> Vous ne pourrez plus changer de nom d\'utilisateur après l\'inscription. Choisissez avec sagesse.</p> </div> <div class="{invisible: user.id != null}"> <label>Mot de passe: </label> <input type="password" name="password" ref="password"> <p class="hint"> Ce champ doit contenir entre 8 et 100 caractères.<br> Le mot de passe et sa confirmation doivent correspondre. </p> </div> <div class="{invisible: user.id != null}"> <label>Confirmation mot de passe: </label> <input type="password" name="password_confirm" ref="password_confirm"> <p class="hint"> Ce champ doit contenir entre 8 et 100 caractères.<br> Le mot de passe et sa confirmation doivent correspondre. </p> </div> <div> <label>Age: </label> <input type="text" name="age" ref="age" riot-value="{user.age}"> <p class="hint"> Ce champ doit contenir une valeur numérique comprise entre 0 et 100. </p> </div> <div> <label>Numéro de téléphone:</label> <input type="text" name="phone" ref="phone" riot-value="{user.phone}"> <p class="hint"> Ce champ doit contenir un numéro de téléphone valide. </p> </div> </div> </div> <div> <div class="bills"> <h2>Informations de facturation</h2> <div> <label>Adresse Email associée au compte Paypal:</label> <input type="text" name="mail" ref="mail" riot-value="{user.mail}"> <p class="hint">Ce champ doit contenir une adresse email valide.</p> <p>Pensez à vérifier qu\'il s\'agit bien de l\'adresse email associée à votre compte Paypal. Nous allons l\'utiliser pour vous verser votre dû.</p> </div> <div> <label>Présentation: </label> <textarea name="description" ref="description"> {user.description} </textarea> <p class="hint"> Ce champ doit contenir entre 50 et 1000 caractères. </p> </div> <div> <label>Adresse:</label> <input type="text" name="address" ref="address" riot-value="{user.address}"> <p class="hint"> Ce champ doit contenir votre adresse de facturation. </p> </div> <div> <label>Prénom:</label> <input type="text" name="firstname" ref="firstname" riot-value="{user.firstname}"> <p class="hint"> Ce champ doit contenir le prénom qui sera utilisé sur les factures. </p> </div> <div> <label>Nom:</label> <input type="text" name="lastname" ref="lastname" riot-value="{user.lastname}"> <p class="hint"> Ce champ doit contenir le nom qui sera utilisé sur les factures. </p> </div> </div> </div> <div> <div class="more"> <h2>Détails importants</h2> <div> <label>Mes allergies:</label> <div> <input type="text" name="discease" ref="discease" id="discease" riot-value="{user.discease}"> </div> <p class="hint">Ce champ ne peut contenir plus de 1000 caractères.</p> <p> Veuillez renseigner les informations relatives à vos éventuelles allergies et contre-indications alimentaires. </p> </div> <div> <label>Mes inspirations:</label> <app-origininput ref="preference"></app-origininput> <p class="hint"> Ce champ ne peut contenir plus de 1000 caractères. </p> <p> Indiquez aux autres utilisateurs quelles sont vos sources d\'inspiration alimentaires ! </p> </div> <div> <label>Mes plus:</label> <app-pinsinput ref="pins"></app-pinsinput> <p class="hint"> Ce champ ne peut contenir plus de 1000 caractères. </p> <p> Indiquez aux autres utilisateurs vos petit plus !<br> e.g: Bio, Vegan, Sans-gluten, Halal </p> </div> </div> </div> <div if="{user.id != null}"> <h2>Actions</h2> <div class="{action : true, invisible: (user.id==null)}"> <input type="button" class="large" value="Réinitialiser mon mot de passe" onclick="{changePassword}"> </div> </div> <div> <input type="button" class="large" value="Enregistrer" onclick="{validate}"> </div> </form>', '', '', function(opts) {
+module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user != null}"> <div> <h1>Création/Edition d\'un compte utilisateur</h1> </div> <div> <h2>Présentation du compte</h2> <div class="banner"> <div class="img" ref="banner_preview" riot-style="background-image: url(\'{user.banner}\');"></div> <div> <label>Télécharger une bannière:</label> <input type="text" name="banner" ref="banner" riot-value="{user.banner}" onchange="{updateBanner}"> <p class="hint"> Ce champ doit contenir une adresse URL valide. </p> <p> Les dimensions recommandées pour un résultat optimal sont 1500 x 500 pixels </p> </div> </div> <div class="picture"> <div class="img" ref="picture_preview" riot-style="background-image: url(\'{user.picture}\');"></div> <div> <label>Télécharger une photo de profil:</label> <input type="text" name="picture" ref="picture" riot-value="{user.picture}" onchange="{updatePicture}"> <p class="hint"> Ce champ doit contenir une adresse URL valide. </p> <p> Les dimensions recommandées pour un résultat optimal sont 400 x 400 pixels </p> </div> </div> </div> <div> <h2>Informations de base</h2> <div class="base"> <div class="{invisible: user.id != null}"> <label>Nom d\'utilisateur: </label> <input type="text" name="username" ref="username" riot-value="{user.username}"> <p class="hint">Ce champ doit contenir entre 5 et 400 caractères.</p> <p> Vous ne pourrez plus changer de nom d\'utilisateur après l\'inscription. Choisissez avec sagesse.</p> </div> <div class="{invisible: user.id != null}"> <label>Mot de passe: </label> <input type="password" name="password" ref="password"> <p class="hint"> Ce champ doit contenir entre 8 et 100 caractères.<br> Le mot de passe et sa confirmation doivent correspondre. </p> </div> <div class="{invisible: user.id != null}"> <label>Confirmation mot de passe: </label> <input type="password" name="password_confirm" ref="password_confirm"> <p class="hint"> Ce champ doit contenir entre 8 et 100 caractères.<br> Le mot de passe et sa confirmation doivent correspondre. </p> </div> <div> <label>Age: </label> <input type="text" name="age" ref="age" riot-value="{user.age}"> <p class="hint"> Ce champ doit contenir une valeur numérique comprise entre 0 et 100. </p> </div> <div> <label>Numéro de téléphone:</label> <input type="text" name="phone" ref="phone" riot-value="{user.phone}"> <p class="hint"> Ce champ doit contenir un numéro de téléphone valide. </p> </div> </div> </div> <div> <div class="bills"> <h2>Informations de facturation</h2> <div> <label>Adresse Email associée au compte Paypal:</label> <input type="text" name="mail" ref="mail" riot-value="{user.mail}"> <p class="hint">Ce champ doit contenir une adresse email valide.</p> <p>Pensez à vérifier qu\'il s\'agit bien de l\'adresse email associée à votre compte Paypal. Nous allons l\'utiliser pour vous verser votre dû.</p> </div> <div> <label>Présentation: </label> <textarea name="description" ref="description"> {user.description} </textarea> <p class="hint"> Ce champ doit contenir entre 50 et 1000 caractères. </p> </div> <div> <label>Adresse:</label> <input type="text" name="address" ref="address" riot-value="{user.address}"> <p class="hint"> Ce champ doit contenir votre adresse de facturation. </p> </div> <div> <label>Prénom:</label> <input type="text" name="firstname" ref="firstname" riot-value="{user.firstname}"> <p class="hint"> Ce champ doit contenir le prénom qui sera utilisé sur les factures. </p> </div> <div> <label>Nom:</label> <input type="text" name="lastname" ref="lastname" riot-value="{user.lastname}"> <p class="hint"> Ce champ doit contenir le nom qui sera utilisé sur les factures. </p> </div> </div> </div> <div> <div class="more"> <h2>Détails importants</h2> <div> <label>Mes allergies:</label> <div> <input type="text" name="discease" ref="discease" id="discease" riot-value="{user.discease}"> </div> <p class="hint">Ce champ ne peut contenir plus de 1000 caractères.</p> <p> Veuillez renseigner les informations relatives à vos éventuelles allergies et contre-indications alimentaires. </p> </div> <div> <label>Mes inspirations:</label> <app-origininput ref="preference"></app-origininput> <p class="hint"> Ce champ ne peut contenir plus de 1000 caractères. </p> <p> Indiquez aux autres utilisateurs quelles sont vos sources d\'inspiration alimentaires ! </p> </div> <div> <label>Mes plus:</label> <app-pinsinput ref="pins"></app-pinsinput> <p class="hint"> Ce champ ne peut contenir plus de 1000 caractères. </p> <p> Indiquez aux autres utilisateurs vos petit plus !<br> e.g: Bio, Vegan, Sans-gluten, Halal </p> </div> </div> </div> <div if="{user.id != null}"> <h2>Actions</h2> <div class="{action : true, invisible: (user.id==null)}"> <input type="button" class="large" value="Réinitialiser mon mot de passe" onclick="{changePassword}"> </div> </div> <div> <input type="button" class="large" value="Enregistrer" onclick="{validate}"> </div> </form>', '', '', function(opts) {
         var tag = this;
 
         tag.user = null;

@@ -1,7 +1,7 @@
 <app-usereditform>
     <form name="edit-user" if={ user != null }>
         <div>
-            Création/Edition d'un compte utilisateur
+            <h1>Création/Edition d'un compte utilisateur</h1>
         </div>
         <div>
             <h2>Présentation du compte</h2>

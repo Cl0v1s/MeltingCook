@@ -554,7 +554,7 @@ class API
         for($i =0; $i < count($items); $i++)
         {
             $recipe = get_object_vars($items[$i]);
-            $recipe["user"] = API::Get($token, "User", $recipe["User_id"]);
+            $recipe["user"] = API::GetUser($token, $recipe["User_id"]);
             $reservations = API::GetAll($token, "Reservation", '{ "Recipe_id" : "'.$recipe["id"].'" }');
             $recipe["users"] = array();
             foreach ($reservations as $reservation)

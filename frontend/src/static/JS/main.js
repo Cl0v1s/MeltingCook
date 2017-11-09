@@ -28,11 +28,6 @@ class Adapter {
         recipe.place_left = parseInt(recipe.places);
         if (recipe.user != null) {
             recipe.place_left -= recipe.users.length;
-            var geolocation = recipe.user.geolocation.split(",");
-            if (geolocation.length == 2) {
-                recipe.latitude = geolocation[0];
-                recipe.longitude = geolocation[1];
-            }
         }
         recipe.price = parseInt(recipe.price);
         return recipe;
@@ -679,7 +674,7 @@ class App {
             var href = window.location.href;
             if (data == null)
                 data = {};
-            if (address.indexOf(App.Address) != -1 && Login.GetInstance().isLogged() && data.token == null)
+            if (Login.GetInstance().isLogged() && data.token == null)
                 data.token = Login.GetInstance().Token();
             var request = ajax({
                 method: "POST",

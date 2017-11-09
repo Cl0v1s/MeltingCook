@@ -52,18 +52,15 @@
         color: transparent;
     }
 
-    &:nth-of-type(3n)
+    &:nth-of-type(2n)
     {
         background-color: $color-front-peach;
     }
 
-    &:nth-of-type(3n+1)
-    {
-        background-color: $color-front-straw;
-    }
-
-    &:nth-of-type(3n+2)
+    &:nth-of-type(2n+1)
     {
         background-color: $color-front-avocado;
+        // background-color: $color-front-straw;
     }
+
 }

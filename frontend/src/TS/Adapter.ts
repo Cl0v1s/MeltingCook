@@ -34,12 +34,6 @@ class Adapter
         if(recipe.user != null)
         {
             recipe.place_left -= recipe.users.length;
-            var geolocation = recipe.user.geolocation.split(",");
-            if(geolocation.length == 2)
-            {
-                recipe.latitude = geolocation[0];
-                recipe.longitude = geolocation[1];
-            }
         }
 
         recipe.price = parseInt(recipe.price);

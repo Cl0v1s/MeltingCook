@@ -1,7 +1,10 @@
 <app-usereditform>
     <form name="edit-user" if={ user != null }>
         <div>
-            <h1>Présentation du compte</h1>
+            Création/Edition d'un compte utilisateur
+        </div>
+        <div>
+            <h2>Présentation du compte</h2>
             <div class="banner">
                 <div class="img" ref="banner_preview" style="background-image: url('{ user.banner }');"></div>
                 <div>
@@ -32,7 +35,7 @@
 
 
         <div>
-            <h1>Informations de base</h1>
+            <h2>Informations de base</h2>
             <div class="base">
                 <div class='{ invisible: user.id != null }'>
                     <label>Nom d'utilisateur: </label>
@@ -75,7 +78,7 @@
         </div>
         <div>
             <div class="bills">
-                <h1>Informations de facturation</h1>
+                <h2>Informations de facturation</h2>
                 <div>
                     <label>Adresse Email associée au compte Paypal:</label>
                     <input type="text" name="mail" ref="mail" value={ user.mail }>
@@ -117,7 +120,7 @@
         </div>
         <div>
             <div class="more">
-                <h1>Détails importants</h1>
+                <h2>Détails importants</h2>
                 <div>
                     <label>Mes allergies:</label>
                     <div>
@@ -154,7 +157,7 @@
 
 
         <div if="{ user.id != null }">
-            <h1>Actions</h1>
+            <h2>Actions</h2>
             <div class='{action : true, invisible: (user.id==null) }'>
                 <input type="button" class="large" value="Réinitialiser mon mot de passe" onclick='{ changePassword }'>
                 <!--<input type="button" class="large" value="Me désinscrire" onclick='{ removeAccount }'>-->

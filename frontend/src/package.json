@@ -16,7 +16,9 @@
     "concurrently": "^3.5.0",
     "riot-compiler": "^3.2.4",
     "riotify": "^2.0.0",
-    "typescript": "^2.4.2"
+    "superstatic": "^5.0.1",
+    "typescript": "^2.4.2",
+    "vogue": "^0.5.0"
   },
   "browserify": {
     "transform": [

@@ -14510,7 +14510,7 @@ class App {
         App.LoadingCounter = 0;
     }
 }
-App.Address = "http://localhost:8080/API";
+App.Address = "https://meltingcook.fr/API/API/";
 App.Page = null;
 App.PopUp = null;
 App.LoadingCounter = 0;

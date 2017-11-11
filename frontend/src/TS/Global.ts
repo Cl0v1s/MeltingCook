@@ -85,7 +85,7 @@ var tags =
 
 class App
 {
-    public static Address : string = "http://localhost:8080/API";
+    public static Address : string = "https://meltingcook.fr/API/API/";
 
     private static Page = null;
     private static PopUp = null;

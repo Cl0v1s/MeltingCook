@@ -22,6 +22,16 @@ class Adapter
         else 
             recipe.items = [];
 
+        for(let i = 0; i < recipe.items.length;)
+        {
+            if(recipe.items[i] == null || recipe.items[i].replace(/ /g, "").length <= 0)
+            {
+                recipe.items.splice(i, 1);
+            }
+            else
+                i++;
+        }
+
         if(recipe.origin[recipe.origin.length -1 ] == "" || recipe.origin[recipe.origin.length -1 ] == null)
             recipe.origin.pop();
         if(recipe.items[recipe.items.length -1 ] == "" || recipe.items[recipe.items.length -1 ] == null)

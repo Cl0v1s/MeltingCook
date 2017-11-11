@@ -178,10 +178,31 @@ h2
   letter-spacing: 2px;
 }
 
+
 form section
 {
   border-bottom: 2px dotted $color-front-straw;
   margin-bottom: $space-normal;
+
+  h2
+  {
+    text-transform: uppercase;
+  }
+}
+
+form div
+{
+  h2
+  {
+    text-transform: uppercase;
+
+  }
+}
+
+ul li
+{
+  font-family:$font-primary;
+
 }
 
 table

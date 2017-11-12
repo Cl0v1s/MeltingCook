@@ -54,6 +54,7 @@
                         let last = inputs.pop();
                         last.remove();
                         tag.length--;
+                        tag.updateValue();
                 };
 
 

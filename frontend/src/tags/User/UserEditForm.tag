@@ -99,7 +99,7 @@
                     <label>Adresse:</label>
                     <input type="text" name="address" ref="address" value={ user.address }>
                     <p class="hint">
-                        Ce champ doit contenir votre adresse de facturation.
+                        Ce champ doit contenir votre adresse de facturation. Cette adresse ne sera pas transmise aux autres utilisateurs.
                     </p>
                 </div>
                 <div>

@@ -216,12 +216,12 @@
         tag.setUser = function (user) {
             tag.user = user;
             tag.update();
-        }
+        };
 
         tag.changePassword = function () {
             var callback = function () {
                 App.hidePopUp();
-                vex.dialog.alert("Votre mot de passe va être modifié. Veuillez allez recevoir un mail de confirmation. Veuillez vous reconnecter.");
+                NotificationManager.showNotification("Votre mot de passe va être modifié. Veuillez allez recevoir un mail de confirmation. Veuillez vous reconnecter.", "success");
                 route("/login");
             };
 
@@ -229,7 +229,7 @@
                 "callback": callback,
                 "user": tag.user
             });
-        }
+        };
 
         /*tag.removeAccount = function()
         {
@@ -244,7 +244,7 @@
         {
             if(tag.user != null && tag.user.id != null)
                 route("/user/"+tag.user.id);
-        }
+        };
 
         tag.geolocalize = function()
         {
@@ -255,20 +255,20 @@
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(exec);
             } else {
-                vex.dialog.alert("Vous devez activer la géolocalisation pour être en mesure d'utiliser Melting Cook.");
+                NotificationManager.showNotification("Vous devez activer la géolocalisation pour être en mesure d'utiliser Melting Cook.", "error");
                 tag.geolocalize();
             }
-        }
+        };
 
         tag.updatePicture = function()
         {
             tag.refs.picture_preview.style.backgroundImage = "url('"+tag.refs.picture.value+"')";
-        }
+        };
 
         tag.updateBanner = function()
         {
             tag.refs.banner_preview.style.backgroundImage = "url('"+tag.refs.banner.value+"')";
-        }
+        };
 
         tag.validate = function () {
             var valid = new Validatinator({
@@ -318,7 +318,8 @@
                 // Confirmation de la géolocalisation
                 if(tag.position == null || tag.position.indexOf(",") == -1)
                 {
-                    vex.dialog.alert("L'usage de Melting Cook requiert la connaissance de votre position. Veuillez activer la géolocalisation.");
+                    NotificationManager.showNotification("Vous devez activer la géolocalisation pour être en mesure d'utiliser Melting Cook.", "error");
+                    tag.geolocalize();
                     return;
                 }
                 //Confirmation des préference

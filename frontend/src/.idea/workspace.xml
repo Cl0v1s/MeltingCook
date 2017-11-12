@@ -23,8 +23,8 @@
       <file leaf-file-name="UserEditForm.tag" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tags/User/UserEditForm.tag">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1717">
-              <caret line="101" column="112" lean-forward="false" selection-start-line="101" selection-start-column="112" selection-end-line="101" selection-end-column="112" />
+            <state relative-caret-position="391">
+              <caret line="23" column="59" lean-forward="false" selection-start-line="23" selection-start-column="59" selection-end-line="23" selection-end-column="59" />
               <folding />
             </state>
           </provider>
@@ -514,12 +514,12 @@
       <workItem from="1510252971021" duration="117000" />
       <workItem from="1510253277599" duration="26000" />
       <workItem from="1510410969106" duration="4519000" />
-      <workItem from="1510509049975" duration="1958000" />
+      <workItem from="1510509049975" duration="1990000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="173046000" />
+    <option name="totallyTimeSpent" value="173078000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -936,8 +936,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tags/User/UserEditForm.tag">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1717">
-          <caret line="101" column="112" lean-forward="false" selection-start-line="101" selection-start-column="112" selection-end-line="101" selection-end-column="112" />
+        <state relative-caret-position="391">
+          <caret line="23" column="59" lean-forward="false" selection-start-line="23" selection-start-column="59" selection-end-line="23" selection-end-column="59" />
           <folding />
         </state>
       </provider>

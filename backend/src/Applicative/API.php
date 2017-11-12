@@ -225,7 +225,7 @@ class API
         $storage->flush();
     }
 
-    public static function GetAll($token, $class, $filters = null)
+    public static function GetAll($token, $class, $filters = null, $sqlconditions = null)
     {
         //API::CheckRights($token, 1);
         $storage = Engine::Instance()->Persistence("DatabaseStorage");
@@ -264,6 +264,8 @@ class API
                 }
             }
             $f = substr($f,0, -4);
+            if($sqlconditions != null)
+                $f = $f." ".$sqlconditions;
         }
         $storage->findAll($class, $items, $f);
         return $items;
@@ -628,6 +630,17 @@ class API
             array_push($results, $reservation);
         }
         return $results;
+    }
+
+
+    public static function GetAllPins($token, $filters = null)
+    {
+        return API::GetAll($token, "Pins", $filters, "ORDERBY name ASC");
+    }
+    
+    public static function GetAllOrigin($token, $filters = null)
+    {
+        return API::GetAll($token, "Origin", $filters, "ORDERBY name ASC");
     }
 
 

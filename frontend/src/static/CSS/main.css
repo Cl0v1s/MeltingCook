@@ -903,6 +903,28 @@ app-user > div div.comments, div[data-is=app-user] > div div.comments {
     padding-top: 5px;
     vertical-align: middle; }
 
+app-users {
+  display: block; }
+  app-users div.user {
+    display: block !important;
+    width: 90% !important;
+    margin: auto;
+    text-align: center; }
+    app-users div.user img {
+      width: 50px;
+      height: 50px;
+      vertical-align: middle;
+      display: inline-block; }
+    app-users div.user img + div {
+      padding-left: 8px;
+      text-align: left;
+      display: inline-block;
+      height: 50px; }
+    app-users div.user app-hearts {
+      display: block;
+      margin: auto;
+      margin-top: 8px; }
+
 app-manyinputs {
   display: block; }
   app-manyinputs input[type=text] {
@@ -1154,6 +1176,10 @@ app-recipe div.infos, div[data-is=app-recipe] div.infos {
     app-recipe div.infos div.details ul, div[data-is=app-recipe] div.infos div.details ul {
       padding-left: 40px;
       list-style: disc; }
+  app-recipe div.infos div.users, div[data-is=app-recipe] div.infos div.users {
+    margin-top: 20px; }
+    app-recipe div.infos div.users h2, div[data-is=app-recipe] div.infos div.users h2 {
+      font-family: "Lobster"; }
 
 app-recipe div.user, div[data-is=app-recipe] div.user {
   display: inline-block;

@@ -32,7 +32,9 @@
                     </ul>
                 </div>
 
-                <div class="users">
+                <div class="users" if="{ recipe.users != null && recipe.users.length > 0 }">
+                    <h2>Participants :</h2>
+                
                     <app-users users={ recipe.users }></app-users>
                 </div>
             </div>
@@ -60,11 +62,7 @@
 
                 <app-useritem ref="useritem" user="{ recipe.user }"></app-useritem>
             </div>
-
-            <!--affichage des participants-->
-            <div class="reservations">
-                <app-reservations reservations="{ recipe.reservations }" interactive="{ false }"></app-reservations>
-            </div>
+ 
         </div>
     </div>
 

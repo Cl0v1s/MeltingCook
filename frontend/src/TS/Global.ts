@@ -112,7 +112,7 @@ class App
     }
 
 
-    public static request(address, data, redirect = true)
+    public static request(address, data, redirect = true, bg = true)
     {
         return new Promise(function(resolve, reject)
         {
@@ -126,10 +126,12 @@ class App
                 url : address,
                 "data" : data
             });
-            App.showLoading();
+            if(bg)
+                App.showLoading();
             request.then(function(response)
             {
-                App.hideLoading();
+                if(bg)
+                    App.hideLoading();
                 if(App.checkPage(href) == false)
                 {
                     reject(ErrorHandler.State.FATAL);
@@ -168,7 +170,8 @@ class App
 
             request.catch(function(error)
             {
-                App.hideLoading();
+                if(bg)
+                    App.hideLoading();
                 if(App.checkPage(href) == false)
                 {
                     reject(ErrorHandler.State.FATAL);

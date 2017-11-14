@@ -14402,7 +14402,7 @@ class App {
             });
         }
     }
-    static request(address, data, redirect = true) {
+    static request(address, data, redirect = true, bg = true) {
         return new Promise(function (resolve, reject) {
             var href = window.location.href;
             if (data == null)
@@ -14414,9 +14414,11 @@ class App {
                 url: address,
                 "data": data
             });
-            App.showLoading();
+            if (bg)
+                App.showLoading();
             request.then(function (response) {
-                App.hideLoading();
+                if (bg)
+                    App.hideLoading();
                 if (App.checkPage(href) == false) {
                     reject(ErrorHandler.State.FATAL);
                     return;
@@ -14446,7 +14448,8 @@ class App {
                 }
             });
             request.catch(function (error) {
-                App.hideLoading();
+                if (bg)
+                    App.hideLoading();
                 if (App.checkPage(href) == false) {
                     reject(ErrorHandler.State.FATAL);
                     return;
@@ -14611,7 +14614,7 @@ class NotificationManager {
         };
         let request = App.request(App.Address + "/getNotifications", {
             "filters": JSON.stringify(filters)
-        });
+        }, true, false);
         request.then((response) => {
             response.data.forEach((n) => {
                 let found = false;
@@ -15971,7 +15974,7 @@ module.exports = riot.tag2('app-pineditform', '<form name="edit-pin"> <div> <lab
 });
 },{"riot":8}],39:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-recipe', '<app-header></app-header> <div> <div class="banner" riot-style="background-image: url(\'{recipe.picture}\');"></div> <div class="content"> <div class="infos"> <div class="base"> <div class="name"> <h1>{recipe.name}</h1> <div> <div class="Pins open" each="{p in recipe.pins}">{p}</div> </div> </div> <div class="description"> <p> {recipe.description} </p> </div> </div> <div class="geolocation"> <app-placehint latitude="{recipe.latitude}" longitude="{recipe.longitude}" place="{recipe.place}"></app-placehint> </div> <div class="details"> <h2>Ingédients :</h2> <ul> <li each="{item in recipe.items}">{item}</li> </ul> </div> <div class="users"> <app-users users="{recipe.users}"></app-users> </div> </div> <div class="user"> <div class="join"> <h2>Rejoindre la cuisine</h2> <div class="price"> {recipe.price}€ </div> <div> Il reste {recipe.place_left} places </div> <form name="edit-reservation" if="{Login.GetInstance().isLogged() == true}"> <div> <input type="checkbox" name="cgu" ref="cgu"> J\'accepte les CGU </div> <div> <input type="checkbox" name="pc" ref="pc"> J\'accepte la charte de bonne conduite </div> <input type="button" class="large" value="Je rejoins la cuisine" onclick="{join}"> </form> </div> <app-useritem ref="useritem" user="{recipe.user}"></app-useritem> </div> <div class="reservations"> <app-reservations reservations="{recipe.reservations}" interactive="{false}"></app-reservations> </div> </div> </div> <app-footer></app-footer>', '', '', function(opts) {
+module.exports = riot.tag2('app-recipe', '<app-header></app-header> <div> <div class="banner" riot-style="background-image: url(\'{recipe.picture}\');"></div> <div class="content"> <div class="infos"> <div class="base"> <div class="name"> <h1>{recipe.name}</h1> <div> <div class="Pins open" each="{p in recipe.pins}">{p}</div> </div> </div> <div class="description"> <p> {recipe.description} </p> </div> </div> <div class="geolocation"> <app-placehint latitude="{recipe.latitude}" longitude="{recipe.longitude}" place="{recipe.place}"></app-placehint> </div> <div class="details"> <h2>Ingédients :</h2> <ul> <li each="{item in recipe.items}">{item}</li> </ul> </div> <div class="users" if="{recipe.users != null && recipe.users.length > 0}"> <h2>Participants :</h2> <app-users users="{recipe.users}"></app-users> </div> </div> <div class="user"> <div class="join"> <h2>Rejoindre la cuisine</h2> <div class="price"> {recipe.price}€ </div> <div> Il reste {recipe.place_left} places </div> <form name="edit-reservation" if="{Login.GetInstance().isLogged() == true}"> <div> <input type="checkbox" name="cgu" ref="cgu"> J\'accepte les CGU </div> <div> <input type="checkbox" name="pc" ref="pc"> J\'accepte la charte de bonne conduite </div> <input type="button" class="large" value="Je rejoins la cuisine" onclick="{join}"> </form> </div> <app-useritem ref="useritem" user="{recipe.user}"></app-useritem> </div> </div> </div> <app-footer></app-footer>', '', '', function(opts) {
         var tag = this;
 
         tag.recipe = null;
@@ -17139,7 +17142,7 @@ module.exports = riot.tag2('app-userpasswordform', '<form name="edit-userpasswor
 });
 },{"riot":8}],61:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-users', '<app-useritem each="{user in users}" user="{user}" reduced="{true}"></app-useritem>', '', '', function(opts) {
+module.exports = riot.tag2('app-users', '<div class="user" each="{user in users}" data-id="{user.id}"> <img riot-src="{user.picture}"> <div> <a href="#/user/{user.id}">{user.username}</a><br> {user.age} ans </div> <app-hearts repeat="{user.likes}"></app-hearts> </div>', '', '', function(opts) {
         var tag = this;
         tag.users = null;
 

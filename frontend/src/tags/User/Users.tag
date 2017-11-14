@@ -1,5 +1,14 @@
 <app-users>
-    <app-useritem each={ user in users } user={ user } reduced={ true }></app-useritem>
+    <div class="user" each="{ user in users }" data-id="{ user.id }">
+            
+                    <img src={ user.picture }>
+                    <div>
+                        <a href="#/user/{user.id}">{ user.username }</a><br>
+                        { user.age } ans
+                    </div>
+                    <app-hearts repeat="{ user.likes }"></app-hearts>
+                    
+    </div>
 
     <script>
         var tag = this;
@@ -9,6 +18,7 @@
         {
             tag.users = tag.opts.users;
         });
+
 
         tag.setUsers = function(users)
         {

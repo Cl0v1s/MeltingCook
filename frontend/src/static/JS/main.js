@@ -696,7 +696,7 @@ class App {
             });
         }
     }
-    static request(address, data, redirect = true) {
+    static request(address, data, redirect = true, bg = true) {
         return new Promise(function (resolve, reject) {
             var href = window.location.href;
             if (data == null)
@@ -708,9 +708,11 @@ class App {
                 url: address,
                 "data": data
             });
-            App.showLoading();
+            if (bg)
+                App.showLoading();
             request.then(function (response) {
-                App.hideLoading();
+                if (bg)
+                    App.hideLoading();
                 if (App.checkPage(href) == false) {
                     reject(ErrorHandler.State.FATAL);
                     return;
@@ -740,7 +742,8 @@ class App {
                 }
             });
             request.catch(function (error) {
-                App.hideLoading();
+                if (bg)
+                    App.hideLoading();
                 if (App.checkPage(href) == false) {
                     reject(ErrorHandler.State.FATAL);
                     return;
@@ -905,7 +908,7 @@ class NotificationManager {
         };
         let request = App.request(App.Address + "/getNotifications", {
             "filters": JSON.stringify(filters)
-        });
+        }, true, false);
         request.then((response) => {
             response.data.forEach((n) => {
                 let found = false;

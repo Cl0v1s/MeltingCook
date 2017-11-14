@@ -47,7 +47,7 @@ class NotificationManager
         };
         let request = App.request(App.Address + "/getNotifications", {
             "filters" : JSON.stringify(filters)
-        });
+        }, true, false);
         request.then((response : any) => {
             response.data.forEach((n) => {
                 let found = false;

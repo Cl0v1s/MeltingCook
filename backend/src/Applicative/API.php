@@ -316,8 +316,8 @@ class API
             throw new Exception("Impossible de réserver deux fois pour la même recette#", 2);
 
         $recipe = API::GetRecipe($token, $item->RecipeId());
-        if(time() > $recipe["date_start"])
-            throw new Exception("Impossible de réserver une recette après sa date de début#", 2);
+        /*if(time() > $recipe["date_start"])
+            throw new Exception("Impossible de réserver une recette après sa date de début#", 2);*/
 
 
         API::GenerateNotification($token, $item->HostId(), "success", $user->Username()." a lancé une procédure de réservation relative à votre recette ".$recipe["name"].".");

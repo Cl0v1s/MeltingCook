@@ -1,0 +1,29 @@
+app-users{
+    display: block;
+
+    div.user{
+        display: block !important;
+        width: 90% !important;
+        margin: auto;
+        text-align: center;
+        img
+        {
+            width: 50px;
+            height: 50px;
+            vertical-align: middle;
+            
+            display: inline-block;
+        }
+        img+div{
+            padding-left: $space-small;
+            text-align: left;
+            display: inline-block;
+            height: 50px;
+        }
+        app-hearts{
+            display: block;
+            margin: auto;
+            margin-top: $space-small;
+        }
+    }
+}

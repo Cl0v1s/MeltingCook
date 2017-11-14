@@ -334,6 +334,11 @@ class Router
 
     private adminReports(target_id : number, author_id : number) : void
     {
+        if(Login.GetInstance().isLogged() == false || Login.GetInstance().User().rights < 2)
+        {
+            route("/");
+            return;
+        }
         var filters : any = {};
         if(target_id != null)
             filters.target_id = target_id;
@@ -355,6 +360,11 @@ class Router
 
     private adminOrigins() : void
     {
+        if(Login.GetInstance().isLogged() == false || Login.GetInstance().User().rights < 2)
+        {
+            route("/");
+            return;
+        }
         let request = App.request(App.Address + "/getorigins", null);
         request.then(function(response  : any){
             App.changePage("app-adminorigins", {
@@ -369,6 +379,11 @@ class Router
 
     private adminPins() : void
     {
+        if(Login.GetInstance().isLogged() == false || Login.GetInstance().User().rights < 2)
+        {
+            route("/");
+            return;
+        }
         let request = App.request(App.Address + "/getpinses", null);
         request.then(function(response  : any){
             App.changePage("app-adminpins", {
@@ -383,6 +398,11 @@ class Router
 
     private adminReservations() :  void
     {
+        if(Login.GetInstance().isLogged() == false || Login.GetInstance().User().rights < 2)
+        {
+            route("/");
+            return;
+        }
         let request = App.request(App.Address + "/getreservations", {
         });
         request.then(function(response : any){

@@ -60,6 +60,11 @@
 
                 <app-useritem ref="useritem" user="{ recipe.user }"></app-useritem>
             </div>
+
+            <!--affichage des participants-->
+            <div class="reservations">
+                <app-reservations reservations="{ recipe.reservations }" interactive="{ false }"></app-reservations>
+            </div>
         </div>
     </div>
 

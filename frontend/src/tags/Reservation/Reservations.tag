@@ -1,5 +1,5 @@
 <app-reservations>
-    <div class="SwitchHandler">
+    <div class="SwitchHandler" if="{ interactive }">
         <br><br>
         <span class="Switch">
                 <a onclick='{ showFunds }' class="{ selected :  list == funds }">Provisionnées</a>
@@ -12,20 +12,20 @@
     <table>
         <thead>
             <tr>
-                <td>Identifiant</td>
-                <td>Hôte</td>
+                <td if="{ interactive }">Identifiant</td>
+                <td if="{ interactive }">Hôte</td>
                 <td>Invité</td>
                 <td>Montant</td>
-                <td>Action</td>
+                <td if="{ interactive }">Action</td>
             </tr>
         </thead>
         <tbody>
             <tr each="{ reservation in list }" id="reservation-{ reservation.id }">
-                <td>{ reservation.id }</td>
-                <td>{ reservation.host.mail }</td>
+                <td if="{ interactive }">{ reservation.id }</td>
+                <td if="{ interactive }">{ reservation.host.mail }</td>
                 <td>{ reservation.guest.mail }</td>
                 <td>{ reservation.recipe.price }</td>
-                <td>
+                <td if="{ interactive }">
                     <input if="{ admin == true }" type="button" value="Marquer comme terminée" data-id="{ reservation.id }" onclick="{ fullfill }">
                     <input if="{ admin == false && reservation.paid == '1' && reservation.done == '0' }" type="button" value="Je finalise"  data-id="{ reservation.id }" onclick="{ validate }">
                     <input if="{ admin == false && reservation.paid != '2' && reservation.done != '1' }" type="button" value="J'annule"  data-id="{ reservation.id }" onclick="{ refund }">
@@ -37,6 +37,7 @@
         var tag = this;
 
         tag.admin = false;
+        tag.interactive = true;
         tag.reservations = null;
 
         tag.list = null;
@@ -50,6 +51,8 @@
             tag.reservations = tag.opts.reservations;
             if(tag.opts.admin != null)
                 tag.admin = tag.opts.admin;
+            if(tag.opts.interactive != null)
+                tag.interactive = tag.opts.interactive;
             if(tag.reservations == null)
                 throw new Error("Reservations cant be null.");
 

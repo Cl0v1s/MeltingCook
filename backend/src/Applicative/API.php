@@ -477,6 +477,7 @@ class API
             $recipe["user"] = API::Get($token, "User", $recipe["User_id"]);
         }
         $reservations = API::GetAll($token, "Reservation", '{ "Recipe_id" : "'.$id.'" }');
+        $recipe["reservations"] = $reservations;
         $recipe["users"] = array();
         foreach ($reservations as $reservation)
         {

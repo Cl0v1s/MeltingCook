@@ -203,6 +203,7 @@ class App
         }
         App.hideLoading();
         App.Page = riot.mount("div#app", tags[tag], data);
+        window.scroll(0,0);
     }
 
     public static showPopUp(tag, title, data)

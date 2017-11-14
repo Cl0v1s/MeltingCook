@@ -257,12 +257,22 @@ p {
   overflow-wrap: break-word;
   line-height: 22px; }
 
+/**
+ Importation des polices
+**/
+@font-face {
+  font-family: "Raleway";
+  src: url("/static/fonts/Raleway-Regular.ttf"); }
+
+@font-face {
+  font-family: "Lobster";
+  src: url("/static/fonts/LobsterTwo-Regular.ttf"); }
+
 a.onclick {
   cursor: pointer; }
 
 a.Button {
   display: inline-block;
-  width: 60px;
   height: 45px;
   vertical-align: middle;
   cursor: pointer;
@@ -275,7 +285,6 @@ a.Button {
   a.Button:hover {
     transform: scale(1.2, 1.2); }
   a.Button > span {
-    position: absolute;
     width: 100%;
     text-align: center;
     font-size: 14px; }
@@ -287,6 +296,10 @@ a.Button {
     background-image: url("/static/images/on.svg"); }
     a.Button.login > span {
       color: #F3B1A6; }
+  a.Button.logout {
+    background-image: url("/static/images/on.svg"); }
+    a.Button.logout > span {
+      color: #FDC279; }
   a.Button.fb {
     background-position: center;
     background-size: auto 250%;
@@ -1193,7 +1206,8 @@ app-recipeitem, div[data-is=app-recipeitem] {
   margin-top: 60px;
   border-radius: 15px;
   vertical-align: top;
-  margin-right: 20px; }
+  margin-right: 20px;
+  cursor: pointer; }
   app-recipeitem h1, div[data-is=app-recipeitem] h1 {
     background: none;
     display: block;

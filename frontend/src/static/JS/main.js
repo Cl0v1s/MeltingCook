@@ -180,7 +180,7 @@ class Login {
         this.setUser(null);
     }
     isLogged() {
-        if (this.token == null)
+        if (this.token == null || this.token == "null")
             return false;
         return true;
     }
@@ -221,6 +221,10 @@ class Router {
     /////////////////////////////////////////////////////////////////
     // Reservation
     reservationRecipe(id) {
+        if (Login.GetInstance().isLogged() == false) {
+            route("/");
+            return;
+        }
         var requestRecipe = App.request(App.Address + "/getrecipe", {
             "id": id
         });
@@ -468,6 +472,10 @@ class Router {
     }
     // Admin
     adminReports(target_id, author_id) {
+        if (Login.GetInstance().isLogged() == false || Login.GetInstance().User().rights < 2) {
+            route("/");
+            return;
+        }
         var filters = {};
         if (target_id != null)
             filters.target_id = target_id;
@@ -486,6 +494,10 @@ class Router {
         });
     }
     adminOrigins() {
+        if (Login.GetInstance().isLogged() == false || Login.GetInstance().User().rights < 2) {
+            route("/");
+            return;
+        }
         let request = App.request(App.Address + "/getorigins", null);
         request.then(function (response) {
             App.changePage("app-adminorigins", {
@@ -497,6 +509,10 @@ class Router {
         });
     }
     adminPins() {
+        if (Login.GetInstance().isLogged() == false || Login.GetInstance().User().rights < 2) {
+            route("/");
+            return;
+        }
         let request = App.request(App.Address + "/getpinses", null);
         request.then(function (response) {
             App.changePage("app-adminpins", {
@@ -508,6 +524,10 @@ class Router {
         });
     }
     adminReservations() {
+        if (Login.GetInstance().isLogged() == false || Login.GetInstance().User().rights < 2) {
+            route("/");
+            return;
+        }
         let request = App.request(App.Address + "/getreservations", {});
         request.then(function (response) {
             App.changePage("app-adminreservations", {
@@ -747,6 +767,7 @@ class App {
         }
         App.hideLoading();
         App.Page = riot.mount("div#app", tags[tag], data);
+        window.scroll(0, 0);
     }
     static showPopUp(tag, title, data) {
         if (App.PopUp != null) {

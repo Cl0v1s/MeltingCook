@@ -49,7 +49,7 @@ class Login
 
     public isLogged() : boolean
     {
-        if(this.token == null)
+        if(this.token == null || this.token == "null")
             return false;
         return true;
     }

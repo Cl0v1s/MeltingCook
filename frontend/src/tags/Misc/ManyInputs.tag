@@ -1,11 +1,9 @@
-    <app-manyinputs>
-        <div>
-        <input type="text" each='{ val,i in value.split(delimiter) }' value='{ val }' onkeydown='{ observe }'
-        onchange='{ updateValue }'>
-        <input type="button" value="Ajouter une ligne" onclick='{ add }'><input type="button" value="Retirer une ligne"
-        onclick='{ remove }'>
+<app-manyinputs>
+ <div>
+        <input type="text" each="{ val,i in value.split(delimiter) }" value="{ val }" onkeydown="{ observe }" onchange="{ updateValue }">
+        <input type="button" value="Ajouter une ligne" onclick="{ add }"><input type="button" value="Retirer une ligne"
+        onclick="{ remove }">
         </div>
-
 
         <script>
                 var tag = this;
@@ -58,5 +56,5 @@
                 };
 
 
-        </script>
+        </script>       
 </app-manyinputs>

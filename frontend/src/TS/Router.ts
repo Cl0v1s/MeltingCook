@@ -29,6 +29,11 @@ class Router
     // Reservation
     private reservationRecipe(id) : void
     {
+        if(Login.GetInstance().isLogged() == false)
+        {
+            route("/");
+            return;
+        }
         var requestRecipe = App.request(App.Address + "/getrecipe", {
             "id" : id
         });

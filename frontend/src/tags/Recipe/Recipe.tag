@@ -47,7 +47,7 @@
                     <div>
                         Il reste { recipe.place_left } places
                     </div>
-                    <form name="edit-reservation">
+                    <form name="edit-reservation" if="{ Login.GetInstance().isLogged() == true }">
                         <div>
                             <input type="checkbox" name="cgu" ref="cgu"> J'accepte les CGU
                         </div>

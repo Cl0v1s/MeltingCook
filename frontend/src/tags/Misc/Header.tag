@@ -7,6 +7,8 @@
         <a if="{ logged == true }" onclick='{ account }'>
             <div class="img" style="background-image: url('{user.picture}');"></div>
         </a>
+        <a class='Button logout' if="{ logged == true }" onclick='{ logout }'><span>Déconnexion</span></a>
+        
     </nav>
 
     <script>
@@ -50,6 +52,13 @@
                 "callback" : callback
             });
         };
+
+        tag.logout = function()
+        {
+            Login.GetInstance().logout();
+            route("/");
+            window.location.reload();
+        }
 
         tag.account = function()
         {

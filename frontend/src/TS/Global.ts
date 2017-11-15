@@ -18,6 +18,7 @@ var tags =
         "app-error": require("./../../tags/Immutable/Error.tag"),
         "app-home": require("./../../tags/Immutable/Home.tag"),
         "app-login": require("./../../tags/Immutable/Login.tag"),
+        "app-cgu": require("./../../tags/Immutable/CGU.tag"),
 
         // MISC
         "app-dateinput": require("./../../tags/Misc/DateInput.tag"),
@@ -80,6 +81,8 @@ var tags =
         "app-adminorigins" : require("./../../tags/Admin/AdminOrigins.tag"),
         "app-adminpins" : require("./../../tags/Admin/AdminPins.tag"),
         "app-adminreservations" : require("./../../tags/Admin/AdminReservations.tag"),
+
+
 
     };
 

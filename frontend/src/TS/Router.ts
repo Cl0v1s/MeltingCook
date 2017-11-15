@@ -471,6 +471,11 @@ class Router
             App.changePage("app-useredit", null);
         });
 
+        // CGU
+        route("cgu", function(){
+            App.changePage("app-cgu", null);
+        });
+
         route('', function () {
             App.changePage("app-home", null);
         });

@@ -210,8 +210,14 @@ form section {
 form div h2 {
   text-transform: uppercase; }
 
-ul li {
-  font-family: "Raleway"; }
+ul {
+  margin-top: 8px; }
+  ul li {
+    font-family: "Raleway";
+    list-style-type: disc;
+    margin-left: 20px;
+    margin-bottom: 8px;
+    line-height: 22px; }
 
 table {
   table-layout: fixed;
@@ -649,6 +655,25 @@ app-home, div[data-is=app-home] {
         background-image: url("/static/images/heart_plein.svg"); }
       app-home div.description div.tab.kitchen div.img, div[data-is=app-home] div.description div.tab.kitchen div.img {
         background-image: url("/static/images/cooking.svg"); }
+
+app-cgu, div[data-is=app-cgu] {
+  display: block; }
+  app-cgu h2, div[data-is=app-cgu] h2 {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 20px; }
+  app-cgu h3, div[data-is=app-cgu] h3 {
+    display: block;
+    font-family: "Raleway";
+    margin-top: 8px;
+    margin-bottom: 8px;
+    text-transform: uppercase; }
+  app-cgu h4, div[data-is=app-cgu] h4 {
+    display: block;
+    font-family: "Raleway";
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-weight: bold; }
 
 app-accountkitchen, div[data-is=app-accountkitchen] {
   display: block; }
@@ -1174,7 +1199,7 @@ app-recipe div.infos, div[data-is=app-recipe] div.infos {
     app-recipe div.infos div.details h2, div[data-is=app-recipe] div.infos div.details h2 {
       font-family: "Lobster"; }
     app-recipe div.infos div.details ul, div[data-is=app-recipe] div.infos div.details ul {
-      padding-left: 40px;
+      padding-left: 20px;
       list-style: disc; }
   app-recipe div.infos div.users, div[data-is=app-recipe] div.infos div.users {
     margin-top: 20px; }
@@ -1434,7 +1459,13 @@ div[data-is=app-footer] {
     app-footer > div ul li,
     div[data-is=app-footer] > div ul li {
       color: #f2f4f3;
-      margin-bottom: 8px; }
+      margin-bottom: 8px;
+      list-style-type: none;
+      margin-left: 0; }
+      app-footer > div ul li a,
+      div[data-is=app-footer] > div ul li a {
+        color: inherit;
+        text-decoration: none; }
     @media screen and (max-width: 710px) {
       app-footer > div,
       div[data-is=app-footer] > div {

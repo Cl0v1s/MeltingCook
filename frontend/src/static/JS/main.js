@@ -576,6 +576,10 @@ class Router {
         route("register", function () {
             App.changePage("app-useredit", null);
         });
+        // CGU
+        route("cgu", function () {
+            App.changePage("app-cgu", null);
+        });
         route('', function () {
             App.changePage("app-home", null);
         });
@@ -629,6 +633,7 @@ var tags = {
     "app-error": require("./../../tags/Immutable/Error.tag"),
     "app-home": require("./../../tags/Immutable/Home.tag"),
     "app-login": require("./../../tags/Immutable/Login.tag"),
+    "app-cgu": require("./../../tags/Immutable/CGU.tag"),
     // MISC
     "app-dateinput": require("./../../tags/Misc/DateInput.tag"),
     "app-footer": require("./../../tags/Misc/Footer.tag"),

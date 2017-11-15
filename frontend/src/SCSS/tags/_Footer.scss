@@ -27,6 +27,13 @@ div[data-is=app-footer] {
             li {
                 color: $color-text-secondary;
                 margin-bottom: $space-small;
+                list-style-type: none;
+                margin-left: 0;
+
+                a{
+                    color: inherit;
+                    text-decoration: none;
+                }
             }
         }
         @media screen and (max-width: 710px) {

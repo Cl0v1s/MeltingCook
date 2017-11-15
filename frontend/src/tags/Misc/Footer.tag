@@ -21,7 +21,7 @@
     <div>
         <h3>Mentions légales</h3>
         <ul>
-            <li>Conditions générales</li>
+            <li><a href="#/cgu">Conditions générales</a></li>
             <li>Politique de confidentialité</li>
         </ul>
     </div>

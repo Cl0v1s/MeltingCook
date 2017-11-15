@@ -5,7 +5,7 @@
     </div>
     <div class="body">
         <div>
-            <span><b>Etat:</b> { report.message_state }</span>
+            <span><b>Etat:</b> { report.message_progress }</span>
         </div>
         <p>
             { report.content }
@@ -45,7 +45,8 @@
             var callback = function()
             {
                 App.hidePopUp();
-                vex.dialog.alert("Le signalement a bien été mis à jour.");
+                NotificationManager.showNotification("Le signalement a bien été mis à jour.", "success");
+                window.location.reload();
             }
             App.showPopUp("app-reporteditform", "Mise à jour d'un signalement", { "callback" : callback, "report" : tag.report});
         }

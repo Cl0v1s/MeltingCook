@@ -547,8 +547,8 @@ class APIController extends Controller
             return;
         }
         $report = new Report(null, $_POST["id"]);
-        if(isset($_POST["state"]))
-            $report->setState($_POST["state"]);
+        if(isset($_POST["progress"]))
+            $report->setProgress($_POST["progress"]);
         if(isset($_POST["content"]))
             $report->setContent($_POST["content"]);
         $this->Update($report);

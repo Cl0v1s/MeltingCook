@@ -13773,19 +13773,19 @@ class Adapter {
         return user;
     }
     static adaptReport(report) {
-        switch (report.state) {
+        switch (report.progress) {
             case "1":
             case 1:
             default:
-                report.message_state = "Nouveau";
+                report.message_progress = "Nouveau";
                 break;
             case "2":
             case 2:
-                report.message_state = "En Cours";
+                report.message_progress = "En Cours";
                 break;
             case "3":
             case 3:
-                report.message_state = "Terminé";
+                report.message_progress = "Terminé";
                 break;
         }
         return report;
@@ -16156,7 +16156,7 @@ module.exports = riot.tag2('app-recipes', '<app-recipeitem each="{recipe in reci
 });
 },{"riot":8}],46:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-reporteditform', '<form name="edit-report"> <div> <label>Motif du signalement</label> <textarea name="content" ref="content" riot-value="{report.content}"></textarea> <p> Ce champ doit contenir entre 10 et 1000 caractères. </p> </div> <div class="{invisible : admin == false || report == null}"> <label>Etat d\'avancement</label> <select name="state" ref="state"> <option value="1" selected="{report.state == 1 || report.state == ⁗1⁗}">Nouveau</option> <option value="2" selected="{report.state == 2 || report.state == ⁗2⁗}">En cours</option> <option value="3" selected="{report.state == 3 || report.state == ⁗3⁗}">Résolu</option> </select> </div> <div> <input type="button" class="large" value="Envoyer" onclick="{send}"> </div> </form>', '', '', function(opts) {
+module.exports = riot.tag2('app-reporteditform', '<form name="edit-report"> <div> <label>Motif du signalement</label> <textarea name="content" ref="content" riot-value="{report.content}"></textarea> <p> Ce champ doit contenir entre 10 et 1000 caractères. </p> </div> <div if="{admin == true && report != null}"> <label>Etat d\'avancement</label> <select name="state" ref="state"> <option value="1" selected="{report.state == 1 || report.state == \'1\'}">Nouveau</option> <option value="2" selected="{report.state == 2 || report.state == \'2\'}">En cours</option> <option value="3" selected="{report.state == 3 || report.state == \'3\'}">Résolu</option> </select> </div> <div> <input type="button" class="large" value="Envoyer" onclick="{send}"> </div> </form>', '', '', function(opts) {
         var tag = this;
 
         tag.report = null;
@@ -16186,7 +16186,7 @@ module.exports = riot.tag2('app-reporteditform', '<form name="edit-report"> <div
         {
             if(tag.refs.content.value.length < 10 || tag.refs.content.value.length > 1000)
             {
-                vex.dialog.alert("Le motif du signalement doit comporter entre 10 et 1000 caractères.");
+                NotificationManager.showNotification("Le motif du signalement doit comporter entre 10 et 1000 caractères.", "error");
                 return;
             }
             var adr = App.Address + "/updatereport";
@@ -16197,9 +16197,12 @@ module.exports = riot.tag2('app-reporteditform', '<form name="edit-report"> <div
                 rpt = {};
                 rpt.target_id = tag.target;
                 rpt.author_id = Login.GetInstance().User().id;
+                rpt.progress = "1";
             }
+            else
+                rpt.progress = tag.refs.state.options[tag.refs.state.selectedIndex].value;
             rpt.content = tag.refs.content.value;
-            rpt.state = tag.refs.state.options[tag.refs.state.selectedIndex].value;
+            console.log(rpt);
             var request = App.request(adr, rpt);
             request.then((response) => {
                 tag.callback();
@@ -16213,7 +16216,7 @@ module.exports = riot.tag2('app-reporteditform', '<form name="edit-report"> <div
 });
 },{"riot":8}],47:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-reportitem', '<div class="identity"> <span><b>Par:</b> <a target="_blank" href="#/user/{report.author.id}">{report.author.username}</a></span> <span><b>Concerne:</b> <a target="_blank" href="#/user/{report.target.id}">{report.target.username}</a></span> </div> <div class="body"> <div> <span><b>Etat:</b> {report.message_state}</span> </div> <p> {report.content} </p> </div> <div class="foot"> <input type="button" class="large" value="Mettre à jour" onclick="{edit}"> </div>', '', '', function(opts) {
+module.exports = riot.tag2('app-reportitem', '<div class="identity"> <span><b>Par:</b> <a target="_blank" href="#/user/{report.author.id}">{report.author.username}</a></span> <span><b>Concerne:</b> <a target="_blank" href="#/user/{report.target.id}">{report.target.username}</a></span> </div> <div class="body"> <div> <span><b>Etat:</b> {report.message_progress}</span> </div> <p> {report.content} </p> </div> <div class="foot"> <input type="button" class="large" value="Mettre à jour" onclick="{edit}"> </div>', '', '', function(opts) {
         var tag = this;
 
         tag.report = null;
@@ -16243,7 +16246,8 @@ module.exports = riot.tag2('app-reportitem', '<div class="identity"> <span><b>Pa
             var callback = function()
             {
                 App.hidePopUp();
-                vex.dialog.alert("Le signalement a bien été mis à jour.");
+                NotificationManager.showNotification("Le signalement a bien été mis à jour.", "success");
+                window.location.reload();
             }
             App.showPopUp("app-reporteditform", "Mise à jour d'un signalement", { "callback" : callback, "report" : tag.report});
         }
@@ -16273,7 +16277,7 @@ module.exports = riot.tag2('app-reports', '<div> <br><br> <span class="Switch"> 
             tag.currents = new Array();
             tag.ends = new Array();
             tag.reports.forEach((report) => {
-                switch (report.state) {
+                switch (report.progress) {
                     case "1":
                     case 1:
                     default:
@@ -16785,7 +16789,7 @@ module.exports = riot.tag2('app-user', '<app-header></app-header> <div> <div cla
                 return;
             var callback = function () {
                 App.hidePopUp();
-                vex.dialog.alert("L'utilisateur a bien été signalé. Merci de votre vigilance.");
+                NotificationManager.showNotification("L'utilisateur a bien été signalé. Merci de votre vigilance.", "success")
             };
             var report = App.showPopUp("app-reporteditform", "Signaler un utilisateur", {
                 "callback": callback,

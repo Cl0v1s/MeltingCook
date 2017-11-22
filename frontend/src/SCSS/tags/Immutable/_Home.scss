@@ -22,11 +22,20 @@ app-home, div[data-is=app-home]
     height: 610px;
     background-repeat: no-repeat;
 
-    @media screen and (max-width: 650px)
+    @media screen and (max-width:380px)
+    {
+      height: 210px;
+    }
+
+    @media screen and (min-width:380px) and (max-width: 650px)
     {
       background-size: cover !important;
       height: 350px;
+    }
 
+    @media screen and (min-width: 1800px)
+    {
+      background-size: auto 110%;
     }
 
   }

@@ -43,6 +43,18 @@ class Reservation extends StorageItem
     public $done;
 
     /**
+     * @Word
+     */
+    public $txn_id;
+
+    public $created_at;
+
+    public $paid_at;
+
+    public $ended_at;
+
+
+    /**
      * @return mixed
      */
     public function HostId()
@@ -130,6 +142,73 @@ class Reservation extends StorageItem
         $this->checkIntegrity("done");
 
     }
+
+    /**
+     * @return mixed
+     */
+    public function TxnId()
+    {
+        return $this->txn_id;
+    }
+
+    /**
+     * @param mixed $txn_id
+     */
+    public function setTxnId($txn_id)
+    {
+        $this->txn_id = $txn_id;
+        $this->checkIntegrity("txn_id");
+    }
+
+    /**
+     * @return mixed
+     */
+    public function CreatedAt()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * @param mixed $created_at
+     */
+    public function setCreatedAt($created_at)
+    {
+        $this->created_at = $created_at;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function PaidAt()
+    {
+        return $this->paid_at;
+    }
+
+    /**
+     * @param mixed $paid_at
+     */
+    public function setPaidAt($paid_at)
+    {
+        $this->paid_at = $paid_at;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function EndedAt()
+    {
+        return $this->ended_at;
+    }
+
+    /**
+     * @param mixed $ended_at
+     */
+    public function setEndedAt($ended_at)
+    {
+        $this->ended_at = $ended_at;
+    }
+
+
     
     
 

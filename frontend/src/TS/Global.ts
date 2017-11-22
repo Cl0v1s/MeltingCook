@@ -1,94 +1,93 @@
 var riot = <Riot>require("riot");
 
-var tags =
-    {
-        // ACCOUNT
-        "app-accountkitchen": require("./../../tags/Account/AccountKitchen.tag"),
-        "app-accountrecipes": require("./../../tags/Account/AccountRecipes.tag"),
-        "app-accountreservations": require("./../../tags/Account/AccountReservations.tag"),
-        "app-accountuser": require("./../../tags/Account/AccountUser.tag"),
 
-        // COMMENT
-        "app-commenteditform": require("./../../tags/Comment/CommentEditForm.tag"),
-        "app-commentitem": require("./../../tags/Comment/CommentItem.tag"),
-        "app-commentlist": require("./../../tags/Comment/CommentList.tag"),
-        "app-comments": require("./../../tags/Comment/Comments.tag"),
+// ACCOUNT
+require("./../../tags/Account/AccountKitchen.tag");
+require("./../../tags/Account/AccountRecipes.tag");
+require("./../../tags/Account/AccountReservations.tag");
+require("./../../tags/Account/AccountUser.tag");
 
-        // IMMUTABLE
-        "app-error": require("./../../tags/Immutable/Error.tag"),
-        "app-home": require("./../../tags/Immutable/Home.tag"),
-        "app-login": require("./../../tags/Immutable/Login.tag"),
-        "app-cgu": require("./../../tags/Immutable/CGU.tag"),
+// COMMENT
+require("./../../tags/Comment/CommentEditForm.tag");
+require("./../../tags/Comment/CommentItem.tag");
+require("./../../tags/Comment/CommentList.tag");
+require("./../../tags/Comment/Comments.tag");
 
-        // MISC
-        "app-dateinput": require("./../../tags/Misc/DateInput.tag"),
-        "app-footer": require("./../../tags/Misc/Footer.tag"),
-        "app-header": require("./../../tags/Misc/Header.tag"),
-        "app-hearts": require("./../../tags/Misc/Hearts.tag"),
-        "app-manyinputs": require("./../../tags/Misc/ManyInputs.tag"),
-        "app-origininput": require("./../../tags/Misc/OriginInput.tag"),
-        "app-pinsinput": require("./../../tags/Misc/PinsInput.tag"),
-        "app-placehint": require("./../../tags/Misc/PlaceHint.tag"),
-        "app-placeinput": require("./../../tags/Misc/PlaceInput.tag"),
-        "app-tabbar": require("./../../tags/Misc/TabBar.tag"),
-        "app-timeinput": require("./../../tags/Misc/TimeInput.tag"),
-        "app-userselector": require("./../../tags/Misc/UserSelector.tag"),
+// IMMUTABLE
+require("./../../tags/Immutable/Error.tag");
+require("./../../tags/Immutable/Home.tag");
+require("./../../tags/Immutable/Login.tag");
+require("./../../tags/Immutable/CGU.tag");
 
-
-        // RECIPE
-        "app-recipe": require("./../../tags/Recipe/Recipe.tag"),
-        "app-recipeedit": require("./../../tags/Recipe/RecipeEdit.tag"),
-        "app-recipeeditform": require("./../../tags/Recipe/RecipeEditForm.tag"),
-        "app-recipeitem": require("./../../tags/Recipe/RecipeItem.tag"),
-        "app-recipelist": require("./../../tags/Recipe/RecipeList.tag"),
-        "app-recipes": require("./../../tags/Recipe/Recipes.tag"),
-
-        // REPORT
-        "app-reports": require("./../../tags/Report/Reports.tag"),
-        "app-reportitem": require("./../../tags/Report/ReportItem.tag"),
-        "app-reporteditform": require("./../../tags/Report/ReportEditForm.tag"),
-
-        // ORIGIN
-        "app-origineditform": require("./../../tags/Origin/OriginEditForm.tag"),
-
-        // PIN
-        "app-pineditform": require("./../../tags/Pin/PinEditForm.tag"),
+// MISC
+require("./../../tags/Misc/DateInput.tag");
+require("./../../tags/Misc/Footer.tag");
+require("./../../tags/Misc/Header.tag");
+require("./../../tags/Misc/Hearts.tag");
+require("./../../tags/Misc/ManyInputs.tag");
+require("./../../tags/Misc/OriginInput.tag");
+require("./../../tags/Misc/PinsInput.tag");
+require("./../../tags/Misc/PlaceHint.tag");
+require("./../../tags/Misc/PlaceInput.tag");
+require("./../../tags/Misc/TabBar.tag");
+require("./../../tags/Misc/TimeInput.tag");
+require("./../../tags/Misc/UserSelector.tag");
 
 
-        // RESERVATION
-        "app-reservationvalidateform": require("./../../tags/Reservation/ReservationValidateForm.tag"),
-        "app-reservation": require("./../../tags/Reservation/Reservation.tag"),
-        "app-reservationitem": require("./../../tags/Reservation/ReservationItem.tag"),
-        "app-reservations": require("./../../tags/Reservation/Reservations.tag"),
-        
-        // SEARCH
-        "app-search": require("./../../tags/Search/Search.tag"),
-        "app-searchitem": require("./../../tags/Search/SearchItem.tag"),
-        "app-searcher": require("./../../tags/Search/Searcher.tag"),
-        "app-searchresults": require("./../../tags/Search/SearchResults.tag"),
-        
-        // USER
+// RECIPE
+require("./../../tags/Recipe/Recipe.tag");
+require("./../../tags/Recipe/RecipeEdit.tag");
+require("./../../tags/Recipe/RecipeEditForm.tag");
+require("./../../tags/Recipe/RecipeItem.tag");
+require("./../../tags/Recipe/RecipeList.tag");
+require("./../../tags/Recipe/Recipes.tag");
 
-        "app-user": require("./../../tags/User/User.tag"),
-        "app-useredit": require("./../../tags/User/UserEdit.tag"),
-        "app-usereditform": require("./../../tags/User/UserEditForm.tag"),
-        "app-useritem": require("./../../tags/User/UserItem.tag"),
-        "app-userpasswordform": require("./../../tags/User/UserPasswordForm.tag"),
-        "app-users": require("./../../tags/User/Users.tag"),
+// REPORT
+require("./../../tags/Report/Reports.tag");
+require("./../../tags/Report/ReportItem.tag");
+require("./../../tags/Report/ReportEditForm.tag");
 
-        // ADMIN
-        "app-adminreports" : require("./../../tags/Admin/AdminReports.tag"),
-        "app-adminorigins" : require("./../../tags/Admin/AdminOrigins.tag"),
-        "app-adminpins" : require("./../../tags/Admin/AdminPins.tag"),
-        "app-adminreservations" : require("./../../tags/Admin/AdminReservations.tag"),
+// ORIGIN
+require("./../../tags/Origin/OriginEditForm.tag");
+
+// PIN
+require("./../../tags/Pin/PinEditForm.tag");
 
 
+// RESERVATION
+require("./../../tags/Reservation/ReservationValidateForm.tag");
+require("./../../tags/Reservation/Reservation.tag");
+require("./../../tags/Reservation/ReservationItem.tag");
+require("./../../tags/Reservation/Reservations.tag");
 
-    };
+// SEARCH
+require("./../../tags/Search/Search.tag");
+require("./../../tags/Search/SearchItem.tag");
+require("./../../tags/Search/Searcher.tag");
+require("./../../tags/Search/SearchResults.tag");
+
+// USER
+
+require("./../../tags/User/User.tag");
+require("./../../tags/User/UserEdit.tag");
+require("./../../tags/User/UserEditForm.tag");
+require("./../../tags/User/UserItem.tag");
+require("./../../tags/User/UserPasswordForm.tag");
+require("./../../tags/User/Users.tag");
+
+// ADMIN
+require("./../../tags/Admin/AdminReports.tag");
+require("./../../tags/Admin/AdminOrigins.tag");
+require("./../../tags/Admin/AdminPins.tag");
+require("./../../tags/Admin/AdminReservations.tag");
+
+
+
+    
 
 class App
 {
-    public static Address : string = "http://localhost:8080/API";
+    public static Address : string = "http://192.168.1.19/MC/API";
 
     private static Page = null;
     private static PopUp = null;
@@ -208,7 +207,7 @@ class App
             document.body.appendChild(e);
         }
         App.hideLoading();
-        App.Page = riot.mount("div#app", tags[tag], data);
+        App.Page = riot.mount("div#app", tag, data);
         window.scroll(0,0);
     }
 

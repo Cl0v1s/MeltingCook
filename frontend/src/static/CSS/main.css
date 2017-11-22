@@ -1433,9 +1433,32 @@ app-header, div[data-is=app-header] {
       transition: all 0.2s ease; }
       app-header > nav div.img:hover, div[data-is=app-header] > nav div.img:hover {
         transform: scale(1.1, 1.1); }
-  @media screen and (max-width: 560px) {
+  @media screen and (max-width: 680px) {
     app-header a.Action, div[data-is=app-header] a.Action {
       display: none; } }
+  @media screen and (max-width: 390px) {
+    app-header, div[data-is=app-header] {
+      height: auto; }
+      app-header > div.img, div[data-is=app-header] > div.img {
+        display: block;
+        width: 150px;
+        height: 100px;
+        cursor: pointer;
+        margin: auto;
+        background-image: url("/static/images/logo-noir.svg");
+        background-size: 160% 160%;
+        background-position: center;
+        background-repeat: no-repeat;
+        transition: all 0.2s ease; }
+        app-header > div.img:hover, div[data-is=app-header] > div.img:hover {
+          transform: scale(1.1, 1.1); }
+      app-header nav, div[data-is=app-header] nav {
+        display: block;
+        position: relative;
+        margin: 0;
+        right: 0;
+        width: 100%;
+        text-align: center; } }
 
 app-footer,
 div[data-is=app-footer] {

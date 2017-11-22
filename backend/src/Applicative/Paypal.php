@@ -168,6 +168,8 @@ class Paypal
 
         // Mise à jour de l'état de la réservation
         $reservation->setPaid("1");
+        $reservation->setPaidAt(time());
+        $reservation->setTxnId($ipn->txn_id);
         $storage->persist($reservation, StorageState::ToUpdate);
         $storage->flush();
 

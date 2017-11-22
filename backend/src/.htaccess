@@ -1,10 +1,11 @@
-<IfModule mod_rewrite.c>
+
     Options +FollowSymlinks
-    Options +Indexes
+    #Options +Indexes
+    DirectoryIndex pp.test
     RewriteEngine on
 
     # if your app is in a subfolder:
-    # RewriteBase /my_app/
+    RewriteBase /MC/
 
     RewriteRule ^(Test)($|/) - [L]
     RewriteRule ^(Static)($|/) - [L]
@@ -12,4 +13,3 @@
     # with QSA flag (query string append),
     # forces the rewrite engine to append a query string part of the
     # substitution string to the existing string, instead of replacing it.
-</IfModule>

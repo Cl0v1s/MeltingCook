@@ -15563,7 +15563,7 @@ module.exports = riot.tag2('app-manyinputs', '<div> <input type="text" each="{va
                 {
                         if(tag.length <= 1)
                                 return;
-                        let inputs = tag.root.querySelectorAll("input[type=text]");
+                        let inputs = Array.from(tag.root.querySelectorAll("input[type=text]"));
                         let last = inputs.pop();
                         last.remove();
                         tag.length--;

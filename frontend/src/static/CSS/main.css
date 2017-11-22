@@ -607,7 +607,6 @@ app-home, div[data-is=app-home] {
     color: #e3dfd6;
     padding: 20px; }
     app-home div.ask > div, div[data-is=app-home] div.ask > div {
-      width: 400px;
       overflow: hidden;
       margin: auto; }
     app-home div.ask h1, div[data-is=app-home] div.ask h1 {

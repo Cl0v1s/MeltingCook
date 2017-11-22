@@ -111,6 +111,7 @@ class App
                 (<HTMLElement>e.target).classList.remove("error");
             });
         }
+        NotificationManager.showNotification("Oups... Il y a une erreur dans le formulaire. Pensez à Vérifier les informations renseignées !", "error");
     }
 
 

@@ -40,13 +40,13 @@
 
         tag.send = function()
         {
-            if(tag.user.id === null)
+            if(tag.user == null || tag.user.id === null)
             {
-                vex.dialog.alert("Félicitation ! Vous êtes désormais un membre de Melting Cook. Vous pouvez vous connecter.");
+                NotificationManager.showNotification("Félicitation ! Vous êtes désormais un membre de Melting Cook. Vous pouvez vous connecter.", "success");
             }
             else 
             {
-                vex.dialog.alert("Vos informations ont bien été mises à jour !");
+                NotificationManager.showNotification("Vos informations ont bien été mises à jour !", "success");
             }
             route("/");
         };

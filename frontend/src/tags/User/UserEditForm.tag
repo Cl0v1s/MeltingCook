@@ -291,6 +291,30 @@
                 var errors = {
                     "edit-user" : {}
                 };
+
+                // Confirmation de la bannière
+                if(tag.refs.banner.value != "")
+                {
+                    if(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(tag.refs.banner.value) == false)
+                    {
+                        errors["edit-user"].banner = {
+                            "required" : "true"
+                        };
+                    }
+                }
+
+                // Confirmation de la picture
+                if(tag.refs.picture.value != "")
+                {
+                    if(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(tag.refs.picture.value) == false)
+                    {
+                        errors["edit-user"].picture = {
+                            "required" : "true"
+                        };
+                    }
+                }
+
+
                 // Confirmation des mots de passe
                 if(tag.user.id == null)
                 {
@@ -347,7 +371,7 @@
             {
                 App.diagnosticForm("edit-user", valid.errors);
             }
-        }
+        };
 
         tag.send = function()
         {

@@ -698,6 +698,7 @@ class App {
                 e.target.classList.remove("error");
             });
         }
+        NotificationManager.showNotification("Oups... Il y a une erreur dans le formulaire. Pensez à Vérifier les informations renseignées !", "error");
     }
     static request(address, data, redirect = true, bg = true) {
         return new Promise(function (resolve, reject) {

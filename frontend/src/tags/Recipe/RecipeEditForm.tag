@@ -131,6 +131,17 @@
                 var errors = {
                     "edit-recipe" : {}
                 };
+                // Confirmation de la picture
+                if(tag.refs.picture.value != "")
+                {
+                    if(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(tag.refs.picture.value) == false)
+                    {
+                        errors["edit-recipe"].picture = {
+                            "required" : "true"
+                        };
+                    }
+                }
+
                 if(tag.refs.origin.value === "" || tag.refs.origin.value.length > 400)
                 {
                     errors["edit-recipe"].origin = {

@@ -14404,6 +14404,7 @@ class App {
                 e.target.classList.remove("error");
             });
         }
+        NotificationManager.showNotification("Oups... Il y a une erreur dans le formulaire. Pensez à Vérifier les informations renseignées !", "error");
     }
     static request(address, data, redirect = true, bg = true) {
         return new Promise(function (resolve, reject) {
@@ -14879,13 +14880,13 @@ module.exports = riot.tag2('app-accountuser', '<app-header></app-header> <app-ta
 
         tag.send = function()
         {
-            if(tag.user.id === null)
+            if(tag.user == null || tag.user.id === null)
             {
-                vex.dialog.alert("Félicitation ! Vous êtes désormais un membre de Melting Cook. Vous pouvez vous connecter.");
+                NotificationManager.showNotification("Félicitation ! Vous êtes désormais un membre de Melting Cook. Vous pouvez vous connecter.", "success");
             }
             else
             {
-                vex.dialog.alert("Vos informations ont bien été mises à jour !");
+                NotificationManager.showNotification("Vos informations ont bien été mises à jour !", "success");
             }
             route("/");
         };
@@ -16804,11 +16805,11 @@ module.exports = riot.tag2('app-useredit', '<app-header></app-header> <div class
         {
             if(tag.user == null || tag.user.id === null)
             {
-                vex.dialog.alert("Félicitation ! Vous êtes désormais un membre de Melting Cook. Vous pouvez vous connecter.");
+                NotificationManager.showNotification("Félicitation ! Vous êtes désormais un membre de Melting Cook. Vous pouvez vous connecter.", "success");
             }
             else
             {
-                vex.dialog.alert("Vos informations ont bien été mises à jour !");
+                NotificationManager.showNotification("Vos informations ont bien été mises à jour !", "success");
             }
             route("/");
         }
@@ -16927,6 +16928,26 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
                     "edit-user" : {}
                 };
 
+                if(tag.refs.banner.value != "")
+                {
+                    if(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(tag.refs.banner.value) == false)
+                    {
+                        errors["edit-user"].banner = {
+                            "required" : "true"
+                        };
+                    }
+                }
+
+                if(tag.refs.picture.value != "")
+                {
+                    if(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(tag.refs.picture.value) == false)
+                    {
+                        errors["edit-user"].picture = {
+                            "required" : "true"
+                        };
+                    }
+                }
+
                 if(tag.user.id == null)
                 {
                     if(tag.refs.password.value == "" || tag.refs.password.value.length < 8 || tag.refs.password.value.length > 100)
@@ -16981,7 +17002,7 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
             {
                 App.diagnosticForm("edit-user", valid.errors);
             }
-        }
+        };
 
         tag.send = function()
         {

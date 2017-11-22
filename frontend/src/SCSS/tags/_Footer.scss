@@ -51,4 +51,13 @@ div[data-is=app-footer] {
         }
 
     }
+
+    &>div.portfolios
+    {
+        color: $color-text-secondary;
+        margin-top: $space-small;
+        a{
+            color: $color-front-peach;
+        }
+    }
 }

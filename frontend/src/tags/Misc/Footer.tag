@@ -31,6 +31,9 @@
         <a class="Button insta"><span>Instagram</span></a>
         <a class="Button youtube"><span>Youtube</span></a>
     </div>
+    <div class="portfolios">
+        Site conçu par <a target="_blank" href="http://cha.graphics">Charlène Verrier</a> et développé par <a target="_blank" href="http://www.clovis-portron.cf">Clovis Portron</a>
+    </div>
 
     <script>
         var tag = this;

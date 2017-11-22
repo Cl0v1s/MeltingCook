@@ -1500,6 +1500,13 @@ div[data-is=app-footer] {
         div[data-is=app-footer] > div ul {
           display: inline-block;
           text-align: left; } }
+  app-footer > div.portfolios,
+  div[data-is=app-footer] > div.portfolios {
+    color: #f2f4f3;
+    margin-top: 8px; }
+    app-footer > div.portfolios a,
+    div[data-is=app-footer] > div.portfolios a {
+      color: #FDC279; }
 
 app-error > div, div[data-is=app-error] > div {
   padding: 20px; }

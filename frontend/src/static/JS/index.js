@@ -15450,7 +15450,7 @@ module.exports = riot.tag2('app-header', '<div class="img" onclick="{home}"></di
         tag.logout = function()
         {
             Login.GetInstance().logout();
-            window.location.href = "/";
+            route("/");
         }
 
         tag.account = function()

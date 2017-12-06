@@ -87,7 +87,7 @@ require("./../../tags/Admin/AdminReservations.tag");
 
 class App
 {
-    public static Address : string = "http://192.168.1.19/MC/API";
+    public static Address : string = "http://192.168.1.19/MC/backend/src/API";
 
     private static Page = null;
     private static PopUp = null;

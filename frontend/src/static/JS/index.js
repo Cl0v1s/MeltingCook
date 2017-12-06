@@ -14538,7 +14538,7 @@ class App {
         App.LoadingCounter = 0;
     }
 }
-App.Address = "http://192.168.1.19/MC/API";
+App.Address = "http://192.168.1.19/MC/backend/src/API";
 App.Page = null;
 App.PopUp = null;
 App.LoadingCounter = 0;
@@ -16002,6 +16002,17 @@ module.exports = riot.tag2('app-recipeeditform', '<form name="edit-recipe" if="{
                 var errors = {
                     "edit-recipe" : {}
                 };
+
+                if(tag.refs.picture.value != "")
+                {
+                    if(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(tag.refs.picture.value) == false)
+                    {
+                        errors["edit-recipe"].picture = {
+                            "required" : "true"
+                        };
+                    }
+                }
+
                 if(tag.refs.origin.value === "" || tag.refs.origin.value.length > 400)
                 {
                     errors["edit-recipe"].origin = {

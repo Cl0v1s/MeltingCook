@@ -519,25 +519,25 @@ class API
         if($filters != null) {
             $filters=str_replace("\\","", $filters);
             $filters = get_object_vars(json_decode($filters));
-		if(isset($filters["id"]))
-{
-	if(is_array($filters["id"]))
-	{
-		$f .= "id IN (".join(",",$filters["id"]).") AND ";
-	}
-}
 
+		    if(isset($filters["id"]))
+            {
+                if(is_array($filters["id"]))
+                {
+                    $f .= "id IN (".join(",",$filters["id"]).") AND ";
+                }
+            }
             if(isset($filters["origin"]))
             {
                 $f .= "origin LIKE '%".$filters["origin"]."%' AND ";
             }
             if(isset($filters["date_start"]))
             {
-                $f .= "date_end >= '".$filters["date_start"]."' AND ";
+                $f .= "date_start >= '".$filters["date_start"]."' AND ";
             }
             if(isset($filters["date_end"]))
             {
-                $f .= "date_start <= '".$filters["date_end"]."' AND ";
+                $f .= "date_end <= '".$filters["date_end"]."' AND ";
             }
             if(isset($filters["geolocation"]))
             {

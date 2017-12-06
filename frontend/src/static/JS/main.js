@@ -832,7 +832,7 @@ class App {
         App.LoadingCounter = 0;
     }
 }
-App.Address = "http://192.168.1.19/MC/API";
+App.Address = "http://192.168.1.19/MC/backend/src/API";
 App.Page = null;
 App.PopUp = null;
 App.LoadingCounter = 0;

@@ -48,7 +48,7 @@ class Engine
         spl_autoload_register('Engine::autoload');
 
         $this->logger = new Logger("Log");
-        $this->logger->pushHandler(new StreamHandler("logs.txt"));
+        $this->logger->pushHandler(new StreamHandler("./logs.txt"));
     }
 
 

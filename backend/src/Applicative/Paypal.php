@@ -14,7 +14,7 @@ class IPN
     public $residence_country;
     // Information concernant la transaction
     public $test_ipn;
-    public $transaction_subject;
+    //public $transaction_subject;
     public $txn_id;
     public $txn_type;
     // Informations sur le client
@@ -26,31 +26,31 @@ class IPN
     public $address_city;
     public $address_country;
     public $address_state;
-    public $address_status;
+//    public $address_status;
     public $address_country_code;
     public $address_name;
     public $address_street;
     public $address_zip;
     // Informations sur le payement
     public $custom;
-    public $handling_amount;
+//    public $handling_amount;
     public $item_name;
     public $item_number;
     public $mc_currency;
     public $mc_fee;
     public $mc_gross;
     public $payment_date;
-    public $payment_fee;
-    public $payment_gross;
+//    public $payment_fee;
+//    public $payment_gross;
     public $payment_status;
     public $payment_type;
-    public $protection_eligibility;
+//    public $protection_eligibility;
     public $quantity;
     public $shipping;
     public $tax;
     // Autre
     public $notify_version;
-    public $charset;
+//    public $charset;
     public $verify_sign;
 
     private $raw_data;
@@ -104,7 +104,7 @@ class Paypal
             . $e->getMessage()
             . "<br>\n" . "<br>\n". "Le ".$_POST["payment_date"];
 
-        mail(PaypalController::$ManagerEmail, "Erreur transaction #".$_POST["txn_id"], $body);
+        mail(Paypal::$ManagerEmail, "Erreur transaction #".$_POST["txn_id"], $body);
 
         //TODO: envoyer un mail au payer en cas d'échec
 
@@ -115,11 +115,13 @@ class Paypal
     {
         $paypal = new PaypalIPN();
         $paypal->useSandbox();
+        Engine::Instance()->Logger()->warning("ok0");
         if($paypal->verifyIPN() !=  true)
         {
             throw new LogicException("Failed to verify IPN Message");
         }
-
+        Engine::Instance()->Logger()->warning("ok1");
+        
         // (Avertir administrateur par mail ?)
         // Ou faire avant de dire verified
         // Réaliser les vérifications

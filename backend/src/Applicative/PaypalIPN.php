@@ -102,6 +102,8 @@ class PaypalIPN
             }
             $req .= "&$key=$value";
         }
+        Engine::Instance()->Logger()->warning($req);
+        
 
         // Post the data back to PayPal, using curl. Throw exceptions if errors occur.
         $ch = curl_init($this->getPaypalUri());

@@ -115,6 +115,7 @@ class Paypal
     {
         $paypal = new PaypalIPN();
         $paypal->useSandbox();
+        $paypal->usePHPCerts();
         Engine::Instance()->Logger()->warning("ok0");
         if($paypal->verifyIPN() !=  true)
         {

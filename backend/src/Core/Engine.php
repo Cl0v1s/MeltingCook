@@ -96,7 +96,7 @@ class Engine
             $class = $_GET["p"];
 
         $uri = "Controllers/".$class."Controller.php";
-
+        
         if(file_exists($uri) == false) {
             header("Location: Error/404");
             return;

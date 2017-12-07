@@ -87,7 +87,7 @@ class Paypal
 {
 
     // Email du compte paypal de la boutique
-    private static $EMAIL = "test@test.com";
+    private static $EMAIL = "mc.rachedba@gmail.com";
     // Prix de l'argent allant à MC
     private static $MC_PRICE = 2;
 
@@ -97,6 +97,7 @@ class Paypal
 
     public static function handleError($e)
     {
+        Engine::Instance()->Logger()->error($_POST["payment_date"]."(".$_POST["txn_id"].") ".$_POST["mc_gross"]."€: ".$e->getMessage());
         $body = ""
             . "Bonjour,<br>\r\n"
             . "La transaction ".$_POST["txn_id"]."(".$_POST["payer_email"].") pour un montant de ".$_POST["mc_gross"]." a échouée pour la raison suivante: <br>\r\n"
@@ -172,6 +173,8 @@ class Paypal
         $reservation->setTxnId($ipn->txn_id);
         $storage->persist($reservation, StorageState::ToUpdate);
         $storage->flush();
+        Engine::Instance()->Logger()->warning($_POST["payment_date"]."(".$_POST["txn_id"].") ".$_POST["mc_gross"]."€: OK");
+        
 
         // TODO: envoyer mail au guest avec numéro de téléphone du host
         // TODO: envoyer mail à l'hote avec numéro de téléphone du guest

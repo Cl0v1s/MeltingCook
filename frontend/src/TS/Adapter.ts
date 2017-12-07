@@ -1,5 +1,15 @@
 class Adapter
 {
+
+    public static adaptReservation(reservation :any) : any
+    {
+        if(reservation.adapted === true )
+            return reservation;
+        reservation.adapted = true;
+        reservation.recipe = Adapter.adaptRecipe(reservation.recipe);
+        return reservation;
+    }
+
     public static adaptRecipe(recipe : any) : any
     {
         if(recipe.adapted === true)

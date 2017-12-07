@@ -1,4 +1,11 @@
 class Adapter {
+    static adaptReservation(reservation) {
+        if (reservation.adapted === true)
+            return reservation;
+        reservation.adapted = true;
+        reservation.recipe = Adapter.adaptRecipe(reservation.recipe);
+        return reservation;
+    }
     static adaptRecipe(recipe) {
         if (recipe.adapted === true)
             return recipe;

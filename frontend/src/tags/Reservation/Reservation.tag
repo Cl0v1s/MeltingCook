@@ -112,13 +112,21 @@
                 "guest_id" : Login.GetInstance().User().id,
                 "Recipe_id" : tag.recipe.id
             });
-            request.then(function(response){
-                tag.reservation = response.data;
-                tag.update();
-            });
             request.catch(function(error){
                ErrorHandler.alertIfError(error);
             });
+            let requestReservation = request.then(function(response){
+                let id = response.data;
+                return App.request(App.Address+"/getreservation", {
+                    "id" : id
+                });
+            });
+            requestReservation.then(function(response){
+                tag.reservation = Adapter.adaptReservation(response.data);
+                console.log(tag.reservation);
+                tag.update();
+            });
+
         };
 
         tag.paypal = function()

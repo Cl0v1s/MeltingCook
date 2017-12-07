@@ -13,6 +13,5 @@ Engine::$DEBUG = false;
 date_default_timezone_set ("Europe/Paris");
 Engine::Instance()->setPersistence(new DatabaseStorage("localhost", "MC", "phpmyadmin", "root"));
 Engine::Instance()->run();
-Engine::Instance()->Logger()->warning("LOGGER:OK");
 
 

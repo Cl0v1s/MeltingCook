@@ -67,7 +67,7 @@ class IPN
             if(array_key_exists($property, $data))
                 $this->$property = $data[$property];
             else
-                throw new InvalidArgumentException("IPN Message was Malformed");
+                throw new InvalidArgumentException("IPN Message was Malformed. Property ".$property." missing.");
         }
 
     }

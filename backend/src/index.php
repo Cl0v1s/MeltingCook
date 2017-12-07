@@ -11,6 +11,8 @@ include_once 'Core/Engine.php';
 
 Engine::$DEBUG = false;
 date_default_timezone_set ("Europe/Paris");
+Engine::Instance()->Logger()->warning("New connection from ".$_SERVER['REMOTE_ADDR']);
+
 Engine::Instance()->setPersistence(new DatabaseStorage("localhost", "MC", "phpmyadmin", "root"));
 Engine::Instance()->run();
 

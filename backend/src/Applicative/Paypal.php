@@ -167,7 +167,7 @@ class Paypal
             throw new LogicException("Unable to find recipe.");
 
         // Vérification prix
-        if(floatval($recipe->Price()) + Paypal::$MC_PRICE != floatval($ipn->payment_gross))
+        if(floatval($recipe->Price()) + Paypal::$MC_PRICE != floatval($ipn->mc_gross))
             throw new LogicException("Invalid price.");
 
         // Mise à jour de l'état de la réservation

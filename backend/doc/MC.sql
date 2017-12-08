@@ -61,7 +61,7 @@ CREATE TABLE `Notification` (
   PRIMARY KEY (`id`),
   KEY `User_id` (`User_id`),
   CONSTRAINT `Notification_ibfk_1` FOREIGN KEY (`User_id`) REFERENCES `User` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +70,7 @@ CREATE TABLE `Notification` (
 
 LOCK TABLES `Notification` WRITE;
 /*!40000 ALTER TABLE `Notification` DISABLE KEYS */;
-INSERT INTO `Notification` VALUES (1,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1),(2,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1),(3,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1);
+INSERT INTO `Notification` VALUES (1,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1),(2,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1),(3,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1),(4,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1),(5,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1),(6,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1),(7,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1),(8,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1);
 /*!40000 ALTER TABLE `Notification` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -209,6 +209,7 @@ CREATE TABLE `Reservation` (
   `txn_id` varchar(400) DEFAULT NULL,
   `ended_at` int(11) DEFAULT NULL,
   `created_at` int(11) DEFAULT NULL,
+  `paid_at` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `guest_id` (`guest_id`),
   UNIQUE KEY `Recipe_id` (`Recipe_id`),
@@ -216,7 +217,7 @@ CREATE TABLE `Reservation` (
   CONSTRAINT `Reservation_ibfk_1` FOREIGN KEY (`host_id`) REFERENCES `User` (`id`),
   CONSTRAINT `Reservation_ibfk_2` FOREIGN KEY (`guest_id`) REFERENCES `User` (`id`),
   CONSTRAINT `Reservation_ibfk_3` FOREIGN KEY (`Recipe_id`) REFERENCES `Recipe` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -225,7 +226,7 @@ CREATE TABLE `Reservation` (
 
 LOCK TABLES `Reservation` WRITE;
 /*!40000 ALTER TABLE `Reservation` DISABLE KEYS */;
-INSERT INTO `Reservation` VALUES (1,1,2,3,0,0,NULL,NULL,1512574848);
+INSERT INTO `Reservation` VALUES (6,1,2,3,1,0,'899327589',NULL,1512657351,1512728322);
 /*!40000 ALTER TABLE `Reservation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -280,4 +281,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-06 15:51:53
+-- Dump completed on 2017-12-08 10:20:03

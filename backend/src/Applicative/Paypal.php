@@ -13,7 +13,7 @@ class IPN
     public $receiver_id;
     public $residence_country;
     // Information concernant la transaction
-    public $test_ipn;
+//    public $test_ipn;
     //public $transaction_subject;
     public $txn_id;
     public $txn_type;
@@ -116,12 +116,12 @@ class Paypal
         $paypal = new PaypalIPN();
         $paypal->useSandbox();
         $paypal->usePHPCerts();
-        Engine::Instance()->Logger()->warning("ok0");
+        //Engine::Instance()->Logger()->warning("ok0");
         if($paypal->verifyIPN() !=  true)
         {
             throw new LogicException("Failed to verify IPN Message");
         }
-        Engine::Instance()->Logger()->warning("ok1");
+        //Engine::Instance()->Logger()->warning("ok1");
         
         // (Avertir administrateur par mail ?)
         // Ou faire avant de dire verified
@@ -161,7 +161,7 @@ class Paypal
             throw new LogicException("Guest email different from Payer Email");
 
         // Vérification recette
-        $recipe = new Recipe($storage, $ipn->RecipeId());
+        $recipe = new Recipe($storage, $reservation->RecipeId());
         $recipe = $storage->find($recipe);
         if($recipe == null)
             throw new LogicException("Unable to find recipe.");

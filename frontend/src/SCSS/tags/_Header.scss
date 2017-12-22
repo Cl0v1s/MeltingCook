@@ -71,10 +71,42 @@ app-header, div[data-is=app-header]
         }
     }
 
-    @media screen and (max-width: 560px) {
+    @media screen and (max-width: 680px) {
         a.Action
         {
             display: none;
+        }
+    }
+
+    @media screen and (max-width: 390px) {
+        height: auto;
+        &>div.img
+        {
+            display: block;
+            width: 150px;
+            height: $height;
+            cursor: pointer;
+            margin: auto;
+    
+            background-image: url("/static/images/logo-noir.svg");
+            background-size: 160% 160%;
+            background-position: center;
+            background-repeat:no-repeat;
+    
+            transition: all 0.2s ease;
+            &:hover
+            {
+                transform: scale(1.1,1.1);
+            }
+        }
+        nav
+        {
+            display: block;
+            position: relative;
+            margin: 0;
+            right: 0;
+            width: 100%;
+            text-align: center;
         }
     }
 }

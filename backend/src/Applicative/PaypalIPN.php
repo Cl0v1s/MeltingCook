@@ -102,6 +102,8 @@ class PaypalIPN
             }
             $req .= "&$key=$value";
         }
+        //Engine::Instance()->Logger()->warning($req);
+        
 
         // Post the data back to PayPal, using curl. Throw exceptions if errors occur.
         $ch = curl_init($this->getPaypalUri());
@@ -120,7 +122,12 @@ class PaypalIPN
         curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Connection: Close'));
+
+        //Engine::Instance()->Logger()->warning("exec");
+        
         $res = curl_exec($ch);
+        //Engine::Instance()->Logger()->warning("end");
+        
         if ( ! ($res)) {
             $errno = curl_errno($ch);
             $errstr = curl_error($ch);

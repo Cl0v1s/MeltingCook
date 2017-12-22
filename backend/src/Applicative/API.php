@@ -62,7 +62,9 @@ class API
         if($reservation->Paid() == "0")
         {
             API::GenerateNotification($token, $reservation->GuestId(), "info", "Votre réservation concernant la recette ".$recipe["name"]." a été annulée.");
-            API::Remove($token, "Reservation", $reservation->Id());
+            $reservation->setDone(-1);
+            $reservation->setEndedAt(time());
+            API::Update($token, $reservation);
             return;
         }
 
@@ -73,6 +75,8 @@ class API
             API::GenerateNotification($token, $reservation->HostId(), "info", "Une réservation concernant la recette ".$recipe["name"]." a été annulée.");
 
             $reservation->setPaid(2);
+            $reservation->setEndedAt(time());
+
             API::Update($token, $reservation);
             return;
         }
@@ -109,13 +113,16 @@ class API
         if($reservation->Paid() == "1") {
             API::GenerateNotification($token, $reservation->GuestId(), "success", "Votre réservation concernant la recette " . $recipe["name"] . " a été finalisée. Votre hôte a reçu votre compensation et vous remercie !");
             API::GenerateNotification($token, $reservation->HostId(), "success", "Vous avez reçu une compensation relative à la recette " . $recipe["name"] . " ! Allez jeter un oeil à votre compte Paypal !");
+            $reservation->setDone(2);
         }
 
         if($reservation->Paid() == "2") {
             API::GenerateNotification($token, $reservation->GuestId(), "success", "Votre réservation concernant la recette " . $recipe["name"] . " a été remboursée !");
+            $reservation->setDone(-1);
         }
+        $reservation->setEndedAt(time());
+        API::Update($token, $reservation);
 
-        API::Remove($token, "Reservation", $reservation->Id());
     }
 
     /**
@@ -154,6 +161,7 @@ class API
         API::GenerateNotification($token, $reservation->HostId(), "success", "Votre ancien invité ".$user->Username()." a lancé la procédure de finalisation de sa réservation! Vous devriez bientôt reçevoir votre compensation !");
 
         $reservation->setDone(1);
+        //$reservation->setEndedAt(time());
         API::Update($token, $reservation);
     }
 
@@ -225,7 +233,7 @@ class API
         $storage->flush();
     }
 
-    public static function GetAll($token, $class, $filters = null)
+    public static function GetAll($token, $class, $filters = null, $sqlconditions = null)
     {
         //API::CheckRights($token, 1);
         $storage = Engine::Instance()->Persistence("DatabaseStorage");
@@ -264,6 +272,8 @@ class API
                 }
             }
             $f = substr($f,0, -4);
+            if($sqlconditions != null)
+                $f = $f." ".$sqlconditions;
         }
         $storage->findAll($class, $items, $f);
         return $items;
@@ -314,11 +324,13 @@ class API
             throw new Exception("Impossible de réserver deux fois pour la même recette#", 2);
 
         $recipe = API::GetRecipe($token, $item->RecipeId());
-        if(time() > $recipe["date_start"])
-            throw new Exception("Impossible de réserver une recette après sa date de début#", 2);
+        /*if(time() > $recipe["date_start"])
+            throw new Exception("Impossible de réserver une recette après sa date de début#", 2);*/
 
 
         API::GenerateNotification($token, $item->HostId(), "success", $user->Username()." a lancé une procédure de réservation relative à votre recette ".$recipe["name"].".");
+
+        $item->setCreatedAt(time());
 
         return API::Add($token, $item);
     }
@@ -475,6 +487,7 @@ class API
             $recipe["user"] = API::Get($token, "User", $recipe["User_id"]);
         }
         $reservations = API::GetAll($token, "Reservation", '{ "Recipe_id" : "'.$id.'" }');
+        $recipe["reservations"] = $reservations;
         $recipe["users"] = array();
         foreach ($reservations as $reservation)
         {
@@ -506,13 +519,14 @@ class API
         if($filters != null) {
             $filters=str_replace("\\","", $filters);
             $filters = get_object_vars(json_decode($filters));
-		if(isset($filters["id"]))
-{
-	if(is_array($filters["id"]))
-	{
-		$f .= "id IN (".join(",",$filters["id"]).") AND ";
-	}
-}
+            
+            if(isset($filters["id"]))
+            {
+                if(is_array($filters["id"]))
+                {
+                    $f .= "id IN (".join(",",$filters["id"]).") AND ";
+                }
+            }
 
             if(isset($filters["origin"]))
             {
@@ -628,6 +642,17 @@ class API
             array_push($results, $reservation);
         }
         return $results;
+    }
+
+
+    public static function GetAllPins($token, $filters = null)
+    {
+        return API::GetAll($token, "Pins", $filters, "ORDERBY name ASC");
+    }
+    
+    public static function GetAllOrigin($token, $filters = null)
+    {
+        return API::GetAll($token, "Origin", $filters, "ORDERBY name ASC");
     }
 
 

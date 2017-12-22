@@ -1,0 +1,30 @@
+app-cgu, div[data-is=app-cgu]
+{
+    display: block;
+
+    h2
+    {
+        display: block;
+        margin-top: $space-normal;
+        margin-bottom: $space-normal;
+    }
+
+    h3
+    {
+        display: block;
+        font-family: $font-primary;
+        margin-top: $space-small;
+        margin-bottom: $space-small;
+        text-transform: uppercase;
+    }
+
+    h4
+    {
+        display: block;
+        font-family: $font-primary;
+        margin-top: $space-small;
+        margin-bottom: $space-small;
+        font-weight: bold;
+    
+    }
+}

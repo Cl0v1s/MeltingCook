@@ -7,12 +7,12 @@
                 Ce champ doit contenir entre 10 et 1000 caractères.
             </p>
         </div>
-        <div class={ invisible : admin == false || report == null }>
+        <div if="{ admin == true && report != null }">
             <label>Etat d'avancement</label>
             <select name="state" ref="state">
-                <option value="1" selected={ report.state == 1 || report.state == "1" }>Nouveau</option>
-                <option value="2" selected={ report.state == 2 || report.state == "2" }>En cours</option>
-                <option value="3" selected={ report.state == 3 || report.state == "3" }>Résolu</option>
+                <option value="1" selected="{ report.state == 1 || report.state == '1' }">Nouveau</option>
+                <option value="2" selected="{ report.state == 2 || report.state == '2' }">En cours</option>
+                <option value="3" selected="{ report.state == 3 || report.state == '3' }">Résolu</option>
             </select>
         </div>
         <div>
@@ -50,7 +50,7 @@
         {
             if(tag.refs.content.value.length < 10 || tag.refs.content.value.length > 1000)
             {
-                vex.dialog.alert("Le motif du signalement doit comporter entre 10 et 1000 caractères.");
+                NotificationManager.showNotification("Le motif du signalement doit comporter entre 10 et 1000 caractères.", "error");
                 return;
             }
             var adr = App.Address + "/updatereport";
@@ -61,9 +61,12 @@
                 rpt = {};
                 rpt.target_id = tag.target;
                 rpt.author_id = Login.GetInstance().User().id;
+                rpt.progress = "1";
             }
+            else 
+                rpt.progress = tag.refs.state.options[tag.refs.state.selectedIndex].value;
             rpt.content = tag.refs.content.value;
-            rpt.state = tag.refs.state.options[tag.refs.state.selectedIndex].value;
+            console.log(rpt);
             var request = App.request(adr, rpt);
             request.then((response) => {
                 tag.callback();

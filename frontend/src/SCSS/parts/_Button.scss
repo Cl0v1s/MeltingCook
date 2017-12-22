@@ -1,3 +1,5 @@
+@import './../chart';
+
 a.onclick
 {
     cursor: pointer;
@@ -7,7 +9,7 @@ a.Button
 {
     $side: 45px;
     display: inline-block;
-    width: 60px;
+    //width: 60px;
     height: $side;
 
     vertical-align: middle;
@@ -32,7 +34,7 @@ a.Button
 
     &>span
     {
-        position: absolute;
+        //position: absolute;
         width: 100%;
         text-align: center;
         //bottom: 0;
@@ -54,6 +56,15 @@ a.Button
             color: $color-front-straw;
         }
         background-image: url("/static/images/on.svg");
+    }
+
+    &.logout 
+    {
+        &>span
+        {
+            color: $color-front-peach;
+        }
+        background-image: url("/static/images/on.svg");  
     }
 
     &.fb

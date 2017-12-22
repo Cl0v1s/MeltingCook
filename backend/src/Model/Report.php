@@ -34,7 +34,7 @@ class Report extends StorageItem
      * @Required
      * @Numeric
      */
-    public $state;
+    public $progress;
 
     /**
      * @return mixed
@@ -92,18 +92,18 @@ class Report extends StorageItem
     /**
      * @return mixed
      */
-    public function State()
+    public function Progress()
     {
-        return $this->state;
+        return $this->progress;
     }
 
     /**
      * @param mixed $state
      */
-    public function setState($state)
+    public function setProgress($state)
     {
-        $this->state = $state;
-        $this->checkIntegrity("state");
+        $this->progress = $state;
+        $this->checkIntegrity("progress");
     }
 
 

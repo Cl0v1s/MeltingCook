@@ -123,9 +123,18 @@ app-recipe, div[data-is=app-recipe]
 
             ul
             {
-                padding-left: $space-big;
+                padding-left: $space-normal;
                 list-style: disc;
 
+            }
+        }
+
+        div.users
+        {
+            margin-top: $space-normal;
+            h2
+            {
+                font-family: $font-secondary;
             }
         }
     }

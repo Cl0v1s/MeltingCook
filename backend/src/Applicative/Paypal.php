@@ -13,8 +13,8 @@ class IPN
     public $receiver_id;
     public $residence_country;
     // Information concernant la transaction
-    public $test_ipn;
-    public $transaction_subject;
+//    public $test_ipn;
+    //public $transaction_subject;
     public $txn_id;
     public $txn_type;
     // Informations sur le client
@@ -26,31 +26,31 @@ class IPN
     public $address_city;
     public $address_country;
     public $address_state;
-    public $address_status;
+//    public $address_status;
     public $address_country_code;
     public $address_name;
     public $address_street;
     public $address_zip;
     // Informations sur le payement
     public $custom;
-    public $handling_amount;
+//    public $handling_amount;
     public $item_name;
     public $item_number;
     public $mc_currency;
     public $mc_fee;
     public $mc_gross;
     public $payment_date;
-    public $payment_fee;
-    public $payment_gross;
+//    public $payment_fee;
+//    public $payment_gross;
     public $payment_status;
     public $payment_type;
-    public $protection_eligibility;
+//    public $protection_eligibility;
     public $quantity;
     public $shipping;
     public $tax;
     // Autre
     public $notify_version;
-    public $charset;
+//    public $charset;
     public $verify_sign;
 
     private $raw_data;
@@ -67,7 +67,7 @@ class IPN
             if(array_key_exists($property, $data))
                 $this->$property = $data[$property];
             else
-                throw new InvalidArgumentException("IPN Message was Malformed");
+                throw new InvalidArgumentException("IPN Message was Malformed. Property ".$property." missing.");
         }
 
     }
@@ -87,7 +87,7 @@ class Paypal
 {
 
     // Email du compte paypal de la boutique
-    private static $EMAIL = "test@test.com";
+    private static $EMAIL = "mc.rachedba@gmail.com";
     // Prix de l'argent allant à MC
     private static $MC_PRICE = 2;
 
@@ -97,13 +97,14 @@ class Paypal
 
     public static function handleError($e)
     {
+        Engine::Instance()->Logger()->error($_POST["payment_date"]."(".$_POST["txn_id"].") ".$_POST["mc_gross"]."€: ".$e->getMessage());
         $body = ""
             . "Bonjour,<br>\r\n"
             . "La transaction ".$_POST["txn_id"]."(".$_POST["payer_email"].") pour un montant de ".$_POST["mc_gross"]." a échouée pour la raison suivante: <br>\r\n"
             . $e->getMessage()
             . "<br>\n" . "<br>\n". "Le ".$_POST["payment_date"];
 
-        mail(PaypalController::$ManagerEmail, "Erreur transaction #".$_POST["txn_id"], $body);
+        mail(Paypal::$ManagerEmail, "Erreur transaction #".$_POST["txn_id"], $body);
 
         //TODO: envoyer un mail au payer en cas d'échec
 
@@ -114,11 +115,14 @@ class Paypal
     {
         $paypal = new PaypalIPN();
         $paypal->useSandbox();
+        $paypal->usePHPCerts();
+        //Engine::Instance()->Logger()->warning("ok0");
         if($paypal->verifyIPN() !=  true)
         {
             throw new LogicException("Failed to verify IPN Message");
         }
-
+        //Engine::Instance()->Logger()->warning("ok1");
+        
         // (Avertir administrateur par mail ?)
         // Ou faire avant de dire verified
         // Réaliser les vérifications
@@ -157,19 +161,23 @@ class Paypal
             throw new LogicException("Guest email different from Payer Email");
 
         // Vérification recette
-        $recipe = new Recipe($storage, $ipn->RecipeId());
+        $recipe = new Recipe($storage, $reservation->RecipeId());
         $recipe = $storage->find($recipe);
         if($recipe == null)
             throw new LogicException("Unable to find recipe.");
 
         // Vérification prix
-        if(floatval($recipe->Price()) + Paypal::$MC_PRICE != floatval($ipn->payment_gross))
+        if(floatval($recipe->Price()) + Paypal::$MC_PRICE != floatval($ipn->mc_gross))
             throw new LogicException("Invalid price.");
 
         // Mise à jour de l'état de la réservation
         $reservation->setPaid("1");
+        $reservation->setPaidAt(time());
+        $reservation->setTxnId($ipn->txn_id);
         $storage->persist($reservation, StorageState::ToUpdate);
         $storage->flush();
+        Engine::Instance()->Logger()->warning($_POST["payment_date"]."(".$_POST["txn_id"].") ".$_POST["mc_gross"]."€: OK");
+        
 
         // TODO: envoyer mail au guest avec numéro de téléphone du host
         // TODO: envoyer mail à l'hote avec numéro de téléphone du guest

@@ -32,7 +32,9 @@
                     </ul>
                 </div>
 
-                <div class="users">
+                <div class="users" if="{ recipe.users != null && recipe.users.length > 0 }">
+                    <h2>Participants :</h2>
+                
                     <app-users users={ recipe.users }></app-users>
                 </div>
             </div>
@@ -47,7 +49,7 @@
                     <div>
                         Il reste { recipe.place_left } places
                     </div>
-                    <form name="edit-reservation">
+                    <form name="edit-reservation" if="{ Login.GetInstance().isLogged() == true }">
                         <div>
                             <input type="checkbox" name="cgu" ref="cgu"> J'accepte les CGU
                         </div>
@@ -60,6 +62,7 @@
 
                 <app-useritem ref="useritem" user="{ recipe.user }"></app-useritem>
             </div>
+ 
         </div>
     </div>
 

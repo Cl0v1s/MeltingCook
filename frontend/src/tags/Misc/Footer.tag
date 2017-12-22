@@ -21,7 +21,7 @@
     <div>
         <h3>Mentions légales</h3>
         <ul>
-            <li>Conditions générales</li>
+            <li><a href="#/cgu">Conditions générales</a></li>
             <li>Politique de confidentialité</li>
         </ul>
     </div>
@@ -30,6 +30,9 @@
         <a class="Button twitter"><span>Twitter</span></a>
         <a class="Button insta"><span>Instagram</span></a>
         <a class="Button youtube"><span>Youtube</span></a>
+    </div>
+    <div class="portfolios">
+        Site conçu par <a target="_blank" href="http://cha.graphics">Charlène Verrier</a> et développé par <a target="_blank" href="http://www.clovis-portron.cf">Clovis Portron</a>
     </div>
 
     <script>

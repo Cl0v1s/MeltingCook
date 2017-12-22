@@ -16,6 +16,7 @@ class Search {
             {
                 let now = Math.floor(new Date().getTime() / 1000);
                 filters["date_end"] = now;
+                filters["date_start"] = now;
             }
             if(price_start != null)
                 filters["price_start"] = price_start;

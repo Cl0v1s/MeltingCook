@@ -3,7 +3,8 @@
 require_once 'vendor/autoload.php';
 include_once 'addendum/annotations.php';
 include_once 'Annotations.php';
-
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 include_once 'DatabaseStorage.php';
 session_start();
@@ -30,8 +31,6 @@ class Engine
         return Engine::$instance;
     }
 
-
-
     public static function autoload($class)
     {
         if(file_exists('Controllers/'.$class.'.php'))
@@ -41,11 +40,24 @@ class Engine
     }
 
     private $persistence;
+    private $logger;
 
     function __construct()
     {
         $this->persistence = array();
         spl_autoload_register('Engine::autoload');
+
+        $this->logger = new Logger("Log");
+        $this->logger->pushHandler(new StreamHandler("./logs.txt"));
+    }
+
+
+    /**
+     * @return Logger
+     */
+    public function Logger()
+    {
+        return $this->logger;
     }
 
     public function setPersistence($storage)
@@ -84,7 +96,7 @@ class Engine
             $class = $_GET["p"];
 
         $uri = "Controllers/".$class."Controller.php";
-
+        
         if(file_exists($uri) == false) {
             header("Location: Error/404");
             return;

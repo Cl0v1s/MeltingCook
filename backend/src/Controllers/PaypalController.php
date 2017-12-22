@@ -22,7 +22,14 @@ class PaypalController extends Controller
             return;
         }
         try {
+            Engine::Instance()->Logger()->warning("Début du traitement d'un nouveau paiment.");            
+            ob_start();
             header("HTTP/1.1 200 OK");
+            header('Connection: close');
+            header('Content-Length: '.ob_get_length());
+            ob_end_flush();
+            ob_flush();
+            flush();
             $ipn = new IPN($_POST);
             Paypal::handleEvent($ipn);
         }
@@ -30,6 +37,8 @@ class PaypalController extends Controller
         {
             Paypal::handleError($e);
         }
+        Engine::Instance()->Logger()->warning("Fin du traitement du paiment.");            
+        
 
     }
 }

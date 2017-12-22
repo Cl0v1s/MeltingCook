@@ -361,7 +361,7 @@ class APIController extends Controller
         $report->setAuthorId($_POST["author_id"]);
         $report->setTargetId($_POST["target_id"]);
         $report->setContent($_POST["content"]);
-        $report->setState(1);
+        $report->setProgress(1);
         $this->Add($report);
     }
 
@@ -547,8 +547,8 @@ class APIController extends Controller
             return;
         }
         $report = new Report(null, $_POST["id"]);
-        if(isset($_POST["state"]))
-            $report->setState($_POST["state"]);
+        if(isset($_POST["progress"]))
+            $report->setProgress($_POST["progress"]);
         if(isset($_POST["content"]))
             $report->setContent($_POST["content"]);
         $this->Update($report);

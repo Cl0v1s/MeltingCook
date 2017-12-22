@@ -33,7 +33,7 @@
             tag.currents = new Array();
             tag.ends = new Array();
             tag.reports.forEach((report) => {
-                switch (report.state) {
+                switch (report.progress) {
                     case "1":
                     case 1:
                     default:

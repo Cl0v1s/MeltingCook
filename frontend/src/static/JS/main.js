@@ -1,4 +1,11 @@
 class Adapter {
+    static adaptReservation(reservation) {
+        if (reservation.adapted === true)
+            return reservation;
+        reservation.adapted = true;
+        reservation.recipe = Adapter.adaptRecipe(reservation.recipe);
+        return reservation;
+    }
     static adaptRecipe(recipe) {
         if (recipe.adapted === true)
             return recipe;
@@ -67,19 +74,19 @@ class Adapter {
         return user;
     }
     static adaptReport(report) {
-        switch (report.state) {
+        switch (report.progress) {
             case "1":
             case 1:
             default:
-                report.message_state = "Nouveau";
+                report.message_progress = "Nouveau";
                 break;
             case "2":
             case 2:
-                report.message_state = "En Cours";
+                report.message_progress = "En Cours";
                 break;
             case "3":
             case 3:
-                report.message_state = "Terminé";
+                report.message_progress = "Terminé";
                 break;
         }
         return report;
@@ -180,7 +187,7 @@ class Login {
         this.setUser(null);
     }
     isLogged() {
-        if (this.token == null)
+        if (this.token == null || this.token == "null")
             return false;
         return true;
     }
@@ -221,6 +228,10 @@ class Router {
     /////////////////////////////////////////////////////////////////
     // Reservation
     reservationRecipe(id) {
+        if (Login.GetInstance().isLogged() == false) {
+            route("/");
+            return;
+        }
         var requestRecipe = App.request(App.Address + "/getrecipe", {
             "id": id
         });
@@ -468,6 +479,10 @@ class Router {
     }
     // Admin
     adminReports(target_id, author_id) {
+        if (Login.GetInstance().isLogged() == false || Login.GetInstance().User().rights < 2) {
+            route("/");
+            return;
+        }
         var filters = {};
         if (target_id != null)
             filters.target_id = target_id;
@@ -486,6 +501,10 @@ class Router {
         });
     }
     adminOrigins() {
+        if (Login.GetInstance().isLogged() == false || Login.GetInstance().User().rights < 2) {
+            route("/");
+            return;
+        }
         let request = App.request(App.Address + "/getorigins", null);
         request.then(function (response) {
             App.changePage("app-adminorigins", {
@@ -497,6 +516,10 @@ class Router {
         });
     }
     adminPins() {
+        if (Login.GetInstance().isLogged() == false || Login.GetInstance().User().rights < 2) {
+            route("/");
+            return;
+        }
         let request = App.request(App.Address + "/getpinses", null);
         request.then(function (response) {
             App.changePage("app-adminpins", {
@@ -508,6 +531,10 @@ class Router {
         });
     }
     adminReservations() {
+        if (Login.GetInstance().isLogged() == false || Login.GetInstance().User().rights < 2) {
+            route("/");
+            return;
+        }
         let request = App.request(App.Address + "/getreservations", {});
         request.then(function (response) {
             App.changePage("app-adminreservations", {
@@ -556,6 +583,10 @@ class Router {
         route("register", function () {
             App.changePage("app-useredit", null);
         });
+        // CGU
+        route("cgu", function () {
+            App.changePage("app-cgu", null);
+        });
         route('', function () {
             App.changePage("app-home", null);
         });
@@ -594,72 +625,71 @@ class Router {
 }
 Router.Instance = new Router();
 var riot = require("riot");
-var tags = {
-    // ACCOUNT
-    "app-accountkitchen": require("./../../tags/Account/AccountKitchen.tag"),
-    "app-accountrecipes": require("./../../tags/Account/AccountRecipes.tag"),
-    "app-accountreservations": require("./../../tags/Account/AccountReservations.tag"),
-    "app-accountuser": require("./../../tags/Account/AccountUser.tag"),
-    // COMMENT
-    "app-commenteditform": require("./../../tags/Comment/CommentEditForm.tag"),
-    "app-commentitem": require("./../../tags/Comment/CommentItem.tag"),
-    "app-commentlist": require("./../../tags/Comment/CommentList.tag"),
-    "app-comments": require("./../../tags/Comment/Comments.tag"),
-    // IMMUTABLE
-    "app-error": require("./../../tags/Immutable/Error.tag"),
-    "app-home": require("./../../tags/Immutable/Home.tag"),
-    "app-login": require("./../../tags/Immutable/Login.tag"),
-    // MISC
-    "app-dateinput": require("./../../tags/Misc/DateInput.tag"),
-    "app-footer": require("./../../tags/Misc/Footer.tag"),
-    "app-header": require("./../../tags/Misc/Header.tag"),
-    "app-hearts": require("./../../tags/Misc/Hearts.tag"),
-    "app-manyinputs": require("./../../tags/Misc/ManyInputs.tag"),
-    "app-origininput": require("./../../tags/Misc/OriginInput.tag"),
-    "app-pinsinput": require("./../../tags/Misc/PinsInput.tag"),
-    "app-placehint": require("./../../tags/Misc/PlaceHint.tag"),
-    "app-placeinput": require("./../../tags/Misc/PlaceInput.tag"),
-    "app-tabbar": require("./../../tags/Misc/TabBar.tag"),
-    "app-timeinput": require("./../../tags/Misc/TimeInput.tag"),
-    "app-userselector": require("./../../tags/Misc/UserSelector.tag"),
-    // RECIPE
-    "app-recipe": require("./../../tags/Recipe/Recipe.tag"),
-    "app-recipeedit": require("./../../tags/Recipe/RecipeEdit.tag"),
-    "app-recipeeditform": require("./../../tags/Recipe/RecipeEditForm.tag"),
-    "app-recipeitem": require("./../../tags/Recipe/RecipeItem.tag"),
-    "app-recipelist": require("./../../tags/Recipe/RecipeList.tag"),
-    "app-recipes": require("./../../tags/Recipe/Recipes.tag"),
-    // REPORT
-    "app-reports": require("./../../tags/Report/Reports.tag"),
-    "app-reportitem": require("./../../tags/Report/ReportItem.tag"),
-    "app-reporteditform": require("./../../tags/Report/ReportEditForm.tag"),
-    // ORIGIN
-    "app-origineditform": require("./../../tags/Origin/OriginEditForm.tag"),
-    // PIN
-    "app-pineditform": require("./../../tags/Pin/PinEditForm.tag"),
-    // RESERVATION
-    "app-reservationvalidateform": require("./../../tags/Reservation/ReservationValidateForm.tag"),
-    "app-reservation": require("./../../tags/Reservation/Reservation.tag"),
-    "app-reservationitem": require("./../../tags/Reservation/ReservationItem.tag"),
-    "app-reservations": require("./../../tags/Reservation/Reservations.tag"),
-    // SEARCH
-    "app-search": require("./../../tags/Search/Search.tag"),
-    "app-searchitem": require("./../../tags/Search/SearchItem.tag"),
-    "app-searcher": require("./../../tags/Search/Searcher.tag"),
-    "app-searchresults": require("./../../tags/Search/SearchResults.tag"),
-    // USER
-    "app-user": require("./../../tags/User/User.tag"),
-    "app-useredit": require("./../../tags/User/UserEdit.tag"),
-    "app-usereditform": require("./../../tags/User/UserEditForm.tag"),
-    "app-useritem": require("./../../tags/User/UserItem.tag"),
-    "app-userpasswordform": require("./../../tags/User/UserPasswordForm.tag"),
-    "app-users": require("./../../tags/User/Users.tag"),
-    // ADMIN
-    "app-adminreports": require("./../../tags/Admin/AdminReports.tag"),
-    "app-adminorigins": require("./../../tags/Admin/AdminOrigins.tag"),
-    "app-adminpins": require("./../../tags/Admin/AdminPins.tag"),
-    "app-adminreservations": require("./../../tags/Admin/AdminReservations.tag"),
-};
+// ACCOUNT
+require("./../../tags/Account/AccountKitchen.tag");
+require("./../../tags/Account/AccountRecipes.tag");
+require("./../../tags/Account/AccountReservations.tag");
+require("./../../tags/Account/AccountUser.tag");
+// COMMENT
+require("./../../tags/Comment/CommentEditForm.tag");
+require("./../../tags/Comment/CommentItem.tag");
+require("./../../tags/Comment/CommentList.tag");
+require("./../../tags/Comment/Comments.tag");
+// IMMUTABLE
+require("./../../tags/Immutable/Error.tag");
+require("./../../tags/Immutable/Home.tag");
+require("./../../tags/Immutable/Login.tag");
+require("./../../tags/Immutable/CGU.tag");
+// MISC
+require("./../../tags/Misc/DateInput.tag");
+require("./../../tags/Misc/Footer.tag");
+require("./../../tags/Misc/Header.tag");
+require("./../../tags/Misc/Hearts.tag");
+require("./../../tags/Misc/ManyInputs.tag");
+require("./../../tags/Misc/OriginInput.tag");
+require("./../../tags/Misc/PinsInput.tag");
+require("./../../tags/Misc/PlaceHint.tag");
+require("./../../tags/Misc/PlaceInput.tag");
+require("./../../tags/Misc/TabBar.tag");
+require("./../../tags/Misc/TimeInput.tag");
+require("./../../tags/Misc/UserSelector.tag");
+// RECIPE
+require("./../../tags/Recipe/Recipe.tag");
+require("./../../tags/Recipe/RecipeEdit.tag");
+require("./../../tags/Recipe/RecipeEditForm.tag");
+require("./../../tags/Recipe/RecipeItem.tag");
+require("./../../tags/Recipe/RecipeList.tag");
+require("./../../tags/Recipe/Recipes.tag");
+// REPORT
+require("./../../tags/Report/Reports.tag");
+require("./../../tags/Report/ReportItem.tag");
+require("./../../tags/Report/ReportEditForm.tag");
+// ORIGIN
+require("./../../tags/Origin/OriginEditForm.tag");
+// PIN
+require("./../../tags/Pin/PinEditForm.tag");
+// RESERVATION
+require("./../../tags/Reservation/ReservationValidateForm.tag");
+require("./../../tags/Reservation/Reservation.tag");
+require("./../../tags/Reservation/ReservationItem.tag");
+require("./../../tags/Reservation/Reservations.tag");
+// SEARCH
+require("./../../tags/Search/Search.tag");
+require("./../../tags/Search/SearchItem.tag");
+require("./../../tags/Search/Searcher.tag");
+require("./../../tags/Search/SearchResults.tag");
+// USER
+require("./../../tags/User/User.tag");
+require("./../../tags/User/UserEdit.tag");
+require("./../../tags/User/UserEditForm.tag");
+require("./../../tags/User/UserItem.tag");
+require("./../../tags/User/UserPasswordForm.tag");
+require("./../../tags/User/Users.tag");
+// ADMIN
+require("./../../tags/Admin/AdminReports.tag");
+require("./../../tags/Admin/AdminOrigins.tag");
+require("./../../tags/Admin/AdminPins.tag");
+require("./../../tags/Admin/AdminReservations.tag");
 class App {
     static diagnosticForm(formname, errors) {
         for (var field in errors[formname]) {
@@ -675,8 +705,9 @@ class App {
                 e.target.classList.remove("error");
             });
         }
+        NotificationManager.showNotification("Oups... Il y a une erreur dans le formulaire. Pensez à Vérifier les informations renseignées !", "error");
     }
-    static request(address, data, redirect = true) {
+    static request(address, data, redirect = true, bg = true) {
         return new Promise(function (resolve, reject) {
             var href = window.location.href;
             if (data == null)
@@ -688,9 +719,11 @@ class App {
                 url: address,
                 "data": data
             });
-            App.showLoading();
+            if (bg)
+                App.showLoading();
             request.then(function (response) {
-                App.hideLoading();
+                if (bg)
+                    App.hideLoading();
                 if (App.checkPage(href) == false) {
                     reject(ErrorHandler.State.FATAL);
                     return;
@@ -720,7 +753,8 @@ class App {
                 }
             });
             request.catch(function (error) {
-                App.hideLoading();
+                if (bg)
+                    App.hideLoading();
                 if (App.checkPage(href) == false) {
                     reject(ErrorHandler.State.FATAL);
                     return;
@@ -746,7 +780,8 @@ class App {
             document.body.appendChild(e);
         }
         App.hideLoading();
-        App.Page = riot.mount("div#app", tags[tag], data);
+        App.Page = riot.mount("div#app", tag, data);
+        window.scroll(0, 0);
     }
     static showPopUp(tag, title, data) {
         if (App.PopUp != null) {
@@ -827,6 +862,7 @@ class Search {
             else {
                 let now = Math.floor(new Date().getTime() / 1000);
                 filters["date_end"] = now;
+                filters["date_start"] = now;
             }
             if (price_start != null)
                 filters["price_start"] = price_start;
@@ -884,7 +920,7 @@ class NotificationManager {
         };
         let request = App.request(App.Address + "/getNotifications", {
             "filters": JSON.stringify(filters)
-        });
+        }, true, false);
         request.then((response) => {
             response.data.forEach((n) => {
                 let found = false;

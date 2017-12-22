@@ -94,7 +94,7 @@
                 return;
             var callback = function () {
                 App.hidePopUp();
-                vex.dialog.alert("L'utilisateur a bien été signalé. Merci de votre vigilance.");
+                NotificationManager.showNotification("L'utilisateur a bien été signalé. Merci de votre vigilance.", "success")
             };
             var report = App.showPopUp("app-reporteditform", "Signaler un utilisateur", {
                 "callback": callback,

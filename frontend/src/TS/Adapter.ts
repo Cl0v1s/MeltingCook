@@ -1,5 +1,15 @@
 class Adapter
 {
+
+    public static adaptReservation(reservation :any) : any
+    {
+        if(reservation.adapted === true )
+            return reservation;
+        reservation.adapted = true;
+        reservation.recipe = Adapter.adaptRecipe(reservation.recipe);
+        return reservation;
+    }
+
     public static adaptRecipe(recipe : any) : any
     {
         if(recipe.adapted === true)
@@ -83,20 +93,20 @@ class Adapter
 
     public static adaptReport(report : any) : any
     {
-        switch(report.state)
+        switch(report.progress)
         {
             case "1":
             case 1:
             default:
-                report.message_state = "Nouveau";
+                report.message_progress = "Nouveau";
                 break;
             case "2":
             case 2:
-                report.message_state = "En Cours";
+                report.message_progress = "En Cours";
                 break;
             case "3":
             case 3:
-                report.message_state = "Terminé";
+                report.message_progress = "Terminé";
             break;
         }
         return report;

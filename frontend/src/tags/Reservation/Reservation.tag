@@ -69,7 +69,22 @@
                 </div>
                 <div if="{ reservation != null }">
                     <p>Cliquez encore une fois sur le bouton ci-dessous pour confirmer le paiment</p>
-                    <input type="button" value="PLACEHOLDER PAYPAL" onclick="{ paypal }">
+                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                        <input type="hidden" name="cmd" value="_xclick">
+                        <input type="hidden" name="business" value="37HN2639NHTKU">
+                        <input type="hidden" name="lc" value="FR">
+                        <input type="hidden" name="item_name" value="{ reservation.recipe.name }">
+                        <input type="hidden" name="item_number" value="{ reservation.id }">
+                        <input type="hidden" name="amount" value="{ (reservation.recipe.price+2) }">
+                        <input type="hidden" name="currency_code" value="EUR">
+                        <input type="hidden" name="button_subtype" value="services">
+                        <input type="hidden" name="no_note" value="0">
+                        <input type="hidden" name="cn" value="Ajouter des instructions spéciales pour le vendeur">
+                        <input type="hidden" name="no_shipping" value="2">
+                        <input type="hidden" name="bn" value="PP-BuyNowBF:btn_paynowCC_LG.gif:NonHosted">
+                        <input type="image" src="https://www.paypalobjects.com/fr_FR/FR/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne">
+                        <img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
+                    </form>
                 </div>
                 <p>En validant le paiement, vous accepter les CGU et la charte de bonne conduite de Melting Cook.</p>
             </div>
@@ -97,13 +112,21 @@
                 "guest_id" : Login.GetInstance().User().id,
                 "Recipe_id" : tag.recipe.id
             });
-            request.then(function(response){
-                tag.reservation = response.data;
-                tag.update();
-            });
             request.catch(function(error){
                ErrorHandler.alertIfError(error);
             });
+            let requestReservation = request.then(function(response){
+                let id = response.data;
+                return App.request(App.Address+"/getreservation", {
+                    "id" : id
+                });
+            });
+            requestReservation.then(function(response){
+                tag.reservation = Adapter.adaptReservation(response.data);
+                console.log(tag.reservation);
+                tag.update();
+            });
+
         };
 
         tag.paypal = function()

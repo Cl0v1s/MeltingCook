@@ -1,5 +1,7 @@
 <?php
 
+require("Mailer.php");
+
 /**
  * Created by PhpStorm.
  * User: clovis
@@ -58,9 +60,16 @@ class API
             throw new Exception("Impossible d'annuler ou de demander un remboursement sur une réservation finalisée#", 2);
         }
 
+        $guest = new User($storage, $reservation->GuestId());
+        $guest = $storage->find($guest);
+        $host = new User($storage, $reservation->HostId());
+        $host = $storage->find($host);
+
         // Si pas provisionné, on supprime
         if($reservation->Paid() == "0")
         {
+            if($guest != null)
+                Mailer::SendMail($guest->Mail(), "Une mauvaise nouvelle a propos de la recette ".$recipe["name"], "Votre réservation concernant la recette ".$recipe["name"]." a été annulée.");
             API::GenerateNotification($token, $reservation->GuestId(), "info", "Votre réservation concernant la recette ".$recipe["name"]." a été annulée.");
             $reservation->setDone(-1);
             $reservation->setEndedAt(time());
@@ -71,7 +80,11 @@ class API
         // Si provisionné, on marque à rembourser
         if($reservation->Paid() == "1")
         {
+            if($guest != null)
+                Mailer::SendMail($guest->Mail(), "Une mauvaise nouvelle a propos de la recette ".$recipe["name"], "Votre réservation concernant la recette ".$recipe["name"]." a été annulée. Vous serez remboursé sous peu selon les conditions MeltingCook.");
             API::GenerateNotification($token, $reservation->GuestId(), "info", "Votre réservation concernant la recette ".$recipe["name"]." a été annulée. Vous serez remboursé sous peu selon les conditions MeltingCook.");
+            if($host != null)
+                Mailer::SendMail($host->Mail(),  "Une mauvaise nouvelle a propos de la recette ".$recipe["name"], "Une réservation concernant la recette ".$recipe["name"]." a été annulée.");
             API::GenerateNotification($token, $reservation->HostId(), "info", "Une réservation concernant la recette ".$recipe["name"]." a été annulée.");
 
             $reservation->setPaid(2);
@@ -110,13 +123,27 @@ class API
             throw new Exception("Impossible de terminer une réservation non provisionnée#",2);
         }
 
+        $guest = new User($storage, $reservation->GuestId());
+        $guest = $storage->find($guest);
+        $host = new User($storage, $reservation->HostId());
+        $host = $storage->find($host);
+
         if($reservation->Paid() == "1") {
-            API::GenerateNotification($token, $reservation->GuestId(), "success", "Votre réservation concernant la recette " . $recipe["name"] . " a été finalisée. Votre hôte a reçu votre compensation et vous remercie !");
+            if($guest != null)
+                Mailer::SendMail($guest->Mail(), "Une bonne nouvelle a propos de la recette ".$recipe["name"], "Votre réservation concernant la recette " . $recipe["name"] . " a été finalisée. Votre hôte va recevoir votre compensation et vous remercie !");
+            
+            API::GenerateNotification($token, $reservation->GuestId(), "success", "Votre réservation concernant la recette " . $recipe["name"] . " a été finalisée. Votre hôte va recevoir votre compensation et vous remercie !");
+            
+            if($host != null)
+                Mailer::SendMail($host->Mail(), "Une mauvaise nouvelle a propos de la recette ".$recipe["name"], "Vous avez reçu une compensation relative à la recette " . $recipe["name"] . " ! Allez jeter un oeil à votre compte Paypal !");
+            
             API::GenerateNotification($token, $reservation->HostId(), "success", "Vous avez reçu une compensation relative à la recette " . $recipe["name"] . " ! Allez jeter un oeil à votre compte Paypal !");
             $reservation->setDone(2);
         }
 
         if($reservation->Paid() == "2") {
+            if($guest != null)
+                Mailer::SendMail($guest->Mail(), "Une bonne nouvelle a propos de la recette ".$recipe["name"], "Votre réservation concernant la recette " . $recipe["name"] . " a été remboursée !");
             API::GenerateNotification($token, $reservation->GuestId(), "success", "Votre réservation concernant la recette " . $recipe["name"] . " a été remboursée !");
             $reservation->setDone(-1);
         }
@@ -157,6 +184,12 @@ class API
         {
             throw new Exception("Impossible de valider une réservation n'ayant pas encore eu lieu#",2);
         }
+
+        $host = new User($storage, $reservation->HostId());
+        $host = $storage->find($host);
+
+        if($host != null)
+            Mailer::SendMail($host->Mail(), "Une bonne nouvelle a propos de la recette ".$recipe["name"], "Votre ancien invité ".$user->Username()." a lancé la procédure de finalisation de sa réservation! Vous devriez bientôt reçevoir votre compensation !");
 
         API::GenerateNotification($token, $reservation->HostId(), "success", "Votre ancien invité ".$user->Username()." a lancé la procédure de finalisation de sa réservation! Vous devriez bientôt reçevoir votre compensation !");
 
@@ -327,8 +360,18 @@ class API
         /*if(time() > $recipe["date_start"])
             throw new Exception("Impossible de réserver une recette après sa date de début#", 2);*/
 
+        $guest = new User($storage, $item->GuestId());
+        $guest = $storage->find($guest);
+        $host = new User($storage, $item->HostId());
+        $host = $storage->find($host);
 
+        if($host != null)
+            Mailer::SendMail($host->Mail(), "Une bonne nouvelle à propos de la recette ".$recipe["name"], $user->Username()." a lancé une procédure de réservation relative à votre recette ".$recipe["name"].".");
         API::GenerateNotification($token, $item->HostId(), "success", $user->Username()." a lancé une procédure de réservation relative à votre recette ".$recipe["name"].".");
+
+        if($guest != null)
+            Mailer::SendMail($guest->Mail(), "A propos de la recette ".$recipe["name"], "Nous avons bien pris en compte votre réservation concernant la recette ".$recipe["name"].".");
+    
 
         $item->setCreatedAt(time());
 

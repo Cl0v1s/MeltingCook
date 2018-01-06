@@ -80,6 +80,7 @@ class IPN
 }
 
 require("PaypalIPN.php");
+require("Mailer.php");
 
 use PaypalIPN;
 
@@ -104,10 +105,7 @@ class Paypal
             . $e->getMessage()
             . "<br>\n" . "<br>\n". "Le ".$_POST["payment_date"];
 
-        mail(Paypal::$ManagerEmail, "Erreur transaction #".$_POST["txn_id"], $body);
-
-        //TODO: envoyer un mail au payer en cas d'échec
-
+        Mailer::SendMailToAdmin("Erreur transaction #".$_POST["txn_id"], $body);
     }
 
 
@@ -116,16 +114,12 @@ class Paypal
         $paypal = new PaypalIPN();
         $paypal->useSandbox();
         $paypal->usePHPCerts();
-        //Engine::Instance()->Logger()->warning("ok0");
+
         if($paypal->verifyIPN() !=  true)
         {
             throw new LogicException("Failed to verify IPN Message");
         }
-        //Engine::Instance()->Logger()->warning("ok1");
         
-        // (Avertir administrateur par mail ?)
-        // Ou faire avant de dire verified
-        // Réaliser les vérifications
         $storage = Engine::Instance()->Persistence("DatabaseStorage");
 
         // Vérification pas un spoof
@@ -178,9 +172,11 @@ class Paypal
         $storage->flush();
         Engine::Instance()->Logger()->warning($_POST["payment_date"]."(".$_POST["txn_id"].") ".$_POST["mc_gross"]."€: OK");
         
+        $titlemsg = "A propos de la recette ".$recipe["name"];
 
-        // TODO: envoyer mail au guest avec numéro de téléphone du host
-        // TODO: envoyer mail à l'hote avec numéro de téléphone du guest
+        Mailer::SendMail($guest->Mail(), $titlemsg, "Votre payement concernant la recette ".$recipe["name"]." a été traité ! Vous pouvez contacter votre hôte au ".$host->Phone().".");
+        Mailer::SendMail($host->Mail(), $titlemsg, "Une réservation concernant la recette ".$recipe["name"]." a été payée ! Vous pouvez contacter votre invité au ".$guest->Phone().".");
+
         API::GenerateNotification(null, $reservation->GuestId(), "info", "Votre payement concernant la recette ".$recipe["name"]." a été traité ! Vous allez recevoir un mail contenant le numéro de votre hôte.", false);
         API::GenerateNotification(null, $reservation->HostId(), "info", "Une réservation concernant la recette ".$recipe["name"]." a été payée ! Vous allez recevoir un mail contenant le numéro de votre invité !", false);
     }

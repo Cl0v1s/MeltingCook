@@ -33,16 +33,34 @@ class API
 
     public static function BeginResetPassword($email)
     {
-        $storage = Engine::Instance()->Persistence("DatabaseStorage");
         $users = API::GetAll(null, "User", null, "AND mail = '".$email."'");
         if($users == null || count($users) <= 0)
             return;
         $user = $users[0];
-        $body = "<p>Bonjour ".$user->Firstname().",</p><p>Si vous avez demandez la mise à zéro de votre mot de passe Melting Cook, cliquez sur le lien ci-dessous. Sinon ignorez simplement ce message.</p>";
+        $body = "<p>Bonjour ".$user->Firstname().",</p><p>Si vous avez demandé la mise à zéro de votre mot de passe Melting Cook, cliquez sur le lien ci-dessous. Sinon ignorez simplement ce message.</p>";
         $token = md5($user->Lastname().md5($user->Phone()));
-        $link = "https://meltingcook.fr/#resetpassword?token=".$token;
+        $link = "https://meltingcook.fr/#resetpassword/".$token;
         $body = $body."<p><a href='".$link."'>".$link."</a></p>";
         Mailer::SendMail($user->Mail(), "Remise à zéro de votre mot de passe", $body);
+    }
+
+    public static function EndResetPassword($token)
+    {
+        $users = API::GetAll(null, "User");
+        if($users == null || count($users) <= 0)
+            return;
+        foreach ($users as $user)
+        {
+            if($token === md5($user->Lastname().md5($user->Phone())))
+            {
+                $password = bin2hex(openssl_random_pseudo_bytes(4));
+                $body = "<p>Bonjour ".$user->Firstname().",</p><p>Vous trouverez ci-dessous votre nouveau mot de passe Melting Cook. Pensez à vous connecter sur notre site et à le changer sous peu. Si vous n'avez pas demandé la remise à zéro de votre mot de passe, contactez nous.</p>";
+                $body = $body."<p>".$password."</p>";
+                Mailer::SendMail($user->Mail(), "Remise à zéro de votre mot de passe", $body);
+                return;
+            }
+        }
+        throw new Exception();
     }
 
 

@@ -14253,8 +14253,23 @@ class Router {
             ErrorHandler.alertIfError(error);
         });
     }
+    resetPassword(token) {
+        let request = App.request(App.Address + "/endresetpassword", {
+            "token": token
+        });
+        request.then(function (response) {
+            NotificationManager.showNotification("Nous vous avons envoyé un email contenant votre mot de passe temporaire !", "success");
+            route("/");
+        });
+        request.catch(function (error) {
+            if (error instanceof Error)
+                ErrorHandler.alertIfError(error);
+        });
+    }
     ///////////////////////////////////////////////////////////////
     setRoutes() {
+        // ResetPassword
+        route("/resetpassword/*", this.resetPassword);
         // Reservation
         route("/reservation/recipe/*", this.reservationRecipe);
         // Admin

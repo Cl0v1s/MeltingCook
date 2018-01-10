@@ -152,6 +152,9 @@ class APIController extends Controller
                 case "beginresetpassword":
                     $this->BeginResetPassword();
                     break;
+                case "endresetpassword":
+                    $this->EndResetPassword();
+                    break;
                 default:
                     http_response_code(404);
                     return;
@@ -172,6 +175,16 @@ class APIController extends Controller
             return;
         }
         API::BeginResetPassword($_POST["email"]);
+        $this->Write(APIController::$OK, null);
+    }
+
+    private function EndResetPassword()
+    {
+        if(isset($_POST["token"]) == false){
+            $this->Write(APIController::$NO, null, "Missing Data");
+            return;
+        }
+        API::BeginResetPassword($_POST["token"]);
         $this->Write(APIController::$OK, null);
     }
 

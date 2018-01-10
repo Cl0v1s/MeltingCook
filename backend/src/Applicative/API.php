@@ -34,7 +34,7 @@ class API
     public static function BeginResetPassword($email)
     {
         $storage = Engine::Instance()->Persistence("DatabaseStorage");
-        $users = API::GetAll(null, "User", null, "email = '".$email."'");
+        $users = API::GetAll(null, "User", null, "AND email = '".$email."'");
         if($users == null || count($users) <= 0)
             return;
         $user = $users[0];
@@ -325,7 +325,7 @@ class API
         }
         if($sqlconditions != null) {
             if($f == "")
-                $f = $sqlconditions;
+                $f = "id = id ".$sqlconditions;
             else
                 $f = $f." ".$sqlconditions;
 

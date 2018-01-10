@@ -15375,7 +15375,7 @@ module.exports = riot.tag2('app-login', '<form name="login"> <div> <label for="u
 });
 },{"riot":8}],26:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-resetpasswordform', '<form name="reset"> <p> Veuillez entrer ci-dessous l\'adresse email de votre compte. Nous vous enverrons un mail contenant un lien permettant de regénérer votre mot de passe. </p> <br><br> <div> <label for="email">Addresse email de votre compte</label> <input type="text" ref="email" name="email" id="email"> </div> <input type="button" class="large" value="Envoyer" onclick="{validate}"> </form>', '', '', function(opts) {
+module.exports = riot.tag2('app-resetpasswordform', '<form name="reset"> <p> Veuillez entrer ci-dessous l\'adresse email de votre compte. Nous vous enverrons un mail contenant un lien permettant de regénérer votre mot de passe. </p> <br><br> <div> <label for="email">Addresse email de votre compte</label> <input type="text" ref="email" name="email" id="email"> <p class="hint"> Ce champ doit contenir une adresse email valide. </p> </div> <input type="button" class="large" value="Envoyer" onclick="{validate}"> </form>', '', '', function(opts) {
         var tag = this;
 
         tag.callback = null;
@@ -15388,7 +15388,7 @@ module.exports = riot.tag2('app-resetpasswordform', '<form name="reset"> <p> Veu
         {
             var valid = new Validatinator({
                 "reset": {
-                    "email": "required|minLength:1|maxLength:100",
+                    "email": "required|minLength:1|maxLength:100|email",
                 }
             });
             if (valid.passes("reset")) {

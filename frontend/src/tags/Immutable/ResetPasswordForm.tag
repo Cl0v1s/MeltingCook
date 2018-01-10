@@ -7,6 +7,9 @@
         <div>
             <label for="email">Addresse email de votre compte</label>
             <input type="text" ref="email" name="email" id="email">
+            <p class="hint">
+                    Ce champ doit contenir une adresse email valide.
+            </p>
         </div>
         <input type="button" class="large" value="Envoyer" onclick='{ validate }'>
     </form>
@@ -23,7 +26,7 @@
         {
             var valid = new Validatinator({
                 "reset": {
-                    "email": "required|minLength:1|maxLength:100",
+                    "email": "required|minLength:1|maxLength:100|email",
                 }
             });
             if (valid.passes("reset")) {

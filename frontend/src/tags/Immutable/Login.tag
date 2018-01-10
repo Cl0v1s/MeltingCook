@@ -9,6 +9,7 @@
             <input type="password" ref="password" name="password" id="password">
         </div>
         <input type="button" class="large" value="Envoyer" onclick='{ send }'>
+        <a onclick="{ resetPassword }">J'ai oublié mon mot de passe</a>
     </form>
     <script>
         var tag = this;
@@ -21,6 +22,19 @@
             if(tag.callback == null)
                 throw new Error("Callback cant be null.");
         });
+
+        tag.resetPassword = function()
+        {
+            var callback = function () {
+                App.hidePopUp();
+                NotificationManager.showNotification("Votre mot de passe va être modifié. Veuillez allez recevoir un mail de confirmation. Veuillez vous reconnecter.", "success");
+                route("/login");
+            };
+
+            App.showPopUp("app-resetpasswordform", "J'ai oublié mon mot de passe", {
+                "callback": callback
+            });
+        };
 
         tag.send = function () {
             var valid = new Validatinator({

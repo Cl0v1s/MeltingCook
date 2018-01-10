@@ -39,7 +39,7 @@
         tag.register = function()
         {
             route("/register");
-        };
+        }; 
 
         tag.login = function()
         {

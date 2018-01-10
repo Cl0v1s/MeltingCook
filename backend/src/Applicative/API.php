@@ -713,12 +713,12 @@ class API
 
     public static function GetAllPins($token, $filters = null)
     {
-        return API::GetAll($token, "Pins", $filters, "ORDERBY name ASC");
+        return API::GetAll($token, "Pins", $filters, "ORDER BY name ASC");
     }
     
     public static function GetAllOrigin($token, $filters = null)
     {
-        return API::GetAll($token, "Origin", $filters, "ORDERBY name ASC");
+        return API::GetAll($token, "Origin", $filters, "ORDER BY name ASC");
     }
 
 

@@ -37,15 +37,6 @@ CREATE TABLE `Comment` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Comment`
---
-
-LOCK TABLES `Comment` WRITE;
-/*!40000 ALTER TABLE `Comment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Comment` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `Notification`
 --
 
@@ -65,16 +56,6 @@ CREATE TABLE `Notification` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Notification`
---
-
-LOCK TABLES `Notification` WRITE;
-/*!40000 ALTER TABLE `Notification` DISABLE KEYS */;
-INSERT INTO `Notification` VALUES (1,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1),(2,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1),(3,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1),(4,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1),(5,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1),(6,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1),(7,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1),(8,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1);
-/*!40000 ALTER TABLE `Notification` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `Origin`
 --
 
@@ -87,16 +68,6 @@ CREATE TABLE `Origin` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Origin`
---
-
-LOCK TABLES `Origin` WRITE;
-/*!40000 ALTER TABLE `Origin` DISABLE KEYS */;
-INSERT INTO `Origin` VALUES (1,'Française');
-/*!40000 ALTER TABLE `Origin` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `Pins`
@@ -112,16 +83,6 @@ CREATE TABLE `Pins` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Pins`
---
-
-LOCK TABLES `Pins` WRITE;
-/*!40000 ALTER TABLE `Pins` DISABLE KEYS */;
-INSERT INTO `Pins` VALUES (1,'Halal');
-/*!40000 ALTER TABLE `Pins` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `Recipe`
@@ -153,16 +114,6 @@ CREATE TABLE `Recipe` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Recipe`
---
-
-LOCK TABLES `Recipe` WRITE;
-/*!40000 ALTER TABLE `Recipe` DISABLE KEYS */;
-INSERT INTO `Recipe` VALUES (1,'Gloubiboulga','La recette préférée de Casimir Il en mange tout le temps ce gros porc.','http://img0.encyclopedie-incomplete.com/local/cache-vignettes/L468xH340/casimir_hippolyte_gloubiboulga-c017e.jpg',1,'Française','Saucisse de morteau;Caca;prout',1502229600,1503612000,1,44.8026,-0.588054,1,'Halal','45.9;-1.033333'),(2,'Un bon gros caca','Du bon gros caca en boite comme on l\'aime tous, cuisiné avec amour putain','http://borkborkiamdoggo.com/wp-content/uploads/2016/12/alex-g-did-me-a-scare-is-not-a-trump-is-a-doggofoxxo.jpg',1,'Française','Caca',1502834400,1504130400,12,44.8026,-0.588054,42,'Halal','Hénin-Beaumont'),(3,'Recette de test','Ceci est une authentique recette de test ! C\'est fou non ?','https://pbs.twimg.com/profile_images/937626330249728000/5lLvVCtZ_400x400.jpg',1,'Française','Du code;Du savoir-faire;De la débrouille',1512514800,1514588400,12,44.7835,-0.592012,2,'Halal','Bordeaux');
-/*!40000 ALTER TABLE `Recipe` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `Report`
 --
 
@@ -182,15 +133,6 @@ CREATE TABLE `Report` (
   CONSTRAINT `Report_ibfk_2` FOREIGN KEY (`author_id`) REFERENCES `User` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `Report`
---
-
-LOCK TABLES `Report` WRITE;
-/*!40000 ALTER TABLE `Report` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Report` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `Reservation`
@@ -221,16 +163,6 @@ CREATE TABLE `Reservation` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Reservation`
---
-
-LOCK TABLES `Reservation` WRITE;
-/*!40000 ALTER TABLE `Reservation` DISABLE KEYS */;
-INSERT INTO `Reservation` VALUES (6,1,2,3,1,0,'899327589',NULL,1512657351,1512728322);
-/*!40000 ALTER TABLE `Reservation` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `User`
 --
 
@@ -257,20 +189,11 @@ CREATE TABLE `User` (
   `firstname` varchar(400) NOT NULL,
   `lastname` varchar(400) NOT NULL,
   `address` varchar(1000) NOT NULL,
+  `forgot_password` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `User`
---
-
-LOCK TABLES `User` WRITE;
-/*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES (1,'rootroot','1e7e1ffa9c17090a4faf82859f5cd36c','https://pbs.twimg.com/profile_images/937626330249728000/5lLvVCtZ_400x400.jpg','44.7834739,-0.5920118999999999','0761889039',0,2,'caca;accariens','Française',NULL,'portron.cl@gmail.com','Nulle',0,'https://scontent-cdt1-1.xx.fbcdn.net/v/t1.0-9/20293989_1817665278249144_526222910380555977_n.jpg?oh=7b40ff9037adfa605656671e507b998b&oe=5A322986','Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca','Portron','Clovis','Les Grenouillères'),(2,'cloclo','1e7e1ffa9c17090a4faf82859f5cd36c','https://pbs.twimg.com/media/Co3jneoUkAEGml1.jpg','44.802614,-0.588054','0761889039',0,1,'zbleh','zbleh',NULL,'portron.cl@gmail.com','zbleh',19,'https://pbs.twimg.com/media/Co3jneoUkAEGml1.jpg','zbleh djsqkdjlqsj djslqdjljql lsjdkl jkldjl sqjdlqs dqs','','',''),(7,'rootroot1','1e7e1ffa9c17090a4faf82859f5cd36c','https://ih1.redbubble.net/image.240262109.3755/poster%2C210x230%2Cf8f8f8-pad%2C210x230%2Cf8f8f8.lite-1.jpg','44.828261,-0.5751322','0761889039',0,1,'Caca','Caca',NULL,'portron.cl@gmail.com','Caca',21,'https://ih1.redbubble.net/image.240262109.3755/poster%2C210x230%2Cf8f8f8-pad%2C210x230%2Cf8f8f8.lite-1.jpg','Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca','','',''),(9,'rootroot2','1e7e1ffa9c17090a4faf82859f5cd36c','https://ih1.redbubble.net/image.240262109.3755/poster%2C210x230%2Cf8f8f8-pad%2C210x230%2Cf8f8f8.lite-1.jpg','44.828261,-0.5751322','0761889039',0,1,'Caca','Caca',NULL,'portron.cl@gmail.com','Caca',21,'https://ih1.redbubble.net/image.240262109.3755/poster%2C210x230%2Cf8f8f8-pad%2C210x230%2Cf8f8f8.lite-1.jpg','Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca','','','');
-/*!40000 ALTER TABLE `User` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -281,4 +204,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-08 10:20:03
+-- Dump completed on 2018-01-10 20:12:42

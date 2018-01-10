@@ -128,6 +128,11 @@ class User extends StorageItem
     public $address;
 
     /**
+     * @Boolean
+     */
+    public $forgot_password;
+
+    /**
      * @return mixed
      */
     public function Username()
@@ -438,6 +443,25 @@ class User extends StorageItem
         $this->address = $address;
         $this->checkIntegrity("address");
     }
+
+    /**
+     * @return mixed
+     */
+    public function ForgotPassword()
+    {
+        return $this->forgot_password;
+    }
+
+    /**
+     * @param mixed $forgot_password
+     */
+    public function setForgotPassword($forgot_password)
+    {
+        $this->forgot_password = $forgot_password;
+        $this->checkIntegrity("forgot_password");
+    }
+
+
 
 
 

@@ -37,6 +37,8 @@ class API
         if($users == null || count($users) <= 0)
             return;
         $user = $users[0];
+        $user->setForgotPassword(1);
+        API::Update(null, $user, false);
         $body = "<p>Bonjour ".$user->Firstname().",</p><p>Si vous avez demandé la mise à zéro de votre mot de passe Melting Cook, cliquez sur le lien ci-dessous. Sinon ignorez simplement ce message.</p>";
         $token = md5($user->Lastname().md5($user->Phone()));
         $link = "https://meltingcook.fr/#resetpassword/".$token;
@@ -51,7 +53,7 @@ class API
             return;
         foreach ($users as $user)
         {
-            if($token === md5($user->Lastname().md5($user->Phone())))
+            if($token === md5($user->Lastname().md5($user->Phone())) && ($user->ForgotPassword() == 1 || $user->ForgotPassword() == "1" ))
             {
                 $password = bin2hex(openssl_random_pseudo_bytes(4));
                 $body = "<p>Bonjour ".$user->Firstname().",</p><p>Vous trouverez ci-dessous votre nouveau mot de passe Melting Cook. Pensez à vous connecter sur notre site et à le changer sous peu. Si vous n'avez pas demandé la remise à zéro de votre mot de passe, contactez nous.</p>";
@@ -59,6 +61,7 @@ class API
                 Mailer::SendMail($user->Mail(), "Remise à zéro de votre mot de passe", $body);
                 $password = md5($password);
                 $user->setPassword($password);
+                $user->setForgotPassword(0);
                 API::Update($token, $user, false);
                 return;
             }

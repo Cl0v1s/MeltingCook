@@ -184,7 +184,7 @@ class APIController extends Controller
             $this->Write(APIController::$NO, null, "Missing Data");
             return;
         }
-        API::BeginResetPassword($_POST["token"]);
+        API::EndResetPassword($_POST["token"]);
         $this->Write(APIController::$OK, null);
     }
 

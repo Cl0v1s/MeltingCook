@@ -15330,7 +15330,7 @@ module.exports = riot.tag2('app-home', '<app-header></app-header> <div class="co
 });
 },{"riot":8}],25:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-login', '<form name="login"> <div> <label for="username">Utilisateur</label> <input type="text" ref="username" name="username" id="username"> </div> <div> <label for="password">Mot de passe</label> <input type="password" ref="password" name="password" id="password"> </div> <input type="button" class="large" value="Envoyer" onclick="{send}"> <input type="button" onclick="{resetPassword}" value="J\'ai oublié mon mot de passe"> </form>', '', '', function(opts) {
+module.exports = riot.tag2('app-login', '<form name="login"> <div> <label for="username">Utilisateur</label> <input type="text" ref="username" name="username" id="username"> </div> <div> <label for="password">Mot de passe</label> <input type="password" ref="password" name="password" id="password"> </div> <input type="button" class="large" value="Envoyer" onclick="{send}"> <input type="button" class="large" onclick="{resetPassword}" value="J\'ai oublié mon mot de passe"> </form>', '', '', function(opts) {
         var tag = this;
 
         tag.callback = null;
@@ -15516,6 +15516,7 @@ module.exports = riot.tag2('app-header', '<div class="img" onclick="{home}"></di
             Login.GetInstance().logout();
             tag.auth();
             tag.update();
+            rouet("/");
         }
 
         tag.account = function()

@@ -327,7 +327,7 @@ class API
             if($f == "")
                 $f = $sqlconditions;
             else
-                $f = $f." AND ".$sqlconditions;
+                $f = $f." ".$sqlconditions;
 
         }
         $storage->findAll($class, $items, $f);
@@ -381,6 +381,7 @@ class API
         $recipe = API::GetRecipe($token, $item->RecipeId());
         /*if(time() > $recipe["date_start"])
             throw new Exception("Impossible de réserver une recette après sa date de début#", 2);*/
+        $storage = Engine::Instance()->Persistence("DatabaseStorage");
 
         $guest = new User($storage, $item->GuestId());
         $guest = $storage->find($guest);

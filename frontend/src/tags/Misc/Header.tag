@@ -56,7 +56,9 @@
         tag.logout = function()
         {
             Login.GetInstance().logout();
-            route("/");
+            tag.auth();
+            tag.update();
+            rouet("/");
         }
 
         tag.account = function()

@@ -29,6 +29,23 @@ class API
     }
 
 
+    // Fonctions spéciales liées aux processus de gestion de compte
+
+    public static function BeginResetPassword($email)
+    {
+        $storage = Engine::Instance()->Persistence("DatabaseStorage");
+        $users = API::GetAll(null, "User", null, "email = '".$email."'");
+        if($users == null || count($users) <= 0)
+            return;
+        $user = $users[0];
+        $body = "<p>Bonjour ".$user->Firstname().",</p><p>Si vous avez demandez la mise à zéro de votre mot de passe Melting Cook, cliquez sur le lien ci-dessous. Sinon ignorez simplement ce message.</p>";
+        $token = md5($user->Lastname().md5($user->Phone()));
+        $link = "https://meltingcook.fr/#resetpassword?token=".$token;
+        $body = $body."<p><a href='".$link."'>".$link."</a></p>";
+        Mailer::SendMail($user->Mail(), "Remise à zéro de votre mot de passe", $body);
+    }
+
+
     // Fonctions spéciales liées aux processus de réservation
 
     /**
@@ -305,8 +322,13 @@ class API
                 }
             }
             $f = substr($f,0, -4);
-            if($sqlconditions != null)
-                $f = $f." ".$sqlconditions;
+        }
+        if($sqlconditions != null) {
+            if($f == "")
+                $f = $sqlconditions;
+            else
+                $f = $f." AND ".$sqlconditions;
+
         }
         $storage->findAll($class, $items, $f);
         return $items;

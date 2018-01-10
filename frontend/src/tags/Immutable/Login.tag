@@ -9,7 +9,7 @@
             <input type="password" ref="password" name="password" id="password">
         </div>
         <input type="button" class="large" value="Envoyer" onclick='{ send }'>
-        <a onclick="{ resetPassword }">J'ai oublié mon mot de passe</a>
+        <input type="button" class="large" onclick="{ resetPassword }" value="J'ai oublié mon mot de passe">
     </form>
     <script>
         var tag = this;
@@ -27,10 +27,8 @@
         {
             var callback = function () {
                 App.hidePopUp();
-                NotificationManager.showNotification("Votre mot de passe va être modifié. Veuillez allez recevoir un mail de confirmation. Veuillez vous reconnecter.", "success");
-                route("/login");
             };
-
+            App.hidePopUp();
             App.showPopUp("app-resetpasswordform", "J'ai oublié mon mot de passe", {
                 "callback": callback
             });

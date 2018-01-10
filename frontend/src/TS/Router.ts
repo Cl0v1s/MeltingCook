@@ -86,6 +86,8 @@ class Router
     // Error
     private error(message:string) : void
     {
+        App.hidePopUp();
+        App.hideLoading();
         if(message != null)
             message = decodeURI(message);
         App.changePage("app-error", {

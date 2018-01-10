@@ -3,6 +3,7 @@
         <p>
             Veuillez entrer ci-dessous l'adresse email de votre compte. Nous vous enverrons un mail contenant un lien permettant de regénérer votre mot de passe.
         </p>
+        <br><br>
         <div>
             <label for="email">Addresse email de votre compte</label>
             <input type="text" ref="email" name="email" id="email">

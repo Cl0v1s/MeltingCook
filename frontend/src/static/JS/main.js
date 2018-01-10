@@ -272,6 +272,8 @@ class Router {
     }
     // Error
     error(message) {
+        App.hidePopUp();
+        App.hideLoading();
         if (message != null)
             message = decodeURI(message);
         App.changePage("app-error", {
@@ -639,6 +641,7 @@ require("./../../tags/Comment/Comments.tag");
 require("./../../tags/Immutable/Error.tag");
 require("./../../tags/Immutable/Home.tag");
 require("./../../tags/Immutable/Login.tag");
+require("./../../tags/Immutable/ResetPasswordForm.tag");
 require("./../../tags/Immutable/CGU.tag");
 // MISC
 require("./../../tags/Misc/DateInput.tag");

@@ -17,6 +17,7 @@ require("./../../tags/Comment/Comments.tag");
 require("./../../tags/Immutable/Error.tag");
 require("./../../tags/Immutable/Home.tag");
 require("./../../tags/Immutable/Login.tag");
+require("./../../tags/Immutable/ResetPasswordForm.tag");
 require("./../../tags/Immutable/CGU.tag");
 
 // MISC

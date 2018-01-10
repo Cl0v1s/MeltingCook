@@ -149,6 +149,9 @@ class APIController extends Controller
                 case "validatereservation":
                     $this->ValidateReservation();
                     break;
+                case "beginresetpassword":
+                    $this->BeginResetPassword();
+                    break;
                 default:
                     http_response_code(404);
                     return;
@@ -160,6 +163,17 @@ class APIController extends Controller
         }
     }
 
+
+    // Fonctions spéciales liées aux processus de compte utilisateur
+    private function BeginResetPassword()
+    {
+        if(isset($_POST["email"]) == false){
+            $this->Write(APIController::$NO, null, "Missing Data");
+            return;
+        }
+        API::BeginResetPassword($_POST["email"]);
+        $this->Write(APIController::$OK, null);
+    }
 
     // Fonctions spéciales liées aux processus de réservation
 

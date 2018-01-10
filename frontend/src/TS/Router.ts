@@ -418,7 +418,7 @@ class Router
             });
         });
         request.catch(function(error){
-           ErrorHandler.alertIfError(error);
+           ErrorHandler.alertIfError(error); 
         });
     }
 

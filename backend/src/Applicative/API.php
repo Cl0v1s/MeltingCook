@@ -57,6 +57,9 @@ class API
                 $body = "<p>Bonjour ".$user->Firstname().",</p><p>Vous trouverez ci-dessous votre nouveau mot de passe Melting Cook. Pensez à vous connecter sur notre site et à le changer sous peu. Si vous n'avez pas demandé la remise à zéro de votre mot de passe, contactez nous.</p>";
                 $body = $body."<p>".$password."</p>";
                 Mailer::SendMail($user->Mail(), "Remise à zéro de votre mot de passe", $body);
+                $password = md5($password);
+                $user->setPassword($password);
+                API::Update($token, $user, false);
                 return;
             }
         }

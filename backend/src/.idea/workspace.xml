@@ -31,11 +31,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="API.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="API.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Applicative/API.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="408">
               <caret line="36" column="54" lean-forward="false" selection-start-line="36" selection-start-column="54" selection-end-line="36" selection-end-column="54" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Mailer.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Applicative/Mailer.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="15" column="5" lean-forward="true" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -87,6 +97,7 @@
         <option value="$PROJECT_DIR$/Core/Engine.php" />
         <option value="$PROJECT_DIR$/Controllers/APIController.php" />
         <option value="$PROJECT_DIR$/Applicative/API.php" />
+        <option value="$PROJECT_DIR$/Applicative/Mailer.php" />
       </list>
     </option>
   </component>
@@ -305,12 +316,12 @@
       <workItem from="1511118256049" duration="35000" />
       <workItem from="1511286740610" duration="2791000" />
       <workItem from="1511434153682" duration="1243000" />
-      <workItem from="1515591540851" duration="3169000" />
+      <workItem from="1515591540851" duration="3418000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="67056000" />
+    <option name="totallyTimeSpent" value="67305000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
@@ -346,14 +357,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Applicative/API.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4736">
-          <caret line="296" column="46" lean-forward="true" selection-start-line="296" selection-start-column="46" selection-end-line="296" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Model/Recipe.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4976">
@@ -732,6 +735,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
           <caret line="36" column="54" lean-forward="false" selection-start-line="36" selection-start-column="54" selection-end-line="36" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Applicative/Mailer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="5" lean-forward="true" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
           <folding />
         </state>
       </provider>

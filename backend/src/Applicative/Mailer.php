@@ -17,7 +17,7 @@ class Mailer
         $body = Mailer::$HEADER.$body.Mailer::$FOOTER;
         $date = new DateTime();
         $body = str_replace("--DATE--", $date->format('Y-m-d H:i:s'), $body);
-        $body = str_replace("--MANAGEREMAIL--", MAIL::$MANAGEREMAIL, $body);
+        $body = str_replace("--MANAGEREMAIL--", Mailer::$MANAGEREMAIL, $body);
         mail($receiver, $subject, $body);
     }
 }

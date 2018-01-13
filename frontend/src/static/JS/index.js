@@ -13909,7 +13909,8 @@ class Login {
                 resolve(response.data);
             });
             retrieve.catch((error) => {
-                reject(error);
+                if (error instanceof Error)
+                    ErrorHandler.alertIfError(error);
             });
         });
     }
@@ -14947,6 +14948,11 @@ module.exports = riot.tag2('app-adminorigins', '<app-header></app-header> <app-t
 
         tag.origins = null;
         tag.tabs = [
+        {
+                name : "Utilisateurs",
+                route : "/admin/users",
+                selected : false
+            },
             {
                 name : "Signalement",
                 route : "/admin/reports",
@@ -15035,6 +15041,11 @@ module.exports = riot.tag2('app-adminpins', '<app-header></app-header> <app-tabb
 
         tag.pins = null;
         tag.tabs = [
+            {
+                name : "Utilisateurs",
+                route : "/admin/users",
+                selected : false
+            },
             {
                 name : "Signalement",
                 route : "/admin/reports",
@@ -15132,6 +15143,11 @@ module.exports = riot.tag2('app-adminreports', '<app-header></app-header> <app-t
                 throw new Error("Reports cant be null");
 
             tag.tabs = [
+            {
+                name : "Utilisateurs",
+                route : "/admin/users",
+                selected : false
+            },
                 {
                     name : "Signalement",
                     route : "/admin/reports",
@@ -15184,6 +15200,11 @@ module.exports = riot.tag2('app-adminreservations', '<app-header></app-header> <
             }
 
             tag.tabs = [
+            {
+                name : "Utilisateurs",
+                route : "/admin/users",
+                selected : false
+            },
                 {
                     name : "Signalement",
                     route : "/admin/reports",
@@ -15263,10 +15284,15 @@ module.exports = riot.tag2('app-adminusers', '<app-header></app-header> <app-tab
                 throw new Error("Users cant be null.");
 
             tag.tabs = [
+            {
+                name : "Utilisateurs",
+                route : "/admin/users",
+                selected : true
+            },
                 {
                     name : "Signalement",
                     route : "/admin/reports",
-                    selected : true
+                    selected : false
                 },
                 {
                     name : "Transactions",

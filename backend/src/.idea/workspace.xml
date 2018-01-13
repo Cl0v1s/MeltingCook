@@ -108,7 +108,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="452" />
     <option name="y" value="190" />
     <option name="width" value="1259" />
@@ -319,15 +319,15 @@
       <workItem from="1511434153682" duration="1243000" />
       <workItem from="1515591540851" duration="5121000" />
       <workItem from="1515610532970" duration="1215000" />
-      <workItem from="1515837608567" duration="159000" />
+      <workItem from="1515837608567" duration="486000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="70382000" />
+    <option name="totallyTimeSpent" value="70709000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
+    <frame x="54" y="-8" width="1874" height="1096" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14639397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />

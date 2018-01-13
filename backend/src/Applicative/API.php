@@ -256,6 +256,8 @@ class API
         foreach ($users as $user)
         {
             if($user->checkAuth($token)) {
+                if($user->Banned() == 1 || $user->Banned() == "1")
+                    throw new Exception("Votre compte a été banni par un administrateur. Vous pouvez contacter Melting Cook en cas de réclamation.#", 2);
                 return $user;
             }
         }

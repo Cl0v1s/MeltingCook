@@ -67,6 +67,8 @@
             tag.funds = [];
 
             tag.reservations.forEach((res) => {
+                if(res.done == "2" || res.done == 2)
+                    return;
                 if(res.done == "1")
                 {
                     tag.done.push(res);

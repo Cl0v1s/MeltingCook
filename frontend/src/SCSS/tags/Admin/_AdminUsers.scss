@@ -1,0 +1,37 @@
+app-adminusers, div[data-is=app-adminusers]
+{
+  div.search
+  {
+    background-image: url("/static/images/black_paper.png");
+    padding: $space-normal;
+    text-align: center;
+
+    form
+    {
+      margin: auto;
+      max-width: 900px;
+      padding: $space-normal;
+
+      h2{
+        width: 100%;
+
+        color: $color-text-secondary;
+      }
+      margin-top: $space-normal;
+
+
+      table
+      {
+        td
+        {
+          color: $color-text-secondary;
+        }
+      }
+    }
+
+    input[type=button]
+    {
+      display: inline-block;
+    }
+  }
+}

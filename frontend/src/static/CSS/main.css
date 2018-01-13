@@ -580,6 +580,23 @@ div[data-is=app-adminpins] div.content a.Action, div[data-is=app-adminorigins] d
   margin-bottom: 20px;
   text-align: center; }
 
+app-adminusers div.search, div[data-is=app-adminusers] div.search {
+  background-image: url("/static/images/black_paper.png");
+  padding: 20px;
+  text-align: center; }
+  app-adminusers div.search form, div[data-is=app-adminusers] div.search form {
+    margin: auto;
+    max-width: 900px;
+    padding: 20px;
+    margin-top: 20px; }
+    app-adminusers div.search form h2, div[data-is=app-adminusers] div.search form h2 {
+      width: 100%;
+      color: #f2f4f3; }
+    app-adminusers div.search form table td, div[data-is=app-adminusers] div.search form table td {
+      color: #f2f4f3; }
+  app-adminusers div.search input[type=button], div[data-is=app-adminusers] div.search input[type=button] {
+    display: inline-block; }
+
 app-home, div[data-is=app-home] {
   display: block; }
   app-home h1, div[data-is=app-home] h1 {

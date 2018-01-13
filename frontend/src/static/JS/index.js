@@ -13838,6 +13838,10 @@ class ErrorHandler {
                 error.message = "Ooops... Quelque chose s'est mal passé. Veuillez réessayer plus tard.";
                 break;
         }
+        if (response.data != null)
+            console.error(response.data);
+        else
+            console.error(response);
         throw error;
     }
     handleSQL(response) {
@@ -15271,7 +15275,7 @@ module.exports = riot.tag2('app-adminreservations', '<app-header></app-header> <
 });
 },{"riot":8}],18:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-adminusers', '<app-header></app-header> <app-tabbar tabs="{tabs}"></app-tabbar> <div class="content no-margin"> <div class="search"> <form name="search-user"> <h2>Chercher</h2> <app-userselector ref="user"></app-userselector> <input type="button" value="Rechercher" onclick="{search}"> </form> </div> <table> <thead> <tr> <td>Intitulé</td><td>Actions</td> </tr> </thead> <tbody> <tr each="{user, i in users}" id="item-{user.id}"> <td>{user.username}</td> <td> <a class="onclick" onclick="{see}" data-id="{user.id}" data-index="{i}">Voir le profil</a> <a class="onclick" onclick="{ban}" data-id="{user.id}" data-index="{i}"> <virtual if="{user.banned != 1}"> Bannir </virtual> <virtual if="{user.banned != 0}"> Autoriser </virtual> </a> </td> </tr> </tbody> </table> </div> <app-footer></app-footer>', '', '', function(opts) {
+module.exports = riot.tag2('app-adminusers', '<app-header></app-header> <app-tabbar tabs="{tabs}"></app-tabbar> <div class="search"> <form name="search-user"> <h2>Chercher</h2> <app-userselector ref="user"></app-userselector> <input type="button" value="Rechercher" onclick="{search}"> </form> </div> <div class="content"> <table> <thead> <tr> <td>Intitulé</td><td>Actions</td> </tr> </thead> <tbody> <tr each="{user, i in users}" id="item-{user.id}"> <td>{user.username}</td> <td> <a class="onclick" onclick="{see}" data-id="{user.id}" data-index="{i}">Voir le profil</a> <a class="onclick" onclick="{ban}" data-id="{user.id}" data-index="{i}"> <virtual if="{user.banned != 1}"> Bannir </virtual> <virtual if="{user.banned != 0}"> Autoriser </virtual> </a> </td> </tr> </tbody> </table> </div> <app-footer></app-footer>', '', '', function(opts) {
         var tag = this;
 
         tag.tabs = null;
@@ -15339,6 +15343,8 @@ module.exports = riot.tag2('app-adminusers', '<app-header></app-header> <app-tab
             let request = App.request(App.Address + "/updateuser", user);
             request.then(function(response){
                 NotificationManager.showNotification("L'état de l'utilisateur "+user.username+" a été modifié.", "success");
+                tag.users[index].banned = user.banned;
+                tag.update();
             });
             request.catch(function(error){
                 if(error instanceof Error)
@@ -15653,7 +15659,7 @@ module.exports = riot.tag2('app-header', '<div class="img" onclick="{home}"></di
             Login.GetInstance().logout();
             tag.auth();
             tag.update();
-            rouet("/");
+            route("/");
         }
 
         tag.account = function()
@@ -16690,6 +16696,8 @@ module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler" if="{
             tag.funds = [];
 
             tag.reservations.forEach((res) => {
+                if(res.done == "2" || res.done == 2)
+                    return;
                 if(res.done == "1")
                 {
                     tag.done.push(res);
@@ -16969,7 +16977,7 @@ module.exports = riot.tag2('app-searcher', '<div> <div class="img"></div> <div> 
 });
 },{"riot":8}],59:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-user', '<app-header></app-header> <div> <div class="banner" riot-style="background-image: url(\'{user.banner}\');"> </div> <div class="content"> <div class="head"> <img riot-src="{user.picture}"> <div class="identity"> <span>{user.username}</span> <span>{user.age} ans</span> <span>Cuisinnier vérifié</span> </div> </div> <nav> <input type="button" onclick="{showRecipes}" value="Voir les recettes"> <input if="{owner==true}" type="button" onclick="{manage}" value="Gérer mon profil"> <input if="{owner==false}" class="peach" type="button" onclick="{report}" value="Signaler"> </nav> <div class="description"> <h1>Présentation du chef</h1> <p> {user.description} </p> </div> <div class="more"> <div class="{discease : true, invisible : user.discease.length <= 0}"> <h1>Ses allergies</h1> <ul> <li each="{d in user.discease}">{d}</li> </ul> </div> <div class="{preference : true, invisible : user.preference.length <= 0}"> <h1>Ses inspirations</h1> <ul> <li each="{p in user.preference}">{p}</li> </ul> </div> <div> <h1>Ses "plus"</h1> <div class="Pins open" each="{p in user.pins}"><span>{p}</span></div> </div> </div> <div class="comments"> <h1>Ses avis</h1> <app-hearts repeat="{user.likes}"></app-hearts> <app-comments comments="{user.comments}"></app-comments> </div> </div> </div> <app-footer></app-footer>', '', '', function(opts) {
+module.exports = riot.tag2('app-user', '<app-header></app-header> <div> <div class="banner" riot-style="background-image: url(\'{user.banner}\');"> </div> <div class="content"> <div class="head"> <img riot-src="{user.picture}"> <div class="identity"> <span>{user.username}</span> <span>{user.age} ans</span> <span>Cuisinnier vérifié</span> </div> </div> <nav> <input type="button" onclick="{showRecipes}" value="Voir les recettes"> <input if="{owner==true}" type="button" onclick="{manage}" value="Gérer mon profil"> <input if="{owner==false}" class="peach" type="button" onclick="{report}" value="Signaler"> </nav> <div class="description"> <h1>Présentation du chef</h1> <p> {user.description} </p> </div> <div class="more"> <div class="{discease : true, invisible : user.discease.length <= 0}"> <h1>Ses allergies</h1> <ul> <li each="{d in user.discease}">{d}</li> </ul> </div> <div class="{preference : true, invisible : user.preference.length <= 0}"> <h1>Ses inspirations</h1> <ul> <li each="{p in user.preference}">{p}</li> </ul> </div> <div> <h1>Ses "plus"</h1><br> <div class="Pins open" each="{p in user.pins}"><span>{p}</span></div> </div> </div> <div class="comments"> <h1>Ses avis</h1> <app-hearts repeat="{user.likes}"></app-hearts> <app-comments comments="{user.comments}"></app-comments> </div> </div> </div> <app-footer></app-footer>', '', '', function(opts) {
         var tag = this;
 
         tag.user = null;

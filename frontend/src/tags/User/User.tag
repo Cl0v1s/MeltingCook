@@ -40,7 +40,7 @@
                     </ul>
                 </div>
                 <div>
-                    <h1>Ses "plus"</h1>
+                    <h1>Ses "plus"</h1><br>
                         <div class="Pins open" each='{ p in user.pins }'><span>{ p }</span></div>
                 </div>
             </div>

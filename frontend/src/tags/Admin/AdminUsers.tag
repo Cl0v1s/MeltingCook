@@ -1,7 +1,6 @@
 <app-adminusers>
     <app-header></app-header>
     <app-tabbar tabs="{ tabs }"></app-tabbar>
-    <div class="content no-margin">
         <div class="search">
             <form name="search-user">
                 <h2>Chercher</h2>
@@ -9,6 +8,8 @@
                 <input type="button" value="Rechercher" onclick='{ search }'>
             </form>
         </div>
+    <div class="content">
+        
         <table>
             <thead>
                 <tr>
@@ -103,6 +104,8 @@
             let request = App.request(App.Address + "/updateuser", user);
             request.then(function(response){
                 NotificationManager.showNotification("L'état de l'utilisateur "+user.username+" a été modifié.", "success");
+                tag.users[index].banned = user.banned;
+                tag.update();
             });
             request.catch(function(error){
                 if(error instanceof Error)

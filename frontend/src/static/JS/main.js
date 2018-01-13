@@ -132,6 +132,10 @@ class ErrorHandler {
                 error.message = "Ooops... Quelque chose s'est mal passé. Veuillez réessayer plus tard.";
                 break;
         }
+        if (response.data != null)
+            console.error(response.data);
+        else
+            console.error(response);
         throw error;
     }
     handleSQL(response) {

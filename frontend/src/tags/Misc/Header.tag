@@ -58,7 +58,7 @@
             Login.GetInstance().logout();
             tag.auth();
             tag.update();
-            rouet("/");
+            route("/");
         }
 
         tag.account = function()

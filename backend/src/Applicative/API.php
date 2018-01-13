@@ -230,7 +230,7 @@ class API
         $host = $storage->find($host);
 
         if($host != null)
-            Mailer::SendMail($host->Mail(), "Une bonne nouvelle a propos de la recette ".$recipe["name"], "Votre ancien invité ".$user->Username()." a lancé la procédure de finalisation de sa réservation! Vous devriez bientôt reçevoir votre compensation !");
+            Mailer::SendMail($host->Mail(), "Une bonne nouvelle a propos de la recette ".$recipe->Name(), "Votre ancien invité ".$user->Username()." a lancé la procédure de finalisation de sa réservation! Vous devriez bientôt reçevoir votre compensation !");
 
         API::GenerateNotification($token, $reservation->HostId(), "success", "Votre ancien invité ".$user->Username()." a lancé la procédure de finalisation de sa réservation! Vous devriez bientôt reçevoir votre compensation !");
 

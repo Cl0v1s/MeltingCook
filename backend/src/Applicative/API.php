@@ -221,7 +221,7 @@ class API
 
         $recipe = new Recipe($storage, $reservation->RecipeId());
         $recipe = $storage->find($recipe);
-        if(time() < intval($recipe->DateEnd()))
+        if(time() < intval($recipe->DateStart()))
         {
             throw new Exception("Impossible de valider une réservation n'ayant pas encore eu lieu#",2);
         }

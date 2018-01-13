@@ -547,6 +547,26 @@ class Router {
             ErrorHandler.alertIfError(error);
         });
     }
+    adminUsers(user_id) {
+        if (Login.GetInstance().isLogged() == false || Login.GetInstance().User().rights < 2) {
+            route("/");
+            return;
+        }
+        var filters = {};
+        if (user_id != null)
+            filters.id = user_id;
+        var request = App.request(App.Address + "/getusers", {
+            "filters": JSON.stringify(filters)
+        });
+        request.then(function (response) {
+            App.changePage("app-adminusers", {
+                "users": response.data
+            });
+        });
+        request.catch(function (error) {
+            ErrorHandler.alertIfError(error);
+        });
+    }
     resetPassword(token) {
         let request = App.request(App.Address + "/endresetpassword", {
             "token": token
@@ -575,6 +595,8 @@ class Router {
         route("/admin/reservations", () => {
             this.adminReservations();
         });
+        route("/admin/users", () => { this.adminUsers(null); });
+        route("/admin/users/*", (user_id) => { this.adminUsers(user_id); });
         // Account
         route("/account/recipes", this.accountRecipes);
         route("/account/reservations", this.accountReservations);
@@ -708,6 +730,7 @@ require("./../../tags/Admin/AdminReports.tag");
 require("./../../tags/Admin/AdminOrigins.tag");
 require("./../../tags/Admin/AdminPins.tag");
 require("./../../tags/Admin/AdminReservations.tag");
+require("./../../tags/Admin/AdminUsers.tag");
 class App {
     static diagnosticForm(formname, errors) {
         for (var field in errors[formname]) {

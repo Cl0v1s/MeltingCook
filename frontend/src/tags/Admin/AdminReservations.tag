@@ -35,6 +35,11 @@
             }
 
             tag.tabs = [
+            {
+                name : "Utilisateurs",
+                route : "/admin/users",
+                selected : false
+            },
                 {
                     name : "Signalement",
                     route : "/admin/reports",

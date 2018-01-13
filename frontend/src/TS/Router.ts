@@ -422,6 +422,30 @@ class Router
         });
     }
 
+    private adminUsers(user_id : number) : void
+    {
+        if(Login.GetInstance().isLogged() == false || Login.GetInstance().User().rights < 2)
+        {
+            route("/");
+            return;
+        }
+        var filters : any = {};
+        if(user_id != null)
+            filters.id = user_id;
+        var request = App.request(App.Address + "/getusers", {
+            "filters" : JSON.stringify(filters)
+        });
+        request.then(function(response : any){
+            App.changePage("app-adminusers", {
+                "users" : response.data
+            });
+        });
+        request.catch(function(error)
+        {
+            ErrorHandler.alertIfError(error);
+        });
+    }
+
     private resetPassword(token)
     {
         let request = App.request(App.Address+"/endresetpassword", {
@@ -437,6 +461,8 @@ class Router
                 ErrorHandler.alertIfError(error);
         });
     }
+
+    
 
     ///////////////////////////////////////////////////////////////
 
@@ -458,7 +484,8 @@ class Router
         route("/admin/reservations", () => {
             this.adminReservations();
         });
-
+        route("/admin/users", () => {this.adminUsers(null)});
+        route("/admin/users/*", (user_id) => {this.adminUsers(user_id)});
 
         // Account
         route("/account/recipes", this.accountRecipes);

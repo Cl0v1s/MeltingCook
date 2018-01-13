@@ -81,6 +81,7 @@ require("./../../tags/Admin/AdminReports.tag");
 require("./../../tags/Admin/AdminOrigins.tag");
 require("./../../tags/Admin/AdminPins.tag");
 require("./../../tags/Admin/AdminReservations.tag");
+require("./../../tags/Admin/AdminUsers.tag");
 
 
 

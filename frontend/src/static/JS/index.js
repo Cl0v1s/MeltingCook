@@ -14591,7 +14591,7 @@ class App {
         App.LoadingCounter = 0;
     }
 }
-App.Address = "http://192.168.1.19/MC/backend/src/API";
+App.Address = "http://www.clovis-portron.cf/MC/backend/src/API";
 App.Page = null;
 App.PopUp = null;
 App.LoadingCounter = 0;
@@ -16662,7 +16662,7 @@ module.exports = riot.tag2('app-reservationvalidateform', '<h2> Merci d\'avoir u
 });
 },{"riot":8}],54:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler" if="{interactive}"> <br><br> <span class="Switch"> <a onclick="{showFunds}" class="{selected :  list == funds}">Provisionnées</a> <a onclick="{showDone}" class="{selected : list == done}">A Verser</a> <a onclick="{showRefunds}" class="{selected :  list == refunds}">A Rembourser</a> </span> <br><br> </div> <table> <thead> <tr> <td if="{interactive}">Identifiant</td> <td if="{interactive}">Hôte</td> <td>Invité</td> <td>Montant</td> <td if="{interactive}">Action</td> </tr> </thead> <tbody> <tr each="{reservation in list}" id="reservation-{reservation.id}"> <td if="{interactive}">{reservation.id}</td> <td if="{interactive}">{reservation.host.mail}</td> <td>{reservation.guest.mail}</td> <td>{reservation.recipe.price}</td> <td if="{interactive}"> <input if="{admin == true}" type="button" value="Marquer comme terminée" data-id="{reservation.id}" onclick="{fullfill}"> <input if="{admin == false && reservation.paid == \'1\' && reservation.done == \'0\'}" type="button" value="Je finalise" data-id="{reservation.id}" onclick="{validate}"> <input if="{admin == false && reservation.paid != \'2\' && reservation.done != \'1\'}" type="button" value="J\'annule" data-id="{reservation.id}" onclick="{refund}"> </td> </tr> </tbody> </table>', '', '', function(opts) {
+module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler" if="{interactive}"> <br><br> <span class="Switch"> <a onclick="{showFunds}" class="{selected :  list == funds}">Provisionnées</a> <a onclick="{showDone}" class="{selected : list == done}">A Verser</a> <a onclick="{showRefunds}" class="{selected :  list == refunds}">A Rembourser</a> </span> <br><br> </div> <table> <thead> <tr> <td if="{interactive}">Identifiant</td> <td if="{interactive}">Hôte</td> <td>Invité</td> <td>Montant</td> <td if="{interactive}">Action</td> </tr> </thead> <tbody> <tr each="{reservation in list}" id="reservation-{reservation.id}"> <td if="{interactive}">{reservation.id}</td> <td if="{interactive}">{reservation.host.mail}</td> <td>{reservation.guest.mail}</td> <td>{reservation.recipe.price}</td> <td if="{interactive}"> <input if="{admin == true}" type="button" value="Marquer comme terminée" data-id="{reservation.id}" onclick="{fullfill}"> <input if="{admin == false && reservation.paid == \'1\' && reservation.done == \'0\' && reservation.recipe.date_start <= (new Date().getTime()/1000)}" type="button" value="Je finalise" data-id="{reservation.id}" onclick="{validate}"> <input if="{admin == false && reservation.paid != \'2\' && reservation.done != \'1\'}" type="button" value="J\'annule" data-id="{reservation.id}" onclick="{refund}"> </td> </tr> </tbody> </table>', '', '', function(opts) {
         var tag = this;
 
         tag.admin = false;

@@ -885,7 +885,7 @@ class App {
         App.LoadingCounter = 0;
     }
 }
-App.Address = "http://192.168.1.19/MC/backend/src/API";
+App.Address = "http://www.clovis-portron.cf/MC/backend/src/API";
 App.Page = null;
 App.PopUp = null;
 App.LoadingCounter = 0;

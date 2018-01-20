@@ -54,7 +54,6 @@ require("./../../tags/Origin/OriginEditForm.tag");
 // PIN
 require("./../../tags/Pin/PinEditForm.tag");
 
-
 // RESERVATION
 require("./../../tags/Reservation/ReservationValidateForm.tag");
 require("./../../tags/Reservation/Reservation.tag");
@@ -68,7 +67,6 @@ require("./../../tags/Search/Searcher.tag");
 require("./../../tags/Search/SearchResults.tag");
 
 // USER
-
 require("./../../tags/User/User.tag");
 require("./../../tags/User/UserEdit.tag");
 require("./../../tags/User/UserEditForm.tag");
@@ -89,7 +87,7 @@ require("./../../tags/Admin/AdminUsers.tag");
 
 class App
 {
-    public static Address : string = "http://192.168.1.19/MC/backend/src/API";
+    public static Address : string = "http://www.clovis-portron.cf/MC/backend/src/API";
 
     private static Page = null;
     private static PopUp = null;

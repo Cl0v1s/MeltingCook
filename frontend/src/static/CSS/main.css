@@ -4,11 +4,11 @@
 **/
 @font-face {
   font-family: "Raleway";
-  src: url("/static/fonts/Raleway-Regular.ttf"); }
+  src: url("http://www.clovis-portron.cf/MC/frontend/src/static/fonts/Raleway-Regular.ttf"); }
 
 @font-face {
   font-family: "Lobster";
-  src: url("/static/fonts/LobsterTwo-Regular.ttf"); }
+  src: url("http://www.clovis-portron.cf/MC/frontend/src/static/fonts/LobsterTwo-Regular.ttf"); }
 
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
@@ -62,11 +62,11 @@ table {
 **/
 @font-face {
   font-family: "Raleway";
-  src: url("/static/fonts/Raleway-Regular.ttf"); }
+  src: url("http://www.clovis-portron.cf/MC/frontend/src/static/fonts/Raleway-Regular.ttf"); }
 
 @font-face {
   font-family: "Lobster";
-  src: url("/static/fonts/LobsterTwo-Regular.ttf"); }
+  src: url("http://www.clovis-portron.cf/MC/frontend/src/static/fonts/LobsterTwo-Regular.ttf"); }
 
 .invisible {
   display: none !important; }
@@ -75,7 +75,7 @@ div#app {
   min-height: 100%; }
 
 body {
-  background-image: url("/static/images/background.png"); }
+  background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/background.png"); }
 
 .content {
   min-width: 320px;
@@ -183,7 +183,7 @@ h1 {
   padding: 8px;
   padding-left: 0;
   letter-spacing: 2px;
-  background-image: url("/static/images/h1.png");
+  background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/h1.png");
   background-repeat: no-repeat;
   display: inline-block;
   background-size: 100% 100%;
@@ -268,11 +268,11 @@ p {
 **/
 @font-face {
   font-family: "Raleway";
-  src: url("/static/fonts/Raleway-Regular.ttf"); }
+  src: url("http://www.clovis-portron.cf/MC/frontend/src/static/fonts/Raleway-Regular.ttf"); }
 
 @font-face {
   font-family: "Lobster";
-  src: url("/static/fonts/LobsterTwo-Regular.ttf"); }
+  src: url("http://www.clovis-portron.cf/MC/frontend/src/static/fonts/LobsterTwo-Regular.ttf"); }
 
 a.onclick {
   cursor: pointer; }
@@ -295,39 +295,39 @@ a.Button {
     text-align: center;
     font-size: 14px; }
   a.Button.register {
-    background-image: url("/static/images/chef.svg"); }
+    background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/chef.svg"); }
     a.Button.register > span {
       color: #DED479; }
   a.Button.login {
-    background-image: url("/static/images/on.svg"); }
+    background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/on.svg"); }
     a.Button.login > span {
       color: #F3B1A6; }
   a.Button.logout {
-    background-image: url("/static/images/on.svg"); }
+    background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/on.svg"); }
     a.Button.logout > span {
       color: #FDC279; }
   a.Button.fb {
     background-position: center;
     background-size: auto 250%;
-    background-image: url("/static/images/facebook.svg"); }
+    background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/facebook.svg"); }
     a.Button.fb > span {
       color: transparent; }
   a.Button.twitter {
     background-position: center;
     background-size: auto 250%;
-    background-image: url("/static/images/twitter.svg"); }
+    background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/twitter.svg"); }
     a.Button.twitter > span {
       color: transparent; }
   a.Button.insta {
     background-position: center;
     background-size: auto 250%;
-    background-image: url("/static/images/instagram.svg"); }
+    background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/instagram.svg"); }
     a.Button.insta > span {
       color: transparent; }
   a.Button.youtube {
     background-position: center;
     background-size: auto 250%;
-    background-image: url("/static/images/youtube.svg"); }
+    background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/youtube.svg"); }
     a.Button.youtube > span {
       color: transparent; }
 
@@ -340,7 +340,7 @@ a.Action {
   padding-top: 0;
   padding-left: 30px;
   background-color: #FDC279;
-  background-image: url("/static/images/add.svg");
+  background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/add.svg");
   background-size: 20px 20px;
   background-position: 8px;
   background-repeat: no-repeat;
@@ -487,9 +487,9 @@ app-hearts {
     background-size: contain;
     background-repeat: no-repeat; }
   app-hearts .empty {
-    background-image: url("/static/images/heart_vide.svg"); }
+    background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/heart_vide.svg"); }
   app-hearts .full {
-    background-image: url("/static/images/heart_plein.svg"); }
+    background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/heart_plein.svg"); }
 
 .stain {
   display: inline-block;
@@ -503,11 +503,11 @@ app-hearts {
     font-size: 9px;
     font-family: "Raleway"; }
   .stain.avocado {
-    background-image: url("/static/images/tache-avocat.svg"); }
+    background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/tache-avocat.svg"); }
   .stain.peach {
-    background-image: url("/static/images/tache-passion.svg"); }
+    background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/tache-passion.svg"); }
   .stain.straw {
-    background-image: url("/static/images/tache-fraise.svg"); }
+    background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/tache-fraise.svg"); }
 
 span.Switch {
   display: inline-block;
@@ -536,7 +536,7 @@ span.Switch {
 
 /** Importation des styles des tags **/
 app-adminreports div.search, div[data-is=app-adminreports] div.search {
-  background-image: url("/static/images/black_paper.png");
+  background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/black_paper.png");
   padding: 20px;
   text-align: center; }
   app-adminreports div.search form, div[data-is=app-adminreports] div.search form {
@@ -553,7 +553,7 @@ app-adminreports div.search, div[data-is=app-adminreports] div.search {
     display: inline-block; }
 
 app-adminreservations div.search, div[data-is=app-adminreservations] div.search {
-  background-image: url("/static/images/black_paper.png");
+  background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/black_paper.png");
   padding: 20px;
   text-align: center; }
   app-adminreservations div.search form, div[data-is=app-adminreservations] div.search form {
@@ -581,7 +581,7 @@ div[data-is=app-adminpins] div.content a.Action, div[data-is=app-adminorigins] d
   text-align: center; }
 
 app-adminusers div.search, div[data-is=app-adminusers] div.search {
-  background-image: url("/static/images/black_paper.png");
+  background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/black_paper.png");
   padding: 20px;
   text-align: center; }
   app-adminusers div.search form, div[data-is=app-adminusers] div.search form {
@@ -605,7 +605,7 @@ app-home, div[data-is=app-home] {
     padding-bottom: 0;
     margin-bottom: 0; }
   app-home div.slider, div[data-is=app-home] div.slider {
-    background-image: url("/static/images/Image home.jpg");
+    background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/Image home.jpg");
     background-size: auto 100%;
     background-position: center;
     width: 100%;
@@ -622,7 +622,7 @@ app-home, div[data-is=app-home] {
       app-home div.slider, div[data-is=app-home] div.slider {
         background-size: auto 110%; } }
   app-home div.ask, div[data-is=app-home] div.ask {
-    background-image: url("/static/images/fond1.jpg");
+    background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/fond1.jpg");
     background-size: cover;
     background-position: center;
     width: 100%;
@@ -648,7 +648,7 @@ app-home, div[data-is=app-home] {
     app-home div.whom > div, div[data-is=app-home] div.whom > div {
       text-align: center; }
   app-home div.description, div[data-is=app-home] div.description {
-    background-image: url("/static/images/vintage-concrete.png");
+    background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/vintage-concrete.png");
     padding: 20px;
     text-align: center; }
     app-home div.description div.tab, div[data-is=app-home] div.description div.tab {
@@ -672,11 +672,11 @@ app-home, div[data-is=app-home] {
         margin-bottom: 15px;
         text-transform: uppercase; }
       app-home div.description div.tab.share div.img, div[data-is=app-home] div.description div.tab.share div.img {
-        background-image: url("/static/images/conversation.svg"); }
+        background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/conversation.svg"); }
       app-home div.description div.tab.trust div.img, div[data-is=app-home] div.description div.tab.trust div.img {
-        background-image: url("/static/images/heart_plein.svg"); }
+        background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/heart_plein.svg"); }
       app-home div.description div.tab.kitchen div.img, div[data-is=app-home] div.description div.tab.kitchen div.img {
-        background-image: url("/static/images/cooking.svg"); }
+        background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/cooking.svg"); }
 
 app-cgu, div[data-is=app-cgu] {
   display: block; }
@@ -701,7 +701,7 @@ app-accountkitchen, div[data-is=app-accountkitchen] {
   display: block; }
   app-accountkitchen div.header, div[data-is=app-accountkitchen] div.header {
     padding-top: 20px;
-    background-image: url("/static/images/vintage-concrete.png");
+    background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/vintage-concrete.png");
     position: relative;
     z-index: 1; }
     app-accountkitchen div.header h2, div[data-is=app-accountkitchen] div.header h2 {
@@ -778,7 +778,7 @@ app-useritem, div[data-is=app-useritem] {
   display: block;
   padding: 20px;
   min-width: 210px;
-  background-image: url("/static/images/black_paper.png");
+  background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/black_paper.png");
   color: #ffffff; }
   app-useritem div.head, div[data-is=app-useritem] div.head {
     margin-bottom: 20px;
@@ -1050,7 +1050,7 @@ app-placehint, div[data-is=app-placehint] {
   overflow: hidden; }
   app-placehint div.img, div[data-is=app-placehint] div.img {
     display: inline-block;
-    background-image: url("/static/images/location.png");
+    background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/location.png");
     background-size: 50px 50px;
     background-repeat: no-repeat;
     width: 50px;
@@ -1075,7 +1075,7 @@ app-placehint, div[data-is=app-placehint] {
 
 app-searcher {
   display: block;
-  background-image: url("/static/images/vintage-concrete.png");
+  background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/vintage-concrete.png");
   padding: 20px;
   text-align: center;
   border: 1px solid rgba(204, 204, 204, 0.3);
@@ -1091,7 +1091,7 @@ app-searcher {
     height: 100px;
     display: block;
     margin: auto;
-    background-image: url("/static/images/dish.svg");
+    background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/dish.svg");
     background-size: auto 100%;
     background-position: center;
     background-repeat: no-repeat;
@@ -1134,7 +1134,7 @@ app-searchitem, div[data-is=app-searchitem] {
     display: inline-block;
     width: 100px;
     height: 100px;
-    background-image: url("/static/images/dish.svg");
+    background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/dish.svg");
     background-size: 70% auto;
     background-repeat: no-repeat;
     background-position: center top;
@@ -1313,7 +1313,7 @@ app-recipeitem, div[data-is=app-recipeitem] {
     padding: 10px;
     border-bottom-right-radius: 15px;
     border-bottom-left-radius: 15px;
-    background-image: url("/static/images/black_paper.png"); }
+    background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/black_paper.png"); }
     app-recipeitem div.user div.img, div[data-is=app-recipeitem] div.user div.img {
       display: block;
       margin: auto;
@@ -1425,7 +1425,7 @@ app-header, div[data-is=app-header] {
     width: 150px;
     height: 100%;
     cursor: pointer;
-    background-image: url("/static/images/logo-noir.svg");
+    background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/logo-noir.svg");
     background-size: 160% 160%;
     background-position: center;
     background-repeat: no-repeat;
@@ -1468,7 +1468,7 @@ app-header, div[data-is=app-header] {
         height: 100px;
         cursor: pointer;
         margin: auto;
-        background-image: url("/static/images/logo-noir.svg");
+        background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/logo-noir.svg");
         background-size: 160% 160%;
         background-position: center;
         background-repeat: no-repeat;
@@ -1489,7 +1489,7 @@ div[data-is=app-footer] {
   width: 100%;
   text-align: center;
   padding: 20px;
-  background-image: url("/static/images/black_paper.png");
+  background-image: url("http://www.clovis-portron.cf/MC/frontend/src/static/images/black_paper.png");
   background-repeat: repeat; }
   app-footer > div,
   div[data-is=app-footer] > div {

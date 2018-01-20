@@ -15928,7 +15928,7 @@ module.exports = riot.tag2('app-placeinput', '<input type="text" ref="city" name
         tag.retrieveCities = function()
         {
             console.log("Downloading Cities");
-            var retrieve = App.request("/static/JS/cities.json");
+            var retrieve = App.request("http://www.clovis-portron.cf/MC/frontend/src/static/JS/cities.json");
             retrieve.then(function(response)
             {
                 tag.setCities(response.cities);

@@ -276,6 +276,8 @@ p {
 
 a.onclick {
   cursor: pointer; }
+  a.onclick:focus {
+    outline: 0; }
 
 a.Button {
   display: inline-block;
@@ -288,6 +290,8 @@ a.Button {
   background-repeat: no-repeat;
   background-size: auto 70%;
   transition: all 0.2s ease; }
+  a.Button:focus {
+    outline: 0; }
   a.Button:hover {
     transform: scale(1.2, 1.2); }
   a.Button > span {
@@ -348,6 +352,8 @@ a.Action {
   text-decoration: none;
   font-family: "Raleway";
   transition: all 0.2s ease; }
+  a.Action:focus {
+    outline: 0; }
   a.Action > span {
     height: 45px;
     line-height: 45px;
@@ -369,6 +375,8 @@ input[type=button] {
   border-radius: 15px;
   text-align: center;
   transition: all 0.2s ease; }
+  input[type=button]:focus {
+    outline: 0; }
   input[type=button].large {
     display: block;
     width: 90%;
@@ -437,6 +445,8 @@ input[type=text], select, input[type=password], textarea, .selectize-input, inpu
   padding: 10px;
   font-family: Raleway;
   font-size: 13px; }
+  input[type=text]:focus, select:focus, input[type=password]:focus, textarea:focus, .selectize-input:focus, input[type=number]:focus {
+    outline: 0; }
   input[type=text].selectize-input, select.selectize-input, input[type=password].selectize-input, textarea.selectize-input, .selectize-input.selectize-input, input[type=number].selectize-input {
     width: 100% !important; }
   input[type=text].picker__input, select.picker__input, input[type=password].picker__input, textarea.picker__input, .selectize-input.picker__input, input[type=number].picker__input {
@@ -455,6 +465,9 @@ input[type=text], select, input[type=password], textarea, .selectize-input, inpu
 input[type=text].error, input[type=number].error, textarea.error, select.error,
 app-dateinput.error input, app-manyinputs.error input[type=text], app-origininput.error div.selectize-input, app-pinsinput.error div.selectize-input, app-placeinput.error div.selectize-input {
   border-color: red !important; }
+  input[type=text].error:focus, input[type=number].error:focus, textarea.error:focus, select.error:focus,
+  app-dateinput.error input:focus, app-manyinputs.error input[type=text]:focus, app-origininput.error div.selectize-input:focus, app-pinsinput.error div.selectize-input:focus, app-placeinput.error div.selectize-input:focus {
+    outline: 0; }
 
 label {
   font-size: 16px;
@@ -466,6 +479,9 @@ div label + * + p {
   margin-top: 8px; }
   div label + * + p.hint {
     display: none; }
+
+div label + .error + p:focus {
+  outline: 0; }
 
 div label + .error + p.hint {
   display: block;

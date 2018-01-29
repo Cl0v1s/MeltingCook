@@ -1,6 +1,9 @@
 
 input[type=text], select, input[type=password], textarea, .selectize-input, input[type=number]
 {
+  &:focus {outline:0;}
+
+
   padding:10px !important;
   border-radius:10px !important;
   border:1px solid #b8b8b8 !important;
@@ -49,6 +52,8 @@ input[type=text], select, input[type=password], textarea, .selectize-input, inpu
 input[type=text].error, input[type=number].error, textarea.error, select.error,
 app-dateinput.error input, app-manyinputs.error input[type=text], app-origininput.error div.selectize-input, app-pinsinput.error div.selectize-input, app-placeinput.error div.selectize-input
 {
+  &:focus {outline:0;}
+
   border-color: red !important;
 }
 
@@ -72,6 +77,9 @@ div label+*+p
 
 div label+.error+p
 {
+
+  &:focus {outline:0;}
+
   &.hint
   {
     display: block;

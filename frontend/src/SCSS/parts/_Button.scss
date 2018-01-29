@@ -3,6 +3,7 @@
 a.onclick
 {
     cursor: pointer;
+    &:focus {outline:0;}
 }
 
 a.Button
@@ -25,6 +26,9 @@ a.Button
     background-size: auto 70%;
 
     transition: all 0.2s ease;
+
+    &:focus {outline:0;}
+    
 
 
     &:hover
@@ -139,6 +143,9 @@ a.Action
 
     font-family: $font-primary;
 
+    &:focus {outline:0;}
+    
+
 
     &>span
     {
@@ -167,6 +174,9 @@ a.Action
 
 input[type=button]
 {
+
+    &:focus {outline:0;}
+    
     display: inline-block;
     margin: $space-small;
     box-sizing: border-box;

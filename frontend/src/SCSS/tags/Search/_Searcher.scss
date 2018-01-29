@@ -57,12 +57,18 @@ app-searcher
     {
       margin-bottom: $space-small;
       margin-right: $space-small;
+
+      &.highlight
+      {
+        margin-right: 0;
+      }
     }
 
     app-placeinput, app-origininput, app-dateinput, input[type=text], input[type=number]
     {
       display: inline-block;
       width: 170px !important;
+      vertical-align: middle;
     }
 
     input[type=button]

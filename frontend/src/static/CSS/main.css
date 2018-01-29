@@ -1012,7 +1012,8 @@ app-manyinputs {
     width: 100%; }
 
 app-placeinput {
-  display: block; }
+  display: block;
+  min-width: 300px; }
 
 app-origininput {
   display: block; }
@@ -1142,9 +1143,12 @@ app-searcher {
     app-searcher > form * {
       margin-bottom: 8px;
       margin-right: 8px; }
+      app-searcher > form *.highlight {
+        margin-right: 0; }
     app-searcher > form app-placeinput, app-searcher > form app-origininput, app-searcher > form app-dateinput, app-searcher > form input[type=text], app-searcher > form input[type=number] {
       display: inline-block;
-      width: 170px !important; }
+      width: 170px !important;
+      vertical-align: middle; }
     app-searcher > form input[type=button] {
       vertical-align: top; }
     @media screen and (max-width: 560px) {

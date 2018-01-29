@@ -1150,7 +1150,7 @@ app-searcher {
       width: 170px !important;
       vertical-align: middle; }
     app-searcher > form input[type=button] {
-      vertical-align: top; }
+      vertical-align: middle; }
     @media screen and (max-width: 560px) {
       app-searcher > form {
         text-align: center; } }

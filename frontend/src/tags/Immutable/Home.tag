@@ -1,7 +1,17 @@
 <app-home>
     <app-header></app-header>
     <div class="content no-margin">
-        <div class="slider"></div>
+        <div class="slider">
+            <div>
+            <div id="slide-1"></div>
+            </div>
+            <div>
+            <div id="slide-2"></div>
+            </div>
+            <div>
+            <div id="slide-3"></div>
+            </div>
+        </div>
         <app-searcher></app-searcher>
         <div class="ask">
             <div>
@@ -78,5 +88,19 @@
         </div>
     </div>
     <app-footer></app-footer>
+    <script>
+        var tag = this;
+
+
+        tag.on("mount", function(){
+            $('.slider').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000,
+            });
+        });
+
+    </script>
 
 </app-home>

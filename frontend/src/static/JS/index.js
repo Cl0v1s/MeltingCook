@@ -15469,7 +15469,18 @@ module.exports = riot.tag2('app-error', '<app-header></app-header> <div class="c
 });
 },{"riot":8}],25:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-home', '<app-header></app-header> <div class="content no-margin"> <div class="slider"></div> <app-searcher></app-searcher> <div class="ask"> <div> <h1>Disponible dans vos cuisines ?</h1> <p> Partagez vos frais en apprenant votre savoir et en passant un agréable moment. </p> <a class="Action" href="#/recipe/add"><span>Partager un voyage culinaire</span></a> </div> </div> </div> <div class="description"> <h1>La cuisine c\'est bien, à plusieurs c\'est mieux !</h1> <div> <div class="tab share"> <div class="img"></div> <h2>Partage</h2> <p> Envie de partager vos connaissances en matières de cuisine ? </p> </div> <div class="tab trust"> <div class="img"></div> <h2>Confiance</h2> <p> Avec la vérification par SMS des chefs et aprenants, les cuisiniers se font mutuellement confiance. </p> </div> <div class="tab kitchen"> <div class="img"></div> <h2>Cuisine</h2> <p> Faire découvrir vos goûts et vos plats afin de faire connaître le monde au travers de vos assiettes. </p> </div> </div> </div> </div> <app-footer></app-footer>', '', '', function(opts) {
+module.exports = riot.tag2('app-home', '<app-header></app-header> <div class="content no-margin"> <div class="slider"> <div> <div id="slide-1"></div> </div> <div> <div id="slide-2"></div> </div> <div> <div id="slide-3"></div> </div> </div> <app-searcher></app-searcher> <div class="ask"> <div> <h1>Disponible dans vos cuisines ?</h1> <p> Partagez vos frais en apprenant votre savoir et en passant un agréable moment. </p> <a class="Action" href="#/recipe/add"><span>Partager un voyage culinaire</span></a> </div> </div> </div> <div class="description"> <h1>La cuisine c\'est bien, à plusieurs c\'est mieux !</h1> <div> <div class="tab share"> <div class="img"></div> <h2>Partage</h2> <p> Envie de partager vos connaissances en matières de cuisine ? </p> </div> <div class="tab trust"> <div class="img"></div> <h2>Confiance</h2> <p> Avec la vérification par SMS des chefs et aprenants, les cuisiniers se font mutuellement confiance. </p> </div> <div class="tab kitchen"> <div class="img"></div> <h2>Cuisine</h2> <p> Faire découvrir vos goûts et vos plats afin de faire connaître le monde au travers de vos assiettes. </p> </div> </div> </div> </div> <app-footer></app-footer>', '', '', function(opts) {
+        var tag = this;
+
+        tag.on("mount", function(){
+            $('.slider').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000,
+            });
+        });
+
 });
 },{"riot":8}],26:[function(require,module,exports){
 var riot = require('riot');
@@ -15928,7 +15939,7 @@ module.exports = riot.tag2('app-placeinput', '<input type="text" ref="city" name
         tag.retrieveCities = function()
         {
             console.log("Downloading Cities");
-            var retrieve = App.request("http://www.clovis-portron.cf/MC/frontend/src/static/JS/cities.json");
+            var retrieve = App.request("/static/JS/cities.json");
             retrieve.then(function(response)
             {
                 tag.setCities(response.cities);

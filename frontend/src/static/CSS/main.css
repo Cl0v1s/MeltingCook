@@ -1256,6 +1256,9 @@ app-recipe div.infos, div[data-is=app-recipe] div.infos {
     border-bottom: 1px dotted #FDC279; }
   app-recipe div.infos div.details, div[data-is=app-recipe] div.infos div.details {
     margin-top: 20px; }
+    app-recipe div.infos div.details .dates, div[data-is=app-recipe] div.infos div.details .dates {
+      margin-bottom: 20px;
+      font-family: "Raleway"; }
     app-recipe div.infos div.details h2, div[data-is=app-recipe] div.infos div.details h2 {
       font-family: "Lobster"; }
     app-recipe div.infos div.details ul, div[data-is=app-recipe] div.infos div.details ul {

@@ -1,5 +1,5 @@
 <app-placeinput>
-    <input type="text" ref="city" name="city" id="city" placeholder="Lieu de partage" value='{ opts.place }'>
+    <select ref="city" name="city" id="city" placeholder="Lieu de partage" value='{ opts.place }'>
     <script>
         var tag = this;
         tag.data = null;
@@ -45,49 +45,20 @@
             });
         };
 
-        tag.getCity = function(name)
-        {
-            return new Promise((resolve, reject) => {
-                if(tag.data == null)
-                    reject(null);
-                let doer = process();
-                doer.next();
-
-                function wait(it, time)
-                {
-                    setTimeout(() => {
-                        it.next();
-                    }, time);
-                }
-
-                function *process()
-                {
-                    for(let i = 0; i < tag.data.length; i++)
-                    {
-                        if(tag.data[i].name == name)
-                            resolve(tag.data[i]);
-                        yield wait(doer, 5);
-                    }
-                    reject(null);
-                }
-            });
-
-        };
-
         tag.setCities = function(data)
         {
             tag.data = data;
-            $('#city', tag.root).selectize({
+            let selectize = $('#city', tag.root).selectize({
                 persist: false,
                 maxItems: 1,
-                valueField: [tag.opts.valuefield],
+                valueField: "name",
                 labelField: 'name',
                 searchField: ['name'],
                 options: data,
                 onChange : function(value) {
-                    tag.value = value;
+                    tag.value = selectize.options[value];
                 }
-            });
+            })[0].selectize;
             localStorage.setItem("cities", JSON.stringify(data));
         }
     </script>

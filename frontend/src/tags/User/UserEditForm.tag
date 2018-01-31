@@ -186,7 +186,7 @@
 
         tag.on("mount", function()
         {
-            tag.geolocalize();
+            //tag.geolocalize();
 
             $('#discease').selectize({
                     delimiter: ";",
@@ -246,7 +246,7 @@
                 route("/user/"+tag.user.id);
         };
 
-        tag.geolocalize = function()
+        /*tag.geolocalize = function()
         {
             var exec = function(position)
             {
@@ -258,7 +258,7 @@
                 NotificationManager.showNotification("Activer la géolocalisation est conseillé pour être en mesure d'utiliser Melting Cook de manière optimale.", "info");
                 tag.geolocalize();
             }
-        };
+        };*/
 
         tag.updatePicture = function()
         {
@@ -384,7 +384,7 @@
             {
                 usr.password = md5(tag.refs.password.value);
             }
-            usr.geolocation = tag.position;
+            //usr.geolocation = tag.position;
             usr.banner = tag.refs.banner.value;
             if(usr.id == null)
             {

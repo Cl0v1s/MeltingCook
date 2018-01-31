@@ -71,7 +71,7 @@
             </div>
             <div>
                 <label>Nom de la ville/village *</label>
-                <app-placeinput ref="place" name="place" place="{ recipe.place }" valuefield="name"></app-placeinput>
+                <app-placeinput ref="place" name="place" place="{ recipe.place }"></app-placeinput>
                 <p class="hint">
                     Ce champ est requis et ne peut contenir plus de 400 caractères.
                 </p>
@@ -172,7 +172,7 @@
                         "required" : "true"
                     };
                 }
-                if(tag.refs.place.value === "" || tag.refs.place.value.length > 400)
+                if(tag.refs.place.value == null)
                 {
                     errors["edit-recipe"].place = {
                         "required" : "true"
@@ -183,24 +183,14 @@
                     App.diagnosticForm("edit-recipe", errors);
                     return;
                 }
-
-
-
-                tag.refs.place.getCity(tag.refs.place.value).then((city) => {
-                    tag.send(city.latitude, city.longitude);
-                }, (error) => {
-                    errors["edit-recipe"].place = {
-                        "required" : "true"
-                    }
-                    App.diagnosticForm("edit-recipe", errors);
-                });
+                tag.send();
             }
             if(valid.fails("edit-recipe")) {
                 App.diagnosticForm("edit-recipe", valid.errors);
             }
         };
 
-        tag.send = function(latitude, longitude)
+        tag.send = function()
         {
             var address  = App.Address + "/updaterecipe";
             var rcp = tag.recipe;
@@ -210,8 +200,7 @@
                 address = App.Address + "/addrecipe";
             }
             rcp.name = tag.refs.name.value;
-            rcp.latitude = latitude;
-            rcp.longitude = longitude;
+
             rcp.description = tag.refs.description.value;
             rcp.picture = tag.refs.picture.value;
             rcp.origin = tag.refs.origin.value;
@@ -221,7 +210,9 @@
             rcp.price = tag.refs.price.value;
             rcp.places = tag.refs.places.value;
             rcp.pins = tag.refs.pins.value;
-            rcp.place = tag.refs.place.value;
+            rcp.place = tag.refs.place.value.name;
+            rcp.latitude = tag.refs.place.value.latitude;
+            rcp.longitude = tag.refs.place.value.longitude;
 
             var request = App.request(address, rcp);
             request.then((response) => {

@@ -14613,7 +14613,7 @@ class Search {
             }
             else {
                 let now = Math.floor(new Date().getTime() / 1000);
-                filters["date_end"] = now;
+                //filters["date_end"] = now;
                 filters["date_start"] = now;
             }
             if (price_start != null)
@@ -15477,7 +15477,7 @@ module.exports = riot.tag2('app-home', '<app-header></app-header> <div class="co
                 slidesToShow: 1,
                 slidesToScroll: 1,
                 autoplay: true,
-                autoplaySpeed: 2000,
+                autoplaySpeed: 5000,
             });
         });
 
@@ -15907,8 +15907,9 @@ module.exports = riot.tag2('app-placehint', '<div> <div class="img"></div> <div>
 
 },{"riot":8}],36:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-placeinput', '<input type="text" ref="city" name="city" id="city" placeholder="Lieu de partage" riot-value="{opts.place}">', '', '', function(opts) {
+module.exports = riot.tag2('app-placeinput', '<select ref="city" name="city" id="city" placeholder="Lieu de partage" riot-value="{opts.place}">', '', '', function(opts) {
         var tag = this;
+        tag.data = null;
         tag.value = "";
 
         tag.on("before-mount", function()
@@ -15952,17 +15953,18 @@ module.exports = riot.tag2('app-placeinput', '<input type="text" ref="city" name
 
         tag.setCities = function(data)
         {
-            $('#city', tag.root).selectize({
+            tag.data = data;
+            let selectize = $('#city', tag.root).selectize({
                 persist: false,
                 maxItems: 1,
-                valueField: [tag.opts.valuefield],
+                valueField: "name",
                 labelField: 'name',
                 searchField: ['name'],
                 options: data,
                 onChange : function(value) {
-                    tag.value = value;
+                    tag.value = selectize.options[value];
                 }
-            });
+            })[0].selectize;
             localStorage.setItem("cities", JSON.stringify(data));
         }
 });
@@ -16189,7 +16191,7 @@ module.exports = riot.tag2('app-recipeedit', '<app-header></app-header> <div cla
 });
 },{"riot":8}],44:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-recipeeditform', '<form name="edit-recipe" if="{recipe != null}"> <section> <h1>Proposer une recette</h1> </section> <section> <h2>Informations de base</h2> <div> <label>Nom de la recette *</label> <input type="text" riot-value="{recipe.name}" placeholder="Nom de la recette" ref="name" name="fullname"> <p class="hint"> Ce champ est requis et ne peut contenir plus de 400 caractères. </p> </div> <div> <label>Description *</label> <textarea name="description" ref="description" placeholder="Décrivez votre recette en quelques mots">{recipe.description}</textarea> <p class="hint"> Ce champ est requis. Il ne peut contenir moins de 50 ou plus de 1000 caractères. </p> </div> <div> <label>Associer une image *</label> <input type="text" ref="picture" name="picture" placeholder="Précisez un lien URL vers l\'image de votre choix" riot-value="{recipe.picture}"> <p class="hint"> Ce champ est requis. Il doit contenir une url valide comportant moins de 400 caractères. </p> </div> </section> <section> <h2>Ingrédients et origine</h2> <div> <label>Type de cuisine *</label> <app-origininput ref="origin" name="origin" origin="{recipe.origin}"></app-origininput> <p class="hint"> Ce champ est requis et ne peut contenir plus de 400 caractères. </p> </div> <div> <label>Les "plus"</label> <app-pinsinput ref="pins" name="pins" pins="{recipe.pins}"></app-pinsinput> <p class="hint"> Ce champ ne peut contenir plus de 1000 caractères. </p> </div> <div> <label>Ingrédients principaux *</label> <app-manyinputs ref="items" name="items" riot-value="{recipe.items}"></app-manyinputs> <p class="hint"> Ce champ est requis et ne peut contenir plus de 1000 caractères. </p> </div> </section> <section> <h2>Organisation</h2> <div if="{recipe == null || recipe.id == null}"> <label>Prix de la participation *</label> <input ref="price" name="price" riot-value="{recipe.price}" placeholder="Prix de la participation" type="{\'number\'}"> <p class="hint"> Ce champ est requis et doit contenir un nombre supérieur ou égal à 0. </p> </div> <div> <label>Nombre de places disponibles *</label> <input ref="places" name="places" riot-value="{recipe.places}" placeholder="Nombre de places disponibles" type="{\'number\'}"> <p class="hint"> Ce champ est requis et doit contenir un nombre supérieur ou égal à 1. </p> </div> <div> <label>Nom de la ville/village *</label> <app-placeinput ref="place" name="place" place="{recipe.place}" valuefield="name"></app-placeinput> <p class="hint"> Ce champ est requis et ne peut contenir plus de 400 caractères. </p> </div> <div> <label>Date de début de l\'offre *</label> <app-dateinput ref="date_start" name="date_start" date="{recipe.date_start_readable}"></app-dateinput> <p class="hint"> Ce champ est requis. </p> </div> <div> <label>Date de fin de l\'offre *</label> <app-dateinput ref="date_end" name="date_end" date="{recipe.date_end_readable}"></app-dateinput> <p class="hint"> Ce champ est requis. </p> </div> </section> <p> Les champs marqués d\'une * sont requis. </p> <input type="button" class="large" value="Publier ma recette" onclick="{validate}"> </form>', '', '', function(opts) {
+module.exports = riot.tag2('app-recipeeditform', '<form name="edit-recipe" if="{recipe != null}"> <section> <h1>Proposer une recette</h1> </section> <section> <h2>Informations de base</h2> <div> <label>Nom de la recette *</label> <input type="text" riot-value="{recipe.name}" placeholder="Nom de la recette" ref="name" name="fullname"> <p class="hint"> Ce champ est requis et ne peut contenir plus de 400 caractères. </p> </div> <div> <label>Description *</label> <textarea name="description" ref="description" placeholder="Décrivez votre recette en quelques mots">{recipe.description}</textarea> <p class="hint"> Ce champ est requis. Il ne peut contenir moins de 50 ou plus de 1000 caractères. </p> </div> <div> <label>Associer une image *</label> <input type="text" ref="picture" name="picture" placeholder="Précisez un lien URL vers l\'image de votre choix" riot-value="{recipe.picture}"> <p class="hint"> Ce champ est requis. Il doit contenir une url valide comportant moins de 400 caractères. </p> </div> </section> <section> <h2>Ingrédients et origine</h2> <div> <label>Type de cuisine *</label> <app-origininput ref="origin" name="origin" origin="{recipe.origin}"></app-origininput> <p class="hint"> Ce champ est requis et ne peut contenir plus de 400 caractères. </p> </div> <div> <label>Les "plus"</label> <app-pinsinput ref="pins" name="pins" pins="{recipe.pins}"></app-pinsinput> <p class="hint"> Ce champ ne peut contenir plus de 1000 caractères. </p> </div> <div> <label>Ingrédients principaux *</label> <app-manyinputs ref="items" name="items" riot-value="{recipe.items}"></app-manyinputs> <p class="hint"> Ce champ est requis et ne peut contenir plus de 1000 caractères. </p> </div> </section> <section> <h2>Organisation</h2> <div if="{recipe == null || recipe.id == null}"> <label>Prix de la participation *</label> <input ref="price" name="price" riot-value="{recipe.price}" placeholder="Prix de la participation" type="{\'number\'}"> <p class="hint"> Ce champ est requis et doit contenir un nombre supérieur ou égal à 0. </p> </div> <div> <label>Nombre de places disponibles *</label> <input ref="places" name="places" riot-value="{recipe.places}" placeholder="Nombre de places disponibles" type="{\'number\'}"> <p class="hint"> Ce champ est requis et doit contenir un nombre supérieur ou égal à 1. </p> </div> <div> <label>Nom de la ville/village *</label> <app-placeinput ref="place" name="place" place="{recipe.place}"></app-placeinput> <p class="hint"> Ce champ est requis et ne peut contenir plus de 400 caractères. </p> </div> <div> <label>Date de début de l\'offre *</label> <app-dateinput ref="date_start" name="date_start" date="{recipe.date_start_readable}"></app-dateinput> <p class="hint"> Ce champ est requis. </p> </div> <div> <label>Date de fin de l\'offre *</label> <app-dateinput ref="date_end" name="date_end" date="{recipe.date_end_readable}"></app-dateinput> <p class="hint"> Ce champ est requis. </p> </div> </section> <p> Les champs marqués d\'une * sont requis. </p> <input type="button" class="large" value="Publier ma recette" onclick="{validate}"> </form>', '', '', function(opts) {
         var tag = this;
 
         tag.recipe = null;
@@ -16264,7 +16266,7 @@ module.exports = riot.tag2('app-recipeeditform', '<form name="edit-recipe" if="{
                         "required" : "true"
                     };
                 }
-                if(tag.refs.place.value === "" || tag.refs.place.value.length > 400)
+                if(tag.refs.place.value == null)
                 {
                     errors["edit-recipe"].place = {
                         "required" : "true"
@@ -16292,6 +16294,7 @@ module.exports = riot.tag2('app-recipeeditform', '<form name="edit-recipe" if="{
                 address = App.Address + "/addrecipe";
             }
             rcp.name = tag.refs.name.value;
+
             rcp.description = tag.refs.description.value;
             rcp.picture = tag.refs.picture.value;
             rcp.origin = tag.refs.origin.value;
@@ -16301,7 +16304,9 @@ module.exports = riot.tag2('app-recipeeditform', '<form name="edit-recipe" if="{
             rcp.price = tag.refs.price.value;
             rcp.places = tag.refs.places.value;
             rcp.pins = tag.refs.pins.value;
-            rcp.place = tag.refs.place.value;
+            rcp.place = tag.refs.place.value.name;
+            rcp.latitude = tag.refs.place.value.latitude;
+            rcp.longitude = tag.refs.place.value.longitude;
 
             var request = App.request(address, rcp);
             request.then((response) => {
@@ -16885,7 +16890,7 @@ module.exports = riot.tag2('app-searchitem', '<div> <div class="img"></div> <div
                 var date = null;
                 if(tag.refs.date.value != null)
                     date = tag.refs.date.value;
-                var retrieve = Search.search(tag.refs.place.value, tag.refs.origin.value, date, price_start, price_end);
+                var retrieve = Search.search(tag.refs.place.value.geolocation, tag.refs.origin.value, date, price_start, price_end);
                 retrieve.then(function(data)
                 {
                     App.changePage("app-searchresults", data);
@@ -16941,7 +16946,7 @@ module.exports = riot.tag2('app-searcher', '<div> <div class="img"></div> <div> 
         tag.send = function()
         {
             var retrieve = null;
-            var params = [tag.refs.place.value, tag.refs.origin.value, tag.refs.date.value];
+            var params = [tag.refs.place.value.geolocation, tag.refs.origin.value, tag.refs.date.value];
 
             if(tag.expanded) {
                 var price_start = null;
@@ -16969,10 +16974,10 @@ module.exports = riot.tag2('app-searcher', '<div> <div class="img"></div> <div> 
                 params.push(price_start);
                 params.push(price_end);
 
-                retrieve = Search.search(tag.refs.place.value, tag.refs.origin.value, tag.refs.date.value, price_start, price_end);
+                retrieve = Search.search(tag.refs.place.value.geolocation, tag.refs.origin.value, tag.refs.date.value, price_start, price_end);
             }
             else
-                retrieve = Search.search(tag.refs.place.value, tag.refs.origin.value, tag.refs.date.value);
+                retrieve = Search.search(tag.refs.place.value.geolocation, tag.refs.origin.value, tag.refs.date.value);
 
             retrieve.then(function(data) {
                 var res = "null";
@@ -17073,7 +17078,6 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
 
         tag.on("mount", function()
         {
-            tag.geolocalize();
 
             $('#discease').selectize({
                     delimiter: ";",
@@ -17122,20 +17126,6 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
         {
             if(tag.user != null && tag.user.id != null)
                 route("/user/"+tag.user.id);
-        };
-
-        tag.geolocalize = function()
-        {
-            var exec = function(position)
-            {
-                tag.position = position.coords.latitude+","+position.coords.longitude;
-            };
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(exec);
-            } else {
-                NotificationManager.showNotification("Vous devez activer la géolocalisation pour être en mesure d'utiliser Melting Cook.", "error");
-                tag.geolocalize();
-            }
         };
 
         tag.updatePicture = function()
@@ -17213,13 +17203,6 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
                     };
                 }
 
-                if(tag.position == null || tag.position.indexOf(",") == -1)
-                {
-                    NotificationManager.showNotification("Vous devez activer la géolocalisation pour être en mesure d'utiliser Melting Cook.", "error");
-                    tag.geolocalize();
-                    return;
-                }
-
                 if(tag.refs.preference.value == null && tag.refs.preference.value > 1000)
                 {
                     errors["edit-user"].preference = {
@@ -17256,7 +17239,7 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
             {
                 usr.password = md5(tag.refs.password.value);
             }
-            usr.geolocation = tag.position;
+
             usr.banner = tag.refs.banner.value;
             if(usr.id == null)
             {

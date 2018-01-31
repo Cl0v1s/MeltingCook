@@ -71,13 +71,11 @@ class Recipe extends StorageItem
     public $price;
 
     /**
-     * @Required
      * @Numeric
      */
     public $latitude;
 
     /**
-     * @Required
      * @Numeric
      */
     public $longitude;

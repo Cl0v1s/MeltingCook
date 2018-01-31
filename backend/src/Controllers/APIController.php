@@ -437,17 +437,20 @@ class APIController extends Controller
         $recipe->setName($_POST["name"]);
         $recipe->setDescription($_POST["description"]);
         $recipe->setPicture($_POST["picture"]);
-	$user = API::auth($_POST["token"]);
+	    $user = API::auth($_POST["token"]);
         $recipe->setUserId($user->Id());
-	$recipe->setLatitude(explode(",",$user->Geolocation())[0]);
-	$recipe->setLongitude(explode(",",$user->Geolocation())[1]);
+        if($user->Geolocation() != null)
+        {
+            $recipe->setLatitude(explode(",",$user->Geolocation())[0]);
+            $recipe->setLongitude(explode(",",$user->Geolocation())[1]);
+        }
         $recipe->setOrigin($_POST["origin"]);
         $recipe->setItems($_POST["items"]);
         $recipe->setDateStart($_POST["date_start"]);
         $recipe->setDateEnd($_POST["date_end"]);
         $recipe->setPrice($_POST["price"]);
         $recipe->setPlaces($_POST["places"]);
-	$recipe->setPlace($_POST["place"]);
+	    $recipe->setPlace($_POST["place"]);
         if(isset($_POST["pins"]))
             $recipe->setPins($_POST["pins"]);
         $this->Add($recipe);
@@ -455,7 +458,7 @@ class APIController extends Controller
 
     private function AddUser()
     {
-        if(isset($_POST["username"]) == false || isset($_POST["password"]) == false || isset($_POST["geolocation"]) == false || isset($_POST["phone"]) == false || isset($_POST["mail"]) == false
+        if(isset($_POST["username"]) == false || isset($_POST["password"]) == false || isset($_POST["phone"]) == false || isset($_POST["mail"]) == false
             || isset($_POST["age"]) == false || isset($_POST["description"]) == false || isset($_POST["lastname"]) == false || isset($_POST["firstname"]) == false || isset($_POST["address"]) == false)
         {
             $this->Write(APIController::$NO, null, "Missing Data");
@@ -464,14 +467,16 @@ class APIController extends Controller
         $user = new User(null);
         $user->setUsername($_POST["username"]);
         $user->setPassword($_POST["password"]);
-        $user->setGeolocation($_POST["geolocation"]);
         $user->setPhone($_POST["phone"]);
         $user->setMail($_POST["mail"]);
-            $user->setDescription($_POST["description"]);
-            $user->setFirstname($_POST["firstname"]);
-            $user->setLastname($_POST["lastname"]);
-            $user->setAddress($_POST["address"]);
+        $user->setDescription($_POST["description"]);
+        $user->setFirstname($_POST["firstname"]);
+        $user->setLastname($_POST["lastname"]);
+        $user->setAddress($_POST["address"]);
         $user->setAge($_POST["age"]);
+
+        if(isset($_POST["geolocation"]))
+            $user->setGeolocation($_POST["geolocation"]);
         if(isset($_POST["picture"]))
             $user->setPicture($_POST["picture"]);
         if(isset($_POST["discease"]))

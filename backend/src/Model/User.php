@@ -33,7 +33,6 @@ class User extends StorageItem
     public $picture;
 
     /**
-     * @Required
      * @Word
      * @Size(min=1, max=100)
      */

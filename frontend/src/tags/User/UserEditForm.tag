@@ -255,7 +255,7 @@
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(exec);
             } else {
-                NotificationManager.showNotification("Vous devez activer la géolocalisation pour être en mesure d'utiliser Melting Cook.", "error");
+                NotificationManager.showNotification("Activer la géolocalisation est conseillé pour être en mesure d'utiliser Melting Cook de manière optimale.", "info");
                 tag.geolocalize();
             }
         };
@@ -339,13 +339,14 @@
                     };
                 }
 
-                // Confirmation de la géolocalisation
+                /* Confirmation de la géolocalisation
                 if(tag.position == null || tag.position.indexOf(",") == -1)
                 {
                     NotificationManager.showNotification("Vous devez activer la géolocalisation pour être en mesure d'utiliser Melting Cook.", "error");
                     tag.geolocalize();
                     return;
-                }
+                }*/
+                
                 //Confirmation des préference
                 if(tag.refs.preference.value == null && tag.refs.preference.value > 1000)
                 {

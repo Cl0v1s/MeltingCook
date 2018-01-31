@@ -21,8 +21,7 @@
                 </div>
 
                 <div class="geolocation">
-                    <app-placehint latitude={ recipe.latitude } longitude={ recipe.longitude} place={ recipe.place
-                                   }></app-placehint>
+                    <app-placehint latitude={ recipe.latitude } longitude={ recipe.longitude} place={ recipe.place }></app-placehint>
                 </div>
 
                 <div class="details">

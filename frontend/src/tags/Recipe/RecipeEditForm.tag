@@ -21,7 +21,7 @@
             </div>
             <div>
                 <label>Associer une image *</label>
-                <input type="text" ref="picture" name="picture" placeholder="Précisez un lien URL vers l'image de votre choix" value="{ recipe.picture }">
+                <app-uploadinput value="{ recipe.picture }"  ref="picture" name="picture"></app-uploadinput>
                 <p class="hint">
                     Ce champ est requis. Il doit contenir une url valide comportant moins de 400 caractères.
                 </p>
@@ -121,7 +121,6 @@
                 "edit-recipe": {
                     "fullname" : "required|maxLength:400",
                     "description" : "required|minLength:50|maxLength:1000",
-                    "picture" : "required|maxLength:1000",
                     "price" : "required|number|min:0",
                     "places" : "required|number|min:1"
                 }
@@ -132,7 +131,13 @@
                     "edit-recipe" : {}
                 };
                 // Confirmation de la picture
-                if(tag.refs.picture.value != "")
+                if(tag.refs.picture.value == null)
+                {
+                    errors["edit-recipe"].picture = {
+                            "required" : "true"
+                        };
+                }
+                else if(tag.refs.picture.value != "")
                 {
                     if(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(tag.refs.picture.value) == false)
                     {

@@ -9,7 +9,7 @@
                 <div class="img" ref="banner_preview" style="background-image: url('{ user.banner }');"></div>
                 <div>
                     <label>Télécharger une bannière:</label>
-                    <input type="text" name="banner" ref="banner" value={ user.banner } onchange={ updateBanner }>
+                    <app-uploadinput value="{ user.banner }"  ref="banner" name="banner" onchange={ updateBanner }></app-uploadinput>
                     <p class="hint">
                         Ce champ doit contenir une adresse URL valide.
                     </p>
@@ -22,7 +22,7 @@
                 <div class="img" ref="picture_preview" style="background-image: url('{ user.picture }');"></div>
                 <div>
                     <label>Télécharger une photo de profil:</label>
-                    <input type="text" name="picture" ref="picture" value={ user.picture } onchange={ updatePicture }>
+                    <app-uploadinput value="{ user.picture }"  ref="picture" name="picture" onchange={ updatePicture }></app-uploadinput>
                     <p class="hint">
                         Ce champ doit contenir une adresse URL valide.
                     </p>
@@ -293,7 +293,13 @@
                 };
 
                 // Confirmation de la bannière
-                if(tag.refs.banner.value != "")
+                if(tag.refs.banner.value == null)
+                {
+                    errors["edit-user"].banner = {
+                            "required" : "true"
+                        };
+                }
+                else if(tag.refs.banner.value != "")
                 {
                     if(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(tag.refs.banner.value) == false)
                     {
@@ -304,6 +310,12 @@
                 }
 
                 // Confirmation de la picture
+                if(tag.refs.picture.value == null)
+                {
+                    errors["edit-user"].picture = {
+                            "required" : "true"
+                    };
+                }
                 if(tag.refs.picture.value != "")
                 {
                     if(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(tag.refs.picture.value) == false)

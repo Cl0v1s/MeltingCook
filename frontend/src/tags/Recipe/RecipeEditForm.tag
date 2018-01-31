@@ -183,14 +183,24 @@
                     App.diagnosticForm("edit-recipe", errors);
                     return;
                 }
-                tag.send();
+
+
+
+                tag.refs.place.getCity(tag.refs.place.value).then((city) => {
+                    tag.send(city.latitude, city.longitude);
+                }, (error) => {
+                    errors["edit-recipe"].place = {
+                        "required" : "true"
+                    }
+                    App.diagnosticForm("edit-recipe", errors);
+                });
             }
             if(valid.fails("edit-recipe")) {
                 App.diagnosticForm("edit-recipe", valid.errors);
             }
         };
 
-        tag.send = function()
+        tag.send = function(latitude, longitude)
         {
             var address  = App.Address + "/updaterecipe";
             var rcp = tag.recipe;
@@ -200,6 +210,8 @@
                 address = App.Address + "/addrecipe";
             }
             rcp.name = tag.refs.name.value;
+            rcp.latitude = latitude;
+            rcp.longitude = longitude;
             rcp.description = tag.refs.description.value;
             rcp.picture = tag.refs.picture.value;
             rcp.origin = tag.refs.origin.value;

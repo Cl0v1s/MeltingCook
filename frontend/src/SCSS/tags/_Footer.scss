@@ -40,6 +40,7 @@ div[data-is=app-footer] {
             display: block;
             width: 100%;
             text-align: center;
+            margin-top: $space-normal;
             margin-bottom: $space-big;
             margin-left:0;
             
@@ -54,8 +55,8 @@ div[data-is=app-footer] {
 
     &>div.portfolios
     {
+        margin-top: $space-normal;
         color: $color-text-secondary;
-        margin-top: $space-small;
         a{
             color: $color-front-peach;
         }

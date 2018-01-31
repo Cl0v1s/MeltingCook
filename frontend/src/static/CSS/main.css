@@ -312,25 +312,25 @@ a.Button {
       color: #FDC279; }
   a.Button.fb {
     background-position: center;
-    background-size: auto 250%;
+    background-size: contain;
     background-image: url("/static/images/facebook.svg"); }
     a.Button.fb > span {
       color: transparent; }
   a.Button.twitter {
     background-position: center;
-    background-size: auto 250%;
+    background-size: contain;
     background-image: url("/static/images/twitter.svg"); }
     a.Button.twitter > span {
       color: transparent; }
   a.Button.insta {
     background-position: center;
-    background-size: auto 250%;
+    background-size: contain;
     background-image: url("/static/images/instagram.svg"); }
     a.Button.insta > span {
       color: transparent; }
   a.Button.youtube {
     background-position: center;
-    background-size: auto 250%;
+    background-size: contain;
     background-image: url("/static/images/youtube.svg"); }
     a.Button.youtube > span {
       color: transparent; }
@@ -1555,6 +1555,7 @@ div[data-is=app-footer] {
         display: block;
         width: 100%;
         text-align: center;
+        margin-top: 20px;
         margin-bottom: 40px;
         margin-left: 0; }
         app-footer > div ul,
@@ -1563,8 +1564,8 @@ div[data-is=app-footer] {
           text-align: left; } }
   app-footer > div.portfolios,
   div[data-is=app-footer] > div.portfolios {
-    color: #f2f4f3;
-    margin-top: 8px; }
+    margin-top: 20px;
+    color: #f2f4f3; }
     app-footer > div.portfolios a,
     div[data-is=app-footer] > div.portfolios a {
       color: #FDC279; }

@@ -78,7 +78,7 @@ a.Button
             color: transparent;
         }
         background-position: center;
-        background-size: auto 250%;
+        background-size: contain;
 
         background-image: url("/static/images/facebook.svg");
     }
@@ -90,7 +90,7 @@ a.Button
             color: transparent;
         }
         background-position: center;
-        background-size: auto 250%;
+        background-size: contain;
         background-image: url("/static/images/twitter.svg");
 
     }
@@ -102,7 +102,7 @@ a.Button
             color: transparent;
         }
         background-position: center;
-        background-size: auto 250%;
+        background-size: contain;
         background-image: url("/static/images/instagram.svg");
     }
 
@@ -113,7 +113,7 @@ a.Button
             color: transparent;
         }
         background-position: center;
-        background-size: auto 250%;
+        background-size: contain;
         background-image: url("/static/images/youtube.svg");
     }
 }

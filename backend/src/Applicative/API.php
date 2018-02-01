@@ -13,7 +13,6 @@ class API
 
     public static function TimedVerifications()
     {
-        // validation des réservations automatiquement après deux semaines 
         $storage = Engine::Instance()->Persistence("DatabaseStorage");
         $reservations = null;
         $storage->findAll("Reservation", $reservations, "done = '0' AND paid = '1'");
@@ -24,9 +23,19 @@ class API
             if($recipe == null)
                 continue;
             $now = time();
+            // validation des réservations automatiquement après deux semaines 
             if($now >= $recipe->DateEnd() + 1209600) // nombre de secondes pour deux semaines
             {
                 API::ValidateReservation(null, $reservation, false);
+            }
+            else if(($now >= $recipe->DateEnd() + 432000 && $now < $recipe->DateEnd() + 518400) || ($now >= $recipe->DateEnd() + 432000*2 && $now < $recipe->DateEnd() + 518400*2)) // Envoi d'un mail de rappel incitant à la validation
+            {
+                $guest = new User($storage, $reservation->GuestId());
+                $guest = $storage->find($guest);
+                if($guest == null)
+                    return;
+                Mailer::SendMail($guest->Mail(), "Quelques mots à propos de la recette ".$recipe->Name(), "Pensez à faire un tour sur MeltingCook pour valider votre réservation concernant la recette ".$recipe->Name().". Cela permettra à votre hôte de reçevoir sa compensation.");
+                API::GenerateNotification($token, $reservation->GuestId(), "info", "Pensez à faire un tour sur MeltingCook pour valider votre réservation concernant la recette ".$recipe->Name().". Cela permettra à votre hôte de reçevoir sa compensation.");
             }
         }
     }

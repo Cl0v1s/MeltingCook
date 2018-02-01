@@ -864,6 +864,9 @@ app-usereditform form > div, div[data-is=app-usereditform] form > div {
   margin-bottom: 20px;
   border-bottom: 2px dotted #FDC279; }
 
+app-usereditform div.dropzone, div[data-is=app-usereditform] div.dropzone {
+  margin-top: 20px; }
+
 app-usereditform div input + p, div[data-is=app-usereditform] div input + p {
   font-size: 14px;
   text-align: center; }
@@ -1371,6 +1374,8 @@ app-recipeitem, div[data-is=app-recipeitem] {
 
 app-recipeeditform, div[data-is=app-recipeeditform] {
   display: block; }
+  app-recipeeditform div.dropzone, div[data-is=app-recipeeditform] div.dropzone {
+    margin-top: 20px; }
   app-recipeeditform > form, div[data-is=app-recipeeditform] > form {
     text-align: center;
     margin-bottom: 20px; }

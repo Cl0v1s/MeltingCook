@@ -698,6 +698,7 @@ require("./../../tags/Misc/PlaceInput.tag");
 require("./../../tags/Misc/TabBar.tag");
 require("./../../tags/Misc/TimeInput.tag");
 require("./../../tags/Misc/UserSelector.tag");
+require("./../../tags/Misc/UploadInput.tag");
 // RECIPE
 require("./../../tags/Recipe/Recipe.tag");
 require("./../../tags/Recipe/RecipeEdit.tag");

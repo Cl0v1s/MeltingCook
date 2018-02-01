@@ -23,8 +23,10 @@
             };
 
             new Imgur({
-                clientid: 'xxxxxxxxxxxxxxxxx',
-                callback: callback
+                clientid: 'c15f2df6d132436',
+                callback: callback,
+                target : tag.root.querySelectorAll(".dropzone"),
+                message: "Glissez votre photographie ici ou cliquez ici."
             });
         });
     </script>

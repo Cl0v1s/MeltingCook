@@ -155,6 +155,9 @@ class APIController extends Controller
                 case "endresetpassword":
                     $this->EndResetPassword();
                     break;
+                case "timedverifications":
+                    $this->TimedVerifications();
+                    break;
                 default:
                     http_response_code(404);
                     return;
@@ -164,6 +167,12 @@ class APIController extends Controller
             $this->Write(APIController::$NO, $e->getCode(), $e->getMessage() . "\n\n" . $e->getTraceAsString());
             return;
         }
+    }
+
+    private function TimedVerifications()
+    {
+        API::TimedVerifications();
+        $this->Write(APIController::$OK, null);
     }
 
 

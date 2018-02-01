@@ -11,6 +11,26 @@ require("Mailer.php");
 class API
 {
 
+    public static function TimedVerifications()
+    {
+        // validation des réservations automatiquement après deux semaines 
+        $storage = Engine::Instance()->Persistence("DatabaseStorage");
+        $reservations = null;
+        $storage->findAll("Reservation", $reservations, "done = '0' AND paid = '1'");
+        foreach($reservations as $reservation)
+        {
+            $recipe = new Recipe($storage, $reservation->RecipeId());
+            $recipe = $storage->find($recipe);
+            if($recipe == null)
+                continue;
+            $now = time();
+            if($now >= $recipe->DateEnd() + 1209600) // nombre de secondes pour deux semaines
+            {
+                API::ValidateReservation(null, $reservation, false);
+            }
+        }
+    }
+
     /**
      * Wrapper pour ajout de notification dans la base
      * @param $token
@@ -197,7 +217,7 @@ class API
      * @param $token
      * @param $reservation Reservation
      */
-    public static function ValidateReservation($token, $reservation)
+    public static function ValidateReservation($token, $reservation, $check = true)
     {
         $storage = Engine::Instance()->Persistence("DatabaseStorage");
         $reservation = $storage->find($reservation);
@@ -205,12 +225,19 @@ class API
         {
             throw new Exception("Not Enought Power", 1);
         }
-
-        $user = API::Auth($token);
-        // Seul l'invité peut effectuer cette action
-        if($user->Id() != $reservation->GuestId())
+        $user = null;
+        if($check == true)
         {
-            throw new Exception("Not Enought Power", 1);
+            $user = API::Auth($token);
+            // Seul l'invité peut effectuer cette action
+            if($user->Id() != $reservation->GuestId())
+            {
+                throw new Exception("Not Enought Power", 1);
+            }
+        }
+        else 
+        {
+            $user = API::GetUser(null, $reservation->GuestId());
         }
 
         // Cette action ne peut être effectuée que sur une reservation provisionnée

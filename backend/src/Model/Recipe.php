@@ -102,6 +102,22 @@ class Recipe extends StorageItem
     public $place;
 
     /**
+     * @Boolean
+     */
+    public $verified;
+
+    public function Verified()
+    {
+        return $this->verified();
+    }
+
+    public function setVerified($verified)
+    {
+        $this->verified = $verified;
+        $this->checkIntegrity("verified"); 
+    }
+
+    /**
      * @return mixed
      */
     public function Name()

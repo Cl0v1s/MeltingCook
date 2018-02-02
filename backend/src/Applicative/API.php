@@ -11,8 +11,27 @@ require("Mailer.php");
 class API
 {
 
+    public static function GetMeta()
+    {
+        $meta = null;
+        $storage = Engine::Instance()->Persistence("DatabaseStorage");
+        $metas = null;
+        $storage->findAll("Meta", $metas);
+        if(count($metas) <= 0)
+        {
+            $meta = new Meta($storage, null);
+            $storage->persist($meta);
+            $storage->flush();
+            return $meta;
+        }
+        return $metas[count($metas)-1];
+    }
+
     public static function TimedVerifications()
     {
+        $meta = API::GetMeta();
+        if($meta->LastTimedVerification() != null && time() - $meta->LastTimedVerification() < 79200)
+            return;
         $storage = Engine::Instance()->Persistence("DatabaseStorage");
         $reservations = null;
         $storage->findAll("Reservation", $reservations, "done = '0' AND paid = '1'");
@@ -38,6 +57,9 @@ class API
                 API::GenerateNotification($token, $reservation->GuestId(), "info", "Pensez à faire un tour sur MeltingCook pour valider votre réservation concernant la recette ".$recipe->Name().". Cela permettra à votre hôte de reçevoir sa compensation.");
             }
         }
+        $meta->setLastTimedVerification(time());
+        $storage->persist($meta, StorageState::ToUpdate);
+        $storage->flush();
     }
 
     /**

@@ -57,7 +57,21 @@
 
     <!-- Définition des routes -->
     <script>
-        Router.GetInstance().start();
+        var MOBILE = false;
+        if(MOBILE == false)
+        {
+            window.addEventListener("load", function()
+            {
+                Router.GetInstance().start
+            });
+        }
+        else 
+        {
+            document.addEventListener("deviceready", function()
+            {
+                Router.GetInstance().start
+            });
+        }
     </script>
 
 </head>

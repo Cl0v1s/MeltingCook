@@ -1,4 +1,4 @@
-<app-footer>
+<app-footer class="{ invisible : MOBILE == true }">
     <div>
         <h3>Infos pratiques</h3>
         <ul>

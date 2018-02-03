@@ -462,6 +462,18 @@ class Router
         });
     }
 
+    private home()
+    {
+        if((<any>window).MOBILE)
+        {
+            throw new Error("Not implemented");
+        }
+        else 
+        {
+            App.changePage("app-home", null);
+        }
+    }
+
     
 
     ///////////////////////////////////////////////////////////////
@@ -524,14 +536,9 @@ class Router
             App.changePage("app-cgu", null);
         });
 
-        route('', function () {
-            App.changePage("app-home", null);
-        });
+        route('', this.home);
 
-        route("index", function()
-        {
-            App.changePage("app-home", null);
-        });
+        route("index", this.home);
         /*
 
          // Recipe

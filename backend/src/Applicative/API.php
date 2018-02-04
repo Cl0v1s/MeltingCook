@@ -447,6 +447,16 @@ class API
         return API::Add($token, $item, false);
     }
 
+    public static function AddRecipe($token, $item)
+    {   
+        $user = API::Auth($token);
+        if($user->IsPaypal() == 0)
+        {
+            throw new Exception("Vous devez associer votre profil à un compte paypal pour être en mesure de proposer une recette#", 2);
+        }
+        return API::Add($token, $item, false);
+    }
+
     /***
      * @param $token
      * @param $item Reservation
@@ -804,6 +814,8 @@ class API
     {
         return API::GetAll($token, "Origin", $filters, "ORDER BY name ASC");
     }
+
+  
 
 
 

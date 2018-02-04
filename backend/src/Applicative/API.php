@@ -30,7 +30,7 @@ class API
     public static function TimedVerifications()
     {
         $meta = API::GetMeta();
-        if($meta->LastTimedVerification() != null && time() - $meta->LastTimedVerification() < 79200)
+        if($meta->LastTimedVerification() != null && time() - $meta->LastTimedVerification() < 79200) // Si inférieur à 22h.
             return;
         $storage = Engine::Instance()->Persistence("DatabaseStorage");
         $reservations = null;

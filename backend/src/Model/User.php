@@ -132,6 +132,22 @@ class User extends StorageItem
     public $forgot_password;
 
     /**
+     * @Boolean
+     */
+    public $is_paypal;
+
+    public function IsPaypal()
+    {
+        return $this->is_paypal;
+    }
+
+    public function setIsPaypal($value)
+    {
+        $this->is_paypal = $value;
+        $this->checkIntegrity("is_paypal");
+    }
+
+    /**
      * @return mixed
      */
     public function Username()

@@ -86,9 +86,9 @@ class APIController extends Controller
                 case "updatereport":
                     $this->UpdateReport();
                     break;
-                case "updaterecipe":
-                    $this->UpdateRecipe();
-                    break;
+                //case "updaterecipe":
+                //    $this->UpdateRecipe();
+                //    break;
                 case "updatenotification":
                     $this->UpdateNotification();
                     break;

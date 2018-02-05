@@ -173,7 +173,24 @@ class APIController extends Controller
 
     private function PaypalLogin()
     {
-        var_dump($_GET["code"]);
+        $code = $_GET["code"];
+
+        $url = 'https://api.sandbox.paypal.com/v1/identity/openidconnect/tokenservice';
+        $data = array('grant_type' => 'authorization_code', 'code' => $code);
+
+        // use key 'http' even if you send the request to https://...
+        $options = array(
+            'http' => array(
+                'header'  => "Authorization: Basic QVRxcnpvMWRYb2VJTEhWVXhFUEhDNEJ6RlFEVV82NU5QVHhyelRxa29FcU4zdFJreWthaHB4TkNO Njg0ajdtVWJ4Q3Rua3o2LUdvRnA3MHk6RUJ3a1VlamlncVJILTNUNzBGTEZBY2NWZWQxaVlJd3pM b0xtS1lPTy02YkQ0UE5ISGZJM3lyd0N0VEJTci1UYWsyaEVCdnotdXpVTmJtaGQ=\r\n",
+                'method'  => 'POST',
+                'content' => http_build_query($data)
+            )
+        );
+        $context  = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+        if ($result === FALSE) { /* Handle error */ }
+
+        var_dump($result);
     }
 
     private function TimedVerifications()

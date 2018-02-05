@@ -68,6 +68,11 @@
                     </p>
                 </div>
                 <div>
+                    <label>Adresse Email de contact:</label>
+                    <input type="text" name="mail" ref="mail" value={ user.mail }>
+                    <p class="hint">Ce champ doit contenir une adresse email valide.</p>
+                </div>
+                <div>
                     <label>Numéro de téléphone:</label>
                     <input type="text" name="phone" ref="phone" value={ user.phone }>
                     <p class="hint">
@@ -80,11 +85,10 @@
             <div class="bills">
                 <h2>Informations de facturation</h2>
                 <div>
-                    <label>Adresse Email associée au compte Paypal:</label>
-                    <input type="text" name="mail" ref="mail" value={ user.mail }>
-                    <p class="hint">Ce champ doit contenir une adresse email valide.</p>
-                    <p>Pensez à vérifier qu'il s'agit bien de l'adresse email associée à votre compte Paypal. Nous allons
-                        l'utiliser pour vous verser votre dû.</p>
+                    <label>Compte Paypal:</label>
+                    <span class="{ invisible: user.paypal == null }" ref="paypalButton" id='lippButton' onclick="{ bindPaypal }"></span>
+                    <input disabled type="text" name="paypal" ref="paypal" value={ user.paypal }><a class="{invisible:  user.paypal == null }" onclick="{ removePaypal }" ref="paypalRemove" >Dissocier</a>
+                    <p>En liant votre compte Paypal et MeltingCook, vous serez en mesure de proposer des recettes et de reçevoir vos compensations.</p>
                 </div>
                 <div>
                     <label>Présentation: </label>
@@ -178,6 +182,7 @@
         tag.callback = null;
         tag.position = null;
 
+
         tag.on("before-mount", function()
         {
             tag.user = tag.opts.user;
@@ -186,7 +191,16 @@
 
         tag.on("mount", function()
         {
-            //tag.geolocalize();
+            paypal.use( ['login'], function (login) {
+                login.render ({
+                    "appid":"test",
+                    "authend":"sandbox",
+                    "scopes":"openid email",
+                    "containerid":"lippButton",
+                    "locale":"fr-fr",
+                    "returnurl":"http://localhost:3474"
+                });
+            });
 
             $('#discease').selectize({
                     delimiter: ";",
@@ -230,6 +244,24 @@
                 "user": tag.user
             });
         };
+
+        tag.removePaypal = function()
+        {
+            tag.refs.paypal.value = "";
+            tag.refs.paypalButton.classList.remove("invisible");
+            tag.refs.paypalRemove.classList.add("invisible");
+        };
+
+        tag.bindPaypal = function()
+        {
+            Paypal.bindPaypal().then(function(data){
+                tag.refs.paypal.value = data;
+                tag.refs.paypalButton.classList.add("invisible");
+                tag.refs.paypalRemove.classList.remove("invisible");
+            }, function(error){
+                NotificationManager.showNotification("Impossible de lier votre compte avec Paypal. Veuillez réessayer.", "error");
+            });   
+        }
 
         /*tag.removeAccount = function()
         {
@@ -278,6 +310,7 @@
                     "age": "required|number|maxLength:3",
                     "phone": "required|minLength:10|maxLength:400",
                     "mail": "required|email|maxLength:400",
+                    "paypal": "email|maxLength:400",
                     "description": "required|minLength:50|maxLength:1000",
                     "picture": "maxLength:400",
                     "discease": "maxLength:1000",
@@ -413,6 +446,12 @@
             usr.lastname = tag.refs.lastname.value;
             usr.firstname = tag.refs.firstname.value;
             usr.address = tag.refs.address.value;
+
+            usr.paypal = null;
+            if(tag.refs.paypal.value != "")
+                usr.paypal = tag.refs.paypal.value;
+
+
 
             var url = App.Address + "/adduser";
             if (usr.id != null)

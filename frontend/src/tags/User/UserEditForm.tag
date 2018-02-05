@@ -269,6 +269,7 @@
         }
 
 
+
         tag.details = function()
         {
             if(tag.user != null && tag.user.id != null)

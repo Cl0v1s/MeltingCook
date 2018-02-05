@@ -26,7 +26,19 @@ class Paypal
     public static tokenPaypal(code) : Promise<any>
     {
         return new Promise(function(resolve, reject){
-            alert("lancer la requete");
+            let request = App.request("https://api.sandbox.paypal.com/v1/identity/openidconnect/tokenservice",{
+                "grant_type" : "authorization_code",
+                "code" : code 
+            },true,true,"Basic QVRxcnpvMWRYb2VJTEhWVXhFUEhDNEJ6RlFEVV82NU5QVHhyelRxa29FcU4zdFJreWthaHB4TkNO Njg0ajdtVWJ4Q3Rua3o2LUdvRnA3MHk6RUJ3a1VlamlncVJILTNUNzBGTEZBY2NWZWQxaVlJd3pM b0xtS1lPTy02YkQ0UE5ISGZJM3lyd0N0VEJTci1UYWsyaEVCdnotdXpVTmJtaGQ=");
+
+            request.then(function(response){
+                console.log(response);
+            });
+
+            request.catch(function(error){
+                console.log(error);
+            })
+
         });
     }
 }

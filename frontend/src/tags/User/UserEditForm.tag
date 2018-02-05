@@ -68,6 +68,11 @@
                     </p>
                 </div>
                 <div>
+                    <label>Adresse Email de contact:</label>
+                    <input type="text" name="mail" ref="mail" value={ user.mail }>
+                    <p class="hint">Ce champ doit contenir une adresse email valide.</p>
+                </div>
+                <div>
                     <label>Numéro de téléphone:</label>
                     <input type="text" name="phone" ref="phone" value={ user.phone }>
                     <p class="hint">
@@ -80,11 +85,10 @@
             <div class="bills">
                 <h2>Informations de facturation</h2>
                 <div>
-                    <label>Adresse Email associée au compte Paypal:</label>
-                    <input type="text" name="mail" ref="mail" value={ user.mail }>
-                    <p class="hint">Ce champ doit contenir une adresse email valide.</p>
-                    <p>Pensez à vérifier qu'il s'agit bien de l'adresse email associée à votre compte Paypal. Nous allons
-                        l'utiliser pour vous verser votre dû.</p>
+                    <label>Compte Paypal:</label>
+                    <span class="{ invisible: user.paypal == null }" ref="paypalButton" id='lippButton' onclick="{ bindPaypal }"></span>
+                    <input disabled type="text" name="paypal" ref="paypal" value={ user.paypal }><a class="{invisible:  user.paypal == null }" onclick="{ removePaypal }" ref="paypalRemove" >Dissocier</a>
+                    <p>En liant votre compte Paypal et MeltingCook, vous serez en mesure de proposer des recettes et de reçevoir vos compensations.</p>
                 </div>
                 <div>
                     <span id='lippButton' onclick="{ watchPaypalLogin }"></span>
@@ -182,6 +186,7 @@
         tag.position = null;
         tag.interval = null;
 
+
         tag.on("before-mount", function()
         {
             tag.user = tag.opts.user;
@@ -245,46 +250,24 @@
             });
         };
 
-        /*tag.removeAccount = function()
+        tag.removePaypal = function()
         {
-            if(tag.user.id == null)
-                return;
-            var request = App.request(App.Address + "/removeuser", { id : tag.user.id }, true);
-            vex.dialog.alert("Votre compte va être supprimé. Vous allez recevoir un mail de confirmation.");
-            route("/home");
-        }*/
+            tag.refs.paypal.value = "";
+            tag.refs.paypalButton.classList.remove("invisible");
+            tag.refs.paypalRemove.classList.add("invisible");
+        };
 
-        tag.watchPaypalLogin = function()
+        tag.bindPaypal = function()
         {
-            if(tag.interval != null)
-                clearInterval(tag.interval);
-            tag.interval = setInterval(() => {
-                let code = localStorage.getItem("PaypalLogin-code");
-                if(code == null)
-                    return;
-                localStorage.removeItem("PaypalLogin-code");
-                clearInterval(tag.interval);
-                tag.interval = null;
-                tag.retrievePaypalAccount(code);
-            }, 1000);
+            Paypal.bindPaypal().then(function(data){
+                tag.refs.paypal.value = data;
+                tag.refs.paypalButton.classList.add("invisible");
+                tag.refs.paypalRemove.classList.remove("invisible");
+            }, function(error){
+                NotificationManager.showNotification("Impossible de lier votre compte avec Paypal. Veuillez réessayer.", "error");
+            });   
         }
 
-        tag.retrievePaypalAccount = function(code)
-        {
-            let request = App.request("https://api.sandbox.paypal.com/v1/identity/openidconnect/tokenservice",{
-                "grant_type" : "authorization_code",
-                "code" : code 
-            },true,true,"Basic QVRxcnpvMWRYb2VJTEhWVXhFUEhDNEJ6RlFEVV82NU5QVHhyelRxa29FcU4zdFJreWthaHB4TkNO Njg0ajdtVWJ4Q3Rua3o2LUdvRnA3MHk6RUJ3a1VlamlncVJILTNUNzBGTEZBY2NWZWQxaVlJd3pM b0xtS1lPTy02YkQ0UE5ISGZJM3lyd0N0VEJTci1UYWsyaEVCdnotdXpVTmJtaGQ=");
-
-            request.then(function(response){
-                console.log(response);
-            });
-
-            request.catch(function(error){
-                console.log(error);
-            })
-
-        };
 
         tag.details = function()
         {
@@ -324,6 +307,7 @@
                     "age": "required|number|maxLength:3",
                     "phone": "required|minLength:10|maxLength:400",
                     "mail": "required|email|maxLength:400",
+                    "paypal": "email|maxLength:400",
                     "description": "required|minLength:50|maxLength:1000",
                     "picture": "maxLength:400",
                     "discease": "maxLength:1000",
@@ -459,6 +443,12 @@
             usr.lastname = tag.refs.lastname.value;
             usr.firstname = tag.refs.firstname.value;
             usr.address = tag.refs.address.value;
+
+            usr.paypal = null;
+            if(tag.refs.paypal.value != "")
+                usr.paypal = tag.refs.paypal.value;
+
+
 
             var url = App.Address + "/adduser";
             if (usr.id != null)

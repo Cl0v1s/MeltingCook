@@ -493,8 +493,8 @@ class APIController extends Controller
         $user->setAddress($_POST["address"]);
         $user->setAge($_POST["age"]);
 
-        if(isset($_POST["is_paypal"]))
-            $user->setIsPaypal($_POST["is_paypal"]);
+        if(isset($_POST["paypal"]))
+            $user->setPaypal($_POST["paypal"]);
         if(isset($_POST["geolocation"]))
             $user->setGeolocation($_POST["geolocation"]);
         if(isset($_POST["picture"]))
@@ -573,8 +573,8 @@ class APIController extends Controller
             $user->setFirstname($_POST["firstname"]);
         if(isset($_POST["address"]))
             $user->setAddress($_POST["address"]);
-        if(isset($_POST["is_paypal"]))
-            $user->setIsPaypal($_POST["is_paypal"]);
+        if(isset($_POST["paypal"]))
+            $user->setPaypal($_POST["paypal"]);
         $this->Update($user);
     }
 

@@ -80,6 +80,13 @@ class User extends StorageItem
      */
     public $mail;
 
+    
+    /**
+     * @Word
+     * @Size(min=1, max=400)
+     */
+    public $paypal;
+
     /**
      * @Word
      * @Size(min=1,max=1000)
@@ -131,20 +138,16 @@ class User extends StorageItem
      */
     public $forgot_password;
 
-    /**
-     * @Boolean
-     */
-    public $is_paypal;
 
-    public function IsPaypal()
+    public function Paypal()
     {
-        return $this->is_paypal;
+        return $this->paypal;
     }
 
-    public function setIsPaypal($value)
+    public function setPaypal($value)
     {
-        $this->is_paypal = $value;
-        $this->checkIntegrity("is_paypal");
+        $this->paypal = $value;
+        $this->checkIntegrity("paypal");
     }
 
     /**

@@ -6,11 +6,13 @@ class Paypal
     {
         return new Promise(function(resolve, reject){
             if(Paypal.interval != null)
-            clearInterval(Paypal.interval);
+                clearInterval(Paypal.interval);
             Paypal.interval = setInterval(() => {
                 let code = localStorage.getItem("PaypalLogin-code");
                 if(code == null)
                     return;
+                clearInterval(Paypal.interval);
+                Paypal.interval = null;
                 localStorage.removeItem("PaypalLogin-code");
                 Paypal.tokenPaypal(code).then(function(data){
                     resolve(data)

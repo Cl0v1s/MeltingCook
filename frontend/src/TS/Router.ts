@@ -464,10 +464,10 @@ class Router
 
     private paypalLogin()
     {
-        let href = window.location.href.split("code=");
+        let href = window.location.href.split("paypal=");
         if(href.length < 2)
             return;
-        href = href[1].split("&scope=");
+        href = href[1].split("#");
         if(href.length < 2)
             return;
         let code = href[0];
@@ -537,8 +537,10 @@ class Router
             App.changePage("app-cgu", null);
         });
 
+           
+        route("paypallogin", this.paypalLogin);
+
         route('', () => {
-            this.paypalLogin();
             App.changePage("app-home", null);
         });
 

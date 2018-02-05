@@ -174,6 +174,12 @@ class APIController extends Controller
 
     private function PaypalLogin()
     {
+
+        //TODO: améliorer la sécurité ici, il est possible de tricher avec l'url
+        //TODO: mettre vrai url
+
+        $callback = "http://localhost:3474/";
+
         $code = $_GET["code"];
 
         $url = 'https://api.sandbox.paypal.com/v1/identity/openidconnect/tokenservice';
@@ -204,7 +210,7 @@ class APIController extends Controller
         $data = get_object_vars(json_decode($result));
         if(isset($data["access_token"]) == false)
         {
-            $this->Write(APIController::$NO, $result);
+            header("Location: ".$callback."#paypallogin");
             return;
         }
             
@@ -231,7 +237,15 @@ class APIController extends Controller
 
         curl_close ($ch);
 
-        $this->Write(APIController::$OK, $result);
+        $data = get_object_vars(json_decode($result));
+
+        if(isset($data["email"]) == false)
+        {
+            header("Location: ".$callback."#paypallogin");
+            return;
+        }
+
+        header("Location: ".$callback."?paypal=".$data["email"]."#paypallogin");
     }
 
     private function TimedVerifications()

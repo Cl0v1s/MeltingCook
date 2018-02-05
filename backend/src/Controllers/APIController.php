@@ -176,46 +176,30 @@ class APIController extends Controller
         $code = $_GET["code"];
 
         $url = 'https://api.sandbox.paypal.com/v1/identity/openidconnect/tokenservice';
-        $data = array('grant_type' => 'authorization_code', 'code' => $code);
 
-       /* // use key 'http' even if you send the request to https://...
-        $options = array(
-            'http' => array(
-                'header'  => "Content-type: application/x-www-form-urlencoded\r\nAuthorization: Basic QVRxcnpvMWRYb2VJTEhWVXhFUEhDNEJ6RlFEVV82NU5QVHhyelRxa29FcU4zdFJreWthaHB4TkNO Njg0ajdtVWJ4Q3Rua3o2LUdvRnA3MHk6RUJ3a1VlamlncVJILTNUNzBGTEZBY2NWZWQxaVlJd3pM b0xtS1lPTy02YkQ0UE5ISGZJM3lyd0N0VEJTci1UYWsyaEVCdnotdXpVTmJtaGQ=\r\n",
-                'method'  => 'POST',
-                'content' => http_build_query($data),
-                'ignore_errors' => false
-            )
-        );
-        $context  = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);
-        if ($result === FALSE) { /* Handle error }*/
+        $ch = curl_init();
 
-            $ch = curl_init();
-
-    curl_setopt($ch, CURLOPT_URL,$url);
-    curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_POST, 1);
 
 
-    $headr = array();
-    $headr[] = 'Content-type: application/x-www-form-urlencoded';
-    $headr[] = 'Authorization:  Basic QVRxcnpvMWRYb2VJTEhWVXhFUEhDNEJ6RlFEVV82NU5QVHhyelRxa29FcU4zdFJreWthaHB4TkNONjg0ajdtVWJ4Q3Rua3o2LUdvRnA3MHk6RUJ3a1VlamlncVJILTNUNzBGTEZBY2NWZWQxaVlJd3pMb0xtS1lPTy02YkQ0UE5ISGZJM3lyd0N0VEJTci1UYWsyaEVCdnotdXpVTmJtaGQ=';
-    
-    curl_setopt($ch, CURLOPT_HTTPHEADER,$headr);
+        $headr = array();
+        $headr[] = 'Content-type: application/x-www-form-urlencoded';
+        $headr[] = 'Authorization:  Basic QVRxcnpvMWRYb2VJTEhWVXhFUEhDNEJ6RlFEVV82NU5QVHhyelRxa29FcU4zdFJreWthaHB4TkNONjg0ajdtVWJ4Q3Rua3o2LUdvRnA3MHk6RUJ3a1VlamlncVJILTNUNzBGTEZBY2NWZWQxaVlJd3pMb0xtS1lPTy02YkQ0UE5ISGZJM3lyd0N0VEJTci1UYWsyaEVCdnotdXpVTmJtaGQ=';
+        
+        curl_setopt($ch, CURLOPT_HTTPHEADER,$headr);
 
-    // in real life you should use something like:
-    curl_setopt($ch, CURLOPT_POSTFIELDS, 
-              http_build_query(array('grant_type' => 'authorization_code', 'code' => $code)));
+        // in real life you should use something like:
+        curl_setopt($ch, CURLOPT_POSTFIELDS, 
+                http_build_query(array('grant_type' => 'authorization_code', 'code' => $code)));
 
-    // receive server response ...
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // receive server response ...
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-    $result = curl_exec ($ch);
+        $result = curl_exec ($ch);
 
-    curl_close ($ch);
-
-
-        var_dump($result);
+        curl_close ($ch);
+        $this->Write(APIController::$OK, $result);
     }
 
     private function TimedVerifications()

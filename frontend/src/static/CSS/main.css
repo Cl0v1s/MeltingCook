@@ -502,6 +502,9 @@ input[type=text], select, input[type=password], textarea, .selectize-input, inpu
   .selectize-control div.selectized {
     display: inline-block; }
 
+input:disabled {
+  opacity: 0.3; }
+
 input[type=text].error, input[type=number].error, textarea.error, select.error,
 app-dateinput.error input, app-manyinputs.error input[type=text], app-origininput.error div.selectize-input, app-pinsinput.error div.selectize-input, app-placeinput.error div.selectize-input {
   border-color: red !important; }

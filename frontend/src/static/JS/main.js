@@ -358,26 +358,35 @@ class Router {
             route("/register");
             return;
         }
+        if (Login.GetInstance().User().paypal == null || Login.GetInstance().User().paypal == "") {
+            NotificationManager.showNotification("Vous devez associer un compte paypal à votre profil MeltingCook pour pouvoir proposer une recette.", "error");
+            route("/");
+            return;
+        }
         App.changePage("app-recipeedit", null);
     }
-    recipeEdit(id) {
+    /*private recipeEdit(id : number) : void
+    {
         var request = App.request(App.Address + "/getrecipe", {
-            "id": id
+            "id" : id
         });
-        request.then(function (response) {
-            if (response.data === null) {
+        request.then(function(response :any)
+        {
+            if(response.data === null)
+            {
                 route("/error/404");
                 return;
             }
             var recipe = Adapter.adaptRecipe(response.data);
             App.changePage("app-recipeedit", {
-                "recipe": recipe
+                "recipe" : recipe
             });
         });
-        request.catch(function (error) {
+        request.catch(function(error)
+        {
             ErrorHandler.alertIfError(error);
         });
-    }
+    }*/
     // ACCOUNT
     accountKitchen() {
         var filters = {
@@ -587,12 +596,16 @@ class Router {
         });
     }
     paypalLogin() {
-        let href = window.location.href.split("code=");
-        if (href.length < 2)
+        let href = window.location.href.split("paypal=");
+        if (href.length < 2) {
+            window.close();
             return;
-        href = href[1].split("&scope=");
-        if (href.length < 2)
+        }
+        href = href[1].split("#");
+        if (href.length < 2) {
+            window.close();
             return;
+        }
         let code = href[0];
         window.localStorage.setItem("PaypalLogin-code", code);
         window.close();
@@ -622,7 +635,7 @@ class Router {
         // User
         route("/user/*", this.user);
         // Recipe
-        route("/recipe/edit/*", this.recipeEdit);
+        //route("/recipe/edit/*", this.recipeEdit);
         route("/recipe/add", this.recipeAdd);
         route("/recipe/*", this.recipe);
         // Search
@@ -643,8 +656,8 @@ class Router {
         route("cgu", function () {
             App.changePage("app-cgu", null);
         });
+        route("paypallogin", this.paypalLogin);
         route('', () => {
-            this.paypalLogin();
             App.changePage("app-home", null);
         });
         route("index", function () {
@@ -779,14 +792,6 @@ class App {
                 url: address,
                 "data": data
             };
-            /* if(autorisation != null)
-             {
-                 (<any>options).headers = {
-                     "Authorization" : autorisation,
-                 };
-                 delete (<any>options).headers["Content-type"];
-             }*/
-            console.log(options);
             var request = ajax(options);
             if (bg)
                 App.showLoading();
@@ -921,27 +926,33 @@ class Paypal {
         return new Promise(function (resolve, reject) {
             if (Paypal.interval != null)
                 clearInterval(Paypal.interval);
+            if (Paypal.timeout != null)
+                clearTimeout(Paypal.timeout);
+            Paypal.timeout = setTimeout(() => {
+                clearInterval(Paypal.interval);
+                Paypal.interval = null;
+                clearTimeout(Paypal.timeout);
+                Paypal.timeout = null;
+                reject(null);
+            }, 1000 * 60 * 5);
             Paypal.interval = setInterval(() => {
+                console.log("ask");
                 let code = localStorage.getItem("PaypalLogin-code");
                 if (code == null)
                     return;
                 clearInterval(Paypal.interval);
                 Paypal.interval = null;
+                clearTimeout(Paypal.timeout);
+                Paypal.timeout = null;
                 localStorage.removeItem("PaypalLogin-code");
-                Paypal.tokenPaypal(code).then(function (data) {
-                    resolve(data);
-                }, function (error) {
-                    reject(error);
-                });
+                console.log(code);
+                resolve(code);
             }, 1000);
-        });
-    }
-    static tokenPaypal(code) {
-        return new Promise(function (resolve, reject) {
         });
     }
 }
 Paypal.interval = null;
+Paypal.timeout = null;
 class Search {
     static search(place, origin, date, price_start, price_end) {
         return new Promise((resolve, reject) => {

@@ -131,14 +131,6 @@ class App
                 url : address,
                 "data" : data
             };
-           /* if(autorisation != null)
-            {
-                (<any>options).headers = {
-                    "Authorization" : autorisation,
-                };
-                delete (<any>options).headers["Content-type"];
-            }*/
-            console.log(options);
             var request = ajax(options);
             if(bg)
                 App.showLoading();

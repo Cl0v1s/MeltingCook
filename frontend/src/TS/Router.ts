@@ -183,10 +183,16 @@ class Router
             route("/register");
             return;
         }
+        if(Login.GetInstance().User().paypal == null || Login.GetInstance().User().paypal == "")
+        {
+            NotificationManager.showNotification("Vous devez associer un compte paypal à votre profil MeltingCook pour pouvoir proposer une recette.", "error");
+            route("/");
+            return;
+        }
         App.changePage("app-recipeedit", null);
     }
 
-    private recipeEdit(id : number) : void
+    /*private recipeEdit(id : number) : void
     {
         var request = App.request(App.Address + "/getrecipe", {
             "id" : id
@@ -207,7 +213,7 @@ class Router
         {
             ErrorHandler.alertIfError(error);
         });
-    }
+    }*/
 
     // ACCOUNT
     private accountKitchen() : void
@@ -466,10 +472,16 @@ class Router
     {
         let href = window.location.href.split("paypal=");
         if(href.length < 2)
+        {
+            window.close();
             return;
+        }
         href = href[1].split("#");
         if(href.length < 2)
+        {
+            window.close();
             return;
+        }
         let code = href[0];
         window.localStorage.setItem("PaypalLogin-code", code);
         window.close();
@@ -510,7 +522,7 @@ class Router
         route("/user/*", this.user);
 
         // Recipe
-        route("/recipe/edit/*", this.recipeEdit);
+        //route("/recipe/edit/*", this.recipeEdit);
         route("/recipe/add", this.recipeAdd);
         route("/recipe/*", this.recipe);
 

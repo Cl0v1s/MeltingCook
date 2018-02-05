@@ -86,13 +86,13 @@
                 <h2>Informations de facturation</h2>
                 <div>
                     <label>Compte Paypal:</label>
-                    <span class="{ invisible: user.paypal != null }" ref="paypalButton" id='lippButton' onclick="{ bindPaypal }"></span>
-                    <input disabled type="text" name="paypal" ref="paypal" value={ user.paypal }><a class="{invisible:  user.paypal == null }" onclick="{ removePaypal }" ref="paypalRemove" >Dissocier</a>
-                    <p>En liant votre compte Paypal et MeltingCook, vous serez en mesure de proposer des recettes et de reçevoir vos compensations.</p>
+                    <input disabled type="text" name="paypal" ref="paypal" value={ user.paypal }>
+                    <p>En liant votre compte Paypal et MeltingCook, vous serez en mesure de proposer des recettes et de reçevoir vos compensations.</p><br>
+                    <div style="text-align: center">
+                        <span class="{ invisible: user.paypal != null }" ref="paypalButton" id='lippButton' onclick="{ bindPaypal }"></span><input type="button" class="{invisible:  user.paypal == null }" onclick="{ removePaypal }" ref="paypalRemove" value = "Dissocier">
+                    </div>
                 </div>
-                <div>
-                    <span id='lippButton' onclick="{ watchPaypalLogin }"></span>
-                </div>
+                <br>
                 <div>
                     <label>Présentation: </label>
                     <textarea name="description" ref="description">
@@ -259,11 +259,14 @@
 
         tag.bindPaypal = function()
         {
+            App.showLoading();
             Paypal.bindPaypal().then(function(data){
+                App.hideLoading();
                 tag.refs.paypal.value = data;
                 tag.refs.paypalButton.classList.add("invisible");
                 tag.refs.paypalRemove.classList.remove("invisible");
             }, function(error){
+                App.hideLoading();
                 NotificationManager.showNotification("Impossible de lier votre compte avec Paypal. Veuillez réessayer.", "error");
             });   
         }

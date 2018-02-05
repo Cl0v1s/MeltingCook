@@ -1,32 +1,37 @@
 class Paypal 
 {
     private static interval = null;
+    private static timeout = null;
 
     public static bindPaypal() : Promise<any>
     {
         return new Promise(function(resolve, reject){
             if(Paypal.interval != null)
                 clearInterval(Paypal.interval);
+            if(Paypal.timeout != null)
+                clearTimeout(Paypal.timeout);
+
+            Paypal.timeout = setTimeout(() => {
+                clearInterval(Paypal.interval);
+                Paypal.interval = null;
+                clearTimeout(Paypal.timeout);
+                Paypal.timeout = null;
+                reject(null);
+            }, 1000*60*5);
+
             Paypal.interval = setInterval(() => {
+                console.log("ask");
                 let code = localStorage.getItem("PaypalLogin-code");
                 if(code == null)
                     return;
                 clearInterval(Paypal.interval);
                 Paypal.interval = null;
+                clearTimeout(Paypal.timeout);
+                Paypal.timeout = null;
                 localStorage.removeItem("PaypalLogin-code");
-                Paypal.tokenPaypal(code).then(function(data){
-                    resolve(data)
-                }, function(error){
-                    reject(error);
-                });
+                console.log(code);
+                resolve(code);
             }, 1000);
-        });
-    }
-
-    public static tokenPaypal(code) : Promise<any>
-    {
-        return new Promise(function(resolve, reject){
-
         });
     }
 }

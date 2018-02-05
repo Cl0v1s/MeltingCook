@@ -14064,26 +14064,35 @@ class Router {
             route("/register");
             return;
         }
+        if (Login.GetInstance().User().paypal == null || Login.GetInstance().User().paypal == "") {
+            NotificationManager.showNotification("Vous devez associer un compte paypal à votre profil MeltingCook pour pouvoir proposer une recette.", "error");
+            route("/");
+            return;
+        }
         App.changePage("app-recipeedit", null);
     }
-    recipeEdit(id) {
+    /*private recipeEdit(id : number) : void
+    {
         var request = App.request(App.Address + "/getrecipe", {
-            "id": id
+            "id" : id
         });
-        request.then(function (response) {
-            if (response.data === null) {
+        request.then(function(response :any)
+        {
+            if(response.data === null)
+            {
                 route("/error/404");
                 return;
             }
             var recipe = Adapter.adaptRecipe(response.data);
             App.changePage("app-recipeedit", {
-                "recipe": recipe
+                "recipe" : recipe
             });
         });
-        request.catch(function (error) {
+        request.catch(function(error)
+        {
             ErrorHandler.alertIfError(error);
         });
-    }
+    }*/
     // ACCOUNT
     accountKitchen() {
         var filters = {
@@ -14293,12 +14302,16 @@ class Router {
         });
     }
     paypalLogin() {
-        let href = window.location.href.split("code=");
-        if (href.length < 2)
+        let href = window.location.href.split("paypal=");
+        if (href.length < 2) {
+            window.close();
             return;
-        href = href[1].split("&scope=");
-        if (href.length < 2)
+        }
+        href = href[1].split("#");
+        if (href.length < 2) {
+            window.close();
             return;
+        }
         let code = href[0];
         window.localStorage.setItem("PaypalLogin-code", code);
         window.close();
@@ -14328,7 +14341,7 @@ class Router {
         // User
         route("/user/*", this.user);
         // Recipe
-        route("/recipe/edit/*", this.recipeEdit);
+        //route("/recipe/edit/*", this.recipeEdit);
         route("/recipe/add", this.recipeAdd);
         route("/recipe/*", this.recipe);
         // Search
@@ -14349,8 +14362,8 @@ class Router {
         route("cgu", function () {
             App.changePage("app-cgu", null);
         });
+        route("paypallogin", this.paypalLogin);
         route('', () => {
-            this.paypalLogin();
             App.changePage("app-home", null);
         });
         route("index", function () {
@@ -14485,14 +14498,6 @@ class App {
                 url: address,
                 "data": data
             };
-            /* if(autorisation != null)
-             {
-                 (<any>options).headers = {
-                     "Authorization" : autorisation,
-                 };
-                 delete (<any>options).headers["Content-type"];
-             }*/
-            console.log(options);
             var request = ajax(options);
             if (bg)
                 App.showLoading();
@@ -14627,27 +14632,33 @@ class Paypal {
         return new Promise(function (resolve, reject) {
             if (Paypal.interval != null)
                 clearInterval(Paypal.interval);
+            if (Paypal.timeout != null)
+                clearTimeout(Paypal.timeout);
+            Paypal.timeout = setTimeout(() => {
+                clearInterval(Paypal.interval);
+                Paypal.interval = null;
+                clearTimeout(Paypal.timeout);
+                Paypal.timeout = null;
+                reject(null);
+            }, 1000 * 60 * 5);
             Paypal.interval = setInterval(() => {
+                console.log("ask");
                 let code = localStorage.getItem("PaypalLogin-code");
                 if (code == null)
                     return;
                 clearInterval(Paypal.interval);
                 Paypal.interval = null;
+                clearTimeout(Paypal.timeout);
+                Paypal.timeout = null;
                 localStorage.removeItem("PaypalLogin-code");
-                Paypal.tokenPaypal(code).then(function (data) {
-                    resolve(data);
-                }, function (error) {
-                    reject(error);
-                });
+                console.log(code);
+                resolve(code);
             }, 1000);
-        });
-    }
-    static tokenPaypal(code) {
-        return new Promise(function (resolve, reject) {
         });
     }
 }
 Paypal.interval = null;
+Paypal.timeout = null;
 class Search {
     static search(place, origin, date, price_start, price_end) {
         return new Promise((resolve, reject) => {
@@ -17160,7 +17171,7 @@ module.exports = riot.tag2('app-useredit', '<app-header></app-header> <div class
 });
 },{"riot":8}],62:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user != null}"> <div> <h1>Création/Edition d\'un compte utilisateur</h1> </div> <div> <h2>Présentation du compte</h2> <div class="banner"> <div class="img" ref="banner_preview" riot-style="background-image: url(\'{user.banner}\');"></div> <div> <label>Télécharger une bannière:</label> <app-uploadinput riot-value="{user.banner}" ref="banner" name="banner" onchange="{updateBanner}"></app-uploadinput> <p class="hint"> Ce champ doit contenir une adresse URL valide. </p> <p> Les dimensions recommandées pour un résultat optimal sont 1500 x 500 pixels </p> </div> </div> <div class="picture"> <div class="img" ref="picture_preview" riot-style="background-image: url(\'{user.picture}\');"></div> <div> <label>Télécharger une photo de profil:</label> <app-uploadinput riot-value="{user.picture}" ref="picture" name="picture" onchange="{updatePicture}"></app-uploadinput> <p class="hint"> Ce champ doit contenir une adresse URL valide. </p> <p> Les dimensions recommandées pour un résultat optimal sont 400 x 400 pixels </p> </div> </div> </div> <div> <h2>Informations de base</h2> <div class="base"> <div class="{invisible: user.id != null}"> <label>Nom d\'utilisateur: </label> <input type="text" name="username" ref="username" riot-value="{user.username}"> <p class="hint">Ce champ doit contenir entre 5 et 400 caractères.</p> <p> Vous ne pourrez plus changer de nom d\'utilisateur après l\'inscription. Choisissez avec sagesse.</p> </div> <div class="{invisible: user.id != null}"> <label>Mot de passe: </label> <input type="password" name="password" ref="password"> <p class="hint"> Ce champ doit contenir entre 8 et 100 caractères.<br> Le mot de passe et sa confirmation doivent correspondre. </p> </div> <div class="{invisible: user.id != null}"> <label>Confirmation mot de passe: </label> <input type="password" name="password_confirm" ref="password_confirm"> <p class="hint"> Ce champ doit contenir entre 8 et 100 caractères.<br> Le mot de passe et sa confirmation doivent correspondre. </p> </div> <div> <label>Age: </label> <input type="text" name="age" ref="age" riot-value="{user.age}"> <p class="hint"> Ce champ doit contenir une valeur numérique comprise entre 0 et 100. </p> </div> <div> <label>Adresse Email de contact:</label> <input type="text" name="mail" ref="mail" riot-value="{user.mail}"> <p class="hint">Ce champ doit contenir une adresse email valide.</p> </div> <div> <label>Numéro de téléphone:</label> <input type="text" name="phone" ref="phone" riot-value="{user.phone}"> <p class="hint"> Ce champ doit contenir un numéro de téléphone valide. </p> </div> </div> </div> <div> <div class="bills"> <h2>Informations de facturation</h2> <div> <label>Compte Paypal:</label> <span class="{invisible: user.paypal != null}" ref="paypalButton" id="lippButton" onclick="{bindPaypal}"></span> <input disabled type="text" name="paypal" ref="paypal" riot-value="{user.paypal}"><a class="{invisible:  user.paypal == null}" onclick="{removePaypal}" ref="paypalRemove">Dissocier</a> <p>En liant votre compte Paypal et MeltingCook, vous serez en mesure de proposer des recettes et de reçevoir vos compensations.</p> </div> <div> <span id="lippButton" onclick="{watchPaypalLogin}"></span> </div> <div> <label>Présentation: </label> <textarea name="description" ref="description"> {user.description} </textarea> <p class="hint"> Ce champ doit contenir entre 50 et 1000 caractères. </p> </div> <div> <label>Adresse:</label> <input type="text" name="address" ref="address" riot-value="{user.address}"> <p class="hint"> Ce champ doit contenir votre adresse de facturation. Cette adresse ne sera pas transmise aux autres utilisateurs. </p> </div> <div> <label>Prénom:</label> <input type="text" name="firstname" ref="firstname" riot-value="{user.firstname}"> <p class="hint"> Ce champ doit contenir le prénom qui sera utilisé sur les factures. </p> </div> <div> <label>Nom:</label> <input type="text" name="lastname" ref="lastname" riot-value="{user.lastname}"> <p class="hint"> Ce champ doit contenir le nom qui sera utilisé sur les factures. </p> </div> </div> </div> <div> <div class="more"> <h2>Détails importants</h2> <div> <label>Mes allergies:</label> <div> <input type="text" name="discease" ref="discease" id="discease" riot-value="{user.discease}"> </div> <p class="hint">Ce champ ne peut contenir plus de 1000 caractères.</p> <p> Veuillez renseigner les informations relatives à vos éventuelles allergies et contre-indications alimentaires. </p> </div> <div> <label>Mes inspirations:</label> <app-origininput ref="preference"></app-origininput> <p class="hint"> Ce champ ne peut contenir plus de 1000 caractères. </p> <p> Indiquez aux autres utilisateurs quelles sont vos sources d\'inspiration alimentaires ! </p> </div> <div> <label>Mes plus:</label> <app-pinsinput ref="pins"></app-pinsinput> <p class="hint"> Ce champ ne peut contenir plus de 1000 caractères. </p> <p> Indiquez aux autres utilisateurs vos petit plus !<br> e.g: Bio, Vegan, Sans-gluten, Halal </p> </div> </div> </div> <div if="{user.id != null}"> <h2>Actions</h2> <div class="{action : true, invisible: (user.id==null)}"> <input type="button" class="large" value="Réinitialiser mon mot de passe" onclick="{changePassword}"> </div> </div> <div> <input type="button" class="large" value="Enregistrer" onclick="{validate}"> </div> </form>', '', '', function(opts) {
+module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user != null}"> <div> <h1>Création/Edition d\'un compte utilisateur</h1> </div> <div> <h2>Présentation du compte</h2> <div class="banner"> <div class="img" ref="banner_preview" riot-style="background-image: url(\'{user.banner}\');"></div> <div> <label>Télécharger une bannière:</label> <app-uploadinput riot-value="{user.banner}" ref="banner" name="banner" onchange="{updateBanner}"></app-uploadinput> <p class="hint"> Ce champ doit contenir une adresse URL valide. </p> <p> Les dimensions recommandées pour un résultat optimal sont 1500 x 500 pixels </p> </div> </div> <div class="picture"> <div class="img" ref="picture_preview" riot-style="background-image: url(\'{user.picture}\');"></div> <div> <label>Télécharger une photo de profil:</label> <app-uploadinput riot-value="{user.picture}" ref="picture" name="picture" onchange="{updatePicture}"></app-uploadinput> <p class="hint"> Ce champ doit contenir une adresse URL valide. </p> <p> Les dimensions recommandées pour un résultat optimal sont 400 x 400 pixels </p> </div> </div> </div> <div> <h2>Informations de base</h2> <div class="base"> <div class="{invisible: user.id != null}"> <label>Nom d\'utilisateur: </label> <input type="text" name="username" ref="username" riot-value="{user.username}"> <p class="hint">Ce champ doit contenir entre 5 et 400 caractères.</p> <p> Vous ne pourrez plus changer de nom d\'utilisateur après l\'inscription. Choisissez avec sagesse.</p> </div> <div class="{invisible: user.id != null}"> <label>Mot de passe: </label> <input type="password" name="password" ref="password"> <p class="hint"> Ce champ doit contenir entre 8 et 100 caractères.<br> Le mot de passe et sa confirmation doivent correspondre. </p> </div> <div class="{invisible: user.id != null}"> <label>Confirmation mot de passe: </label> <input type="password" name="password_confirm" ref="password_confirm"> <p class="hint"> Ce champ doit contenir entre 8 et 100 caractères.<br> Le mot de passe et sa confirmation doivent correspondre. </p> </div> <div> <label>Age: </label> <input type="text" name="age" ref="age" riot-value="{user.age}"> <p class="hint"> Ce champ doit contenir une valeur numérique comprise entre 0 et 100. </p> </div> <div> <label>Adresse Email de contact:</label> <input type="text" name="mail" ref="mail" riot-value="{user.mail}"> <p class="hint">Ce champ doit contenir une adresse email valide.</p> </div> <div> <label>Numéro de téléphone:</label> <input type="text" name="phone" ref="phone" riot-value="{user.phone}"> <p class="hint"> Ce champ doit contenir un numéro de téléphone valide. </p> </div> </div> </div> <div> <div class="bills"> <h2>Informations de facturation</h2> <div> <label>Compte Paypal:</label> <input disabled type="text" name="paypal" ref="paypal" riot-value="{user.paypal}"> <p>En liant votre compte Paypal et MeltingCook, vous serez en mesure de proposer des recettes et de reçevoir vos compensations.</p><br> <div style="text-align: center"> <span class="{invisible: user.paypal != null}" ref="paypalButton" id="lippButton" onclick="{bindPaypal}"></span><input type="button" class="{invisible:  user.paypal == null}" onclick="{removePaypal}" ref="paypalRemove" value="Dissocier"> </div> </div> <br> <div> <label>Présentation: </label> <textarea name="description" ref="description"> {user.description} </textarea> <p class="hint"> Ce champ doit contenir entre 50 et 1000 caractères. </p> </div> <div> <label>Adresse:</label> <input type="text" name="address" ref="address" riot-value="{user.address}"> <p class="hint"> Ce champ doit contenir votre adresse de facturation. Cette adresse ne sera pas transmise aux autres utilisateurs. </p> </div> <div> <label>Prénom:</label> <input type="text" name="firstname" ref="firstname" riot-value="{user.firstname}"> <p class="hint"> Ce champ doit contenir le prénom qui sera utilisé sur les factures. </p> </div> <div> <label>Nom:</label> <input type="text" name="lastname" ref="lastname" riot-value="{user.lastname}"> <p class="hint"> Ce champ doit contenir le nom qui sera utilisé sur les factures. </p> </div> </div> </div> <div> <div class="more"> <h2>Détails importants</h2> <div> <label>Mes allergies:</label> <div> <input type="text" name="discease" ref="discease" id="discease" riot-value="{user.discease}"> </div> <p class="hint">Ce champ ne peut contenir plus de 1000 caractères.</p> <p> Veuillez renseigner les informations relatives à vos éventuelles allergies et contre-indications alimentaires. </p> </div> <div> <label>Mes inspirations:</label> <app-origininput ref="preference"></app-origininput> <p class="hint"> Ce champ ne peut contenir plus de 1000 caractères. </p> <p> Indiquez aux autres utilisateurs quelles sont vos sources d\'inspiration alimentaires ! </p> </div> <div> <label>Mes plus:</label> <app-pinsinput ref="pins"></app-pinsinput> <p class="hint"> Ce champ ne peut contenir plus de 1000 caractères. </p> <p> Indiquez aux autres utilisateurs vos petit plus !<br> e.g: Bio, Vegan, Sans-gluten, Halal </p> </div> </div> </div> <div if="{user.id != null}"> <h2>Actions</h2> <div class="{action : true, invisible: (user.id==null)}"> <input type="button" class="large" value="Réinitialiser mon mot de passe" onclick="{changePassword}"> </div> </div> <div> <input type="button" class="large" value="Enregistrer" onclick="{validate}"> </div> </form>', '', '', function(opts) {
         var tag = this;
 
         tag.user = null;
@@ -17240,11 +17251,14 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
 
         tag.bindPaypal = function()
         {
+            App.showLoading();
             Paypal.bindPaypal().then(function(data){
+                App.hideLoading();
                 tag.refs.paypal.value = data;
                 tag.refs.paypalButton.classList.add("invisible");
                 tag.refs.paypalRemove.classList.remove("invisible");
             }, function(error){
+                App.hideLoading();
                 NotificationManager.showNotification("Impossible de lier votre compte avec Paypal. Veuillez réessayer.", "error");
             });
         }

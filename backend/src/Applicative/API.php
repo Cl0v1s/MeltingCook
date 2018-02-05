@@ -95,6 +95,11 @@ class API
             throw new Exception("Not Enought Power", 1);
         }
 
+        if(time() >= $recipe->DateEnd())
+        {
+            throw new Exception("Impossible d'annuler ou de demander un remboursement sur une réservation ayant eu lieu#", 2);
+        }
+
         // Si finalisé
         if($reservation->Done() == "1")
         {

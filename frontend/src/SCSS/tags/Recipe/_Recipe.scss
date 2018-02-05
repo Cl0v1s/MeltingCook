@@ -116,6 +116,15 @@ app-recipe, div[data-is=app-recipe]
         div.details
         {
             margin-top: $space-normal;
+
+            .dates
+            {
+                margin-bottom: $space-normal;
+                font-family: $font-primary;
+                
+            }
+
+
             h2
             {
                 font-family: $font-secondary;

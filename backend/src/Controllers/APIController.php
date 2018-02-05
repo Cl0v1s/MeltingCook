@@ -86,9 +86,9 @@ class APIController extends Controller
                 case "updatereport":
                     $this->UpdateReport();
                     break;
-                case "updaterecipe":
-                    $this->UpdateRecipe();
-                    break;
+                //case "updaterecipe":
+                //    $this->UpdateRecipe();
+                //    break;
                 case "updatenotification":
                     $this->UpdateNotification();
                     break;
@@ -155,6 +155,9 @@ class APIController extends Controller
                 case "endresetpassword":
                     $this->EndResetPassword();
                     break;
+                case "timedverifications":
+                    $this->TimedVerifications();
+                    break;
                 default:
                     http_response_code(404);
                     return;
@@ -164,6 +167,12 @@ class APIController extends Controller
             $this->Write(APIController::$NO, $e->getCode(), $e->getMessage() . "\n\n" . $e->getTraceAsString());
             return;
         }
+    }
+
+    private function TimedVerifications()
+    {
+        API::TimedVerifications();
+        $this->Write(APIController::$OK, null);
     }
 
 
@@ -477,6 +486,8 @@ class APIController extends Controller
         $user->setAddress($_POST["address"]);
         $user->setAge($_POST["age"]);
 
+        if(isset($_POST["is_paypal"]))
+            $user->setIsPaypal($_POST["is_paypal"]);
         if(isset($_POST["geolocation"]))
             $user->setGeolocation($_POST["geolocation"]);
         if(isset($_POST["picture"]))
@@ -555,6 +566,8 @@ class APIController extends Controller
             $user->setFirstname($_POST["firstname"]);
         if(isset($_POST["address"]))
             $user->setAddress($_POST["address"]);
+        if(isset($_POST["is_paypal"]))
+            $user->setIsPaypal($_POST["is_paypal"]);
         $this->Update($user);
     }
 

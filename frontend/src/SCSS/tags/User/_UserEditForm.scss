@@ -7,6 +7,11 @@ app-usereditform, div[data-is=app-usereditform]
         border-bottom: 2px dotted $color-front-peach;
     }
 
+    div.dropzone
+    {
+        margin-top: $space-normal;
+    }
+
     div input+p
     {
         font-size: $font-size-small;

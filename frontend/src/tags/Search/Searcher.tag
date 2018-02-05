@@ -51,7 +51,7 @@
         tag.send = function()
         {
             var retrieve = null;
-            var params = [tag.refs.place.value, tag.refs.origin.value, tag.refs.date.value];
+            var params = [tag.refs.place.value.geolocation, tag.refs.origin.value, tag.refs.date.value];
 
 
             if(tag.expanded) {
@@ -80,10 +80,10 @@
                 params.push(price_start);
                 params.push(price_end);
 
-                retrieve = Search.search(tag.refs.place.value, tag.refs.origin.value, tag.refs.date.value, price_start, price_end);
+                retrieve = Search.search(tag.refs.place.value.geolocation, tag.refs.origin.value, tag.refs.date.value, price_start, price_end);
             }
             else
-                retrieve = Search.search(tag.refs.place.value, tag.refs.origin.value, tag.refs.date.value);
+                retrieve = Search.search(tag.refs.place.value.geolocation, tag.refs.origin.value, tag.refs.date.value);
 
             retrieve.then(function(data) {
                 var res = "null";

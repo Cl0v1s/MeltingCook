@@ -21,7 +21,7 @@
             </div>
             <div>
                 <label>Associer une image *</label>
-                <input type="text" ref="picture" name="picture" placeholder="Précisez un lien URL vers l'image de votre choix" value="{ recipe.picture }">
+                <app-uploadinput value="{ recipe.picture }"  ref="picture" name="picture"></app-uploadinput>
                 <p class="hint">
                     Ce champ est requis. Il doit contenir une url valide comportant moins de 400 caractères.
                 </p>
@@ -71,7 +71,7 @@
             </div>
             <div>
                 <label>Nom de la ville/village *</label>
-                <app-placeinput ref="place" name="place" place="{ recipe.place }" valuefield="name"></app-placeinput>
+                <app-placeinput ref="place" name="place" place="{ recipe.place }"></app-placeinput>
                 <p class="hint">
                     Ce champ est requis et ne peut contenir plus de 400 caractères.
                 </p>
@@ -121,7 +121,6 @@
                 "edit-recipe": {
                     "fullname" : "required|maxLength:400",
                     "description" : "required|minLength:50|maxLength:1000",
-                    "picture" : "required|maxLength:1000",
                     "price" : "required|number|min:0",
                     "places" : "required|number|min:1"
                 }
@@ -132,7 +131,13 @@
                     "edit-recipe" : {}
                 };
                 // Confirmation de la picture
-                if(tag.refs.picture.value != "")
+                if(tag.refs.picture.value == null)
+                {
+                    errors["edit-recipe"].picture = {
+                            "required" : "true"
+                        };
+                }
+                else if(tag.refs.picture.value != "")
                 {
                     if(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(tag.refs.picture.value) == false)
                     {
@@ -172,7 +177,7 @@
                         "required" : "true"
                     };
                 }
-                if(tag.refs.place.value === "" || tag.refs.place.value.length > 400)
+                if(tag.refs.place.value == null)
                 {
                     errors["edit-recipe"].place = {
                         "required" : "true"
@@ -183,24 +188,14 @@
                     App.diagnosticForm("edit-recipe", errors);
                     return;
                 }
-
-
-
-                tag.refs.place.getCity(tag.refs.place.value).then((city) => {
-                    tag.send(city.latitude, city.longitude);
-                }, (error) => {
-                    errors["edit-recipe"].place = {
-                        "required" : "true"
-                    }
-                    App.diagnosticForm("edit-recipe", errors);
-                });
+                tag.send();
             }
             if(valid.fails("edit-recipe")) {
                 App.diagnosticForm("edit-recipe", valid.errors);
             }
         };
 
-        tag.send = function(latitude, longitude)
+        tag.send = function()
         {
             var address  = App.Address + "/updaterecipe";
             var rcp = tag.recipe;
@@ -210,8 +205,7 @@
                 address = App.Address + "/addrecipe";
             }
             rcp.name = tag.refs.name.value;
-            rcp.latitude = latitude;
-            rcp.longitude = longitude;
+
             rcp.description = tag.refs.description.value;
             rcp.picture = tag.refs.picture.value;
             rcp.origin = tag.refs.origin.value;
@@ -221,7 +215,9 @@
             rcp.price = tag.refs.price.value;
             rcp.places = tag.refs.places.value;
             rcp.pins = tag.refs.pins.value;
-            rcp.place = tag.refs.place.value;
+            rcp.place = tag.refs.place.value.name;
+            rcp.latitude = tag.refs.place.value.latitude;
+            rcp.longitude = tag.refs.place.value.longitude;
 
             var request = App.request(address, rcp);
             request.then((response) => {

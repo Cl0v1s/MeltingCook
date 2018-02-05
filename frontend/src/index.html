@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="static/CSS/vendor/pnotify/pnotify.history.css">
     <link rel="stylesheet" href="static/CSS/vendor/pnotify/pnotify.mobile.css">
 
+    <link href="static/CSS/vendor/imgur.min.css" rel="stylesheet" media="screen">
 
 
     <!-- include riot.js and the compiler, et les dépendances JS-->
@@ -42,7 +43,9 @@
     <script src="static/JS/vendor/picker.date.js"></script>
     <script src="static/JS/vendor/fr_FR.js"></script>
     <script src="static/JS/vendor/slick.min.js"></script>
+    <script src="static/JS/vendor/imgur.min.js"></script>
 
+    <!--<script type="text/javascript" charset="utf-8" src="cordova.js"></script>-->
 
     <!-- Importation du coeur de l'application-->
     <script src="static/JS/index.js"></script>
@@ -55,7 +58,21 @@
 
     <!-- Définition des routes -->
     <script>
-        Router.GetInstance().start();
+        var MOBILE = false;
+        if(MOBILE == false)
+        {
+            window.addEventListener("load", function()
+            {
+                Router.GetInstance().start
+            });
+        }
+        else 
+        {
+            document.addEventListener("deviceready", function()
+            {
+                Router.GetInstance().start
+            });
+        }
     </script>
 
 </head>

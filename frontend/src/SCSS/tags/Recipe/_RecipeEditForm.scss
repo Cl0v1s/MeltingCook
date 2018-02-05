@@ -1,5 +1,11 @@
 app-recipeeditform, div[data-is=app-recipeeditform]
 {
+
+  div.dropzone
+  {
+      margin-top: $space-normal;
+  }
+
   display: block;
   &>form {
     text-align: center;

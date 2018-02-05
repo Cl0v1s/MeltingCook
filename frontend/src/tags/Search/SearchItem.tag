@@ -54,7 +54,7 @@
                 var date = null;
                 if(tag.refs.date.value != null)
                     date = tag.refs.date.value;
-                var retrieve = Search.search(tag.refs.place.value, tag.refs.origin.value, date, price_start, price_end);
+                var retrieve = Search.search(tag.refs.place.value.geolocation, tag.refs.origin.value, date, price_start, price_end);
                 retrieve.then(function(data)
                 {
                     App.changePage("app-searchresults", data);

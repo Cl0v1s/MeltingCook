@@ -11,6 +11,57 @@ require("Mailer.php");
 class API
 {
 
+    public static function GetMeta()
+    {
+        $meta = null;
+        $storage = Engine::Instance()->Persistence("DatabaseStorage");
+        $metas = null;
+        $storage->findAll("Meta", $metas);
+        if(count($metas) <= 0)
+        {
+            $meta = new Meta($storage, null);
+            $storage->persist($meta);
+            $storage->flush();
+            return $meta;
+        }
+        return $metas[count($metas)-1];
+    }
+
+    public static function TimedVerifications()
+    {
+        $meta = API::GetMeta();
+        if($meta->LastTimedVerification() != null && time() - $meta->LastTimedVerification() < 79200) // Si inférieur à 22h.
+            return;
+        $storage = Engine::Instance()->Persistence("DatabaseStorage");
+        $reservations = null;
+        $storage->findAll("Reservation", $reservations, "done = '0' AND paid = '1'");
+        foreach($reservations as $reservation)
+        {
+            $recipe = new Recipe($storage, $reservation->RecipeId());
+            $recipe = $storage->find($recipe);
+            if($recipe == null)
+                continue;
+            $now = time();
+            // validation des réservations automatiquement après deux semaines 
+            if($now >= $recipe->DateEnd() + 1209600) // nombre de secondes pour deux semaines
+            {
+                API::ValidateReservation(null, $reservation, false);
+            }
+            else if(($now >= $recipe->DateEnd() + 432000 && $now < $recipe->DateEnd() + 518400) || ($now >= $recipe->DateEnd() + 432000*2 && $now < $recipe->DateEnd() + 518400*2)) // Envoi d'un mail de rappel incitant à la validation
+            {
+                $guest = new User($storage, $reservation->GuestId());
+                $guest = $storage->find($guest);
+                if($guest == null)
+                    return;
+                Mailer::SendMail($guest->Mail(), "Quelques mots à propos de la recette ".$recipe->Name(), "Pensez à faire un tour sur MeltingCook pour valider votre réservation concernant la recette ".$recipe->Name().". Cela permettra à votre hôte de reçevoir sa compensation.");
+                API::GenerateNotification($token, $reservation->GuestId(), "info", "Pensez à faire un tour sur MeltingCook pour valider votre réservation concernant la recette ".$recipe->Name().". Cela permettra à votre hôte de reçevoir sa compensation.");
+            }
+        }
+        $meta->setLastTimedVerification(time());
+        $storage->persist($meta, StorageState::ToUpdate);
+        $storage->flush();
+    }
+
     /**
      * Wrapper pour ajout de notification dans la base
      * @param $token
@@ -202,7 +253,7 @@ class API
      * @param $token
      * @param $reservation Reservation
      */
-    public static function ValidateReservation($token, $reservation)
+    public static function ValidateReservation($token, $reservation, $check = true)
     {
         $storage = Engine::Instance()->Persistence("DatabaseStorage");
         $reservation = $storage->find($reservation);
@@ -210,12 +261,19 @@ class API
         {
             throw new Exception("Not Enought Power", 1);
         }
-
-        $user = API::Auth($token);
-        // Seul l'invité peut effectuer cette action
-        if($user->Id() != $reservation->GuestId())
+        $user = null;
+        if($check == true)
         {
-            throw new Exception("Not Enought Power", 1);
+            $user = API::Auth($token);
+            // Seul l'invité peut effectuer cette action
+            if($user->Id() != $reservation->GuestId())
+            {
+                throw new Exception("Not Enought Power", 1);
+            }
+        }
+        else 
+        {
+            $user = API::GetUser(null, $reservation->GuestId());
         }
 
         // Cette action ne peut être effectuée que sur une reservation provisionnée
@@ -394,6 +452,16 @@ class API
         return API::Add($token, $item, false);
     }
 
+    public static function AddRecipe($token, $item)
+    {   
+        $user = API::Auth($token);
+        if($user->IsPaypal() == 0)
+        {
+            throw new Exception("Vous devez associer votre profil à un compte paypal pour être en mesure de proposer une recette#", 2);
+        }
+        return API::Add($token, $item, false);
+    }
+
     /***
      * @param $token
      * @param $item Reservation
@@ -405,9 +473,9 @@ class API
         if($item->GuestId() == $item->HostId())
             throw new Exception("Vous ne pouvez prendre de réservation pour vos propres recettes#", 2);
 
-        $existing = API::GetAll($token, "Reservation", '{ "Recipe_id" : "'.$item->RecipeId().'", "guest_id" : "'.$item->GuestId().'"  }');
+        /*$existing = API::GetAll($token, "Reservation", '{ "Recipe_id" : "'.$item->RecipeId().'", "guest_id" : "'.$item->GuestId().'"  }');
         if(count($existing) > 0)
-            throw new Exception("Impossible de réserver deux fois pour la même recette#", 2);
+            throw new Exception("Impossible de réserver deux fois pour la même recette#", 2);*/
 
         $recipe = API::GetRecipe($token, $item->RecipeId());
         /*if(time() > $recipe["date_start"])
@@ -751,6 +819,8 @@ class API
     {
         return API::GetAll($token, "Origin", $filters, "ORDER BY name ASC");
     }
+
+  
 
 
 

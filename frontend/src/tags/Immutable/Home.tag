@@ -93,12 +93,22 @@
 
 
         tag.on("mount", function(){
-            $('.slider').slick({
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                autoplay: true,
-                autoplaySpeed: 5000,
-            });
+            setTimeout(() => {
+                try 
+                {
+                    $('.slider').slick({
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        autoplay: true,
+                        autoplaySpeed: 5000,
+                    });
+                }
+                catch(e)
+                {
+                    console.log(e);
+                }
+            }, 1000);
+
         });
 
     </script>

@@ -201,7 +201,7 @@ class APIController extends Controller
     $headr[] = 'Content-type: application/x-www-form-urlencoded';
     $headr[] = 'Authorization:  Basic QVRxcnpvMWRYb2VJTEhWVXhFUEhDNEJ6RlFEVV82NU5QVHhyelRxa29FcU4zdFJreWthaHB4TkNO Njg0ajdtVWJ4Q3Rua3o2LUdvRnA3MHk6RUJ3a1VlamlncVJILTNUNzBGTEZBY2NWZWQxaVlJd3pM b0xtS1lPTy02YkQ0UE5ISGZJM3lyd0N0VEJTci1UYWsyaEVCdnotdXpVTmJtaGQ=';
     
-    curl_setopt($crl, CURLOPT_HTTPHEADER,$headr);
+    curl_setopt($ch, CURLOPT_HTTPHEADER,$headr);
 
     // in real life you should use something like:
     curl_setopt($ch, CURLOPT_POSTFIELDS, 

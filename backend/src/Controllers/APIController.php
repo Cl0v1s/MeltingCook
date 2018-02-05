@@ -205,6 +205,7 @@ class APIController extends Controller
         if(isset($data["access_token"]) == false)
         {
             $this->Write(APIController::$NO, $result);
+            return;
         }
             
         $token = $data["access_token"];

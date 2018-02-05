@@ -181,10 +181,10 @@ class APIController extends Controller
         // use key 'http' even if you send the request to https://...
         $options = array(
             'http' => array(
-                'header'  => "Authorization: Basic QVRxcnpvMWRYb2VJTEhWVXhFUEhDNEJ6RlFEVV82NU5QVHhyelRxa29FcU4zdFJreWthaHB4TkNO Njg0ajdtVWJ4Q3Rua3o2LUdvRnA3MHk6RUJ3a1VlamlncVJILTNUNzBGTEZBY2NWZWQxaVlJd3pM b0xtS1lPTy02YkQ0UE5ISGZJM3lyd0N0VEJTci1UYWsyaEVCdnotdXpVTmJtaGQ=\r\n",
+                'header'  => "Content-type: application/x-www-form-urlencoded\r\nAuthorization: Basic QVRxcnpvMWRYb2VJTEhWVXhFUEhDNEJ6RlFEVV82NU5QVHhyelRxa29FcU4zdFJreWthaHB4TkNO Njg0ajdtVWJ4Q3Rua3o2LUdvRnA3MHk6RUJ3a1VlamlncVJILTNUNzBGTEZBY2NWZWQxaVlJd3pM b0xtS1lPTy02YkQ0UE5ISGZJM3lyd0N0VEJTci1UYWsyaEVCdnotdXpVTmJtaGQ=\r\n",
                 'method'  => 'POST',
                 'content' => http_build_query($data),
-                'ignore_errors' => true
+                'ignore_errors' => false
             )
         );
         $context  = stream_context_create($options);

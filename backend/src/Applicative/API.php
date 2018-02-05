@@ -455,7 +455,7 @@ class API
     public static function AddRecipe($token, $item)
     {   
         $user = API::Auth($token);
-        if($user->IsPaypal() == 0)
+        if($user->Paypal() == null)
         {
             throw new Exception("Vous devez associer votre profil à un compte paypal pour être en mesure de proposer une recette#", 2);
         }
@@ -515,6 +515,14 @@ class API
     public static function UpdateUser($token, $item)
     {
         $current = Api::Auth($token);
+
+        // On empêche la suppression du compte paypal si des recettes existent 
+        $recipes = API::GetAll($token, "Recipe", '{ "User_id" : "'.$item->Id().'"}');
+        if($current->Paypal() != null && $item->Paypal() == null && count($recipes) > 0)
+        {
+            throw new Exception("Vous ne pouvez pas dissocier vos compte Paypal et MeltingCook pour le moment. Annulez toutes les recettes proposées pour être en mesure de la faire#", 2);
+        }
+
         if($current->Rights() >= 2)
         {
             API::UpdateUserAsAdmin($token, $item);

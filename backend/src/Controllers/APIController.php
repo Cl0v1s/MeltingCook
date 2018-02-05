@@ -200,6 +200,36 @@ class APIController extends Controller
         $result = curl_exec ($ch);
 
         curl_close ($ch);
+
+        $data = json_decode($result);
+        if(isset($data["access_token"]) == false)
+        {
+            $this->Write(APIController::$NO, $result);
+        }
+            
+        $token = $data["access_token"];
+        $url = "https://api.sandbox.paypal.com/v1/oauth2/token/userinfo?schema=openid";
+
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+
+
+        $headr = array();
+        $headr[] = 'Content-type: application/json';
+        $headr[] = 'Authorization:  Bearer '.$token;
+        
+        curl_setopt($ch, CURLOPT_HTTPHEADER,$headr);
+
+        // receive server response ...
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $result = curl_exec ($ch);
+
+        curl_close ($ch);
+
         $this->Write(APIController::$OK, $result);
     }
 

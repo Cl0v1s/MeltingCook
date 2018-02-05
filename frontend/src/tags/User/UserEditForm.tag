@@ -86,7 +86,7 @@
                 <h2>Informations de facturation</h2>
                 <div>
                     <label>Compte Paypal:</label>
-                    <span class="{ invisible: user.paypal == null }" ref="paypalButton" id='lippButton' onclick="{ bindPaypal }"></span>
+                    <span class="{ invisible: user.paypal != null }" ref="paypalButton" id='lippButton' onclick="{ bindPaypal }"></span>
                     <input disabled type="text" name="paypal" ref="paypal" value={ user.paypal }><a class="{invisible:  user.paypal == null }" onclick="{ removePaypal }" ref="paypalRemove" >Dissocier</a>
                     <p>En liant votre compte Paypal et MeltingCook, vous serez en mesure de proposer des recettes et de reçevoir vos compensations.</p>
                 </div>

@@ -183,7 +183,8 @@ class APIController extends Controller
             'http' => array(
                 'header'  => "Authorization: Basic QVRxcnpvMWRYb2VJTEhWVXhFUEhDNEJ6RlFEVV82NU5QVHhyelRxa29FcU4zdFJreWthaHB4TkNO Njg0ajdtVWJ4Q3Rua3o2LUdvRnA3MHk6RUJ3a1VlamlncVJILTNUNzBGTEZBY2NWZWQxaVlJd3pM b0xtS1lPTy02YkQ0UE5ISGZJM3lyd0N0VEJTci1UYWsyaEVCdnotdXpVTmJtaGQ=\r\n",
                 'method'  => 'POST',
-                'content' => http_build_query($data)
+                'content' => http_build_query($data),
+                'ignore_errors' => true
             )
         );
         $context  = stream_context_create($options);

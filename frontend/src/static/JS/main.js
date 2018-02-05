@@ -916,6 +916,32 @@ window.addEventListener("load", function () {
     Router.GetInstance().start();
     NotificationManager.GetInstance().start();
 });
+class Paypal {
+    static bindPaypal() {
+        return new Promise(function (resolve, reject) {
+            if (Paypal.interval != null)
+                clearInterval(Paypal.interval);
+            Paypal.interval = setInterval(() => {
+                let code = localStorage.getItem("PaypalLogin-code");
+                if (code == null)
+                    return;
+                clearInterval(Paypal.interval);
+                Paypal.interval = null;
+                localStorage.removeItem("PaypalLogin-code");
+                Paypal.tokenPaypal(code).then(function (data) {
+                    resolve(data);
+                }, function (error) {
+                    reject(error);
+                });
+            }, 1000);
+        });
+    }
+    static tokenPaypal(code) {
+        return new Promise(function (resolve, reject) {
+        });
+    }
+}
+Paypal.interval = null;
 class Search {
     static search(place, origin, date, price_start, price_end) {
         return new Promise((resolve, reject) => {
@@ -1034,12 +1060,14 @@ NotificationManager.Instance = new NotificationManager();
 /// <reference path="Router.ts" />
 /// <reference path="Global.ts" />
 /// <reference path="Adapter.ts" />
+/// <reference path="Paypal.ts" />
 /// <reference path="Search/Search.ts" />
 /// <reference path="Notification/NotificationManager.ts" />
 window.Login = Login;
 window.Router = Router;
 window.App = App;
 window.Adapter = Adapter;
+window.Paypal = Paypal;
 window.Search = Search;
 window.ErrorHandler = ErrorHandler;
 window.NotificationManager = NotificationManager;

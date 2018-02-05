@@ -34,6 +34,7 @@ class APIController extends Controller
             switch ($ope) {
                 case "paypallogin":
                     $this->PaypalLogin();
+                    break;
                 case "auth":
                     $this->Auth();
                     break;

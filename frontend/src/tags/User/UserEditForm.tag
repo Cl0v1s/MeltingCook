@@ -87,6 +87,9 @@
                         l'utiliser pour vous verser votre dû.</p>
                 </div>
                 <div>
+                    <span id='lippButton' onclick="{ watchPaypalLogin }"></span>
+                </div>
+                <div>
                     <label>Présentation: </label>
                     <textarea name="description" ref="description">
                     { user.description }
@@ -177,6 +180,7 @@
         tag.user = null;
         tag.callback = null;
         tag.position = null;
+        tag.interval = null;
 
         tag.on("before-mount", function()
         {
@@ -187,6 +191,16 @@
         tag.on("mount", function()
         {
             //tag.geolocalize();
+            paypal.use( ['login'], function (login) {
+                login.render ({
+                  "appid":"ATqrzo1dXoeILHVUxEPHC4BzFQDU_65NPTxrzTqkoEqN3tRkykahpxNCN684j7mUbxCtnkz6-GoFp70y",
+                    "authend" : "sandbox",
+                  "scopes":"openid email",
+                  "containerid":"lippButton",
+                  "locale":"fr-fr",
+                  "returnurl":"http://localhost:3474"
+                });
+              });
 
             $('#discease').selectize({
                     delimiter: ";",
@@ -239,6 +253,38 @@
             vex.dialog.alert("Votre compte va être supprimé. Vous allez recevoir un mail de confirmation.");
             route("/home");
         }*/
+
+        tag.watchPaypalLogin = function()
+        {
+            if(tag.interval != null)
+                clearInterval(tag.interval);
+            tag.interval = setInterval(() => {
+                let code = localStorage.getItem("PaypalLogin-code");
+                if(code == null)
+                    return;
+                localStorage.removeItem("PaypalLogin-code");
+                clearInterval(tag.interval);
+                tag.interval = null;
+                tag.retrievePaypalAccount(code);
+            }, 1000);
+        }
+
+        tag.retrievePaypalAccount = function(code)
+        {
+            let request = App.request("https://api.sandbox.paypal.com/v1/identity/openidconnect/tokenservice",{
+                "grant_type" : "authorization_code",
+                "code" : code 
+            },true,true,"Basic QVRxcnpvMWRYb2VJTEhWVXhFUEhDNEJ6RlFEVV82NU5QVHhyelRxa29FcU4zdFJreWthaHB4TkNO Njg0ajdtVWJ4Q3Rua3o2LUdvRnA3MHk6RUJ3a1VlamlncVJILTNUNzBGTEZBY2NWZWQxaVlJd3pM b0xtS1lPTy02YkQ0UE5ISGZJM3lyd0N0VEJTci1UYWsyaEVCdnotdXpVTmJtaGQ=");
+
+            request.then(function(response){
+                console.log(response);
+            });
+
+            request.catch(function(error){
+                console.log(error);
+            })
+
+        };
 
         tag.details = function()
         {

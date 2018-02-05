@@ -225,9 +225,10 @@ class Router {
         return Router.Instance;
     }
     start() {
-        if (Login.GetInstance().isLogged() === false && window.location.href.indexOf("/error") === -1) {
+        /*if (Login.GetInstance().isLogged() === false && window.location.href.indexOf("/error") === -1)
+        {
             route("");
-        }
+        }*/
         route.start(true);
     }
     /////////////////////////////////////////////////////////////////
@@ -585,6 +586,17 @@ class Router {
                 ErrorHandler.alertIfError(error);
         });
     }
+    paypalLogin() {
+        let href = window.location.href.split("code=");
+        if (href.length < 2)
+            return;
+        href = href[1].split("&scope=");
+        if (href.length < 2)
+            return;
+        let code = href[0];
+        window.localStorage.setItem("PaypalLogin-code", code);
+        window.close();
+    }
     ///////////////////////////////////////////////////////////////
     setRoutes() {
         // ResetPassword
@@ -631,7 +643,8 @@ class Router {
         route("cgu", function () {
             App.changePage("app-cgu", null);
         });
-        route('', function () {
+        route('', () => {
+            this.paypalLogin();
             App.changePage("app-home", null);
         });
         route("index", function () {
@@ -754,18 +767,27 @@ class App {
         }
         NotificationManager.showNotification("Oups... Il y a une erreur dans le formulaire. Pensez à Vérifier les informations renseignées !", "error");
     }
-    static request(address, data, redirect = true, bg = true) {
+    static request(address, data, redirect = true, bg = true, autorisation = null) {
         return new Promise(function (resolve, reject) {
             var href = window.location.href;
             if (data == null)
                 data = {};
             if (Login.GetInstance().isLogged() && data.token == null)
                 data.token = Login.GetInstance().Token();
-            var request = ajax({
+            let options = {
                 method: "POST",
                 url: address,
                 "data": data
-            });
+            };
+            /* if(autorisation != null)
+             {
+                 (<any>options).headers = {
+                     "Authorization" : autorisation,
+                 };
+                 delete (<any>options).headers["Content-type"];
+             }*/
+            console.log(options);
+            var request = ajax(options);
             if (bg)
                 App.showLoading();
             request.then(function (response) {

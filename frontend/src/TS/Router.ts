@@ -17,10 +17,10 @@ class Router
 
     public start() : void
     {
-        if (Login.GetInstance().isLogged() === false && window.location.href.indexOf("/error") === -1)
+        /*if (Login.GetInstance().isLogged() === false && window.location.href.indexOf("/error") === -1)
         {
             route("");
-        }
+        }*/
         route.start(true);
     }
 
@@ -462,6 +462,19 @@ class Router
         });
     }
 
+    private paypalLogin()
+    {
+        let href = window.location.href.split("code=");
+        if(href.length < 2)
+            return;
+        href = href[1].split("&scope=");
+        if(href.length < 2)
+            return;
+        let code = href[0];
+        window.localStorage.setItem("PaypalLogin-code", code);
+        window.close();
+    }
+
     
 
     ///////////////////////////////////////////////////////////////
@@ -524,7 +537,8 @@ class Router
             App.changePage("app-cgu", null);
         });
 
-        route('', function () {
+        route('', () => {
+            this.paypalLogin();
             App.changePage("app-home", null);
         });
 

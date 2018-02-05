@@ -32,6 +32,8 @@ class APIController extends Controller
 
         try {
             switch ($ope) {
+                case "paypallogin":
+                    $this->PaypalLogin();
                 case "auth":
                     $this->Auth();
                     break;
@@ -167,6 +169,11 @@ class APIController extends Controller
             $this->Write(APIController::$NO, $e->getCode(), $e->getMessage() . "\n\n" . $e->getTraceAsString());
             return;
         }
+    }
+
+    private function PaypalLogin()
+    {
+        var_dump($_GET["code"]);
     }
 
     private function TimedVerifications()

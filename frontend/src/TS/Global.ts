@@ -116,7 +116,7 @@ class App
     }
 
 
-    public static request(address, data, redirect = true, bg = true)
+    public static request(address, data, redirect = true, bg = true, autorisation = null)
     {
         return new Promise(function(resolve, reject)
         {
@@ -125,11 +125,21 @@ class App
                 data = {};
             if(Login.GetInstance().isLogged() && data.token == null)
                 data.token = Login.GetInstance().Token();
-            var request = ajax({
+
+            let options = {
                 method : "POST",
                 url : address,
                 "data" : data
-            });
+            };
+           /* if(autorisation != null)
+            {
+                (<any>options).headers = {
+                    "Authorization" : autorisation,
+                };
+                delete (<any>options).headers["Content-type"];
+            }*/
+            console.log(options);
+            var request = ajax(options);
             if(bg)
                 App.showLoading();
             request.then(function(response)

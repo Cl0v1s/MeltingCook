@@ -13931,9 +13931,10 @@ class Router {
         return Router.Instance;
     }
     start() {
-        if (Login.GetInstance().isLogged() === false && window.location.href.indexOf("/error") === -1) {
+        /*if (Login.GetInstance().isLogged() === false && window.location.href.indexOf("/error") === -1)
+        {
             route("");
-        }
+        }*/
         route.start(true);
     }
     /////////////////////////////////////////////////////////////////
@@ -14291,6 +14292,17 @@ class Router {
                 ErrorHandler.alertIfError(error);
         });
     }
+    paypalLogin() {
+        let href = window.location.href.split("code=");
+        if (href.length < 2)
+            return;
+        href = href[1].split("&scope=");
+        if (href.length < 2)
+            return;
+        let code = href[0];
+        window.localStorage.setItem("PaypalLogin-code", code);
+        window.close();
+    }
     ///////////////////////////////////////////////////////////////
     setRoutes() {
         // ResetPassword
@@ -14337,7 +14349,8 @@ class Router {
         route("cgu", function () {
             App.changePage("app-cgu", null);
         });
-        route('', function () {
+        route('', () => {
+            this.paypalLogin();
             App.changePage("app-home", null);
         });
         route("index", function () {
@@ -14460,18 +14473,27 @@ class App {
         }
         NotificationManager.showNotification("Oups... Il y a une erreur dans le formulaire. Pensez à Vérifier les informations renseignées !", "error");
     }
-    static request(address, data, redirect = true, bg = true) {
+    static request(address, data, redirect = true, bg = true, autorisation = null) {
         return new Promise(function (resolve, reject) {
             var href = window.location.href;
             if (data == null)
                 data = {};
             if (Login.GetInstance().isLogged() && data.token == null)
                 data.token = Login.GetInstance().Token();
-            var request = ajax({
+            let options = {
                 method: "POST",
                 url: address,
                 "data": data
-            });
+            };
+            /* if(autorisation != null)
+             {
+                 (<any>options).headers = {
+                     "Authorization" : autorisation,
+                 };
+                 delete (<any>options).headers["Content-type"];
+             }*/
+            console.log(options);
+            var request = ajax(options);
             if (bg)
                 App.showLoading();
             request.then(function (response) {
@@ -17110,12 +17132,13 @@ module.exports = riot.tag2('app-useredit', '<app-header></app-header> <div class
 });
 },{"riot":8}],62:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user != null}"> <div> <h1>Création/Edition d\'un compte utilisateur</h1> </div> <div> <h2>Présentation du compte</h2> <div class="banner"> <div class="img" ref="banner_preview" riot-style="background-image: url(\'{user.banner}\');"></div> <div> <label>Télécharger une bannière:</label> <app-uploadinput riot-value="{user.banner}" ref="banner" name="banner" onchange="{updateBanner}"></app-uploadinput> <p class="hint"> Ce champ doit contenir une adresse URL valide. </p> <p> Les dimensions recommandées pour un résultat optimal sont 1500 x 500 pixels </p> </div> </div> <div class="picture"> <div class="img" ref="picture_preview" riot-style="background-image: url(\'{user.picture}\');"></div> <div> <label>Télécharger une photo de profil:</label> <app-uploadinput riot-value="{user.picture}" ref="picture" name="picture" onchange="{updatePicture}"></app-uploadinput> <p class="hint"> Ce champ doit contenir une adresse URL valide. </p> <p> Les dimensions recommandées pour un résultat optimal sont 400 x 400 pixels </p> </div> </div> </div> <div> <h2>Informations de base</h2> <div class="base"> <div class="{invisible: user.id != null}"> <label>Nom d\'utilisateur: </label> <input type="text" name="username" ref="username" riot-value="{user.username}"> <p class="hint">Ce champ doit contenir entre 5 et 400 caractères.</p> <p> Vous ne pourrez plus changer de nom d\'utilisateur après l\'inscription. Choisissez avec sagesse.</p> </div> <div class="{invisible: user.id != null}"> <label>Mot de passe: </label> <input type="password" name="password" ref="password"> <p class="hint"> Ce champ doit contenir entre 8 et 100 caractères.<br> Le mot de passe et sa confirmation doivent correspondre. </p> </div> <div class="{invisible: user.id != null}"> <label>Confirmation mot de passe: </label> <input type="password" name="password_confirm" ref="password_confirm"> <p class="hint"> Ce champ doit contenir entre 8 et 100 caractères.<br> Le mot de passe et sa confirmation doivent correspondre. </p> </div> <div> <label>Age: </label> <input type="text" name="age" ref="age" riot-value="{user.age}"> <p class="hint"> Ce champ doit contenir une valeur numérique comprise entre 0 et 100. </p> </div> <div> <label>Numéro de téléphone:</label> <input type="text" name="phone" ref="phone" riot-value="{user.phone}"> <p class="hint"> Ce champ doit contenir un numéro de téléphone valide. </p> </div> </div> </div> <div> <div class="bills"> <h2>Informations de facturation</h2> <div> <label>Adresse Email associée au compte Paypal:</label> <input type="text" name="mail" ref="mail" riot-value="{user.mail}"> <p class="hint">Ce champ doit contenir une adresse email valide.</p> <p>Pensez à vérifier qu\'il s\'agit bien de l\'adresse email associée à votre compte Paypal. Nous allons l\'utiliser pour vous verser votre dû.</p> </div> <div> <label>Présentation: </label> <textarea name="description" ref="description"> {user.description} </textarea> <p class="hint"> Ce champ doit contenir entre 50 et 1000 caractères. </p> </div> <div> <label>Adresse:</label> <input type="text" name="address" ref="address" riot-value="{user.address}"> <p class="hint"> Ce champ doit contenir votre adresse de facturation. Cette adresse ne sera pas transmise aux autres utilisateurs. </p> </div> <div> <label>Prénom:</label> <input type="text" name="firstname" ref="firstname" riot-value="{user.firstname}"> <p class="hint"> Ce champ doit contenir le prénom qui sera utilisé sur les factures. </p> </div> <div> <label>Nom:</label> <input type="text" name="lastname" ref="lastname" riot-value="{user.lastname}"> <p class="hint"> Ce champ doit contenir le nom qui sera utilisé sur les factures. </p> </div> </div> </div> <div> <div class="more"> <h2>Détails importants</h2> <div> <label>Mes allergies:</label> <div> <input type="text" name="discease" ref="discease" id="discease" riot-value="{user.discease}"> </div> <p class="hint">Ce champ ne peut contenir plus de 1000 caractères.</p> <p> Veuillez renseigner les informations relatives à vos éventuelles allergies et contre-indications alimentaires. </p> </div> <div> <label>Mes inspirations:</label> <app-origininput ref="preference"></app-origininput> <p class="hint"> Ce champ ne peut contenir plus de 1000 caractères. </p> <p> Indiquez aux autres utilisateurs quelles sont vos sources d\'inspiration alimentaires ! </p> </div> <div> <label>Mes plus:</label> <app-pinsinput ref="pins"></app-pinsinput> <p class="hint"> Ce champ ne peut contenir plus de 1000 caractères. </p> <p> Indiquez aux autres utilisateurs vos petit plus !<br> e.g: Bio, Vegan, Sans-gluten, Halal </p> </div> </div> </div> <div if="{user.id != null}"> <h2>Actions</h2> <div class="{action : true, invisible: (user.id==null)}"> <input type="button" class="large" value="Réinitialiser mon mot de passe" onclick="{changePassword}"> </div> </div> <div> <input type="button" class="large" value="Enregistrer" onclick="{validate}"> </div> </form>', '', '', function(opts) {
+module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user != null}"> <div> <h1>Création/Edition d\'un compte utilisateur</h1> </div> <div> <h2>Présentation du compte</h2> <div class="banner"> <div class="img" ref="banner_preview" riot-style="background-image: url(\'{user.banner}\');"></div> <div> <label>Télécharger une bannière:</label> <app-uploadinput riot-value="{user.banner}" ref="banner" name="banner" onchange="{updateBanner}"></app-uploadinput> <p class="hint"> Ce champ doit contenir une adresse URL valide. </p> <p> Les dimensions recommandées pour un résultat optimal sont 1500 x 500 pixels </p> </div> </div> <div class="picture"> <div class="img" ref="picture_preview" riot-style="background-image: url(\'{user.picture}\');"></div> <div> <label>Télécharger une photo de profil:</label> <app-uploadinput riot-value="{user.picture}" ref="picture" name="picture" onchange="{updatePicture}"></app-uploadinput> <p class="hint"> Ce champ doit contenir une adresse URL valide. </p> <p> Les dimensions recommandées pour un résultat optimal sont 400 x 400 pixels </p> </div> </div> </div> <div> <h2>Informations de base</h2> <div class="base"> <div class="{invisible: user.id != null}"> <label>Nom d\'utilisateur: </label> <input type="text" name="username" ref="username" riot-value="{user.username}"> <p class="hint">Ce champ doit contenir entre 5 et 400 caractères.</p> <p> Vous ne pourrez plus changer de nom d\'utilisateur après l\'inscription. Choisissez avec sagesse.</p> </div> <div class="{invisible: user.id != null}"> <label>Mot de passe: </label> <input type="password" name="password" ref="password"> <p class="hint"> Ce champ doit contenir entre 8 et 100 caractères.<br> Le mot de passe et sa confirmation doivent correspondre. </p> </div> <div class="{invisible: user.id != null}"> <label>Confirmation mot de passe: </label> <input type="password" name="password_confirm" ref="password_confirm"> <p class="hint"> Ce champ doit contenir entre 8 et 100 caractères.<br> Le mot de passe et sa confirmation doivent correspondre. </p> </div> <div> <label>Age: </label> <input type="text" name="age" ref="age" riot-value="{user.age}"> <p class="hint"> Ce champ doit contenir une valeur numérique comprise entre 0 et 100. </p> </div> <div> <label>Numéro de téléphone:</label> <input type="text" name="phone" ref="phone" riot-value="{user.phone}"> <p class="hint"> Ce champ doit contenir un numéro de téléphone valide. </p> </div> </div> </div> <div> <div class="bills"> <h2>Informations de facturation</h2> <div> <label>Adresse Email associée au compte Paypal:</label> <input type="text" name="mail" ref="mail" riot-value="{user.mail}"> <p class="hint">Ce champ doit contenir une adresse email valide.</p> <p>Pensez à vérifier qu\'il s\'agit bien de l\'adresse email associée à votre compte Paypal. Nous allons l\'utiliser pour vous verser votre dû.</p> </div> <div> <span id="lippButton" onclick="{watchPaypalLogin}"></span> </div> <div> <label>Présentation: </label> <textarea name="description" ref="description"> {user.description} </textarea> <p class="hint"> Ce champ doit contenir entre 50 et 1000 caractères. </p> </div> <div> <label>Adresse:</label> <input type="text" name="address" ref="address" riot-value="{user.address}"> <p class="hint"> Ce champ doit contenir votre adresse de facturation. Cette adresse ne sera pas transmise aux autres utilisateurs. </p> </div> <div> <label>Prénom:</label> <input type="text" name="firstname" ref="firstname" riot-value="{user.firstname}"> <p class="hint"> Ce champ doit contenir le prénom qui sera utilisé sur les factures. </p> </div> <div> <label>Nom:</label> <input type="text" name="lastname" ref="lastname" riot-value="{user.lastname}"> <p class="hint"> Ce champ doit contenir le nom qui sera utilisé sur les factures. </p> </div> </div> </div> <div> <div class="more"> <h2>Détails importants</h2> <div> <label>Mes allergies:</label> <div> <input type="text" name="discease" ref="discease" id="discease" riot-value="{user.discease}"> </div> <p class="hint">Ce champ ne peut contenir plus de 1000 caractères.</p> <p> Veuillez renseigner les informations relatives à vos éventuelles allergies et contre-indications alimentaires. </p> </div> <div> <label>Mes inspirations:</label> <app-origininput ref="preference"></app-origininput> <p class="hint"> Ce champ ne peut contenir plus de 1000 caractères. </p> <p> Indiquez aux autres utilisateurs quelles sont vos sources d\'inspiration alimentaires ! </p> </div> <div> <label>Mes plus:</label> <app-pinsinput ref="pins"></app-pinsinput> <p class="hint"> Ce champ ne peut contenir plus de 1000 caractères. </p> <p> Indiquez aux autres utilisateurs vos petit plus !<br> e.g: Bio, Vegan, Sans-gluten, Halal </p> </div> </div> </div> <div if="{user.id != null}"> <h2>Actions</h2> <div class="{action : true, invisible: (user.id==null)}"> <input type="button" class="large" value="Réinitialiser mon mot de passe" onclick="{changePassword}"> </div> </div> <div> <input type="button" class="large" value="Enregistrer" onclick="{validate}"> </div> </form>', '', '', function(opts) {
         var tag = this;
 
         tag.user = null;
         tag.callback = null;
         tag.position = null;
+        tag.interval = null;
 
         tag.on("before-mount", function()
         {
@@ -17125,6 +17148,17 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
 
         tag.on("mount", function()
         {
+
+            paypal.use( ['login'], function (login) {
+                login.render ({
+                  "appid":"ATqrzo1dXoeILHVUxEPHC4BzFQDU_65NPTxrzTqkoEqN3tRkykahpxNCN684j7mUbxCtnkz6-GoFp70y",
+                    "authend" : "sandbox",
+                  "scopes":"openid email",
+                  "containerid":"lippButton",
+                  "locale":"fr-fr",
+                  "returnurl":"http://localhost:3474"
+                });
+              });
 
             $('#discease').selectize({
                     delimiter: ";",
@@ -17167,6 +17201,38 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
                 "callback": callback,
                 "user": tag.user
             });
+        };
+
+        tag.watchPaypalLogin = function()
+        {
+            if(tag.interval != null)
+                clearInterval(tag.interval);
+            tag.interval = setInterval(() => {
+                let code = localStorage.getItem("PaypalLogin-code");
+                if(code == null)
+                    return;
+                localStorage.removeItem("PaypalLogin-code");
+                clearInterval(tag.interval);
+                tag.interval = null;
+                tag.retrievePaypalAccount(code);
+            }, 1000);
+        }
+
+        tag.retrievePaypalAccount = function(code)
+        {
+            let request = App.request("https://api.sandbox.paypal.com/v1/identity/openidconnect/tokenservice",{
+                "grant_type" : "authorization_code",
+                "code" : code
+            },true,true,"Basic QVRxcnpvMWRYb2VJTEhWVXhFUEhDNEJ6RlFEVV82NU5QVHhyelRxa29FcU4zdFJreWthaHB4TkNO Njg0ajdtVWJ4Q3Rua3o2LUdvRnA3MHk6RUJ3a1VlamlncVJILTNUNzBGTEZBY2NWZWQxaVlJd3pM b0xtS1lPTy02YkQ0UE5ISGZJM3lyd0N0VEJTci1UYWsyaEVCdnotdXpVTmJtaGQ=");
+
+            request.then(function(response){
+                console.log(response);
+            });
+
+            request.catch(function(error){
+                console.log(error);
+            })
+
         };
 
         tag.details = function()

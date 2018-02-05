@@ -178,7 +178,7 @@ class APIController extends Controller
         $url = 'https://api.sandbox.paypal.com/v1/identity/openidconnect/tokenservice';
         $data = array('grant_type' => 'authorization_code', 'code' => $code);
 
-        // use key 'http' even if you send the request to https://...
+       /* // use key 'http' even if you send the request to https://...
         $options = array(
             'http' => array(
                 'header'  => "Content-type: application/x-www-form-urlencoded\r\nAuthorization: Basic QVRxcnpvMWRYb2VJTEhWVXhFUEhDNEJ6RlFEVV82NU5QVHhyelRxa29FcU4zdFJreWthaHB4TkNO Njg0ajdtVWJ4Q3Rua3o2LUdvRnA3MHk6RUJ3a1VlamlncVJILTNUNzBGTEZBY2NWZWQxaVlJd3pM b0xtS1lPTy02YkQ0UE5ISGZJM3lyd0N0VEJTci1UYWsyaEVCdnotdXpVTmJtaGQ=\r\n",
@@ -189,7 +189,24 @@ class APIController extends Controller
         );
         $context  = stream_context_create($options);
         $result = file_get_contents($url, false, $context);
-        if ($result === FALSE) { /* Handle error */ }
+        if ($result === FALSE) { /* Handle error }*/
+
+            $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL,$url);
+    curl_setopt($ch, CURLOPT_POST, 1);
+
+    // in real life you should use something like:
+    curl_setopt($ch, CURLOPT_POSTFIELDS, 
+              http_build_query(array('grant_type' => 'authorization_code', 'code' => $code)));
+
+    // receive server response ...
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $result = curl_exec ($ch);
+
+    curl_close ($ch);
+
 
         var_dump($result);
     }

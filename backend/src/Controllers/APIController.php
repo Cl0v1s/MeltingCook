@@ -201,7 +201,7 @@ class APIController extends Controller
 
         curl_close ($ch);
 
-        $data = json_decode($result);
+        $data = get_object_vars(json_decode($result));
         if(isset($data["access_token"]) == false)
         {
             $this->Write(APIController::$NO, $result);

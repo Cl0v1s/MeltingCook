@@ -17197,6 +17197,7 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
                   "locale":"fr-fr",
                   "returnurl":"http://www.clovis-portron.cf/MC/backend/src/API/paypallogin"
                 });
+                setTimeout(function(){document.querySelector("#lippButton").firstChild.setAttribute("type", "button");},1000);
               });
 
             $('#discease').selectize({

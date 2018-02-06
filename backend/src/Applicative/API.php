@@ -31,7 +31,9 @@ class API
     {
         $meta = API::GetMeta();
         if($meta->LastTimedVerification() != null && time() - $meta->LastTimedVerification() < 79200) // Si inférieur à 22h.
-            return;
+        {
+            throw new Exception("Dernier appel trop récent. Réessayer plus tard.");
+        }
         $storage = Engine::Instance()->Persistence("DatabaseStorage");
         $reservations = null;
         $storage->findAll("Reservation", $reservations, "done = '0' AND paid = '1'");

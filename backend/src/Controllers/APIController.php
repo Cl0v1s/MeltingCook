@@ -175,7 +175,6 @@ class APIController extends Controller
 
     private function TimedVerifications()
     {
-        throw new Exception("caca");
         API::TimedVerifications();
         $this->Write(APIController::$OK, null);
     }

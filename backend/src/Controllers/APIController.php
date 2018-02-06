@@ -173,6 +173,13 @@ class APIController extends Controller
         }
     }
 
+    private function TimedVerifications()
+    {
+        throw new Exception("caca");
+        API::TimedVerifications();
+        $this->Write(APIController::$OK, null);
+    }
+
     private function PaypalLogin()
     {
 
@@ -249,11 +256,7 @@ class APIController extends Controller
         header("Location: ".$callback."?paypal=".$data["email"]."#paypallogin");
     }
 
-    private function TimedVerifications()
-    {
-        API::TimedVerifications();
-        $this->Write(APIController::$OK, null);
-    }
+
 
 
     // Fonctions spéciales liées aux processus de compte utilisateur

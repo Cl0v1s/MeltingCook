@@ -100,6 +100,9 @@
             $url = ErrorLogger::$API;
             $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_PUT, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/x-www-form-urlencoded'
+                ));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $fields = array(
                 "project" => $e->project,

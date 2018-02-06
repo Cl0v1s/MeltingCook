@@ -1,10 +1,10 @@
 <?php
     class Configuration
     {
-        public static $DB_host = "localhost";
-        public static $DB_login = "phpmyadmin";
-        public static $DB_password = "root";
-        public static $DB_database = "MC";
+        public static $DB_host = "meltingcxzclovis.mysql.db";
+        public static $DB_login = "meltingcxzclovis";
+        public static $DB_password = "meltingcxzclovis";
+        public static $DB_database = "Cheminade201";
 
         public static $Paypal_usesandbox = true;
         public static $Paypal_logincallback = "http://meltingcook.fr/";

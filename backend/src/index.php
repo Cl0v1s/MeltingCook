@@ -2,7 +2,7 @@
 
 include_once 'Core/Engine.php';
 
-$DEBUG = true;
+$DEBUG = false;
 if($DEBUG)
     include_once 'Configuration_debug.php';
 else 

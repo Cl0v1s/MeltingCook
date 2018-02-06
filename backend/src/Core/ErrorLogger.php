@@ -97,23 +97,29 @@
 
         private static function sendToDatabase(ErrorLog $e)
         {
-            $url = ErrorLogger::$API;
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_PUT, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                'Content-Type: application/x-www-form-urlencoded'
-                ));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $fields = array(
-                "project" => $e->project,
-                "datetime" => $e->datetime,
-                "message" => $e->message,
-                "details" => $e->details,
-                "stacktrace" => $e->stacktrace
-            );
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($fields));
-            $response = curl_exec($ch);
-            ErrorLogger::$LOGGER->info($response);
-            //echo $response;
+            try 
+            {
+                $url = ErrorLogger::$API;
+                $ch = curl_init($url);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                    'Content-Type: application/x-www-form-urlencoded'
+                    ));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $fields = array(
+                    "project" => $e->project,
+                    "datetime" => $e->datetime,
+                    "message" => $e->message,
+                    "details" => $e->details,
+                    "stacktrace" => $e->stacktrace
+                );
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($fields));
+                $response = curl_exec($ch);
+                ErrorLogger::$LOGGER->info($response);
+            }
+            catch(Throwable $e)
+            {
+                ErrorLogger::$LOGGER->error("Last error not in Database");
+            }
         }
     }

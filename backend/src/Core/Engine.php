@@ -44,8 +44,6 @@ class Engine
         $this->persistence = array();
         spl_autoload_register('Engine::autoload');
 
-        $this->logger = new Logger("Log");
-        $this->logger->pushHandler(new StreamHandler("./logs.txt"));
     }
 
     public function setPersistence($storage)

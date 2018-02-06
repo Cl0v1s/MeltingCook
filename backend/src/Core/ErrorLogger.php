@@ -60,8 +60,8 @@
         {
             ErrorLogger::$API = $api;
             ErrorLogger::$PROJECT = $project;
-            set_error_handler(array(ErrorLogger, 'handleError'),E_ALL);
-            set_exception_handler(array(ErrorLogger, 'handleException'));
+            set_error_handler(array("ErrorLogger", 'handleError'),E_ALL);
+            set_exception_handler(array("ErrorLogger", 'handleException'));
 
             ErrorLogger::$LOGGER = new Logger('logger');
             ErrorLogger::$LOGGER->pushHandler(new StreamHandler('ErrorLogger.log', Logger::WARNING));

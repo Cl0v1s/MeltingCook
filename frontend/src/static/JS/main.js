@@ -598,11 +598,13 @@ class Router {
     paypalLogin() {
         let href = window.location.href.split("paypal=");
         if (href.length < 2) {
+            window.localStorage.setItem("PaypalLogin-error", "true");
             window.close();
             return;
         }
         href = href[1].split("#");
         if (href.length < 2) {
+            window.localStorage.setItem("PaypalLogin-error", "true");
             window.close();
             return;
         }
@@ -938,6 +940,17 @@ class Paypal {
             Paypal.interval = setInterval(() => {
                 console.log("ask");
                 let code = localStorage.getItem("PaypalLogin-code");
+                let error = localStorage.getItem("PaypalLogin-error");
+                if (error == "true") {
+                    clearInterval(Paypal.interval);
+                    Paypal.interval = null;
+                    clearTimeout(Paypal.timeout);
+                    Paypal.timeout = null;
+                    localStorage.removeItem("PaypalLogin-code");
+                    localStorage.removeItem("PaypalLogin-error");
+                    reject(null);
+                    return;
+                }
                 if (code == null)
                     return;
                 clearInterval(Paypal.interval);

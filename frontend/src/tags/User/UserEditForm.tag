@@ -79,6 +79,15 @@
                         Ce champ doit contenir un numéro de téléphone valide.
                     </p>
                 </div>
+                <div>
+                    <label>Présentation: </label>
+                    <textarea name="description" ref="description">
+                    { user.description }
+                    </textarea>
+                    <p class="hint">
+                        Ce champ doit contenir entre 50 et 1000 caractères.
+                    </p>
+                </div>
             </div>
         </div>
         <div>
@@ -93,15 +102,7 @@
                     </div>
                 </div>
                 <br>
-                <div>
-                    <label>Présentation: </label>
-                    <textarea name="description" ref="description">
-                    { user.description }
-                    </textarea>
-                    <p class="hint">
-                        Ce champ doit contenir entre 50 et 1000 caractères.
-                    </p>
-                </div>
+
                                 <div>
                     <label>Adresse:</label>
                     <input type="text" name="address" ref="address" value={ user.address }>
@@ -203,7 +204,7 @@
                   "scopes":"openid email",
                   "containerid":"lippButton",
                   "locale":"fr-fr",
-                  "returnurl":"http://www.clovis-portron.cf/MC/backend/src/API/paypallogin"
+                  "returnurl":"https://meltingcook.fr/API/API/paypallogin"
                 });
                 setTimeout(function(){document.querySelector("#lippButton").firstChild.setAttribute("type", "button");},1000);
               });
@@ -307,14 +308,12 @@
         tag.validate = function () {
             var valid = new Validatinator({
                 "edit-user": {
-                    "banner": "maxLength:400",
                     "username": "required|minLength:5|maxLength:400",
                     "age": "required|number|maxLength:3",
                     "phone": "required|minLength:10|maxLength:400",
                     "mail": "required|email|maxLength:400",
-                    "paypal": "email|maxLength:400",
+                    "paypal": "maxLength:400",
                     "description": "required|minLength:50|maxLength:1000",
-                    "picture": "maxLength:400",
                     "discease": "maxLength:1000",
                     "lastname": "required|maxLength:400",
                     "firstname": "required|maxLength:400",

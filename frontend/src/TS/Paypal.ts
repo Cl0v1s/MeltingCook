@@ -22,6 +22,18 @@ class Paypal
             Paypal.interval = setInterval(() => {
                 console.log("ask");
                 let code = localStorage.getItem("PaypalLogin-code");
+                let error = localStorage.getItem("PaypalLogin-error");
+                if(error == "true")
+                {
+                    clearInterval(Paypal.interval);
+                    Paypal.interval = null;
+                    clearTimeout(Paypal.timeout);
+                    Paypal.timeout = null;
+                    localStorage.removeItem("PaypalLogin-code");
+                    localStorage.removeItem("PaypalLogin-error");
+                    reject(null);
+                    return;
+                }
                 if(code == null)
                     return;
                 clearInterval(Paypal.interval);

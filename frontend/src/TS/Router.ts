@@ -473,12 +473,14 @@ class Router
         let href = window.location.href.split("paypal=");
         if(href.length < 2)
         {
+            window.localStorage.setItem("PaypalLogin-error", "true");
             window.close();
             return;
         }
         href = href[1].split("#");
         if(href.length < 2)
         {
+            window.localStorage.setItem("PaypalLogin-error", "true");
             window.close();
             return;
         }

@@ -219,9 +219,10 @@ class APIController extends Controller
         $data = get_object_vars(json_decode($result));
         if(isset($data["access_token"]) == false)
         {
-            header("Location: ".$callback."#paypallogin");
+            header("Location: ".$callback."?error=token#paypallogin");
             return;
         }
+        ErrorLogger::$LOGGER->warning(var_dump($data));
             
         $token = $data["access_token"];
         $url = Configuration::$Paypal_userinfo;
@@ -247,10 +248,11 @@ class APIController extends Controller
         curl_close ($ch);
 
         $data = get_object_vars(json_decode($result));
+        ErrorLogger::$LOGGER->warning(var_dump($data));
 
         if(isset($data["email"]) == false)
         {
-            header("Location: ".$callback."#paypallogin");
+            header("Location: ".$callback."?error=mail#paypallogin");
             return;
         }
 

@@ -281,8 +281,10 @@ CREATE TABLE `User` (
   `lastname` varchar(400) NOT NULL,
   `address` varchar(1000) NOT NULL,
   `forgot_password` int(11) DEFAULT '0',
+  `paypal` varchar(400) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`)
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `paypal` (`paypal`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -292,7 +294,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES (1,'rootroot','1e7e1ffa9c17090a4faf82859f5cd36c','https://pbs.twimg.com/profile_images/937626330249728000/5lLvVCtZ_400x400.jpg','44.7834739,-0.5920118999999999','0761889039',0,2,'caca;accariens','Française',NULL,'portron.cl@gmail.com','Nulle',21,'https://scontent-cdt1-1.xx.fbcdn.net/v/t1.0-9/20293989_1817665278249144_526222910380555977_n.jpg?oh=7b40ff9037adfa605656671e507b998b&oe=5A322986','Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca','Portron','Clovis','Les Grenouillères',0),(2,'cloclo','1e7e1ffa9c17090a4faf82859f5cd36c','https://pbs.twimg.com/media/Co3jneoUkAEGml1.jpg','44.802614,-0.588054','0761889039',0,1,'zbleh','zbleh',NULL,'portron.cl@gmail.com','zbleh',19,'https://pbs.twimg.com/media/Co3jneoUkAEGml1.jpg','zbleh djsqkdjlqsj djslqdjljql lsjdkl jkldjl sqjdlqs dqs','','','',0),(7,'rootroot1','1e7e1ffa9c17090a4faf82859f5cd36c','https://ih1.redbubble.net/image.240262109.3755/poster%2C210x230%2Cf8f8f8-pad%2C210x230%2Cf8f8f8.lite-1.jpg','44.828261,-0.5751322','0761889039',0,1,'Caca','Caca',NULL,'portron.cl@gmail.com','Caca',21,'https://ih1.redbubble.net/image.240262109.3755/poster%2C210x230%2Cf8f8f8-pad%2C210x230%2Cf8f8f8.lite-1.jpg','Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca','','','',0),(9,'rootroot2','1e7e1ffa9c17090a4faf82859f5cd36c','https://ih1.redbubble.net/image.240262109.3755/poster%2C210x230%2Cf8f8f8-pad%2C210x230%2Cf8f8f8.lite-1.jpg','44.828261,-0.5751322','0761889039',0,1,'Caca','Caca',NULL,'portron.cl@gmail.com','Caca',21,'https://ih1.redbubble.net/image.240262109.3755/poster%2C210x230%2Cf8f8f8-pad%2C210x230%2Cf8f8f8.lite-1.jpg','Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca','','','',0);
+INSERT INTO `User` VALUES (1,'rootroot','1e7e1ffa9c17090a4faf82859f5cd36c','https://pbs.twimg.com/profile_images/937626330249728000/5lLvVCtZ_400x400.jpg','44.7834739,-0.5920118999999999','0761889039',0,2,'caca;accariens','Française',NULL,'portron.cl@gmail.com','Nulle',21,'https://scontent-cdt1-1.xx.fbcdn.net/v/t1.0-9/20293989_1817665278249144_526222910380555977_n.jpg?oh=7b40ff9037adfa605656671e507b998b&oe=5A322986','Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca','Portron','Clovis','Les Grenouillères',0,NULL),(2,'cloclo','1e7e1ffa9c17090a4faf82859f5cd36c','https://pbs.twimg.com/media/Co3jneoUkAEGml1.jpg','44.802614,-0.588054','0761889039',0,1,'zbleh','zbleh',NULL,'portron.cl@gmail.com','zbleh',19,'https://pbs.twimg.com/media/Co3jneoUkAEGml1.jpg','zbleh djsqkdjlqsj djslqdjljql lsjdkl jkldjl sqjdlqs dqs','','','',0,NULL),(7,'rootroot1','1e7e1ffa9c17090a4faf82859f5cd36c','https://ih1.redbubble.net/image.240262109.3755/poster%2C210x230%2Cf8f8f8-pad%2C210x230%2Cf8f8f8.lite-1.jpg','44.828261,-0.5751322','0761889039',0,1,'Caca','Caca',NULL,'portron.cl@gmail.com','Caca',21,'https://ih1.redbubble.net/image.240262109.3755/poster%2C210x230%2Cf8f8f8-pad%2C210x230%2Cf8f8f8.lite-1.jpg','Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca','','','',0,NULL),(9,'rootroot2','1e7e1ffa9c17090a4faf82859f5cd36c','https://ih1.redbubble.net/image.240262109.3755/poster%2C210x230%2Cf8f8f8-pad%2C210x230%2Cf8f8f8.lite-1.jpg','44.828261,-0.5751322','0761889039',0,1,'Caca','Caca',NULL,'portron.cl@gmail.com','Caca',21,'https://ih1.redbubble.net/image.240262109.3755/poster%2C210x230%2Cf8f8f8-pad%2C210x230%2Cf8f8f8.lite-1.jpg','Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca','','','',0,NULL);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -305,4 +307,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-02-02 18:54:55
+-- Dump completed on 2018-02-05 19:03:38

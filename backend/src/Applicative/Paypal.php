@@ -98,7 +98,7 @@ class Paypal
 
     public static function handleError($e)
     {
-        Engine::Instance()->Logger()->error($_POST["payment_date"]."(".$_POST["txn_id"].") ".$_POST["mc_gross"]."€: ".$e->getMessage());
+        ErrorLogger::handle($_POST["payment_date"]."(".$_POST["txn_id"].") ".$_POST["mc_gross"]."€: ".$e->getMessage(), $e->getTraceAsString());
         $body = ""
             . "Bonjour,<br>\r\n"
             . "La transaction ".$_POST["txn_id"]."(".$_POST["payer_email"].") pour un montant de ".$_POST["mc_gross"]." a échouée pour la raison suivante: <br>\r\n"
@@ -170,7 +170,7 @@ class Paypal
         $reservation->setTxnId($ipn->txn_id);
         $storage->persist($reservation, StorageState::ToUpdate);
         $storage->flush();
-        Engine::Instance()->Logger()->warning($_POST["payment_date"]."(".$_POST["txn_id"].") ".$_POST["mc_gross"]."€: OK");
+        ErrorLogger::$LOGGER->warning($_POST["payment_date"]."(".$_POST["txn_id"].") ".$_POST["mc_gross"]."€: OK");
         
         $titlemsg = "A propos de la recette ".$recipe["name"];
 

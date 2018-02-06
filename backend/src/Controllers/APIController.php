@@ -167,6 +167,7 @@ class APIController extends Controller
 
             }
         } catch (Exception $e) {
+            ErrorLogger::handleException($e);
             $this->Write(APIController::$NO, $e->getCode(), $e->getMessage() . "\n\n" . $e->getTraceAsString());
             return;
         }

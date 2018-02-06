@@ -22,7 +22,7 @@ class PaypalController extends Controller
             return;
         }
         try {
-            Engine::Instance()->Logger()->warning("Début du traitement d'un nouveau paiment.");            
+            ErrorLogger::$LOGGER->warning("Début du traitement d'un nouveau paiment.");            
             ob_start();
             header("HTTP/1.1 200 OK");
             header('Connection: close');
@@ -37,7 +37,7 @@ class PaypalController extends Controller
         {
             Paypal::handleError($e);
         }
-        Engine::Instance()->Logger()->warning("Fin du traitement du paiment.");            
+        ErrorLogger::$LOGGER->warning("Fin du traitement du paiment.");            
         
 
     }

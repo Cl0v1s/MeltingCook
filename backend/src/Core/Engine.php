@@ -3,9 +3,7 @@
 require_once 'vendor/autoload.php';
 include_once 'addendum/annotations.php';
 include_once 'Annotations.php';
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-
+include_once 'ErrorLogger.php';
 include_once 'DatabaseStorage.php';
 session_start();
 
@@ -40,7 +38,6 @@ class Engine
     }
 
     private $persistence;
-    private $logger;
 
     function __construct()
     {
@@ -49,15 +46,6 @@ class Engine
 
         $this->logger = new Logger("Log");
         $this->logger->pushHandler(new StreamHandler("./logs.txt"));
-    }
-
-
-    /**
-     * @return Logger
-     */
-    public function Logger()
-    {
-        return $this->logger;
     }
 
     public function setPersistence($storage)

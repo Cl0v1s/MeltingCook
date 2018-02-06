@@ -27,7 +27,7 @@
                 <td>{ reservation.recipe.price }</td>
                 <td if="{ interactive }">
                     <input if="{ admin == true }" type="button" value="Marquer comme terminée" data-id="{ reservation.id }" onclick="{ fullfill }">
-                    <input if="{ admin == false && reservation.paid == '1' && reservation.done == '0' }" type="button" value="Je finalise"  data-id="{ reservation.id }" onclick="{ validate }">
+                    <input if="{ admin == false && reservation.paid == '1' && reservation.done == '0' && reservation.recipe.date_start <= (new Date().getTime()/1000)  }" type="button" value="Je finalise"  data-id="{ reservation.id }" onclick="{ validate }">
                     <input if="{ admin == false && reservation.paid != '2' && reservation.done != '1' }" type="button" value="J'annule"  data-id="{ reservation.id }" onclick="{ refund }">
                 </td>
             </tr>
@@ -67,6 +67,8 @@
             tag.funds = [];
 
             tag.reservations.forEach((res) => {
+                if(res.done == "2" || res.done == 2)
+                    return;
                 if(res.done == "1")
                 {
                     tag.done.push(res);

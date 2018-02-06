@@ -9,7 +9,7 @@
                 <div class="img" ref="banner_preview" style="background-image: url('{ user.banner }');"></div>
                 <div>
                     <label>Télécharger une bannière:</label>
-                    <input type="text" name="banner" ref="banner" value={ user.banner } onchange={ updateBanner }>
+                    <app-uploadinput value="{ user.banner }"  ref="banner" name="banner" onchange={ updateBanner }></app-uploadinput>
                     <p class="hint">
                         Ce champ doit contenir une adresse URL valide.
                     </p>
@@ -22,7 +22,7 @@
                 <div class="img" ref="picture_preview" style="background-image: url('{ user.picture }');"></div>
                 <div>
                     <label>Télécharger une photo de profil:</label>
-                    <input type="text" name="picture" ref="picture" value={ user.picture } onchange={ updatePicture }>
+                    <app-uploadinput value="{ user.picture }"  ref="picture" name="picture" onchange={ updatePicture }></app-uploadinput>
                     <p class="hint">
                         Ce champ doit contenir une adresse URL valide.
                     </p>
@@ -68,6 +68,11 @@
                     </p>
                 </div>
                 <div>
+                    <label>Adresse Email de contact:</label>
+                    <input type="text" name="mail" ref="mail" value={ user.mail }>
+                    <p class="hint">Ce champ doit contenir une adresse email valide.</p>
+                </div>
+                <div>
                     <label>Numéro de téléphone:</label>
                     <input type="text" name="phone" ref="phone" value={ user.phone }>
                     <p class="hint">
@@ -80,12 +85,14 @@
             <div class="bills">
                 <h2>Informations de facturation</h2>
                 <div>
-                    <label>Adresse Email associée au compte Paypal:</label>
-                    <input type="text" name="mail" ref="mail" value={ user.mail }>
-                    <p class="hint">Ce champ doit contenir une adresse email valide.</p>
-                    <p>Pensez à vérifier qu'il s'agit bien de l'adresse email associée à votre compte Paypal. Nous allons
-                        l'utiliser pour vous verser votre dû.</p>
+                    <label>Compte Paypal:</label>
+                    <input disabled type="text" name="paypal" ref="paypal" value={ user.paypal }>
+                    <p>En liant votre compte Paypal et MeltingCook, vous serez en mesure de proposer des recettes et de reçevoir vos compensations.</p><br>
+                    <div style="text-align: center">
+                        <span class="{ invisible: user.paypal != null }" ref="paypalButton" id='lippButton' onclick="{ bindPaypal }"></span><input type="button" class="{invisible:  user.paypal == null }" onclick="{ removePaypal }" ref="paypalRemove" value = "Dissocier">
+                    </div>
                 </div>
+                <br>
                 <div>
                     <label>Présentation: </label>
                     <textarea name="description" ref="description">
@@ -177,6 +184,8 @@
         tag.user = null;
         tag.callback = null;
         tag.position = null;
+        tag.interval = null;
+
 
         tag.on("before-mount", function()
         {
@@ -186,7 +195,17 @@
 
         tag.on("mount", function()
         {
-            tag.geolocalize();
+            //tag.geolocalize();
+            paypal.use( ['login'], function (login) {
+                login.render ({
+                  "appid":"ATqrzo1dXoeILHVUxEPHC4BzFQDU_65NPTxrzTqkoEqN3tRkykahpxNCN684j7mUbxCtnkz6-GoFp70y",
+                    "authend" : "sandbox",
+                  "scopes":"openid email",
+                  "containerid":"lippButton",
+                  "locale":"fr-fr",
+                  "returnurl":"http://www.clovis-portron.cf/MC/backend/src/API/paypallogin"
+                });
+              });
 
             $('#discease').selectize({
                     delimiter: ";",
@@ -231,14 +250,28 @@
             });
         };
 
-        /*tag.removeAccount = function()
+        tag.removePaypal = function()
         {
-            if(tag.user.id == null)
-                return;
-            var request = App.request(App.Address + "/removeuser", { id : tag.user.id }, true);
-            vex.dialog.alert("Votre compte va être supprimé. Vous allez recevoir un mail de confirmation.");
-            route("/home");
-        }*/
+            tag.refs.paypal.value = "";
+            tag.refs.paypalButton.classList.remove("invisible");
+            tag.refs.paypalRemove.classList.add("invisible");
+        };
+
+        tag.bindPaypal = function()
+        {
+            App.showLoading();
+            Paypal.bindPaypal().then(function(data){
+                App.hideLoading();
+                tag.refs.paypal.value = data;
+                tag.refs.paypalButton.classList.add("invisible");
+                tag.refs.paypalRemove.classList.remove("invisible");
+            }, function(error){
+                App.hideLoading();
+                NotificationManager.showNotification("Impossible de lier votre compte avec Paypal. Veuillez réessayer.", "error");
+            });   
+        }
+
+
 
         tag.details = function()
         {
@@ -246,7 +279,7 @@
                 route("/user/"+tag.user.id);
         };
 
-        tag.geolocalize = function()
+        /*tag.geolocalize = function()
         {
             var exec = function(position)
             {
@@ -255,10 +288,10 @@
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(exec);
             } else {
-                NotificationManager.showNotification("Vous devez activer la géolocalisation pour être en mesure d'utiliser Melting Cook.", "error");
+                NotificationManager.showNotification("Activer la géolocalisation est conseillé pour être en mesure d'utiliser Melting Cook de manière optimale.", "info");
                 tag.geolocalize();
             }
-        };
+        };*/
 
         tag.updatePicture = function()
         {
@@ -278,6 +311,7 @@
                     "age": "required|number|maxLength:3",
                     "phone": "required|minLength:10|maxLength:400",
                     "mail": "required|email|maxLength:400",
+                    "paypal": "email|maxLength:400",
                     "description": "required|minLength:50|maxLength:1000",
                     "picture": "maxLength:400",
                     "discease": "maxLength:1000",
@@ -293,7 +327,13 @@
                 };
 
                 // Confirmation de la bannière
-                if(tag.refs.banner.value != "")
+                if(tag.refs.banner.value == null)
+                {
+                    errors["edit-user"].banner = {
+                            "required" : "true"
+                        };
+                }
+                else if(tag.refs.banner.value != "")
                 {
                     if(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(tag.refs.banner.value) == false)
                     {
@@ -304,6 +344,12 @@
                 }
 
                 // Confirmation de la picture
+                if(tag.refs.picture.value == null)
+                {
+                    errors["edit-user"].picture = {
+                            "required" : "true"
+                    };
+                }
                 if(tag.refs.picture.value != "")
                 {
                     if(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(tag.refs.picture.value) == false)
@@ -339,13 +385,14 @@
                     };
                 }
 
-                // Confirmation de la géolocalisation
+                /* Confirmation de la géolocalisation
                 if(tag.position == null || tag.position.indexOf(",") == -1)
                 {
                     NotificationManager.showNotification("Vous devez activer la géolocalisation pour être en mesure d'utiliser Melting Cook.", "error");
                     tag.geolocalize();
                     return;
-                }
+                }*/
+                
                 //Confirmation des préference
                 if(tag.refs.preference.value == null && tag.refs.preference.value > 1000)
                 {
@@ -383,7 +430,7 @@
             {
                 usr.password = md5(tag.refs.password.value);
             }
-            usr.geolocation = tag.position;
+            //usr.geolocation = tag.position;
             usr.banner = tag.refs.banner.value;
             if(usr.id == null)
             {
@@ -400,6 +447,12 @@
             usr.lastname = tag.refs.lastname.value;
             usr.firstname = tag.refs.firstname.value;
             usr.address = tag.refs.address.value;
+
+            usr.paypal = null;
+            if(tag.refs.paypal.value != "")
+                usr.paypal = tag.refs.paypal.value;
+
+
 
             var url = App.Address + "/adduser";
             if (usr.id != null)

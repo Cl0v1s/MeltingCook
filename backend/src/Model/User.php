@@ -33,7 +33,6 @@ class User extends StorageItem
     public $picture;
 
     /**
-     * @Required
      * @Word
      * @Size(min=1, max=100)
      */
@@ -81,6 +80,13 @@ class User extends StorageItem
      */
     public $mail;
 
+    
+    /**
+     * @Word
+     * @Size(min=1, max=400)
+     */
+    public $paypal;
+
     /**
      * @Word
      * @Size(min=1,max=1000)
@@ -126,6 +132,23 @@ class User extends StorageItem
      * @Size(min=1, max=1000)
      */
     public $address;
+
+    /**
+     * @Boolean
+     */
+    public $forgot_password;
+
+
+    public function Paypal()
+    {
+        return $this->paypal;
+    }
+
+    public function setPaypal($value)
+    {
+        $this->paypal = $value;
+        $this->checkIntegrity("paypal");
+    }
 
     /**
      * @return mixed
@@ -438,6 +461,25 @@ class User extends StorageItem
         $this->address = $address;
         $this->checkIntegrity("address");
     }
+
+    /**
+     * @return mixed
+     */
+    public function ForgotPassword()
+    {
+        return $this->forgot_password;
+    }
+
+    /**
+     * @param mixed $forgot_password
+     */
+    public function setForgotPassword($forgot_password)
+    {
+        $this->forgot_password = $forgot_password;
+        $this->checkIntegrity("forgot_password");
+    }
+
+
 
 
 

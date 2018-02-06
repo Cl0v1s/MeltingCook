@@ -32,6 +32,11 @@
                 throw new Error("Reports cant be null");
 
             tag.tabs = [
+            {
+                name : "Utilisateurs",
+                route : "/admin/users",
+                selected : false
+            },
                 {
                     name : "Signalement",
                     route : "/admin/reports",

@@ -132,6 +132,10 @@ class ErrorHandler {
                 error.message = "Ooops... Quelque chose s'est mal passé. Veuillez réessayer plus tard.";
                 break;
         }
+        if (response.data != null)
+            console.error(response.data);
+        else
+            console.error(response);
         throw error;
     }
     handleSQL(response) {
@@ -203,7 +207,8 @@ class Login {
                 resolve(response.data);
             });
             retrieve.catch((error) => {
-                reject(error);
+                if (error instanceof Error)
+                    ErrorHandler.alertIfError(error);
             });
         });
     }
@@ -220,9 +225,10 @@ class Router {
         return Router.Instance;
     }
     start() {
-        if (Login.GetInstance().isLogged() === false && window.location.href.indexOf("/error") === -1) {
+        /*if (Login.GetInstance().isLogged() === false && window.location.href.indexOf("/error") === -1)
+        {
             route("");
-        }
+        }*/
         route.start(true);
     }
     /////////////////////////////////////////////////////////////////
@@ -272,6 +278,8 @@ class Router {
     }
     // Error
     error(message) {
+        App.hidePopUp();
+        App.hideLoading();
         if (message != null)
             message = decodeURI(message);
         App.changePage("app-error", {
@@ -350,26 +358,35 @@ class Router {
             route("/register");
             return;
         }
+        if (Login.GetInstance().User().paypal == null || Login.GetInstance().User().paypal == "") {
+            NotificationManager.showNotification("Vous devez associer un compte paypal à votre profil MeltingCook pour pouvoir proposer une recette.", "error");
+            route("/");
+            return;
+        }
         App.changePage("app-recipeedit", null);
     }
-    recipeEdit(id) {
+    /*private recipeEdit(id : number) : void
+    {
         var request = App.request(App.Address + "/getrecipe", {
-            "id": id
+            "id" : id
         });
-        request.then(function (response) {
-            if (response.data === null) {
+        request.then(function(response :any)
+        {
+            if(response.data === null)
+            {
                 route("/error/404");
                 return;
             }
             var recipe = Adapter.adaptRecipe(response.data);
             App.changePage("app-recipeedit", {
-                "recipe": recipe
+                "recipe" : recipe
             });
         });
-        request.catch(function (error) {
+        request.catch(function(error)
+        {
             ErrorHandler.alertIfError(error);
         });
-    }
+    }*/
     // ACCOUNT
     accountKitchen() {
         var filters = {
@@ -545,8 +562,58 @@ class Router {
             ErrorHandler.alertIfError(error);
         });
     }
+    adminUsers(user_id) {
+        if (Login.GetInstance().isLogged() == false || Login.GetInstance().User().rights < 2) {
+            route("/");
+            return;
+        }
+        var filters = {};
+        if (user_id != null)
+            filters.id = user_id;
+        var request = App.request(App.Address + "/getusers", {
+            "filters": JSON.stringify(filters)
+        });
+        request.then(function (response) {
+            App.changePage("app-adminusers", {
+                "users": response.data
+            });
+        });
+        request.catch(function (error) {
+            ErrorHandler.alertIfError(error);
+        });
+    }
+    resetPassword(token) {
+        let request = App.request(App.Address + "/endresetpassword", {
+            "token": token
+        });
+        request.then(function (response) {
+            NotificationManager.showNotification("Nous vous avons envoyé un email contenant votre mot de passe temporaire !", "success");
+            route("/");
+        });
+        request.catch(function (error) {
+            if (error instanceof Error)
+                ErrorHandler.alertIfError(error);
+        });
+    }
+    paypalLogin() {
+        let href = window.location.href.split("paypal=");
+        if (href.length < 2) {
+            window.close();
+            return;
+        }
+        href = href[1].split("#");
+        if (href.length < 2) {
+            window.close();
+            return;
+        }
+        let code = href[0];
+        window.localStorage.setItem("PaypalLogin-code", code);
+        window.close();
+    }
     ///////////////////////////////////////////////////////////////
     setRoutes() {
+        // ResetPassword
+        route("/resetpassword/*", this.resetPassword);
         // Reservation
         route("/reservation/recipe/*", this.reservationRecipe);
         // Admin
@@ -558,6 +625,8 @@ class Router {
         route("/admin/reservations", () => {
             this.adminReservations();
         });
+        route("/admin/users", () => { this.adminUsers(null); });
+        route("/admin/users/*", (user_id) => { this.adminUsers(user_id); });
         // Account
         route("/account/recipes", this.accountRecipes);
         route("/account/reservations", this.accountReservations);
@@ -566,7 +635,7 @@ class Router {
         // User
         route("/user/*", this.user);
         // Recipe
-        route("/recipe/edit/*", this.recipeEdit);
+        //route("/recipe/edit/*", this.recipeEdit);
         route("/recipe/add", this.recipeAdd);
         route("/recipe/*", this.recipe);
         // Search
@@ -587,7 +656,8 @@ class Router {
         route("cgu", function () {
             App.changePage("app-cgu", null);
         });
-        route('', function () {
+        route("paypallogin", this.paypalLogin);
+        route('', () => {
             App.changePage("app-home", null);
         });
         route("index", function () {
@@ -639,6 +709,7 @@ require("./../../tags/Comment/Comments.tag");
 require("./../../tags/Immutable/Error.tag");
 require("./../../tags/Immutable/Home.tag");
 require("./../../tags/Immutable/Login.tag");
+require("./../../tags/Immutable/ResetPasswordForm.tag");
 require("./../../tags/Immutable/CGU.tag");
 // MISC
 require("./../../tags/Misc/DateInput.tag");
@@ -653,6 +724,7 @@ require("./../../tags/Misc/PlaceInput.tag");
 require("./../../tags/Misc/TabBar.tag");
 require("./../../tags/Misc/TimeInput.tag");
 require("./../../tags/Misc/UserSelector.tag");
+require("./../../tags/Misc/UploadInput.tag");
 // RECIPE
 require("./../../tags/Recipe/Recipe.tag");
 require("./../../tags/Recipe/RecipeEdit.tag");
@@ -690,6 +762,7 @@ require("./../../tags/Admin/AdminReports.tag");
 require("./../../tags/Admin/AdminOrigins.tag");
 require("./../../tags/Admin/AdminPins.tag");
 require("./../../tags/Admin/AdminReservations.tag");
+require("./../../tags/Admin/AdminUsers.tag");
 class App {
     static diagnosticForm(formname, errors) {
         for (var field in errors[formname]) {
@@ -707,18 +780,19 @@ class App {
         }
         NotificationManager.showNotification("Oups... Il y a une erreur dans le formulaire. Pensez à Vérifier les informations renseignées !", "error");
     }
-    static request(address, data, redirect = true, bg = true) {
+    static request(address, data, redirect = true, bg = true, autorisation = null) {
         return new Promise(function (resolve, reject) {
             var href = window.location.href;
             if (data == null)
                 data = {};
             if (Login.GetInstance().isLogged() && data.token == null)
                 data.token = Login.GetInstance().Token();
-            var request = ajax({
+            let options = {
                 method: "POST",
                 url: address,
                 "data": data
-            });
+            };
+            var request = ajax(options);
             if (bg)
                 App.showLoading();
             request.then(function (response) {
@@ -847,6 +921,38 @@ window.addEventListener("load", function () {
     Router.GetInstance().start();
     NotificationManager.GetInstance().start();
 });
+class Paypal {
+    static bindPaypal() {
+        return new Promise(function (resolve, reject) {
+            if (Paypal.interval != null)
+                clearInterval(Paypal.interval);
+            if (Paypal.timeout != null)
+                clearTimeout(Paypal.timeout);
+            Paypal.timeout = setTimeout(() => {
+                clearInterval(Paypal.interval);
+                Paypal.interval = null;
+                clearTimeout(Paypal.timeout);
+                Paypal.timeout = null;
+                reject(null);
+            }, 1000 * 60 * 5);
+            Paypal.interval = setInterval(() => {
+                console.log("ask");
+                let code = localStorage.getItem("PaypalLogin-code");
+                if (code == null)
+                    return;
+                clearInterval(Paypal.interval);
+                Paypal.interval = null;
+                clearTimeout(Paypal.timeout);
+                Paypal.timeout = null;
+                localStorage.removeItem("PaypalLogin-code");
+                console.log(code);
+                resolve(code);
+            }, 1000);
+        });
+    }
+}
+Paypal.interval = null;
+Paypal.timeout = null;
 class Search {
     static search(place, origin, date, price_start, price_end) {
         return new Promise((resolve, reject) => {
@@ -861,7 +967,7 @@ class Search {
             }
             else {
                 let now = Math.floor(new Date().getTime() / 1000);
-                filters["date_end"] = now;
+                //filters["date_end"] = now;
                 filters["date_start"] = now;
             }
             if (price_start != null)
@@ -965,12 +1071,14 @@ NotificationManager.Instance = new NotificationManager();
 /// <reference path="Router.ts" />
 /// <reference path="Global.ts" />
 /// <reference path="Adapter.ts" />
+/// <reference path="Paypal.ts" />
 /// <reference path="Search/Search.ts" />
 /// <reference path="Notification/NotificationManager.ts" />
 window.Login = Login;
 window.Router = Router;
 window.App = App;
 window.Adapter = Adapter;
+window.Paypal = Paypal;
 window.Search = Search;
 window.ErrorHandler = ErrorHandler;
 window.NotificationManager = NotificationManager;

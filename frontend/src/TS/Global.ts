@@ -17,6 +17,7 @@ require("./../../tags/Comment/Comments.tag");
 require("./../../tags/Immutable/Error.tag");
 require("./../../tags/Immutable/Home.tag");
 require("./../../tags/Immutable/Login.tag");
+require("./../../tags/Immutable/ResetPasswordForm.tag");
 require("./../../tags/Immutable/CGU.tag");
 
 // MISC
@@ -32,6 +33,7 @@ require("./../../tags/Misc/PlaceInput.tag");
 require("./../../tags/Misc/TabBar.tag");
 require("./../../tags/Misc/TimeInput.tag");
 require("./../../tags/Misc/UserSelector.tag");
+require("./../../tags/Misc/UploadInput.tag");
 
 
 // RECIPE
@@ -53,7 +55,6 @@ require("./../../tags/Origin/OriginEditForm.tag");
 // PIN
 require("./../../tags/Pin/PinEditForm.tag");
 
-
 // RESERVATION
 require("./../../tags/Reservation/ReservationValidateForm.tag");
 require("./../../tags/Reservation/Reservation.tag");
@@ -67,7 +68,6 @@ require("./../../tags/Search/Searcher.tag");
 require("./../../tags/Search/SearchResults.tag");
 
 // USER
-
 require("./../../tags/User/User.tag");
 require("./../../tags/User/UserEdit.tag");
 require("./../../tags/User/UserEditForm.tag");
@@ -80,6 +80,7 @@ require("./../../tags/Admin/AdminReports.tag");
 require("./../../tags/Admin/AdminOrigins.tag");
 require("./../../tags/Admin/AdminPins.tag");
 require("./../../tags/Admin/AdminReservations.tag");
+require("./../../tags/Admin/AdminUsers.tag");
 
 
 
@@ -87,6 +88,7 @@ require("./../../tags/Admin/AdminReservations.tag");
 
 class App
 {
+
     public static Address : string = "https://meltingcook.fr/API/API/";
 
 
@@ -116,7 +118,7 @@ class App
     }
 
 
-    public static request(address, data, redirect = true, bg = true)
+    public static request(address, data, redirect = true, bg = true, autorisation = null)
     {
         return new Promise(function(resolve, reject)
         {
@@ -125,11 +127,13 @@ class App
                 data = {};
             if(Login.GetInstance().isLogged() && data.token == null)
                 data.token = Login.GetInstance().Token();
-            var request = ajax({
+
+            let options = {
                 method : "POST",
                 url : address,
                 "data" : data
-            });
+            };
+            var request = ajax(options);
             if(bg)
                 App.showLoading();
             request.then(function(response)

@@ -17,10 +17,10 @@ class Router
 
     public start() : void
     {
-        if (Login.GetInstance().isLogged() === false && window.location.href.indexOf("/error") === -1)
+        /*if (Login.GetInstance().isLogged() === false && window.location.href.indexOf("/error") === -1)
         {
             route("");
-        }
+        }*/
         route.start(true);
     }
 
@@ -86,6 +86,8 @@ class Router
     // Error
     private error(message:string) : void
     {
+        App.hidePopUp();
+        App.hideLoading();
         if(message != null)
             message = decodeURI(message);
         App.changePage("app-error", {
@@ -181,10 +183,16 @@ class Router
             route("/register");
             return;
         }
+        if(Login.GetInstance().User().paypal == null || Login.GetInstance().User().paypal == "")
+        {
+            NotificationManager.showNotification("Vous devez associer un compte paypal à votre profil MeltingCook pour pouvoir proposer une recette.", "error");
+            route("/");
+            return;
+        }
         App.changePage("app-recipeedit", null);
     }
 
-    private recipeEdit(id : number) : void
+    /*private recipeEdit(id : number) : void
     {
         var request = App.request(App.Address + "/getrecipe", {
             "id" : id
@@ -205,7 +213,7 @@ class Router
         {
             ErrorHandler.alertIfError(error);
         });
-    }
+    }*/
 
     // ACCOUNT
     private accountKitchen() : void
@@ -416,15 +424,79 @@ class Router
             });
         });
         request.catch(function(error){
-           ErrorHandler.alertIfError(error);
+           ErrorHandler.alertIfError(error); 
         });
     }
 
+    private adminUsers(user_id : number) : void
+    {
+        if(Login.GetInstance().isLogged() == false || Login.GetInstance().User().rights < 2)
+        {
+            route("/");
+            return;
+        }
+        var filters : any = {};
+        if(user_id != null)
+            filters.id = user_id;
+        var request = App.request(App.Address + "/getusers", {
+            "filters" : JSON.stringify(filters)
+        });
+        request.then(function(response : any){
+            App.changePage("app-adminusers", {
+                "users" : response.data
+            });
+        });
+        request.catch(function(error)
+        {
+            ErrorHandler.alertIfError(error);
+        });
+    }
+
+    private resetPassword(token)
+    {
+        let request = App.request(App.Address+"/endresetpassword", {
+            "token" : token
+        });
+        request.then(function(response)
+        {
+            NotificationManager.showNotification("Nous vous avons envoyé un email contenant votre mot de passe temporaire !", "success");
+            route("/");
+        });
+        request.catch(function(error){
+            if(error instanceof Error)
+                ErrorHandler.alertIfError(error);
+        });
+    }
+
+    private paypalLogin()
+    {
+        let href = window.location.href.split("paypal=");
+        if(href.length < 2)
+        {
+            window.close();
+            return;
+        }
+        href = href[1].split("#");
+        if(href.length < 2)
+        {
+            window.close();
+            return;
+        }
+        let code = href[0];
+        window.localStorage.setItem("PaypalLogin-code", code);
+        window.close();
+    }
+
+    
 
     ///////////////////////////////////////////////////////////////
 
     private setRoutes() : void
     {
+
+        // ResetPassword
+        route("/resetpassword/*", this.resetPassword);
+
         // Reservation
         route("/reservation/recipe/*", this.reservationRecipe);
 
@@ -437,7 +509,8 @@ class Router
         route("/admin/reservations", () => {
             this.adminReservations();
         });
-
+        route("/admin/users", () => {this.adminUsers(null)});
+        route("/admin/users/*", (user_id) => {this.adminUsers(user_id)});
 
         // Account
         route("/account/recipes", this.accountRecipes);
@@ -449,7 +522,7 @@ class Router
         route("/user/*", this.user);
 
         // Recipe
-        route("/recipe/edit/*", this.recipeEdit);
+        //route("/recipe/edit/*", this.recipeEdit);
         route("/recipe/add", this.recipeAdd);
         route("/recipe/*", this.recipe);
 
@@ -476,7 +549,10 @@ class Router
             App.changePage("app-cgu", null);
         });
 
-        route('', function () {
+           
+        route("paypallogin", this.paypalLogin);
+
+        route('', () => {
             App.changePage("app-home", null);
         });
 

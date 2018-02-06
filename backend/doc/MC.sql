@@ -33,7 +33,7 @@ CREATE TABLE `Comment` (
   KEY `author_id` (`author_id`),
   CONSTRAINT `Comment_ibfk_1` FOREIGN KEY (`target_id`) REFERENCES `User` (`id`),
   CONSTRAINT `Comment_ibfk_2` FOREIGN KEY (`author_id`) REFERENCES `User` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,31 @@ CREATE TABLE `Comment` (
 
 LOCK TABLES `Comment` WRITE;
 /*!40000 ALTER TABLE `Comment` DISABLE KEYS */;
+INSERT INTO `Comment` VALUES (1,1,2,'Blah Blah Blah !',2),(2,1,2,'Blah Blah Blah !',2),(3,1,2,'Blah Blah Blah !',2),(4,1,2,'Blah Blaj Blah',3),(5,1,2,'blah blah blah',3),(6,1,2,'blah blah blah',3);
 /*!40000 ALTER TABLE `Comment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Meta`
+--
+
+DROP TABLE IF EXISTS `Meta`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Meta` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `last_timed_verification` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Meta`
+--
+
+LOCK TABLES `Meta` WRITE;
+/*!40000 ALTER TABLE `Meta` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Meta` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -61,7 +85,7 @@ CREATE TABLE `Notification` (
   PRIMARY KEY (`id`),
   KEY `User_id` (`User_id`),
   CONSTRAINT `Notification_ibfk_1` FOREIGN KEY (`User_id`) REFERENCES `User` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +94,7 @@ CREATE TABLE `Notification` (
 
 LOCK TABLES `Notification` WRITE;
 /*!40000 ALTER TABLE `Notification` DISABLE KEYS */;
-INSERT INTO `Notification` VALUES (1,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1),(2,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1),(3,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1),(4,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1),(5,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1),(6,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1),(7,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1),(8,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',1);
+INSERT INTO `Notification` VALUES (1,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',0),(2,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',0),(3,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',0),(4,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',0),(5,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',0),(6,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',0),(7,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',0),(8,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Recette de test.',0),(9,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Une autre recette de test.',0),(10,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Une autre recette de test.',0),(11,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Une autre recette de test.',0),(12,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Une autre recette de test.',0),(13,2,0,'Votre réservation concernant la recette Recette de test a été annulée. Vous serez remboursé sous peu selon les conditions MeltingCook.',0),(14,1,0,'Une réservation concernant la recette Recette de test a été annulée.',0),(15,1,0,'cloclo a lancé une procédure de réservation relative à votre recette Une autre recette de test.',0),(16,1,0,'Votre ancien invité cloclo a lancé la procédure de finalisation de sa réservation! Vous devriez bientôt reçevoir votre compensation !',0),(17,2,0,'Votre réservation concernant la recette Une autre recette de test a été finalisée. Votre hôte va recevoir votre compensation et vous remercie !',0),(18,1,0,'Vous avez reçu une compensation relative à la recette Une autre recette de test ! Allez jeter un oeil à votre compte Paypal !',0);
 /*!40000 ALTER TABLE `Notification` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -146,10 +170,11 @@ CREATE TABLE `Recipe` (
   `places` int(11) NOT NULL,
   `pins` varchar(1000) DEFAULT NULL,
   `place` varchar(400) NOT NULL,
+  `verified` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `User_id` (`User_id`),
   CONSTRAINT `Recipe_ibfk_1` FOREIGN KEY (`User_id`) REFERENCES `User` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -158,7 +183,7 @@ CREATE TABLE `Recipe` (
 
 LOCK TABLES `Recipe` WRITE;
 /*!40000 ALTER TABLE `Recipe` DISABLE KEYS */;
-INSERT INTO `Recipe` VALUES (1,'Gloubiboulga','La recette préférée de Casimir Il en mange tout le temps ce gros porc.','http://img0.encyclopedie-incomplete.com/local/cache-vignettes/L468xH340/casimir_hippolyte_gloubiboulga-c017e.jpg',1,'Française','Saucisse de morteau;Caca;prout',1502229600,1503612000,1,44.8026,-0.588054,1,'Halal','45.9;-1.033333'),(2,'Un bon gros caca','Du bon gros caca en boite comme on l\'aime tous, cuisiné avec amour putain','http://borkborkiamdoggo.com/wp-content/uploads/2016/12/alex-g-did-me-a-scare-is-not-a-trump-is-a-doggofoxxo.jpg',1,'Française','Caca',1502834400,1504130400,12,44.8026,-0.588054,42,'Halal','Hénin-Beaumont'),(3,'Recette de test','Ceci est une authentique recette de test ! C\'est fou non ?','https://pbs.twimg.com/profile_images/937626330249728000/5lLvVCtZ_400x400.jpg',1,'Française','Du code;Du savoir-faire;De la débrouille',1512514800,1514588400,12,44.7835,-0.592012,2,'Halal','Bordeaux');
+INSERT INTO `Recipe` VALUES (1,'Gloubiboulga','La recette préférée de Casimir Il en mange tout le temps ce gros porc.','http://img0.encyclopedie-incomplete.com/local/cache-vignettes/L468xH340/casimir_hippolyte_gloubiboulga-c017e.jpg',1,'Française','Saucisse de morteau;Caca;prout',1502229600,1503612000,1,44.8026,-0.588054,1,'Halal','45.9;-1.033333',0),(2,'Un bon gros caca','Du bon gros caca en boite comme on l\'aime tous, cuisiné avec amour putain','http://borkborkiamdoggo.com/wp-content/uploads/2016/12/alex-g-did-me-a-scare-is-not-a-trump-is-a-doggofoxxo.jpg',1,'Française','Caca',1502834400,1504130400,12,44.8026,-0.588054,42,'Halal','Hénin-Beaumont',0),(3,'Recette de test','Ceci est une authentique recette de test ! C\'est fou non ?','https://pbs.twimg.com/profile_images/937626330249728000/5lLvVCtZ_400x400.jpg',1,'Française','Du code;Du savoir-faire;De la débrouille',1512514800,1514588400,12,44.7835,-0.592012,2,'Halal','Bordeaux',0),(4,'Une autre recette de test','Une autre recette de testUne autre recette de testUne autre recette de testUne autre recette de testUne autre recette de testUne autre recette de testUne autre recette de testUne autre recette de testUne autre recette de testUne autre recette de testUne autre recette de test','http://gamingway.fr/wp-content/uploads/2017/04/clavier_mecanique_rgb_keyz_meca_the_g_lab_g-lab_avis_test_materiel-2.jpg',1,'Française','Du savoir faire;Du café;Encore du café',1515711600,1517353200,1,44.7835,-0.592012,2,'Halal','Talence',0),(5,'Recette de test','Recette de yesy kdkqsdsq qsdslqdj djsqldjlsqld qldjklqsjdklsqdqs','https://i.ytimg.com/vi/emks-wCjeEg/maxresdefault.jpg',1,'Française','Test',1517439600,1517612400,12,44.7835,-0.592012,12,'Halal','Ozan (01190)',0),(6,'Un eautre test','sd;qdlqsd kjdhjkjqsdhkjqshd jdhkjqsdhkjq hjdhqsdsdqs','https://tpc.googlesyndication.com/daca_images/simgad/10488446704168320102?w=400&h=209',1,'Française','test;',1517353200,1517612400,12,44.7835,-0.592012,12,'Halal','Ozan (01190)',0),(7,'dsqdsqdsq','dsqdqsdqsdqsdsqdqsdsdqdsqdsqdsqdsqdsqsdqdsdqsdsdqsdsqdsqdqs','https://tpc.googlesyndication.com/daca_images/simgad/10488446704168320102?w=400&h=209',1,'Française','caca',1517439600,1517612400,12,46.3833,4.91667,12,'Halal','Ozan (01190)',0);
 /*!40000 ALTER TABLE `Recipe` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -211,13 +236,11 @@ CREATE TABLE `Reservation` (
   `created_at` int(11) DEFAULT NULL,
   `paid_at` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `guest_id` (`guest_id`),
   UNIQUE KEY `Recipe_id` (`Recipe_id`),
   KEY `host_id` (`host_id`),
   CONSTRAINT `Reservation_ibfk_1` FOREIGN KEY (`host_id`) REFERENCES `User` (`id`),
-  CONSTRAINT `Reservation_ibfk_2` FOREIGN KEY (`guest_id`) REFERENCES `User` (`id`),
   CONSTRAINT `Reservation_ibfk_3` FOREIGN KEY (`Recipe_id`) REFERENCES `Recipe` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -226,7 +249,7 @@ CREATE TABLE `Reservation` (
 
 LOCK TABLES `Reservation` WRITE;
 /*!40000 ALTER TABLE `Reservation` DISABLE KEYS */;
-INSERT INTO `Reservation` VALUES (6,1,2,3,1,0,'899327589',NULL,1512657351,1512728322);
+INSERT INTO `Reservation` VALUES (11,1,2,4,1,2,NULL,1515859450,1515858143,NULL);
 /*!40000 ALTER TABLE `Reservation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -257,8 +280,11 @@ CREATE TABLE `User` (
   `firstname` varchar(400) NOT NULL,
   `lastname` varchar(400) NOT NULL,
   `address` varchar(1000) NOT NULL,
+  `forgot_password` int(11) DEFAULT '0',
+  `paypal` varchar(400) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`)
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `paypal` (`paypal`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -268,7 +294,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES (1,'rootroot','1e7e1ffa9c17090a4faf82859f5cd36c','https://pbs.twimg.com/profile_images/937626330249728000/5lLvVCtZ_400x400.jpg','44.7834739,-0.5920118999999999','0761889039',0,2,'caca;accariens','Française',NULL,'portron.cl@gmail.com','Nulle',0,'https://scontent-cdt1-1.xx.fbcdn.net/v/t1.0-9/20293989_1817665278249144_526222910380555977_n.jpg?oh=7b40ff9037adfa605656671e507b998b&oe=5A322986','Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca','Portron','Clovis','Les Grenouillères'),(2,'cloclo','1e7e1ffa9c17090a4faf82859f5cd36c','https://pbs.twimg.com/media/Co3jneoUkAEGml1.jpg','44.802614,-0.588054','0761889039',0,1,'zbleh','zbleh',NULL,'portron.cl@gmail.com','zbleh',19,'https://pbs.twimg.com/media/Co3jneoUkAEGml1.jpg','zbleh djsqkdjlqsj djslqdjljql lsjdkl jkldjl sqjdlqs dqs','','',''),(7,'rootroot1','1e7e1ffa9c17090a4faf82859f5cd36c','https://ih1.redbubble.net/image.240262109.3755/poster%2C210x230%2Cf8f8f8-pad%2C210x230%2Cf8f8f8.lite-1.jpg','44.828261,-0.5751322','0761889039',0,1,'Caca','Caca',NULL,'portron.cl@gmail.com','Caca',21,'https://ih1.redbubble.net/image.240262109.3755/poster%2C210x230%2Cf8f8f8-pad%2C210x230%2Cf8f8f8.lite-1.jpg','Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca','','',''),(9,'rootroot2','1e7e1ffa9c17090a4faf82859f5cd36c','https://ih1.redbubble.net/image.240262109.3755/poster%2C210x230%2Cf8f8f8-pad%2C210x230%2Cf8f8f8.lite-1.jpg','44.828261,-0.5751322','0761889039',0,1,'Caca','Caca',NULL,'portron.cl@gmail.com','Caca',21,'https://ih1.redbubble.net/image.240262109.3755/poster%2C210x230%2Cf8f8f8-pad%2C210x230%2Cf8f8f8.lite-1.jpg','Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca','','','');
+INSERT INTO `User` VALUES (1,'rootroot','1e7e1ffa9c17090a4faf82859f5cd36c','https://pbs.twimg.com/profile_images/937626330249728000/5lLvVCtZ_400x400.jpg','44.7834739,-0.5920118999999999','0761889039',0,2,'caca;accariens','Française',NULL,'portron.cl@gmail.com','Nulle',21,'https://scontent-cdt1-1.xx.fbcdn.net/v/t1.0-9/20293989_1817665278249144_526222910380555977_n.jpg?oh=7b40ff9037adfa605656671e507b998b&oe=5A322986','Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca','Portron','Clovis','Les Grenouillères',0,NULL),(2,'cloclo','1e7e1ffa9c17090a4faf82859f5cd36c','https://pbs.twimg.com/media/Co3jneoUkAEGml1.jpg','44.802614,-0.588054','0761889039',0,1,'zbleh','zbleh',NULL,'portron.cl@gmail.com','zbleh',19,'https://pbs.twimg.com/media/Co3jneoUkAEGml1.jpg','zbleh djsqkdjlqsj djslqdjljql lsjdkl jkldjl sqjdlqs dqs','','','',0,NULL),(7,'rootroot1','1e7e1ffa9c17090a4faf82859f5cd36c','https://ih1.redbubble.net/image.240262109.3755/poster%2C210x230%2Cf8f8f8-pad%2C210x230%2Cf8f8f8.lite-1.jpg','44.828261,-0.5751322','0761889039',0,1,'Caca','Caca',NULL,'portron.cl@gmail.com','Caca',21,'https://ih1.redbubble.net/image.240262109.3755/poster%2C210x230%2Cf8f8f8-pad%2C210x230%2Cf8f8f8.lite-1.jpg','Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca','','','',0,NULL),(9,'rootroot2','1e7e1ffa9c17090a4faf82859f5cd36c','https://ih1.redbubble.net/image.240262109.3755/poster%2C210x230%2Cf8f8f8-pad%2C210x230%2Cf8f8f8.lite-1.jpg','44.828261,-0.5751322','0761889039',0,1,'Caca','Caca',NULL,'portron.cl@gmail.com','Caca',21,'https://ih1.redbubble.net/image.240262109.3755/poster%2C210x230%2Cf8f8f8-pad%2C210x230%2Cf8f8f8.lite-1.jpg','Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca  Caca','','','',0,NULL);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -281,4 +307,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-08 10:20:03
+-- Dump completed on 2018-02-05 19:03:38

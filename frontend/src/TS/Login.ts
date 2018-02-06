@@ -67,7 +67,8 @@ class Login
                 resolve(response.data);
             });
             retrieve.catch((error)=>{
-                reject(error);
+                if(error instanceof Error)
+                    ErrorHandler.alertIfError(error);
             });
         });
     }

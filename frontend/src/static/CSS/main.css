@@ -86,6 +86,9 @@ body {
   background-color: white;
   padding: 20px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); }
+  @media screen and (max-width: 680px) {
+    .content {
+      width: 100% !important; } }
   .content.no-margin {
     width: 100%;
     max-width: 100%;
@@ -137,6 +140,14 @@ div#popup {
   overflow-y: auto;
   overflow-x: hidden;
   max-height: 90%; }
+  @media only screen and (max-width: 420px), (min-device-width: 768px) and (max-device-width: 1024px) {
+    div#popup {
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
+      transform: none; } }
   div#popup::after {
     position: absolute;
     box-sizing: border-box;
@@ -145,7 +156,7 @@ div#popup {
     width: 100%;
     height: 40px;
     content: attr(data-name);
-    font-family: "Raleway";
+    font-family: "Lobster";
     padding: 8px;
     font-size: 26px;
     background-color: #FDC279;
@@ -263,6 +274,35 @@ p {
   overflow-wrap: break-word;
   line-height: 22px; }
 
+@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+  /* Force table to not be like tables anymore */
+  table, thead, tbody, th, td, tr {
+    display: block; }
+  /* Hide table headers (but not display: none;, for accessibility) */
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px; }
+  tr {
+    border: 1px solid #ccc; }
+  td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%; }
+  td:before {
+    /* Now like a table header */
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    font-weight: bold; }
+  table td:last-of-type {
+    text-align: left; } }
+
 /**
  Importation des polices
 **/
@@ -276,6 +316,8 @@ p {
 
 a.onclick {
   cursor: pointer; }
+  a.onclick:focus {
+    outline: 0; }
 
 a.Button {
   display: inline-block;
@@ -288,6 +330,8 @@ a.Button {
   background-repeat: no-repeat;
   background-size: auto 70%;
   transition: all 0.2s ease; }
+  a.Button:focus {
+    outline: 0; }
   a.Button:hover {
     transform: scale(1.2, 1.2); }
   a.Button > span {
@@ -308,25 +352,25 @@ a.Button {
       color: #FDC279; }
   a.Button.fb {
     background-position: center;
-    background-size: auto 250%;
+    background-size: contain;
     background-image: url("/static/images/facebook.svg"); }
     a.Button.fb > span {
       color: transparent; }
   a.Button.twitter {
     background-position: center;
-    background-size: auto 250%;
+    background-size: contain;
     background-image: url("/static/images/twitter.svg"); }
     a.Button.twitter > span {
       color: transparent; }
   a.Button.insta {
     background-position: center;
-    background-size: auto 250%;
+    background-size: contain;
     background-image: url("/static/images/instagram.svg"); }
     a.Button.insta > span {
       color: transparent; }
   a.Button.youtube {
     background-position: center;
-    background-size: auto 250%;
+    background-size: contain;
     background-image: url("/static/images/youtube.svg"); }
     a.Button.youtube > span {
       color: transparent; }
@@ -348,6 +392,8 @@ a.Action {
   text-decoration: none;
   font-family: "Raleway";
   transition: all 0.2s ease; }
+  a.Action:focus {
+    outline: 0; }
   a.Action > span {
     height: 45px;
     line-height: 45px;
@@ -369,6 +415,8 @@ input[type=button] {
   border-radius: 15px;
   text-align: center;
   transition: all 0.2s ease; }
+  input[type=button]:focus {
+    outline: 0; }
   input[type=button].large {
     display: block;
     width: 90%;
@@ -437,6 +485,8 @@ input[type=text], select, input[type=password], textarea, .selectize-input, inpu
   padding: 10px;
   font-family: Raleway;
   font-size: 13px; }
+  input[type=text]:focus, select:focus, input[type=password]:focus, textarea:focus, .selectize-input:focus, input[type=number]:focus {
+    outline: 0; }
   input[type=text].selectize-input, select.selectize-input, input[type=password].selectize-input, textarea.selectize-input, .selectize-input.selectize-input, input[type=number].selectize-input {
     width: 100% !important; }
   input[type=text].picker__input, select.picker__input, input[type=password].picker__input, textarea.picker__input, .selectize-input.picker__input, input[type=number].picker__input {
@@ -452,9 +502,15 @@ input[type=text], select, input[type=password], textarea, .selectize-input, inpu
   .selectize-control div.selectized {
     display: inline-block; }
 
+input:disabled {
+  opacity: 0.3; }
+
 input[type=text].error, input[type=number].error, textarea.error, select.error,
 app-dateinput.error input, app-manyinputs.error input[type=text], app-origininput.error div.selectize-input, app-pinsinput.error div.selectize-input, app-placeinput.error div.selectize-input {
   border-color: red !important; }
+  input[type=text].error:focus, input[type=number].error:focus, textarea.error:focus, select.error:focus,
+  app-dateinput.error input:focus, app-manyinputs.error input[type=text]:focus, app-origininput.error div.selectize-input:focus, app-pinsinput.error div.selectize-input:focus, app-placeinput.error div.selectize-input:focus {
+    outline: 0; }
 
 label {
   font-size: 16px;
@@ -466,6 +522,9 @@ div label + * + p {
   margin-top: 8px; }
   div label + * + p.hint {
     display: none; }
+
+div label + .error + p:focus {
+  outline: 0; }
 
 div label + .error + p.hint {
   display: block;
@@ -515,7 +574,10 @@ span.Switch {
   border-radius: 25px;
   padding-left: 15px;
   padding-right: 15px;
-  border: 1px solid #ef9587; }
+  border: 1px solid #ef9587;
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px; }
   span.Switch a {
     cursor: pointer;
     display: inline-block;
@@ -580,6 +642,23 @@ div[data-is=app-adminpins] div.content a.Action, div[data-is=app-adminorigins] d
   margin-bottom: 20px;
   text-align: center; }
 
+app-adminusers div.search, div[data-is=app-adminusers] div.search {
+  background-image: url("/static/images/black_paper.png");
+  padding: 20px;
+  text-align: center; }
+  app-adminusers div.search form, div[data-is=app-adminusers] div.search form {
+    margin: auto;
+    max-width: 900px;
+    padding: 20px;
+    margin-top: 20px; }
+    app-adminusers div.search form h2, div[data-is=app-adminusers] div.search form h2 {
+      width: 100%;
+      color: #f2f4f3; }
+    app-adminusers div.search form table td, div[data-is=app-adminusers] div.search form table td {
+      color: #f2f4f3; }
+  app-adminusers div.search input[type=button], div[data-is=app-adminusers] div.search input[type=button] {
+    display: inline-block; }
+
 app-home, div[data-is=app-home] {
   display: block; }
   app-home h1, div[data-is=app-home] h1 {
@@ -588,7 +667,6 @@ app-home, div[data-is=app-home] {
     padding-bottom: 0;
     margin-bottom: 0; }
   app-home div.slider, div[data-is=app-home] div.slider {
-    background-image: url("/static/images/Image home.jpg");
     background-size: auto 100%;
     background-position: center;
     width: 100%;
@@ -604,6 +682,24 @@ app-home, div[data-is=app-home] {
     @media screen and (min-width: 1800px) {
       app-home div.slider, div[data-is=app-home] div.slider {
         background-size: auto 110%; } }
+    app-home div.slider div.slick-slide > div, div[data-is=app-home] div.slider div.slick-slide > div {
+      width: 100%;
+      height: 100%;
+      background-size: auto 100%;
+      background-position: center;
+      background-repeat: no-repeat; }
+      @media screen and (min-width: 380px) and (max-width: 650px) {
+        app-home div.slider div.slick-slide > div, div[data-is=app-home] div.slider div.slick-slide > div {
+          background-size: cover !important; } }
+      @media screen and (min-width: 1800px) {
+        app-home div.slider div.slick-slide > div, div[data-is=app-home] div.slider div.slick-slide > div {
+          background-size: auto 110%; } }
+    app-home div.slider div#slide-1, div[data-is=app-home] div.slider div#slide-1 {
+      background-image: url("/static/images/Image home.jpg"); }
+    app-home div.slider div#slide-2, div[data-is=app-home] div.slider div#slide-2 {
+      background-image: url("/static/images/Image home.jpg"); }
+    app-home div.slider div#slide-3, div[data-is=app-home] div.slider div#slide-3 {
+      background-image: url("/static/images/Image home.jpg"); }
   app-home div.ask, div[data-is=app-home] div.ask {
     background-image: url("/static/images/fond1.jpg");
     background-size: cover;
@@ -757,6 +853,22 @@ app-accountrecipes app-recipes, div[data-is=app-accountrecipes] app-recipes {
   width: 100%;
   margin: 20px; }
 
+@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+  div[data-is=app-accountreservations] {
+    /*
+        Label the data
+        */ }
+    div[data-is=app-accountreservations] td:nth-of-type(1):before {
+      content: "Identifiant"; }
+    div[data-is=app-accountreservations] td:nth-of-type(2):before {
+      content: "Hôte"; }
+    div[data-is=app-accountreservations] td:nth-of-type(3):before {
+      content: "Invité"; }
+    div[data-is=app-accountreservations] td:nth-of-type(4):before {
+      content: "Montant"; }
+    div[data-is=app-accountreservations] td:nth-of-type(5):before {
+      content: "Action"; } }
+
 app-useritem, div[data-is=app-useritem] {
   display: block;
   padding: 20px;
@@ -813,6 +925,9 @@ app-usereditform form > div, div[data-is=app-usereditform] form > div {
   padding: 20px;
   margin-bottom: 20px;
   border-bottom: 2px dotted #FDC279; }
+
+app-usereditform div.dropzone, div[data-is=app-usereditform] div.dropzone {
+  margin-top: 20px; }
 
 app-usereditform div input + p, div[data-is=app-usereditform] div input + p {
   font-size: 14px;
@@ -962,7 +1077,8 @@ app-manyinputs {
     width: 100%; }
 
 app-placeinput {
-  display: block; }
+  display: block;
+  min-width: 300px; }
 
 app-origininput {
   display: block; }
@@ -1004,7 +1120,8 @@ app-tabbar {
       app-tabbar span {
         display: block;
         margin: auto;
-        text-align: center; }
+        text-align: center;
+        border-top-right-radius: 0px; }
         app-tabbar span:first-of-type {
           margin-left: 0 !important; }
         app-tabbar span:last-of-type {
@@ -1092,11 +1209,14 @@ app-searcher {
     app-searcher > form * {
       margin-bottom: 8px;
       margin-right: 8px; }
+      app-searcher > form *.highlight {
+        margin-right: 0; }
     app-searcher > form app-placeinput, app-searcher > form app-origininput, app-searcher > form app-dateinput, app-searcher > form input[type=text], app-searcher > form input[type=number] {
       display: inline-block;
-      width: 170px !important; }
+      width: 170px !important;
+      vertical-align: middle; }
     app-searcher > form input[type=button] {
-      vertical-align: top; }
+      vertical-align: middle; }
     @media screen and (max-width: 560px) {
       app-searcher > form {
         text-align: center; } }
@@ -1202,6 +1322,9 @@ app-recipe div.infos, div[data-is=app-recipe] div.infos {
     border-bottom: 1px dotted #FDC279; }
   app-recipe div.infos div.details, div[data-is=app-recipe] div.infos div.details {
     margin-top: 20px; }
+    app-recipe div.infos div.details .dates, div[data-is=app-recipe] div.infos div.details .dates {
+      margin-bottom: 20px;
+      font-family: "Raleway"; }
     app-recipe div.infos div.details h2, div[data-is=app-recipe] div.infos div.details h2 {
       font-family: "Lobster"; }
     app-recipe div.infos div.details ul, div[data-is=app-recipe] div.infos div.details ul {
@@ -1314,6 +1437,8 @@ app-recipeitem, div[data-is=app-recipeitem] {
 
 app-recipeeditform, div[data-is=app-recipeeditform] {
   display: block; }
+  app-recipeeditform div.dropzone, div[data-is=app-recipeeditform] div.dropzone {
+    margin-top: 20px; }
   app-recipeeditform > form, div[data-is=app-recipeeditform] > form {
     text-align: center;
     margin-bottom: 20px; }
@@ -1501,6 +1626,7 @@ div[data-is=app-footer] {
         display: block;
         width: 100%;
         text-align: center;
+        margin-top: 20px;
         margin-bottom: 40px;
         margin-left: 0; }
         app-footer > div ul,
@@ -1509,8 +1635,8 @@ div[data-is=app-footer] {
           text-align: left; } }
   app-footer > div.portfolios,
   div[data-is=app-footer] > div.portfolios {
-    color: #f2f4f3;
-    margin-top: 8px; }
+    margin-top: 20px;
+    color: #f2f4f3; }
     app-footer > div.portfolios a,
     div[data-is=app-footer] > div.portfolios a {
       color: #FDC279; }

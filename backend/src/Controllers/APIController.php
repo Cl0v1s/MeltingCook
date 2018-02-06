@@ -32,6 +32,9 @@ class APIController extends Controller
 
         try {
             switch ($ope) {
+                case "paypallogin":
+                    $this->PaypalLogin();
+                    break;
                 case "auth":
                     $this->Auth();
                     break;
@@ -86,9 +89,9 @@ class APIController extends Controller
                 case "updatereport":
                     $this->UpdateReport();
                     break;
-                case "updaterecipe":
-                    $this->UpdateRecipe();
-                    break;
+                //case "updaterecipe":
+                //    $this->UpdateRecipe();
+                //    break;
                 case "updatenotification":
                     $this->UpdateNotification();
                     break;
@@ -149,17 +152,131 @@ class APIController extends Controller
                 case "validatereservation":
                     $this->ValidateReservation();
                     break;
+                case "beginresetpassword":
+                    $this->BeginResetPassword();
+                    break;
+                case "endresetpassword":
+                    $this->EndResetPassword();
+                    break;
+                case "timedverifications":
+                    $this->TimedVerifications();
+                    break;
                 default:
                     http_response_code(404);
                     return;
 
             }
         } catch (Exception $e) {
+            ErrorLogger::handleException($e);
             $this->Write(APIController::$NO, $e->getCode(), $e->getMessage() . "\n\n" . $e->getTraceAsString());
             return;
         }
     }
 
+    private function TimedVerifications()
+    {
+        API::TimedVerifications();
+        $this->Write(APIController::$OK, null);
+    }
+
+    private function PaypalLogin()
+    {
+
+        //TODO: améliorer la sécurité ici, il est possible de tricher avec l'url
+        //TODO: mettre vrai url
+
+        $callback = Configuration::$Paypal_logincallback;
+
+        $code = $_GET["code"];
+
+        $url = Configuration::$Paypal_tokenservice;
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+
+
+        $headr = array();
+        $headr[] = 'Content-type: application/x-www-form-urlencoded';
+        $headr[] = Configuration::$Paypal_clientid;
+        curl_setopt($ch, CURLOPT_HTTPHEADER,$headr);
+
+        // in real life you should use something like:
+        curl_setopt($ch, CURLOPT_POSTFIELDS, 
+                http_build_query(array('grant_type' => 'authorization_code', 'code' => $code)));
+
+        // receive server response ...
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $result = curl_exec ($ch);
+
+        curl_close ($ch);
+
+        $data = get_object_vars(json_decode($result));
+        if(isset($data["access_token"]) == false)
+        {
+            header("Location: ".$callback."#paypallogin");
+            return;
+        }
+            
+        $token = $data["access_token"];
+        $url = Configuration::$Paypal_userinfo;
+
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+
+
+        $headr = array();
+        $headr[] = 'Content-type: application/json';
+        $headr[] = 'Authorization:  Bearer '.$token;
+        
+        curl_setopt($ch, CURLOPT_HTTPHEADER,$headr);
+
+        // receive server response ...
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $result = curl_exec ($ch);
+
+        curl_close ($ch);
+
+        $data = get_object_vars(json_decode($result));
+
+        if(isset($data["email"]) == false)
+        {
+            header("Location: ".$callback."#paypallogin");
+            return;
+        }
+
+        header("Location: ".$callback."?paypal=".$data["email"]."#paypallogin");
+    }
+
+
+
+
+    // Fonctions spéciales liées aux processus de compte utilisateur
+    private function BeginResetPassword()
+    {
+        if(isset($_POST["email"]) == false){
+            $this->Write(APIController::$NO, null, "Missing Data");
+            return;
+        }
+        API::BeginResetPassword($_POST["email"]);
+        $this->Write(APIController::$OK, null);
+    }
+
+    private function EndResetPassword()
+    {
+        if(isset($_POST["token"]) == false){
+            $this->Write(APIController::$NO, null, "Missing Data");
+            return;
+        }
+        API::EndResetPassword($_POST["token"]);
+        $this->Write(APIController::$OK, null);
+    }
 
     // Fonctions spéciales liées aux processus de réservation
 
@@ -401,7 +518,7 @@ class APIController extends Controller
     {
         if(isset($_POST["name"]) == false || isset($_POST["description"]) == false || isset($_POST["picture"]) == false ||
         isset($_POST["origin"]) == false || isset($_POST["items"]) == false || isset($_POST["date_start"]) == false || isset($_POST["date_end"]) == false || isset($_POST["price"]) == false || isset($_POST["places"]) == false
-        || isset($_POST["place"]) == false)
+        || isset($_POST["place"]) == false || isset($_POST["latitude"]) == false || isset($_POST["longitude"]) == false)
         {
             $this->Write(APIController::$NO, null, "Missing Data");
             return;
@@ -410,17 +527,22 @@ class APIController extends Controller
         $recipe->setName($_POST["name"]);
         $recipe->setDescription($_POST["description"]);
         $recipe->setPicture($_POST["picture"]);
-	$user = API::auth($_POST["token"]);
+	    $user = API::auth($_POST["token"]);
         $recipe->setUserId($user->Id());
-	$recipe->setLatitude(explode(",",$user->Geolocation())[0]);
-	$recipe->setLongitude(explode(",",$user->Geolocation())[1]);
+        $recipe->setLatitude($_POST["latitude"]);
+        $recipe->setLongitude($_POST["longitude"]);
+        /*if($user->Geolocation() != null)
+        {
+            $recipe->setLatitude(explode(",",$user->Geolocation())[0]);
+            $recipe->setLongitude(explode(",",$user->Geolocation())[1]);
+        }*/
         $recipe->setOrigin($_POST["origin"]);
         $recipe->setItems($_POST["items"]);
         $recipe->setDateStart($_POST["date_start"]);
         $recipe->setDateEnd($_POST["date_end"]);
         $recipe->setPrice($_POST["price"]);
         $recipe->setPlaces($_POST["places"]);
-	$recipe->setPlace($_POST["place"]);
+	    $recipe->setPlace($_POST["place"]);
         if(isset($_POST["pins"]))
             $recipe->setPins($_POST["pins"]);
         $this->Add($recipe);
@@ -428,7 +550,7 @@ class APIController extends Controller
 
     private function AddUser()
     {
-        if(isset($_POST["username"]) == false || isset($_POST["password"]) == false || isset($_POST["geolocation"]) == false || isset($_POST["phone"]) == false || isset($_POST["mail"]) == false
+        if(isset($_POST["username"]) == false || isset($_POST["password"]) == false || isset($_POST["phone"]) == false || isset($_POST["mail"]) == false
             || isset($_POST["age"]) == false || isset($_POST["description"]) == false || isset($_POST["lastname"]) == false || isset($_POST["firstname"]) == false || isset($_POST["address"]) == false)
         {
             $this->Write(APIController::$NO, null, "Missing Data");
@@ -437,14 +559,18 @@ class APIController extends Controller
         $user = new User(null);
         $user->setUsername($_POST["username"]);
         $user->setPassword($_POST["password"]);
-        $user->setGeolocation($_POST["geolocation"]);
         $user->setPhone($_POST["phone"]);
         $user->setMail($_POST["mail"]);
-            $user->setDescription($_POST["description"]);
-            $user->setFirstname($_POST["firstname"]);
-            $user->setLastname($_POST["lastname"]);
-            $user->setAddress($_POST["address"]);
+        $user->setDescription($_POST["description"]);
+        $user->setFirstname($_POST["firstname"]);
+        $user->setLastname($_POST["lastname"]);
+        $user->setAddress($_POST["address"]);
         $user->setAge($_POST["age"]);
+
+        if(isset($_POST["paypal"]))
+            $user->setPaypal($_POST["paypal"]);
+        if(isset($_POST["geolocation"]))
+            $user->setGeolocation($_POST["geolocation"]);
         if(isset($_POST["picture"]))
             $user->setPicture($_POST["picture"]);
         if(isset($_POST["discease"]))
@@ -521,6 +647,8 @@ class APIController extends Controller
             $user->setFirstname($_POST["firstname"]);
         if(isset($_POST["address"]))
             $user->setAddress($_POST["address"]);
+        if(isset($_POST["paypal"]))
+            $user->setPaypal($_POST["paypal"]);
         $this->Update($user);
     }
 

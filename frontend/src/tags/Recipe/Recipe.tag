@@ -21,11 +21,15 @@
                 </div>
 
                 <div class="geolocation">
-                    <app-placehint latitude={ recipe.latitude } longitude={ recipe.longitude} place={ recipe.place
-                                   }></app-placehint>
+                    <app-placehint latitude={ recipe.latitude } longitude={ recipe.longitude} place={ recipe.place }></app-placehint>
                 </div>
 
                 <div class="details">
+                    <h2>Dates :</h2>
+                    <div class="dates">
+                        { recipe.date_start_readable } - 
+                        { recipe.date_end_readable } 
+                    </div>
                     <h2>Ingédients :</h2>
                     <ul>
                         <li each={ item in recipe.items }>{ item }</li>

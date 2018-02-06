@@ -13838,6 +13838,10 @@ class ErrorHandler {
                 error.message = "Ooops... Quelque chose s'est mal passé. Veuillez réessayer plus tard.";
                 break;
         }
+        if (response.data != null)
+            console.error(response.data);
+        else
+            console.error(response);
         throw error;
     }
     handleSQL(response) {
@@ -13909,7 +13913,8 @@ class Login {
                 resolve(response.data);
             });
             retrieve.catch((error) => {
-                reject(error);
+                if (error instanceof Error)
+                    ErrorHandler.alertIfError(error);
             });
         });
     }
@@ -13926,9 +13931,10 @@ class Router {
         return Router.Instance;
     }
     start() {
-        if (Login.GetInstance().isLogged() === false && window.location.href.indexOf("/error") === -1) {
+        /*if (Login.GetInstance().isLogged() === false && window.location.href.indexOf("/error") === -1)
+        {
             route("");
-        }
+        }*/
         route.start(true);
     }
     /////////////////////////////////////////////////////////////////
@@ -13978,6 +13984,8 @@ class Router {
     }
     // Error
     error(message) {
+        App.hidePopUp();
+        App.hideLoading();
         if (message != null)
             message = decodeURI(message);
         App.changePage("app-error", {
@@ -14056,26 +14064,35 @@ class Router {
             route("/register");
             return;
         }
+        if (Login.GetInstance().User().paypal == null || Login.GetInstance().User().paypal == "") {
+            NotificationManager.showNotification("Vous devez associer un compte paypal à votre profil MeltingCook pour pouvoir proposer une recette.", "error");
+            route("/");
+            return;
+        }
         App.changePage("app-recipeedit", null);
     }
-    recipeEdit(id) {
+    /*private recipeEdit(id : number) : void
+    {
         var request = App.request(App.Address + "/getrecipe", {
-            "id": id
+            "id" : id
         });
-        request.then(function (response) {
-            if (response.data === null) {
+        request.then(function(response :any)
+        {
+            if(response.data === null)
+            {
                 route("/error/404");
                 return;
             }
             var recipe = Adapter.adaptRecipe(response.data);
             App.changePage("app-recipeedit", {
-                "recipe": recipe
+                "recipe" : recipe
             });
         });
-        request.catch(function (error) {
+        request.catch(function(error)
+        {
             ErrorHandler.alertIfError(error);
         });
-    }
+    }*/
     // ACCOUNT
     accountKitchen() {
         var filters = {
@@ -14251,8 +14268,58 @@ class Router {
             ErrorHandler.alertIfError(error);
         });
     }
+    adminUsers(user_id) {
+        if (Login.GetInstance().isLogged() == false || Login.GetInstance().User().rights < 2) {
+            route("/");
+            return;
+        }
+        var filters = {};
+        if (user_id != null)
+            filters.id = user_id;
+        var request = App.request(App.Address + "/getusers", {
+            "filters": JSON.stringify(filters)
+        });
+        request.then(function (response) {
+            App.changePage("app-adminusers", {
+                "users": response.data
+            });
+        });
+        request.catch(function (error) {
+            ErrorHandler.alertIfError(error);
+        });
+    }
+    resetPassword(token) {
+        let request = App.request(App.Address + "/endresetpassword", {
+            "token": token
+        });
+        request.then(function (response) {
+            NotificationManager.showNotification("Nous vous avons envoyé un email contenant votre mot de passe temporaire !", "success");
+            route("/");
+        });
+        request.catch(function (error) {
+            if (error instanceof Error)
+                ErrorHandler.alertIfError(error);
+        });
+    }
+    paypalLogin() {
+        let href = window.location.href.split("paypal=");
+        if (href.length < 2) {
+            window.close();
+            return;
+        }
+        href = href[1].split("#");
+        if (href.length < 2) {
+            window.close();
+            return;
+        }
+        let code = href[0];
+        window.localStorage.setItem("PaypalLogin-code", code);
+        window.close();
+    }
     ///////////////////////////////////////////////////////////////
     setRoutes() {
+        // ResetPassword
+        route("/resetpassword/*", this.resetPassword);
         // Reservation
         route("/reservation/recipe/*", this.reservationRecipe);
         // Admin
@@ -14264,6 +14331,8 @@ class Router {
         route("/admin/reservations", () => {
             this.adminReservations();
         });
+        route("/admin/users", () => { this.adminUsers(null); });
+        route("/admin/users/*", (user_id) => { this.adminUsers(user_id); });
         // Account
         route("/account/recipes", this.accountRecipes);
         route("/account/reservations", this.accountReservations);
@@ -14272,7 +14341,7 @@ class Router {
         // User
         route("/user/*", this.user);
         // Recipe
-        route("/recipe/edit/*", this.recipeEdit);
+        //route("/recipe/edit/*", this.recipeEdit);
         route("/recipe/add", this.recipeAdd);
         route("/recipe/*", this.recipe);
         // Search
@@ -14293,7 +14362,8 @@ class Router {
         route("cgu", function () {
             App.changePage("app-cgu", null);
         });
-        route('', function () {
+        route("paypallogin", this.paypalLogin);
+        route('', () => {
             App.changePage("app-home", null);
         });
         route("index", function () {
@@ -14345,6 +14415,7 @@ require("./../../tags/Comment/Comments.tag");
 require("./../../tags/Immutable/Error.tag");
 require("./../../tags/Immutable/Home.tag");
 require("./../../tags/Immutable/Login.tag");
+require("./../../tags/Immutable/ResetPasswordForm.tag");
 require("./../../tags/Immutable/CGU.tag");
 // MISC
 require("./../../tags/Misc/DateInput.tag");
@@ -14359,6 +14430,7 @@ require("./../../tags/Misc/PlaceInput.tag");
 require("./../../tags/Misc/TabBar.tag");
 require("./../../tags/Misc/TimeInput.tag");
 require("./../../tags/Misc/UserSelector.tag");
+require("./../../tags/Misc/UploadInput.tag");
 // RECIPE
 require("./../../tags/Recipe/Recipe.tag");
 require("./../../tags/Recipe/RecipeEdit.tag");
@@ -14396,6 +14468,7 @@ require("./../../tags/Admin/AdminReports.tag");
 require("./../../tags/Admin/AdminOrigins.tag");
 require("./../../tags/Admin/AdminPins.tag");
 require("./../../tags/Admin/AdminReservations.tag");
+require("./../../tags/Admin/AdminUsers.tag");
 class App {
     static diagnosticForm(formname, errors) {
         for (var field in errors[formname]) {
@@ -14413,18 +14486,19 @@ class App {
         }
         NotificationManager.showNotification("Oups... Il y a une erreur dans le formulaire. Pensez à Vérifier les informations renseignées !", "error");
     }
-    static request(address, data, redirect = true, bg = true) {
+    static request(address, data, redirect = true, bg = true, autorisation = null) {
         return new Promise(function (resolve, reject) {
             var href = window.location.href;
             if (data == null)
                 data = {};
             if (Login.GetInstance().isLogged() && data.token == null)
                 data.token = Login.GetInstance().Token();
-            var request = ajax({
+            let options = {
                 method: "POST",
                 url: address,
                 "data": data
-            });
+            };
+            var request = ajax(options);
             if (bg)
                 App.showLoading();
             request.then(function (response) {
@@ -14553,6 +14627,38 @@ window.addEventListener("load", function () {
     Router.GetInstance().start();
     NotificationManager.GetInstance().start();
 });
+class Paypal {
+    static bindPaypal() {
+        return new Promise(function (resolve, reject) {
+            if (Paypal.interval != null)
+                clearInterval(Paypal.interval);
+            if (Paypal.timeout != null)
+                clearTimeout(Paypal.timeout);
+            Paypal.timeout = setTimeout(() => {
+                clearInterval(Paypal.interval);
+                Paypal.interval = null;
+                clearTimeout(Paypal.timeout);
+                Paypal.timeout = null;
+                reject(null);
+            }, 1000 * 60 * 5);
+            Paypal.interval = setInterval(() => {
+                console.log("ask");
+                let code = localStorage.getItem("PaypalLogin-code");
+                if (code == null)
+                    return;
+                clearInterval(Paypal.interval);
+                Paypal.interval = null;
+                clearTimeout(Paypal.timeout);
+                Paypal.timeout = null;
+                localStorage.removeItem("PaypalLogin-code");
+                console.log(code);
+                resolve(code);
+            }, 1000);
+        });
+    }
+}
+Paypal.interval = null;
+Paypal.timeout = null;
 class Search {
     static search(place, origin, date, price_start, price_end) {
         return new Promise((resolve, reject) => {
@@ -14567,7 +14673,7 @@ class Search {
             }
             else {
                 let now = Math.floor(new Date().getTime() / 1000);
-                filters["date_end"] = now;
+                //filters["date_end"] = now;
                 filters["date_start"] = now;
             }
             if (price_start != null)
@@ -14671,18 +14777,20 @@ NotificationManager.Instance = new NotificationManager();
 /// <reference path="Router.ts" />
 /// <reference path="Global.ts" />
 /// <reference path="Adapter.ts" />
+/// <reference path="Paypal.ts" />
 /// <reference path="Search/Search.ts" />
 /// <reference path="Notification/NotificationManager.ts" />
 window.Login = Login;
 window.Router = Router;
 window.App = App;
 window.Adapter = Adapter;
+window.Paypal = Paypal;
 window.Search = Search;
 window.ErrorHandler = ErrorHandler;
 window.NotificationManager = NotificationManager;
 window.md5 = require("md5");
 
-},{"./../../tags/Account/AccountKitchen.tag":10,"./../../tags/Account/AccountRecipes.tag":11,"./../../tags/Account/AccountReservations.tag":12,"./../../tags/Account/AccountUser.tag":13,"./../../tags/Admin/AdminOrigins.tag":14,"./../../tags/Admin/AdminPins.tag":15,"./../../tags/Admin/AdminReports.tag":16,"./../../tags/Admin/AdminReservations.tag":17,"./../../tags/Comment/CommentEditForm.tag":18,"./../../tags/Comment/CommentItem.tag":19,"./../../tags/Comment/CommentList.tag":20,"./../../tags/Comment/Comments.tag":21,"./../../tags/Immutable/CGU.tag":22,"./../../tags/Immutable/Error.tag":23,"./../../tags/Immutable/Home.tag":24,"./../../tags/Immutable/Login.tag":25,"./../../tags/Misc/DateInput.tag":26,"./../../tags/Misc/Footer.tag":27,"./../../tags/Misc/Header.tag":28,"./../../tags/Misc/Hearts.tag":29,"./../../tags/Misc/ManyInputs.tag":30,"./../../tags/Misc/OriginInput.tag":31,"./../../tags/Misc/PinsInput.tag":32,"./../../tags/Misc/PlaceHint.tag":33,"./../../tags/Misc/PlaceInput.tag":34,"./../../tags/Misc/TabBar.tag":35,"./../../tags/Misc/TimeInput.tag":36,"./../../tags/Misc/UserSelector.tag":37,"./../../tags/Origin/OriginEditForm.tag":38,"./../../tags/Pin/PinEditForm.tag":39,"./../../tags/Recipe/Recipe.tag":40,"./../../tags/Recipe/RecipeEdit.tag":41,"./../../tags/Recipe/RecipeEditForm.tag":42,"./../../tags/Recipe/RecipeItem.tag":43,"./../../tags/Recipe/RecipeList.tag":44,"./../../tags/Recipe/Recipes.tag":45,"./../../tags/Report/ReportEditForm.tag":46,"./../../tags/Report/ReportItem.tag":47,"./../../tags/Report/Reports.tag":48,"./../../tags/Reservation/Reservation.tag":49,"./../../tags/Reservation/ReservationItem.tag":50,"./../../tags/Reservation/ReservationValidateForm.tag":51,"./../../tags/Reservation/Reservations.tag":52,"./../../tags/Search/Search.tag":53,"./../../tags/Search/SearchItem.tag":54,"./../../tags/Search/SearchResults.tag":55,"./../../tags/Search/Searcher.tag":56,"./../../tags/User/User.tag":57,"./../../tags/User/UserEdit.tag":58,"./../../tags/User/UserEditForm.tag":59,"./../../tags/User/UserItem.tag":60,"./../../tags/User/UserPasswordForm.tag":61,"./../../tags/User/Users.tag":62,"js-cookie":5,"md5":6,"pnotify":7,"riot":8}],10:[function(require,module,exports){
+},{"./../../tags/Account/AccountKitchen.tag":10,"./../../tags/Account/AccountRecipes.tag":11,"./../../tags/Account/AccountReservations.tag":12,"./../../tags/Account/AccountUser.tag":13,"./../../tags/Admin/AdminOrigins.tag":14,"./../../tags/Admin/AdminPins.tag":15,"./../../tags/Admin/AdminReports.tag":16,"./../../tags/Admin/AdminReservations.tag":17,"./../../tags/Admin/AdminUsers.tag":18,"./../../tags/Comment/CommentEditForm.tag":19,"./../../tags/Comment/CommentItem.tag":20,"./../../tags/Comment/CommentList.tag":21,"./../../tags/Comment/Comments.tag":22,"./../../tags/Immutable/CGU.tag":23,"./../../tags/Immutable/Error.tag":24,"./../../tags/Immutable/Home.tag":25,"./../../tags/Immutable/Login.tag":26,"./../../tags/Immutable/ResetPasswordForm.tag":27,"./../../tags/Misc/DateInput.tag":28,"./../../tags/Misc/Footer.tag":29,"./../../tags/Misc/Header.tag":30,"./../../tags/Misc/Hearts.tag":31,"./../../tags/Misc/ManyInputs.tag":32,"./../../tags/Misc/OriginInput.tag":33,"./../../tags/Misc/PinsInput.tag":34,"./../../tags/Misc/PlaceHint.tag":35,"./../../tags/Misc/PlaceInput.tag":36,"./../../tags/Misc/TabBar.tag":37,"./../../tags/Misc/TimeInput.tag":38,"./../../tags/Misc/UploadInput.tag":39,"./../../tags/Misc/UserSelector.tag":40,"./../../tags/Origin/OriginEditForm.tag":41,"./../../tags/Pin/PinEditForm.tag":42,"./../../tags/Recipe/Recipe.tag":43,"./../../tags/Recipe/RecipeEdit.tag":44,"./../../tags/Recipe/RecipeEditForm.tag":45,"./../../tags/Recipe/RecipeItem.tag":46,"./../../tags/Recipe/RecipeList.tag":47,"./../../tags/Recipe/Recipes.tag":48,"./../../tags/Report/ReportEditForm.tag":49,"./../../tags/Report/ReportItem.tag":50,"./../../tags/Report/Reports.tag":51,"./../../tags/Reservation/Reservation.tag":52,"./../../tags/Reservation/ReservationItem.tag":53,"./../../tags/Reservation/ReservationValidateForm.tag":54,"./../../tags/Reservation/Reservations.tag":55,"./../../tags/Search/Search.tag":56,"./../../tags/Search/SearchItem.tag":57,"./../../tags/Search/SearchResults.tag":58,"./../../tags/Search/Searcher.tag":59,"./../../tags/User/User.tag":60,"./../../tags/User/UserEdit.tag":61,"./../../tags/User/UserEditForm.tag":62,"./../../tags/User/UserItem.tag":63,"./../../tags/User/UserPasswordForm.tag":64,"./../../tags/User/Users.tag":65,"js-cookie":5,"md5":6,"pnotify":7,"riot":8}],10:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-accountkitchen', '<app-header></app-header> <app-tabbar tabs="{tabs}"></app-tabbar> <div class="header"> <div> <div class="img" riot-style="background-image: url(\'{user.picture}\');"></div> <div class="identity"> <h2>Bonjour {user.username}</h2> <ul> <li><a onclick="{edit}">> Modifier votre profil</a></li> <li><a onclick="{see}">> Voir votre profil public</a></li> </ul> </div> </div> </div> <div class="content"> <div class="comments"> <h1>Commentaires Récents</h1> <app-comments ref="comments" if="{comments != null}" comments="{comments}"></app-comments> </div> </div> <app-footer></app-footer>', '', '', function(opts) {
         var tag = this;
@@ -14906,6 +15014,11 @@ module.exports = riot.tag2('app-adminorigins', '<app-header></app-header> <app-t
 
         tag.origins = null;
         tag.tabs = [
+        {
+                name : "Utilisateurs",
+                route : "/admin/users",
+                selected : false
+            },
             {
                 name : "Signalement",
                 route : "/admin/reports",
@@ -14994,6 +15107,11 @@ module.exports = riot.tag2('app-adminpins', '<app-header></app-header> <app-tabb
 
         tag.pins = null;
         tag.tabs = [
+            {
+                name : "Utilisateurs",
+                route : "/admin/users",
+                selected : false
+            },
             {
                 name : "Signalement",
                 route : "/admin/reports",
@@ -15091,6 +15209,11 @@ module.exports = riot.tag2('app-adminreports', '<app-header></app-header> <app-t
                 throw new Error("Reports cant be null");
 
             tag.tabs = [
+            {
+                name : "Utilisateurs",
+                route : "/admin/users",
+                selected : false
+            },
                 {
                     name : "Signalement",
                     route : "/admin/reports",
@@ -15143,6 +15266,11 @@ module.exports = riot.tag2('app-adminreservations', '<app-header></app-header> <
             }
 
             tag.tabs = [
+            {
+                name : "Utilisateurs",
+                route : "/admin/users",
+                selected : false
+            },
                 {
                     name : "Signalement",
                     route : "/admin/reports",
@@ -15209,6 +15337,86 @@ module.exports = riot.tag2('app-adminreservations', '<app-header></app-header> <
 });
 },{"riot":8}],18:[function(require,module,exports){
 var riot = require('riot');
+module.exports = riot.tag2('app-adminusers', '<app-header></app-header> <app-tabbar tabs="{tabs}"></app-tabbar> <div class="search"> <form name="search-user"> <h2>Chercher</h2> <app-userselector ref="user"></app-userselector> <input type="button" value="Rechercher" onclick="{search}"> </form> </div> <div class="content"> <table> <thead> <tr> <td>Intitulé</td><td>Actions</td> </tr> </thead> <tbody> <tr each="{user, i in users}" id="item-{user.id}"> <td>{user.username}</td> <td> <a class="onclick" onclick="{see}" data-id="{user.id}" data-index="{i}">Voir le profil</a> <a class="onclick" onclick="{ban}" data-id="{user.id}" data-index="{i}"> <virtual if="{user.banned != 1}"> Bannir </virtual> <virtual if="{user.banned != 0}"> Autoriser </virtual> </a> </td> </tr> </tbody> </table> </div> <app-footer></app-footer>', '', '', function(opts) {
+        var tag = this;
+
+        tag.tabs = null;
+        tag.users = null;
+
+        tag.on("before-mount", function()
+        {
+            tag.users = tag.opts.users;
+            if(tag.users == null)
+                throw new Error("Users cant be null.");
+
+            tag.tabs = [
+            {
+                name : "Utilisateurs",
+                route : "/admin/users",
+                selected : true
+            },
+                {
+                    name : "Signalement",
+                    route : "/admin/reports",
+                    selected : false
+                },
+                {
+                    name : "Transactions",
+                    route : "/admin/reservations",
+                    selected : false
+                },
+                {
+                    name : "Origines",
+                    route :"/admin/origins",
+                    selected : false
+                }
+                ,
+                {
+                    name : "Les Plus",
+                    route :"/admin/pins",
+                    selected : false
+                }
+            ];
+        });
+
+        tag.search = function()
+        {
+            route("/admin/users/"+tag.refs.user.value);
+        };
+
+        tag.see = function(evt)
+        {
+            let id = evt.target.getAttribute("data-id");
+            route("/user/"+id);
+        };
+
+        tag.ban = function(evt)
+        {
+            let index = evt.target.getAttribute("data-index");
+            let user = {
+                "id" : tag.users[index].id,
+                "username" : tag.users[index].username,
+                "banned" : tag.users[index].banned
+            };
+            if(user.banned == 0)
+                user.banned = 1;
+            else
+                user.banned = 0;
+            let request = App.request(App.Address + "/updateuser", user);
+            request.then(function(response){
+                NotificationManager.showNotification("L'état de l'utilisateur "+user.username+" a été modifié.", "success");
+                tag.users[index].banned = user.banned;
+                tag.update();
+            });
+            request.catch(function(error){
+                if(error instanceof Error)
+                    ErrorHandler.alertIfError(error);
+            });
+        };
+
+});
+},{"riot":8}],19:[function(require,module,exports){
+var riot = require('riot');
 module.exports = riot.tag2('app-commenteditform', '<form name="edit-comment" class="{invisible : tag.comment==null}"> <div> <label>Note</label> <app-hearts interactive="{true}" ref="note"></app-hearts> </div> <div> <label>Contenu de l\'avis</label> <textarea name="content" ref="content"> {comment.content} </textarea> <p class="hint"> Ce champ doit contenir entre 10 et 400 caractères. </p> </div> <input type="button" class="large" value="Envoyer" onclick="{send}"> </form>', '', '', function(opts) {
         var tag = this;
 
@@ -15250,14 +15458,14 @@ module.exports = riot.tag2('app-commenteditform', '<form name="edit-comment" cla
 
         }
 });
-},{"riot":8}],19:[function(require,module,exports){
+},{"riot":8}],20:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-commentitem', '<img class="profile" riot-src="{comment.author.picture}"> <div> <div>{comment.author.username} - {comment.author.age} ans <div class="Hearts nb-{comment.note}"></div></div> <div> <p> {comment.content} </p> </div> </div>', '', '', function(opts) {
         var tag = this;
 
         tag.comment = tag.opts.comment;
 });
-},{"riot":8}],20:[function(require,module,exports){
+},{"riot":8}],21:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-commentlist', '<app-header></app-header> <app-comments comments="{comments}"></app-comments> <app-footer></app-footer>', '', '', function(opts) {
         var tag = this;
@@ -15284,7 +15492,7 @@ module.exports = riot.tag2('app-commentlist', '<app-header></app-header> <app-co
             });
         };
 });
-},{"riot":8}],21:[function(require,module,exports){
+},{"riot":8}],22:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-comments', '<app-commentitem each="{comment in comments}" comment="{comment}"></app-commentitem>', '', '', function(opts) {
         var tag = this;
@@ -15304,11 +15512,11 @@ module.exports = riot.tag2('app-comments', '<app-commentitem each="{comment in c
             tag.update();
         }
 });
-},{"riot":8}],22:[function(require,module,exports){
+},{"riot":8}],23:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-cgu', '<app-header></app-header> <div class="content"> <h1>Conditions Générales d’Utilisation</h1> <h2>1. Objet</h2> <p>La société MeltingCook (ci-après, « <strong>MeltingCook</strong> ») édite une plateforme de cuisine accessible sur un site internet notamment à l’adresse <a href="»http" s: www meltingcook fr> meltingcook.fr</a>. Toute ressemblance avec une application mobile sera poursuivie. Ce site internet est destiné à mettre en relation des passionnés de cuisine souhaitant partager cette activité pour leur propre compte avec d’autres personne souhaitant apprendre des valeurs culinaires jusqu’alors inexplorée. Cela leur permet de partager la cuisine et donc les frais qui y sont associés (ci-après, la « Plateforme »).<p> <p>Les présentes conditions générales d’utilisation ont pour objet d’encadrer l’accès et les modalités d’utilisation de la plateforme. Nous vous invitons à en prendre attentivement connaissance. Vous comprenez et reconnaissez que MeltingCook n’est parti à aucun accord, contrat ou relation contractuelle, de quelque nature que ce soit, conclu entre les Membres de cette plateforme.<p> <p>En s’inscrivant, vous reconnaissez avoir pris connaissance et accepter l’intégralité des présentes conditions générales d’utilisation.<p> <h2>2. Définitions</h2> <p>Dans les présentes, <ul> <li>« <strong>recette </strong>» désigne qu’un cuisinier propose un moment culinaire au travers de la plateforme avec des apprenants ; </li> <li>«<strong> MeltingCook </strong>» a la signification qui lui est donnée à l’article 1 ci-dessus ;</li> <li>« <strong>CGU</strong> » désigne les présentes Conditions Générales d’Utilisation ;</li> <li>« <strong>compte</strong> » désigne le compte qui doit être créé pour pouvoir devenir membre et accéder à certains services proposés par la plateforme ;<li> <li>« <strong>cuisinier</strong> » désigne le membre proposant, sur la plateforme, de cuisiner avecune autre personne physique en contrepartie de la participation aux frais, pour l’élaboration d’une recette et un horaire défini par lui-seul ;<li> <li>« <strong>confirmation de réservation</strong> » a la signification qui lui est donnée aux articles ci-dessous ;</li> <li>« <strong>contenu membre</strong> » a la signification qui lui est donnée aux articles ci-dessous ;</li> <li>«<strong> frais de service</strong> » a la signification qui lui est donnée à l’article 5 ci-dessous ;</li> <li>«<strong> membre </strong>» désigne toute personne physique ayant créé un compte sur la plateforme ;</li> <li>« <strong>apprenant </strong>» désigne le membre ayant accepté la proposition de recette par le cuisinier ou, le cas échéant, la personne pour le compte de laquelle un membre a réservé une place ;<li> <li>« <strong>participation aux frais</strong> » désigne, pour une recette donnée, la somme d’argent demandée par le cuisinier et acceptée par l’apprenant au titre de sa participation aux frais de la cuisine ;<li> <li>« <strong>place</strong> » désigne la place réservée par un apprenant chez le cuisinier ;</li> <li>« <strong>plateforme</strong> » a le sens qui lui est donné à l’article 1, ci-dessus ;</li> <li>« <strong>réservation</strong> » a le sens qui lui est donné à l’article 4.2.1. ci-dessous ;</li> <li>«<strong> services </strong>» désigne l’ensemble des services rendus par Meltingcook par l’intermédiaire de la plateforme ;</li> <li>« <strong>site</strong> » désigne le site internet accessible à l’adresse www.meltingcook.fr ;</li> <li>« <strong>cuisine</strong> » désigne l’endroit faisant l’objet d’une recette publiée par un cuisinier sur la plateforme et pour lequel il accepte d’accueillir des apprenant en contrepartie de la participation aux frais ;<li> <li>« <strong>cuisine avec réservation</strong> » a la signification qui lui est donné à l’article 4.2.1 ci-dessous ;</li> </ul> </p> <h2>3. Inscription à la plateforme et création de compte</h2> <h3>3.1. Conditions d’inscription à la plateforme</h3> <p>L’utilisation de plateforme est réservée aux personnes physiques âgées de 18 ans ou plus. Toute inscription sur la plateforme par une personne mineure est strictement interdite. En accédant, utilisant ou vous inscrivant sur la plateforme, vous déclarez et garantissez avoir 18 ans ou plus.</p> <h3>3.2. Création de Compte</h3> <p>La plateforme permet aux membres de publier et consulter des recette ainsi que d’interagir entre eux pour la réservation de place. Vous pouvez consulter les recettes même si vous n’êtes pas inscrit sur la plateforme. En revanche, vous ne pouvez ni publier une recette ni réserver une place sans avoir, au préalable, créé un compte et être devenu membre.</p> <p>Pour créer votre Compte, vous devez remplir l’ensemble des champs obligatoires figurant sur le formulaire d’inscription. A l’occasion de la création de votre compte, vous vous engagez à fournir des informations personnelles exactes et conformes à la réalité et à les mettre à jour, par l’intermédiaire de votre profil ou en en avertissant MeltingCook, afin d’en garantir la pertinence et l’exactitude tout au long de votre relation contractuelle avec MeltingCook.</p> <p>Vous vous engagez à garder secret le mot de passe choisi lors de la création de votre compte et à ne le communiquer à personne. En cas de perte ou divulgation de votre mot de passe, vous vous engagez à en informer sans délai MeltingCook. Vous êtes seul responsable de l’utilisation faite de votre compte par un tiers, tant que vous n’avez pas expressément notifié MeltingCook de la perte, l’utilisation frauduleuse par un tiers ou la divulgation de votre mot de passe à un tiers. </p> <p>Vous vous engagez à ne pas créer ou utiliser, sous votre propre identité ou celle d’un tiers, d’autres Comptes que celui initialement créé.</p> <h3>3.3. Vérification</h3> <p>MeltingCook peut, à des fins de transparence, d’amélioration de la confiance, ou de prévention ou détection des fraudes, mettre en place un système de vérification de certaines des informations que vous fournissez sur votre profil. C’est notamment le cas lorsque vous renseignez votre numéro de téléphone.</p> <p>Vous reconnaissez et acceptez que toute référence sur la plateforme ou les services à des informations dites « vérifiées » ou tout terme similaire, signifie uniquement qu’un membre a réussi avec succès la procédure de vérification existante sur la plateforme ou les services afin de vous fournir davantage d’informations sur le Membre avec lequel vous envisagez de voyager. MeltingCook ne garantit ni la véracité, ni la fiabilité, ni la validité de l’information ayant fait l’objet de la procédure de vérification. </p> <h2>4. Utilisation des Services</h2> <h3>4.1. Publication des Annonces</h3> <p>En tant que membre, et sous réserve que vous remplissiez les conditions ci-dessous, vous pouvez créer et publier des recettes sur la plateforme en indiquant des informations (dates/heures et lieux de rendez-vous, nombre de places offertes, options proposées, montant de la participation aux frais, etc.).</p> <p>Lors de la publication de votre recette, vous pouvez le lieu de rendez-vous ou votre adresse directe pour accueillir des apprenants.</p> <p>Vous n’êtes autorisé à publier une recette que si vous remplissez l’ensemble des conditions suivantes : <ul> <li> Vous êtes titulaire d’une carte d’identité attestant votre majorité ; </li> <li> Vous ne proposez des recettes que pour des lieux dont vous êtes le propriétaire, le locataire ou que vous utilisez avec l’autorisation expresse du propriétaire, et dans tous les cas, que vous êtes autorisés à utiliser à des fins culinaires ; </li> <li>Vous êtes et demeurez le cuisinier des lieux, objet de la recette ;</li> <li> La cuisine bénéficie d’une assurance au tiers valide ; <li> <li> Vous n’avez aucune contre-indication ou incapacité médicale à cuisiner et au contact physique avec autrui ;</li> <li> Vous ne comptez pas publier une autre recette pour la même recette sur la plateforme ;</li> <li> Vous n’offrez pas plus de places que celles disponibles dans votre cuisine ;</li> <li> Toutes les places offertes sont composées d’une assise confortable et d’assez d’espace pour la bon déroulement de la recette ; </li> <li>Vous utilisez une cuisine en parfait état de fonctionnement et conforme aux usages et dispositions légales applicables, notamment avec une hygiène irréprochable. </li> </ul></p> <p>Vous reconnaissez être le seul responsable du contenu de la recette que vous publiez sur la plateforme. En conséquence, vous déclarez et garantissez l’exactitude et la véracité de toute information contenue dans votre recette et vous engagez à effectuer la cuisine selon les modalités décrites dans votre recette.</p> <p>Sous réserve que votre recette soit conforme aux CGU, elle sera publiée sur la plateforme et donc visible des membres et de tous visiteurs, même non membre, effectuant une recherche sur la plateforme ou sur le site internet des partenaires de MeltingCook. MeltingCook se réserve la possibilité, à sa seule discrétion et sans préavis, de ne pas publier ou retirer, à tout moment, toute recette qui ne serait pas conforme aux CGU ou qu’elle considérerait comme préjudiciable à son image, celle de la plateforme ou celle des services.</p> <p>Vous reconnaissez et acceptez que les critères pris en compte dans le classement et l’ordre d’affichage de votre recette parmi les autres recettes relèvent de la seule discrétion de MeltingCook.</p> <h3>4.2. Réservation d’une Place</h3> <p>Les modalités de réservation d’une Place dépendent de la nature du la recette envisagée, MeltingCook ayant mis en place pour certaines recettes un système de réservation en ligne.</p> <h4>4.2.1. Cuisine avec Réservation</h4> <p>MeltingCook a mis en place un système de réservation de places en ligne (la « <strong>réservation</strong> ») pour certaines des recettes proposés sur la plateforme (les « <strong>cuisines avec réservation </strong>»).</p> <p>L’éligibilité d’une recette au système de réservation reste à la seule discrétion de MeltingCook, qui se réserve la possibilité de modifier ces conditions à tout moment.</p> <p>Lorsqu’un apprenant est intéressé par une recette bénéficiant de la réservation, il peut effectuer une demande de réservation en ligne. Cette demande de Réservation est soit acceptée automatiquement (si le cuisinier a choisi cette option lors de la publication de sa recette), soit acceptée manuellement par le cuisinier. Au moment de la réservation, l’apprenant procède au paiement en ligne du montant de la participation aux frais et des frais de service afférents, le cas échéant. Après vérification du paiement par MeltingCook et validation de la demande de réservation par le cuisinier, le cas échéant, l’apprenant reçoit une confirmation de réservation (la « <strong>confirmation de réservation</strong> »). </p> <p>Si vous êtes un cuisinier et que vous avez choisi de gérer vous-mêmes les demandes de réservation lors de la publication de votre recette, vous êtes tenu de répondre à toute demande de réservation dans le délai fixé par l’apprenant. A défaut, la demande de réservation expire automatiquement et l’apprenant est remboursé de l’intégralité des sommes versées au moment de la demande de réservation, le cas échéant.</p> <p>A compter de la confirmation de la réservation, MeltingCook vous transmet les coordonnées téléphoniques du cuisinier (si vous êtes apprenant) ou de l’apprenant (si vous êtes cuisinier), dans le cas où le membre a donné son accord à la divulgation de son numéro de téléphone. Vous êtes désormais seuls responsables de l’exécution du contrat vous liant à l’autre membre.</p> <h4>4.2.2. Caractère nominatif de la réservation de place et modalités d’utilisation des services pour le compte d’un tiers</h4> <p>Toute utilisation des services, que ce soit en qualité de Passager ou de Conducteur, est nominative. Le cuisinier comme l’apprenant doivent correspondre à l’identité communiquée à MeltingCook et aux autres membres participant à la recette.</p> <p>Toutefois, MeltingCook permet à ses membres de réserver une ou plusieurs places pour le compte d’un tiers. Dans ce cas, vous vous engagez à indiquer avec exactitude au cuisinier, au moment de la réservation ou de l’envoi du message au cuisinier (dans le cadre d’un recette sans réservation), les prénom, âge et numéro de téléphone de la personne pour le compte de laquelle vous réservez une place. Il est strictement interdit de réserver une place pour un mineur seul âgé de moins de 16 ans. Dans le cas où vous réservez une place pour un mineur cuisinant seul âgé de plus de 16 ans, vous vous engagez à demander l’accord préalable du cuisinier et à lui fournir une autorisation des représentants légaux dûment remplie et signée.</p> <p>En outre, la plateforme est destinée à la réservation de places pour des personnes physiques. Il est donc interdit de réserver une place pour nourrir un animal.</p> <p>Par ailleurs, il est interdit de publier une Annonce pour un Conducteur autre que vous-même.</p> <h3>4.3. Système d’avis</h3> <h4>4.3.1. Fonctionnement</h4> <p>MeltingCook vous encourage à laisser un avis sur un cuisinier (si vous êtes apprenant) ou un apprenant (si vous êtes cuisinier) avec lequel vous avez partagé un recette ou avec lequel vous étiez censé partager une recette. En revanche, vous n’êtes pas autorisé à laisser un avis sur un autre apprenant, si vous étiez vous-même apprenant, ni sur un membre avec lequel vous n’avez pas cuisiné ou avec lequel vous n’étiez pas censé cuisiné.</p> <p>Votre avis, ainsi que celui laissé par un autre membre à votre égard, le cas échéant, ne sont visibles et publiés sur la plateforme qu’après le plus court des délais suivants : immédiatement après que vous ayez, tous les deux, laissés un avis ou passé un délai de 14 jours après le premier avis laissé.</p> <h4>4.3.2. Modération</h4> <p>Vous reconnaissez et acceptez que MeltingCook se réserve la possibilité de ne pas publier ou supprimer tout avis, toute question, tout commentaire ou toute réponse dont elle jugerait le contenu contraire aux présentes CGU.</p> <h4>4.3.3. Seuil</h4> <p>MeltingCook se réserve la possibilité de suspendre votre Compte, limiter votre accès aux services ou résilier les présentes CGU dans le cas où vous avez reçu au moins trois avis et la moyenne des avis que vous avez reçus est égale ou inférieure à 3. </p> <h2>5. Conditions financières</h2> <p>L’accès et l’inscription à la plateforme, de même que la recherche, la consultation et la publication de recettes sont gratuits. En revanche, la réservation est payante dans les conditions décrites ci-dessous.</p> <h3>5.1. Participation aux Frais</h3> <p>Le montant de la participation aux frais est déterminé par vous, en tant que cuisinier, sous votre seule responsabilité. Il est strictement interdit de tirer le moindre bénéfice du fait de l’utilisation de notre plateforme. Par conséquent, vous vous engagez à limiter le montant de la participation aux frais que vous demandez à vos apprenant aux frais que vous supportez réellement pour effectuer la recette. A défaut, vous supporterez seul les risques de requalification de l’opération effectuée par l’intermédiaire de la plateforme.</p> <h3>5.2. Frais de Service</h3> <p>Dans le cadre des recettes avec réservation, MeltingCook prélève, en contrepartie de l’utilisation de la plateforme, au moment de la réservation, des frais de service (ci-après, les « <strong>frais de service</strong> ») calculés sur la base du montant de la participation aux frais. Les modalités de calcul des frais de service en vigueur sont accessibles ici.</p> <p>Les frais de service sont perçus par MeltingCook pour chaque place faisant l’objet d’une réservation par un apprenant.</p> <h3>5.3. Arrondis</h3> <p>Vous reconnaissez et acceptez que MeltingCook peut, à son entière discrétion, arrondir au chiffre inférieur ou supérieur les frais de service et la participation aux frais.</p> <h3>5.4. Modalités de paiement et de reversement de la participation aux frais au cuisinier</h3> <h4>5.4.1. Mandat d’encaissement</h4> <p>En utilisant la plateforme en tant que cuisine pour des recettes avec réservation, vous confiez à MeltingCook un mandat d’encaissement du montant de la Participation aux Frais en votre nom et pour votre compte.</p> <p>Par conséquent, dans le cadre d’une recette avec réservation, et après acceptation manuelle ou automatique de la réservation, MeltingCook encaisse la totalité de la somme versée par l’apprenant (frais de service et participation aux frais). Les participations aux frais reçues par MeltingCook sont déposées sur un compte dédié au paiement des cuisiniers.</p> <p>Vous reconnaissez et acceptez qu’aucune des sommes perçues par MeltingCook au nom et pour le compte du cuisinier n’emporte droit à intérêts. Vous acceptez de répondre avec diligences à toute demande de MeltingCook et plus généralement de toute autorité administrative ou judiciaire compétente en particulier en matière de prévention ou la lutte contre le blanchiment. Notamment, vous acceptez de fournir, sur simple demande, tout justificatif d’adresse et/ou d’identité utile.</p> <p>En l’absence de réponse de votre part à ces demandes, MeltingCook pourra prendre toute mesure qui lui semblera appropriée notamment le gel des sommes versées et/ou la suspension de votre compte et/ou la résiliation des présentes CGU.</p> <h4>5.4.2. Versement de la participation aux frais au cuisinier</h4> <p>A la suite des recettes, les apprenant disposent d’un délai de 24 heures pour présenter une réclamation à MeltingCook. En l’absence de contestation de leur part dans cette période, MeltingCook considère la confirmation de la recette comme acquise.<p> <p>A compter de cette confirmation expresse ou tacite, vous disposez, en tant que cuisinier, d’un crédit exigible sur votre compte. Ce crédit correspond au montant total payé par l’apprenant au moment de la confirmation de la réservation diminué des frais de service, c’est-à-dire au montant de la participation aux frais payée par l’apprenant.</p> <p>Lorsque le Trajet est confirmé par le Passager, vous avez la possibilité, en tant que cuisinier, de donner instructions à MeltingCook de vous verser l’argent sur votre compte Paypal (en renseignant sur votre Compte, au préalable, votre adresse e-mail Paypal demandé lors de l’inscription).</p> <p>A l’issue du délai de prescription de 5 ans applicable, toute somme non réclamée à MeltingCook sera réputée appartenir à MeltingCook.</p> <h2>6. Finalité non commerciale et non professionnelle des services et de la plateforme</h2> <p>Vous vous engagez à n’utiliser les services et la plateforme que pour être mis en relation, à titre non professionnel et non commercial, avec des personnes souhaitant partager une recette avec vous.<p> <p>En tant que cuisinier, vous vous engagez à ne pas demander une participation aux frais supérieure aux frais que vous supportez réellement et susceptible de vous faire générer un bénéfice, étant précisé que s’agissant d’un partage de frais, vous devez également, en tant que cuisinier, supporter votre part des coûts afférents à la recette. Vous êtes seul responsable d’effectuer le calcul des frais que vous supportez pour la recette, et de vous assurer que le montant demandé à vos apprenant n’excède pas les frais que vous supportez réellement (en excluant votre part de participation aux frais).</p> <p>MeltingCook se réserve la possibilité de suspendre votre compte dans le cas où vous utiliseriez un cuisine non-hygiénique ou un lieu inapproprié à la cuisine et généreriez de ce fait un bénéfice sur la plateforme. Vous vous engagez à fournir à MeltingCook, sur simple demande de la part de celle-ci, une photographie et/ou tout autre document de nature à attester que vous êtes autorisé à utiliser ces lieux et votre cuisine dans la plus grande hygiène.</p> <p> MeltingCook se réserve également la possibilité de suspendre votre compte, limiter votre accès aux services ou résilier les présentes CGU en cas d’activité de votre part sur la plateforme, qui, du fait de la nature des recettes proposées, de leur fréquence, du nombre d’apprenant ou du montant de participation aux frais demandé, entraînerait une situation de bénéfice pour vous ou pour quelque raison que ce soit faisant suspecter à MeltingCook que vous générez un bénéfice sur la plateforme.</p> <h2>7. Politique d’annulation</h2> <h3>7.1. Modalités de remboursement en cas d’annulation</h3> <p>Seuls les recettes avec réservation font l’objet de la présente politique d’annulation, MeltingCook n’offrant aucune garantie, de quelque nature que ce soit, en cas d’annulation, pour quelque raison que ce soit, de la part d’un apprenant ou d’un cuisinier, d’une recette sans Réservation.</p> <p>L’annulation d’une Place d’une recette avec réservation par le cuisinier ou l’apprenant après la confirmation de réservation est soumise aux stipulations ci-après :<p> <ul><li>En cas d’annulation imputable au cuisinier, l’apprenant est remboursé de la totalité de la somme qu’il a versée (c’est-à-dire la participation aux frais et les frais de service afférents). C’est notamment le cas lorsque le cuisinier annule une recette ou ne se rend pas au point de rendez-vous au plus tard 15 minutes après l’horaire convenu ;</li> <li>En cas d’annulation imputable au Passager : <ul><li>Si le Passager annule plus de 24 heures avant l’heure prévue pour le départ telle que mentionnée dans la recette, l’apprenant est remboursé du montant de la participation aux frais. Les frais de service demeurent acquis à MeltingCook et le cuisinier ne reçoit aucune somme de quelque nature que ce soit ;</li> <li>Si l’apprenant annule moins de 24 heures ou 24 heures avant l’heure prévue pour le départ, telle que mentionnée dans la recette et plus de trente minutes après la confirmation de réservation, le passager est remboursé à hauteur de la moitié de la participation aux frais versée lors de la réservation, les frais de service demeurent acquis à MeltingCook;</li> <li>Si le Passager annule après l’heure prévue pour le départ, telle que mentionnée dans l’Annonce, ou s’il ne se présente pas au lieu de rendez-vous au plus tard dans un délai de 15 minutes à compter de l’heure convenue, aucun remboursement n’est effectué. Le Conducteur est dédommagé à hauteur de la totalité de la Participation aux Frais et les Frais de Services sont conservés par MeltingCook.<:li></ul> </ul> <p>Lorsque l’annulation intervient avant le départ et du fait de l’apprenant la ou les places annulé(e)s par l’apprenant sont de plein droit remises à la disposition d’autres apprenants pouvant les réserver en ligne et en conséquence soumises aux conditions des présentes CGU.</p> <p>MeltingCook apprécie à sa seule discrétion, sur la base des éléments à sa disposition, la légitimité des demandes de remboursement qu’elle reçoit.</p> <h3>7.2. Droit de rétraction</h3> <p>En acceptant les présentes CGU, vous acceptez expressément que le contrat entre vous et MeltingCook consistant en la mise en relation avec un autre membre soit exécuté avant l’expiration du délai de rétractation dès la confirmation de réservation et renoncez expressément à votre droit de rétraction, conformément aux dispositions de l’article L.221-28 du Code de la consommation.</p> <h2>8. Comportement des utilisateurs de la Plateforme et Membres</h2> <h3>8.1. Engagement de tous les utilisateurs de la Plateforme</h3> <p>Vous reconnaissez être seul responsable du respect de l’ensemble des lois, règlements et obligations applicables à votre utilisation de la plateforme.</p> <p>Par ailleurs, en utilisant la Plateforme et lors des Trajets, vous vous engagez à :</p> <ul><li> Ne pas utiliser la plateforme à des fins professionnelles, commerciales ou lucratives ;</li> <li> Ne transmettre à MeltingCook (notamment lors de la création ou la mise à jour de votre compte) ou aux autres membres aucune information fausse, trompeuse, mensongère ou frauduleuse ; </li> <li> Ne tenir aucun propos, n’avoir aucun comportement ou ne publier sur la plateforme aucun contenu à caractère diffamatoire, injurieux, obscène, pornographique, vulgaire, offensant, agressif, déplacé, violent, menaçant, harcelant, raciste, xénophobe, à connotation sexuelle, incitant à la haine, à la violence, à la discrimination ou à la haine, encourageant les activités ou l’usage de substances illégales ou, plus généralement, contraires aux finalités de la plateforme, de nature à porter atteinte aux droits de MeltingCook ou d’un tiers ou contraires aux bonnes mœurs ;</li> <li> Ne pas porter atteinte aux droits et à l’image de MeltingCook, notamment à ses droits de propriété intellectuelle ; </li> <li> Ne pas ouvrir plus d’un compte sur la plateforme et ne pas ouvrir de compte au nom d’un tiers ;</li> <li> Ne pas tenter de contourner le système de réservation en ligne de la plateforme, notamment en tentant de communiquer à un autre membre vos coordonnées afin de réaliser la réservation en dehors de la plateforme et ne pas payer les frais de service ; </li> <li> Ne pas contacter un autre membre, notamment par l’intermédiaire de la plateforme, à une autre fin que celle de définir les modalités du partage de cuisine ; <li> <li> Ne pas accepter ou effectuer un paiement en dehors de la plateforme, hors des cas autorisés par les présentes CGU dans le cas de recette sans réservation ; </li> <li> Vous conformer aux présentes CGU et à la Politique de Confidentialité. </li> </ul> <h3>8.2. Engagements des cuisiniers</h3> <p>En outre, lorsque vous utilisez la plateforme en tant que cuisinier, vous vous engagez à :</p> <ul><li>Respecter l’ensemble des lois, règles, codes applicables à la conduite et au véhicule, notamment à disposer d’une assurance responsabilité civile valide au moment de la cuisine et être en possession d’un lieu aux normes d’hygiène;</li> <li>Vous assurer que votre assurance couvre le covoiturage et que vos apprenants sont considérés comme tiers dans votre cuisine et donc couverts par votre assurance habitation ; </li> <li>Ne prendre aucun risque sur place, à n’absorber aucun produit de nature à altérer votre attention et vos capacités, à accueillir convenablement et en toute sécurité ; </li> <li> Publier des recettes correspondant uniquement à l’élaboration de recette réellement envisagés ;</li> <li> Effectuer la recette décrite telle quelle et respecter les horaires et lieux convenus avec les autres membres (notamment lieu de rendez-vous et l’horaire) ;</li> <li> Ne pas prendre plus d’apprenant que le nombre de places indiquées dans la recette ;</li> <li> Utiliser une cuisine en parfait état de fonctionnement et conforme aux usages et dispositions légales applicables ;</li> <li> Communiquer à MeltingCook ou tout apprenant qui vous en fait la demande, une photographie de votre cuisine et ustensiles, ainsi que tout document attestant de votre capacité à utiliser cet environnement en tant que cuisinier sur la plateforme ;</li> <li> En cas d’empêchement ou de changement de l’horaire ou de la recette, en informer sans délais vos apprenants;</li> <li> Attendre les apprenants sur le lieu de rencontre convenu au moins 15 minutes au-delà de l’heure convenue ;</li> <li> Ne pas publier de recette relative à une cuisine dont vous n’êtes pas le propriétaire ou que vous n’êtes pas habilité à utiliser à des fins culinaires ;<li> <li> Vous assurer d’être joignable par téléphone par vos apprenants, au numéro enregistré sur votre profil ;<li> <li> Ne générer aucun bénéfice par l’intermédiaire de la plateforme ;</li> <li> garantir n’avoir aucune contre-indication ou incapacité médicale à conduire ; </li> <li>avoir un comportement convenable et responsable, au cours du Trajet et conforme à l’esprit de covoiturage.</li> </ul> <h3>8.3. Engagements des apprenants</h3> <p>Lorsque vous utilisez la Plateforme en tant que Passager, vous vous engagez à :</p> <ul><li>Adopter un comportement convenable au cours de la recette de façon à ne gêner la concentration du cuisinier ni la tranquillité des autres apprenants ;</li> <li> Respecter l’environnement du cuisinier et sa propreté ;</li> <li> En cas d’empêchement, en informer sans délai le cuisinier ;</li> <li> Attendre le cuisinier sur le lieu de rencontre convenu au moins 15 minutes au-delà de l’heure convenue ;<li> <li> Communiquer à MeltingCook ou tout cuisinier qui vous en fait la demande, votre carte d’identité ou tout document de nature à attester de votre identité ;<li> <li> Ne transporter aucun objet, marchandise, substance, animal de nature à gêner la cuisine et la concentration du cuisinier ou dont la nature, la possession ou le transport est contraire aux dispositions légales en vigueur ;</li> <li> Vous assurer d’être joignable par téléphone par le cuisinier, au numéro enregistré sur votre profil, notamment au point de rendez-vous.<li> </ul> <p>Dans le cas où vous auriez procédé à la Réservation d’une ou plusieurs Places pour le compte de tiers, conformément aux stipulations de l’article 4.2.3 ci-dessus, vous vous portez fort du respect par ce tiers des stipulations du présent article et, de façon générale, des présentes CGU. MeltingCook se réserve la possibilité de suspendre votre Compte, limiter votre accès aux Services ou résilier les présentes CGU, en cas de manquement de la part du tiers pour le compte duquel vous avez réservé une Place aux présentes CGU.</p> <h2>9. Suspension de comptes, limitation d’accès et résiliation</h2> <p>Vous avez la possibilité de mettre fin à votre relation contractuelle avec MeltingCook à tout moment, sans frais et sans motif. Pour cela, il vous suffit de vous rendre dans l’onglet « Fermeture de compte » de votre page Profil.</p> <p>En cas de violation de votre part des présentes CGU, notamment de vos obligations en tant que Membre mentionnées aux articles 6 et 8 ci-dessus, de dépassement du seuil visé à l’article 4.3.3. ci-dessus ou si MeltingCook a des raisons sérieuses de croire que ceci est nécessaire pour protéger sa sécurité et son intégrité, celles de ses membres ou de tiers ou à des fins de prévention des fraudes ou d’enquêtes, MeltingCook se réserve la possibilité de :</p> <ul><li> Résilier, immédiatement et sans préavis, les présentes CGU ; </li> <li> Empêcher la publication ou supprimer tout avis, recettes, messages, contenus, demande de réservation, ou tout contenu publié par vous sur la plateforme ; </li> <li> Limiter votre accès et votre utilisation de la Plateforme ; </li> <li> Suspendre de façon temporaire ou permanente votre compte. </li> <p>Lorsque cela est nécessaire, vous serez notifié de la mise en place d’une telle mesure afin de vous permettre de donner des explications à MeltingCook. MeltingCook décidera, à sa seule discrétion, de lever les mesures mises en place ou non.</p> <h2>10. Données personnelles<h2> <p>Dans le cadre de votre utilisation de la plateforme, MeltingCook est amenée à collecter et traiter certaines de vos données personnelles. En utilisant la plateforme et vous inscrivant en tant que membre, vous reconnaissez et acceptez le traitement de vos données personnelles par MeltingCook conformément à la loi applicable et aux stipulations de la Politique de Confidentialité.</p> <h2>11. Propriété intellectuelle</h2> <h3>11.1. Contenu publié par MeltingCook</h3> <p>Sous réserve des contenus fournis par ses membres, MeltingCook est seule titulaire de l’ensemble des droits de propriété intellectuelle afférents au service, à la plateforme, à son contenu (notamment les textes, images, dessins, logos, vidéos, sons, données, graphiques) ainsi qu’aux logiciels et bases de données assurant leur fonctionnement.</p> <p> MeltingCook vous accorde une licence non exclusive, personnelle et non cessible d’utilisation de la plateforme et des services, pour votre usage personnel et privé, à titre non commercial et conformément aux finalités de la plateforme et des services.</p> <p>Vous vous interdisez toute autre utilisation ou exploitation de la plateforme et des services, et de leur contenu sans l’autorisation préalable écrite de MeltingCook. Notamment, vous vous interdisez de :</p> <ul><li>Reproduire, modifier, adapter, distribuer, représenter publiquement, diffuser la plateforme, les services et leur contenu, à l’exception de ce qui est expressément autorisé par MeltingCook ; </li> <li> Décompiler, procéder à de l’ingénierie inverse de la plateforme ou des services, sous réserve des exceptions prévues par les textes en vigueur ; </li> <li> Extraire ou tenter d’extraire (notamment en utilisant des robots d’aspiration de données ou tout autre outil similaire de collecte de données) une partie substantielle des données de la plateforme.</li></ul> <h3>11.2. Contenu publié par vous sur la Plateforme</h3> <p>Afin de permettre la fourniture des services et conformément à la finalité de la plateforme, vous concédez à MeltingCook une licence non exclusive d’utilisation des contenus et données que vous fournissez dans le cadre de votre utilisation des services (ci-après, votre « <strong>contenu membre</strong> »). Afin de permettre à MeltingCook la diffusion par réseau numérique et selon tout protocole de communication, (notamment Internet et réseau mobile), ainsi que la mise à disposition au public du contenu de la plateforme, vous autorisez MeltingCook, pour le monde entier et pour toute la durée de votre relation contractuelle avec MeltingCook, à reproduire, représenter, adapter et traduire votre contenu membre de la façon suivante :</p> <ul><li> Vous autorisez MeltingCook à reproduire tout ou partie de votre contenu membre sur tout support d’enregistrement numérique, connu ou inconnu à ce jour, et notamment sur tout serveur, disque dur, carte mémoire, ou tout autre support équivalent, en tout format et par tout procédé connu et inconnu à ce jour, dans la mesure nécessaire à toute opération de stockage, sauvegarde, transmission ou téléchargement lié au fonctionnement de la plateforme et à la fourniture du service ;</li> <li> Vous autorisez MeltingCook à adapter et traduire votre contenu membre, ainsi qu’à reproduire ces adaptations sur tout support numérique, actuel ou futur, stipulé au ci-dessus, dans le but de fournir les services, notamment en différentes langues. Ce droit comprend notamment la faculté de réaliser, dans le respect de votre droit moral, des modifications de la mise en forme de votre contenu membre aux fins de respecter la charte graphique de la plateforme et/ou de le rendre techniquement compatible en vue de sa publication via la Plateforme.</li></ul> <h2>12. Rôle de MeltingCook</h2> <p>La Plateforme constitue une plateforme en ligne de mise en relation sur laquelle les membres peuvent créer et publier des annonces pour des recettes à des fins culinaires. Ces recettes peuvent notamment être consultées par les autres membres pour prendre connaissance des modalités de la recette et, le cas échéant, réserver directement une place dans le véhicule concerné auprès du membre ayant posté l’annonce sur la plateforme.</p> <p>En utilisant la plateforme et en acceptant les présentes CGU, vous reconnaissez que MeltingCook n’est partie à aucun accord conclu entre vous et les autres membres en vue de partager les frais afférents à une recette.</p> <p> MeltingCook n’a aucun contrôle sur le comportement de ses membres et des utilisateurs de la plateforme. Elle ne possède pas, n’exploite pas, ne fournit pas, ne gère pas les véhicules objets des recettes, ni ne propose la moindre cuisine sur la plateforme.</p> <p>Vous reconnaissez et acceptez que MeltingCook ne contrôle ni la validité, ni la véracité, ni la légalité des recettes et des places proposées. En sa qualité d’intermédiaire en préparation de plat cuisiné, MeltingCook ne fournit aucun service de restauration et n’agit pas en qualité de chef-cuisinier, le rôle de MeltingCook se limitant à faciliter l’accès à la plateforme.</p> <p>Les membres (cuisinier et apprenant) agissent sous leur seule et entière responsabilité.</p> <p>En sa qualité d’intermédiaire, MeltingCook ne saurait voir sa responsabilité engagée au titre du déroulement effectif d’une recette, et notamment du fait :</p> <ul><li>D’informations erronées communiquées par le cuisinier, dans sa recette, ou par tout autre moyen, quant au services et à ses modalités ;</li> <li> L’annulation ou la modification d’une recette par un membre ;</li> <li> Le non-paiement de la participation aux frais par un passager dans le cadre d’une recette sans Réservation ;</li> <li> Le comportement de ses membres pendant, avant, ou après la cuisine.</li></ul> <h2>13. Fonctionnement, disponibilité et fonctionnalités de la Plateforme</h2> <p>MeltingCook s’efforcera, dans la mesure du possible, de maintenir la plateforme accessible 7 jours sur 7 et 24 heures sur 24. Néanmoins, l’accès à la plateforme pourra être temporairement suspendu, sans préavis, en raison d’opérations techniques de maintenance, de migration, de mises à jour ou en raison de pannes ou de contraintes liées au fonctionnement des réseaux.</p> <p> En outre, MeltingCook se réserve le droit de modifier ou d’interrompre, à sa seule discrétion, de manière temporaire ou permanente, tout ou partie de l’accès à la Plateforme ou de ses fonctionnalités.</p> <h2>14. Modification des CGU</h2> <p>Les présentes CGU et les documents intégrés par référence expriment l’intégralité de l’accord entre vous et MeltingCook relative à votre utilisation des services. Tout autre document, notamment toute mention sur la Plateforme (FAQ, etc.), n’a qu’une valeur informative.</p> <p>MeltingCook pourra être amenée à modifier les présentes Conditions Générales d’Utilisation afin de s’adapter à son environnement technologique et commercial et afin de se conformer à la réglementation en vigueur. Toute modification des présentes CGU sera publiée sur la Plateforme avec une mention de la date de mise à jour et vous sera notifiée par MeltingCook avant son entrée en vigueur.</p> <h2>15. Droit applicable – Litige</h2> <p>Les présentes CGU sont rédigées en français et soumises à la loi française.</p> <p>Vous pouvez également présenter, le cas échéant, vos réclamations relatives à notre plateforme ou à nos services, sur la plateforme de résolution des litiges mise en ligne par la Commission Européenne accessible ici. La Commission Européenne se chargera de transmettre votre réclamation aux médiateurs nationaux compétents. Conformément aux règles applicables à la médiation, vous êtes tenus, avant toute demande de médiation, d’avoir fait préalablement part par écrit à MeltingCook de tout litige afin d’obtenir une solution amiable.</p> <h2>16. Mentions légales<h2> <p>La Plateforme est éditée par Clovis Portron et Charlène Verrier.</p> <p>Le Site est hébergé sur les serveurs d’OVH.</p> <p>Pour toute question, vous pouvez contacter MeltingCook en utilisant ce formulaire de contact.</p> <p>Date de mise à jour: 14 novembre 2017</p> </div> <app-footer></app-footer>', '', '', function(opts) {
 });
-},{"riot":8}],23:[function(require,module,exports){
+},{"riot":8}],24:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-error', '<app-header></app-header> <div class="content"> <h1>Ooops... Quelque chose s\'est mal passé.</h1> <div> <p> Nous sommes désolés pour ce petit soucis. </p> <p if="{message != null}"> {message} </p> </div> </div> <app-footer></app-footer>', '', '', function(opts) {
         var tag = this;
@@ -15321,13 +15529,34 @@ module.exports = riot.tag2('app-error', '<app-header></app-header> <div class="c
                 tag.message = tag.opts.message;
         });
 });
-},{"riot":8}],24:[function(require,module,exports){
-var riot = require('riot');
-module.exports = riot.tag2('app-home', '<app-header></app-header> <div class="content no-margin"> <div class="slider"></div> <app-searcher></app-searcher> <div class="ask"> <div> <h1>Disponible dans vos cuisines ?</h1> <p> Partagez vos frais en apprenant votre savoir et en passant un agréable moment. </p> <a class="Action" href="#/recipe/add"><span>Partager un voyage culinaire</span></a> </div> </div> </div> <div class="description"> <h1>La cuisine c\'est bien, à plusieurs c\'est mieux !</h1> <div> <div class="tab share"> <div class="img"></div> <h2>Partage</h2> <p> Envie de partager vos connaissances en matières de cuisine ? </p> </div> <div class="tab trust"> <div class="img"></div> <h2>Confiance</h2> <p> Avec la vérification par SMS des chefs et aprenants, les cuisiniers se font mutuellement confiance. </p> </div> <div class="tab kitchen"> <div class="img"></div> <h2>Cuisine</h2> <p> Faire découvrir vos goûts et vos plats afin de faire connaître le monde au travers de vos assiettes. </p> </div> </div> </div> </div> <app-footer></app-footer>', '', '', function(opts) {
-});
 },{"riot":8}],25:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-login', '<form name="login"> <div> <label for="username">Utilisateur</label> <input type="text" ref="username" name="username" id="username"> </div> <div> <label for="password">Mot de passe</label> <input type="password" ref="password" name="password" id="password"> </div> <input type="button" class="large" value="Envoyer" onclick="{send}"> </form>', '', '', function(opts) {
+module.exports = riot.tag2('app-home', '<app-header></app-header> <div class="content no-margin"> <div class="slider"> <div> <div id="slide-1"></div> </div> <div> <div id="slide-2"></div> </div> <div> <div id="slide-3"></div> </div> </div> <app-searcher></app-searcher> <div class="ask"> <div> <h1>Disponible dans vos cuisines ?</h1> <p> Partagez vos frais en apprenant votre savoir et en passant un agréable moment. </p> <a class="Action" href="#/recipe/add"><span>Partager un voyage culinaire</span></a> </div> </div> </div> <div class="description"> <h1>La cuisine c\'est bien, à plusieurs c\'est mieux !</h1> <div> <div class="tab share"> <div class="img"></div> <h2>Partage</h2> <p> Envie de partager vos connaissances en matières de cuisine ? </p> </div> <div class="tab trust"> <div class="img"></div> <h2>Confiance</h2> <p> Avec la vérification par SMS des chefs et aprenants, les cuisiniers se font mutuellement confiance. </p> </div> <div class="tab kitchen"> <div class="img"></div> <h2>Cuisine</h2> <p> Faire découvrir vos goûts et vos plats afin de faire connaître le monde au travers de vos assiettes. </p> </div> </div> </div> </div> <app-footer></app-footer>', '', '', function(opts) {
+        var tag = this;
+
+        tag.on("mount", function(){
+            setTimeout(() => {
+                try
+                {
+                    $('.slider').slick({
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        autoplay: true,
+                        autoplaySpeed: 5000,
+                    });
+                }
+                catch(e)
+                {
+                    console.log(e);
+                }
+            }, 1000);
+
+        });
+
+});
+},{"riot":8}],26:[function(require,module,exports){
+var riot = require('riot');
+module.exports = riot.tag2('app-login', '<form name="login"> <div> <label for="username">Utilisateur</label> <input type="text" ref="username" name="username" id="username"> </div> <div> <label for="password">Mot de passe</label> <input type="password" ref="password" name="password" id="password"> </div> <input type="button" class="large" value="Envoyer" onclick="{send}"> <input type="button" class="large" onclick="{resetPassword}" value="J\'ai oublié mon mot de passe"> </form>', '', '', function(opts) {
         var tag = this;
 
         tag.callback = null;
@@ -15338,6 +15567,17 @@ module.exports = riot.tag2('app-login', '<form name="login"> <div> <label for="u
             if(tag.callback == null)
                 throw new Error("Callback cant be null.");
         });
+
+        tag.resetPassword = function()
+        {
+            var callback = function () {
+                App.hidePopUp();
+            };
+            App.hidePopUp();
+            App.showPopUp("app-resetpasswordform", "J'ai oublié mon mot de passe", {
+                "callback": callback
+            });
+        };
 
         tag.send = function () {
             var valid = new Validatinator({
@@ -15359,7 +15599,50 @@ module.exports = riot.tag2('app-login', '<form name="login"> <div> <label for="u
             }
         };
 });
-},{"riot":8}],26:[function(require,module,exports){
+},{"riot":8}],27:[function(require,module,exports){
+var riot = require('riot');
+module.exports = riot.tag2('app-resetpasswordform', '<form name="reset"> <p> Veuillez entrer ci-dessous l\'adresse email de votre compte. Nous vous enverrons un mail contenant un lien permettant de regénérer votre mot de passe. </p> <br><br> <div> <label for="email">Addresse email de votre compte</label> <input type="text" ref="email" name="email" id="email"> <p class="hint"> Ce champ doit contenir une adresse email valide. </p> </div> <input type="button" class="large" value="Envoyer" onclick="{validate}"> </form>', '', '', function(opts) {
+        var tag = this;
+
+        tag.callback = null;
+
+        tag.on("before-mount", function(){
+            tag.callback = tag.opts.callback;
+        });
+
+        tag.validate = function()
+        {
+            var valid = new Validatinator({
+                "reset": {
+                    "email": "required|minLength:1|maxLength:100|email",
+                }
+            });
+            if (valid.passes("reset")) {
+                tag.send();
+            }
+            if(valid.fails("reset"))
+            {
+                App.diagnosticForm("reset", valid.errors);
+            }
+        };
+
+        tag.send = function()
+        {
+            let request = App.request(App.Address + "/beginresetpassword", {
+                "email" : tag.refs.email.value
+            });
+            request.then(function(response){
+                NotificationManager.showNotification("Nous vous avons envoyé un email contenant un lien vous permettant de regénérer votre mot de passe.", "success");
+                if(tag.callback != null)
+                    tag.callback();
+            });
+            request.catch(function(error){
+                if(error instanceof Error)
+                    ErrorHandler.alertIfError(error);
+            });
+        };
+});
+},{"riot":8}],28:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-dateinput', '<input type="text" ref="date" name="date" id="date" placeholder="Date">', '', '', function(opts) {
         var tag = this;
@@ -15405,12 +15688,12 @@ module.exports = riot.tag2('app-dateinput', '<input type="text" ref="date" name=
             console.log(tag.refs.date.value);
         }
 });
-},{"riot":8}],27:[function(require,module,exports){
+},{"riot":8}],29:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-footer', '<div> <h3>Infos pratiques</h3> <ul> <li>Comment ça marche</li> <li>Confiance et sérénité</li> <li>Niveaux d\'expérience</li> <li>Les avis</li> <li>Charte de bonne conduite</li> <li>Prix d\'un service culinaire</li> <li>Foire aux questions</li> </ul> </div> <div> <h3>A propos</h3> <ul> <li>Qui sommes-nous ?</li> <li>Contact</li> </ul> </div> <div> <h3>Mentions légales</h3> <ul> <li><a href="#/cgu">Conditions générales</a></li> <li>Politique de confidentialité</li> </ul> </div> <div> <a class="Button fb"><span>Facebook</span></a> <a class="Button twitter"><span>Twitter</span></a> <a class="Button insta"><span>Instagram</span></a> <a class="Button youtube"><span>Youtube</span></a> </div> <div class="portfolios"> Site conçu par <a target="_blank" href="http://cha.graphics">Charlène Verrier</a> et développé par <a target="_blank" href="http://www.clovis-portron.cf">Clovis Portron</a> </div>', '', '', function(opts) {
         var tag = this;
 });
-},{"riot":8}],28:[function(require,module,exports){
+},{"riot":8}],30:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-header', '<div class="img" onclick="{home}"></div> <nav> <a class="Action" href="#/recipe/add"><span>Partager un voyage culinaire</span></a> <a class="Button register" if="{logged == false}" onclick="{register}"><span>Inscription</span></a> <a class="Button login" if="{logged == false}" onclick="{login}"><span>Connexion</span></a> <a if="{logged == true}" onclick="{account}"> <div class="img" riot-style="background-image: url(\'{user.picture}\');"></div> </a> <a class="Button logout" if="{logged == true}" onclick="{logout}"><span>Déconnexion</span></a> </nav>', '', '', function(opts) {
         var tag = this;
@@ -15457,6 +15740,8 @@ module.exports = riot.tag2('app-header', '<div class="img" onclick="{home}"></di
         tag.logout = function()
         {
             Login.GetInstance().logout();
+            tag.auth();
+            tag.update();
             route("/");
         }
 
@@ -15476,7 +15761,7 @@ module.exports = riot.tag2('app-header', '<div class="img" onclick="{home}"></di
         }
 
 });
-},{"riot":8}],29:[function(require,module,exports){
+},{"riot":8}],31:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-hearts', '<div each="{ht in hearts}" class="{ht.state}" data-index="{ht.index}" onclick="{set}"> </div>', '', '', function(opts) {
         var tag = this;
@@ -15527,7 +15812,7 @@ module.exports = riot.tag2('app-hearts', '<div each="{ht in hearts}" class="{ht.
         }
 
 });
-},{"riot":8}],30:[function(require,module,exports){
+},{"riot":8}],32:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-manyinputs', '<div> <input type="text" each="{val,i in value.split(delimiter)}" riot-value="{val}" onkeydown="{observe}" onchange="{updateValue}"> <input type="button" value="Ajouter une ligne" onclick="{add}"><input type="button" value="Retirer une ligne" onclick="{remove}"> </div>', '', '', function(opts) {
                 var tag = this;
@@ -15580,7 +15865,7 @@ module.exports = riot.tag2('app-manyinputs', '<div> <input type="text" each="{va
                 };
 
 });
-},{"riot":8}],31:[function(require,module,exports){
+},{"riot":8}],33:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-origininput', '<input type="text" ref="origin" name="origin" id="origin" placeholder="Type de cuisine" riot-value="{opts.origin}">', '', '', function(opts) {
         var tag = this;
@@ -15630,7 +15915,7 @@ module.exports = riot.tag2('app-origininput', '<input type="text" ref="origin" n
             });
         }
 });
-},{"riot":8}],32:[function(require,module,exports){
+},{"riot":8}],34:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-pinsinput', '<input type="text" ref="pins" name="pins" id="pins" placeholder="Mes plus" riot-value="{opts.pins}">', '', '', function(opts) {
         var tag = this;
@@ -15674,7 +15959,7 @@ module.exports = riot.tag2('app-pinsinput', '<input type="text" ref="pins" name=
             });
         }
 });
-},{"riot":8}],33:[function(require,module,exports){
+},{"riot":8}],35:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-placehint', '<div> <div class="img"></div> <div>{opts.place} - <a onclick="{toggleMap}">voir le plan</a></div> </div> <div class="{map : true, invisible: opened == false, open: opened == true, close: opened == false}"> <iframe frameborder="0" riot-src="https://maps.google.com/maps?q={opts.latitude},{opts.longitude}&t=&z=14&ie=UTF8&iwloc=&output=embed"></iframe> </div>', '', '', function(opts) {
         var tag = this;
@@ -15692,10 +15977,11 @@ module.exports = riot.tag2('app-placehint', '<div> <div class="img"></div> <div>
         }
 });
 
-},{"riot":8}],34:[function(require,module,exports){
+},{"riot":8}],36:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-placeinput', '<input type="text" ref="city" name="city" id="city" placeholder="Lieu de partage" riot-value="{opts.place}">', '', '', function(opts) {
+module.exports = riot.tag2('app-placeinput', '<select ref="city" name="city" id="city" placeholder="Lieu de partage" riot-value="{opts.place}">', '', '', function(opts) {
         var tag = this;
+        tag.data = null;
         tag.value = "";
 
         tag.on("before-mount", function()
@@ -15739,21 +16025,22 @@ module.exports = riot.tag2('app-placeinput', '<input type="text" ref="city" name
 
         tag.setCities = function(data)
         {
-            $('#city', tag.root).selectize({
+            tag.data = data;
+            let selectize = $('#city', tag.root).selectize({
                 persist: false,
                 maxItems: 1,
-                valueField: [tag.opts.valuefield],
+                valueField: "name",
                 labelField: 'name',
                 searchField: ['name'],
                 options: data,
                 onChange : function(value) {
-                    tag.value = value;
+                    tag.value = selectize.options[value];
                 }
-            });
+            })[0].selectize;
             localStorage.setItem("cities", JSON.stringify(data));
         }
 });
-},{"riot":8}],35:[function(require,module,exports){
+},{"riot":8}],37:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-tabbar', '<div> <span each="{tab in tabs}" class="{selected : tab.selected == true}" data-route="{tab.route}" onclick="{redirect}">{tab.name}</span> <span></span> </div>', '', '', function(opts) {
         var tag = this;
@@ -15777,7 +16064,7 @@ module.exports = riot.tag2('app-tabbar', '<div> <span each="{tab in tabs}" class
             route(span.getAttribute("data-route"));
         }
 });
-},{"riot":8}],36:[function(require,module,exports){
+},{"riot":8}],38:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-timeinput', '<input type="text" ref="time" name="time" id="time" placeholder="Heure">', '', '', function(opts) {
         var tag = this;
@@ -15807,7 +16094,38 @@ module.exports = riot.tag2('app-timeinput', '<input type="text" ref="time" name=
                 });
         });
 });
-},{"riot":8}],37:[function(require,module,exports){
+},{"riot":8}],39:[function(require,module,exports){
+var riot = require('riot');
+module.exports = riot.tag2('app-uploadinput', '<div class="dropzone"></div>', '', '', function(opts) {
+        var tag = this;
+        tag.value = null;
+        tag.onchange = null;
+        tag.on("before-mount", function(){
+            if(tag.opts.value != null)
+                tag.value = tag.opts.value;
+            if(tag.opts.onchange != null)
+                tag.onchange = tag.opts.onchange;
+        });
+
+        tag.on("mount", function(){
+            let callback = function (res) {
+                if (res.success === true) {
+                    console.log(res.data.link);
+                    tag.value = res.data.link;
+                    if(tag.onchange != null)
+                        tag.onchange();
+                }
+            };
+
+            new Imgur({
+                clientid: 'c15f2df6d132436',
+                callback: callback,
+                target : tag.root.querySelectorAll(".dropzone"),
+                message: "Glissez votre photographie ici ou cliquez ici."
+            });
+        });
+});
+},{"riot":8}],40:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-userselector', '<input type="text" name="user" ref="user" id="user">', '', '', function(opts) {
         var tag = this;
@@ -15841,7 +16159,7 @@ module.exports = riot.tag2('app-userselector', '<input type="text" name="user" r
         };
 
 });
-},{"riot":8}],38:[function(require,module,exports){
+},{"riot":8}],41:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-origineditform', '<form name="edit-origin"> <div> <label>Intitulé</label> <textarea name="fullname" ref="name" riot-value="{origin.name}"></textarea> <p> Ce champ doit contenir entre 6 et 400 caractères. </p> </div> <div> <input type="button" class="large" value="Envoyer" onclick="{send}"> </div> </form>', '', '', function(opts) {
         var tag = this;
@@ -15887,7 +16205,7 @@ module.exports = riot.tag2('app-origineditform', '<form name="edit-origin"> <div
 
         }
 });
-},{"riot":8}],39:[function(require,module,exports){
+},{"riot":8}],42:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-pineditform', '<form name="edit-pin"> <div> <label>Intitulé</label> <textarea name="fullname" ref="name" riot-value="{pin.name}"></textarea> <p> Ce champ doit contenir entre 4 et 400 caractères. </p> </div> <div> <input type="button" class="large" value="Envoyer" onclick="{send}"> </div> </form>', '', '', function(opts) {
         var tag = this;
@@ -15933,9 +16251,9 @@ module.exports = riot.tag2('app-pineditform', '<form name="edit-pin"> <div> <lab
 
         }
 });
-},{"riot":8}],40:[function(require,module,exports){
+},{"riot":8}],43:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-recipe', '<app-header></app-header> <div> <div class="banner" riot-style="background-image: url(\'{recipe.picture}\');"></div> <div class="content"> <div class="infos"> <div class="base"> <div class="name"> <h1>{recipe.name}</h1> <div> <div class="Pins open" each="{p in recipe.pins}">{p}</div> </div> </div> <div class="description"> <p> {recipe.description} </p> </div> </div> <div class="geolocation"> <app-placehint latitude="{recipe.latitude}" longitude="{recipe.longitude}" place="{recipe.place}"></app-placehint> </div> <div class="details"> <h2>Ingédients :</h2> <ul> <li each="{item in recipe.items}">{item}</li> </ul> </div> <div class="users" if="{recipe.users != null && recipe.users.length > 0}"> <h2>Participants :</h2> <app-users users="{recipe.users}"></app-users> </div> </div> <div class="user"> <div class="join"> <h2>Rejoindre la cuisine</h2> <div class="price"> {recipe.price}€ </div> <div> Il reste {recipe.place_left} places </div> <form name="edit-reservation" if="{Login.GetInstance().isLogged() == true}"> <div> <input type="checkbox" name="cgu" ref="cgu"> J\'accepte les CGU </div> <div> <input type="checkbox" name="pc" ref="pc"> J\'accepte la charte de bonne conduite </div> <input type="button" class="large" value="Je rejoins la cuisine" onclick="{join}"> </form> </div> <app-useritem ref="useritem" user="{recipe.user}"></app-useritem> </div> </div> </div> <app-footer></app-footer>', '', '', function(opts) {
+module.exports = riot.tag2('app-recipe', '<app-header></app-header> <div> <div class="banner" riot-style="background-image: url(\'{recipe.picture}\');"></div> <div class="content"> <div class="infos"> <div class="base"> <div class="name"> <h1>{recipe.name}</h1> <div> <div class="Pins open" each="{p in recipe.pins}">{p}</div> </div> </div> <div class="description"> <p> {recipe.description} </p> </div> </div> <div class="geolocation"> <app-placehint latitude="{recipe.latitude}" longitude="{recipe.longitude}" place="{recipe.place}"></app-placehint> </div> <div class="details"> <h2>Dates :</h2> <div class="dates"> {recipe.date_start_readable} - {recipe.date_end_readable} </div> <h2>Ingédients :</h2> <ul> <li each="{item in recipe.items}">{item}</li> </ul> </div> <div class="users" if="{recipe.users != null && recipe.users.length > 0}"> <h2>Participants :</h2> <app-users users="{recipe.users}"></app-users> </div> </div> <div class="user"> <div class="join"> <h2>Rejoindre la cuisine</h2> <div class="price"> {recipe.price}€ </div> <div> Il reste {recipe.place_left} places </div> <form name="edit-reservation" if="{Login.GetInstance().isLogged() == true}"> <div> <input type="checkbox" name="cgu" ref="cgu"> J\'accepte les CGU </div> <div> <input type="checkbox" name="pc" ref="pc"> J\'accepte la charte de bonne conduite </div> <input type="button" class="large" value="Je rejoins la cuisine" onclick="{join}"> </form> </div> <app-useritem ref="useritem" user="{recipe.user}"></app-useritem> </div> </div> </div> <app-footer></app-footer>', '', '', function(opts) {
         var tag = this;
 
         tag.recipe = null;
@@ -15960,7 +16278,7 @@ module.exports = riot.tag2('app-recipe', '<app-header></app-header> <div> <div c
             route("/reservation/recipe/"+tag.recipe.id);
         }
 });
-},{"riot":8}],41:[function(require,module,exports){
+},{"riot":8}],44:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-recipeedit', '<app-header></app-header> <div class="content"> <app-recipeeditform ref="form" recipe="{recipe}"></app-recipeeditform> </div> <app-footer></app-footer>', '', '', function(opts) {
         var tag = this;
@@ -15974,9 +16292,9 @@ module.exports = riot.tag2('app-recipeedit', '<app-header></app-header> <div cla
             }
         });
 });
-},{"riot":8}],42:[function(require,module,exports){
+},{"riot":8}],45:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-recipeeditform', '<form name="edit-recipe" if="{recipe != null}"> <section> <h1>Proposer une recette</h1> </section> <section> <h2>Informations de base</h2> <div> <label>Nom de la recette *</label> <input type="text" riot-value="{recipe.name}" placeholder="Nom de la recette" ref="name" name="fullname"> <p class="hint"> Ce champ est requis et ne peut contenir plus de 400 caractères. </p> </div> <div> <label>Description *</label> <textarea name="description" ref="description" placeholder="Décrivez votre recette en quelques mots">{recipe.description}</textarea> <p class="hint"> Ce champ est requis. Il ne peut contenir moins de 50 ou plus de 1000 caractères. </p> </div> <div> <label>Associer une image *</label> <input type="text" ref="picture" name="picture" placeholder="Précisez un lien URL vers l\'image de votre choix" riot-value="{recipe.picture}"> <p class="hint"> Ce champ est requis. Il doit contenir une url valide comportant moins de 400 caractères. </p> </div> </section> <section> <h2>Ingrédients et origine</h2> <div> <label>Type de cuisine *</label> <app-origininput ref="origin" name="origin" origin="{recipe.origin}"></app-origininput> <p class="hint"> Ce champ est requis et ne peut contenir plus de 400 caractères. </p> </div> <div> <label>Les "plus"</label> <app-pinsinput ref="pins" name="pins" pins="{recipe.pins}"></app-pinsinput> <p class="hint"> Ce champ ne peut contenir plus de 1000 caractères. </p> </div> <div> <label>Ingrédients principaux *</label> <app-manyinputs ref="items" name="items" riot-value="{recipe.items}"></app-manyinputs> <p class="hint"> Ce champ est requis et ne peut contenir plus de 1000 caractères. </p> </div> </section> <section> <h2>Organisation</h2> <div if="{recipe == null || recipe.id == null}"> <label>Prix de la participation *</label> <input ref="price" name="price" riot-value="{recipe.price}" placeholder="Prix de la participation" type="{\'number\'}"> <p class="hint"> Ce champ est requis et doit contenir un nombre supérieur ou égal à 0. </p> </div> <div> <label>Nombre de places disponibles *</label> <input ref="places" name="places" riot-value="{recipe.places}" placeholder="Nombre de places disponibles" type="{\'number\'}"> <p class="hint"> Ce champ est requis et doit contenir un nombre supérieur ou égal à 1. </p> </div> <div> <label>Nom de la ville/village *</label> <app-placeinput ref="place" name="place" place="{recipe.place}" valuefield="name"></app-placeinput> <p class="hint"> Ce champ est requis et ne peut contenir plus de 400 caractères. </p> </div> <div> <label>Date de début de l\'offre *</label> <app-dateinput ref="date_start" name="date_start" date="{recipe.date_start_readable}"></app-dateinput> <p class="hint"> Ce champ est requis. </p> </div> <div> <label>Date de fin de l\'offre *</label> <app-dateinput ref="date_end" name="date_end" date="{recipe.date_end_readable}"></app-dateinput> <p class="hint"> Ce champ est requis. </p> </div> </section> <p> Les champs marqués d\'une * sont requis. </p> <input type="button" class="large" value="Publier ma recette" onclick="{validate}"> </form>', '', '', function(opts) {
+module.exports = riot.tag2('app-recipeeditform', '<form name="edit-recipe" if="{recipe != null}"> <section> <h1>Proposer une recette</h1> </section> <section> <h2>Informations de base</h2> <div> <label>Nom de la recette *</label> <input type="text" riot-value="{recipe.name}" placeholder="Nom de la recette" ref="name" name="fullname"> <p class="hint"> Ce champ est requis et ne peut contenir plus de 400 caractères. </p> </div> <div> <label>Description *</label> <textarea name="description" ref="description" placeholder="Décrivez votre recette en quelques mots">{recipe.description}</textarea> <p class="hint"> Ce champ est requis. Il ne peut contenir moins de 50 ou plus de 1000 caractères. </p> </div> <div> <label>Associer une image *</label> <app-uploadinput riot-value="{recipe.picture}" ref="picture" name="picture"></app-uploadinput> <p class="hint"> Ce champ est requis. Il doit contenir une url valide comportant moins de 400 caractères. </p> </div> </section> <section> <h2>Ingrédients et origine</h2> <div> <label>Type de cuisine *</label> <app-origininput ref="origin" name="origin" origin="{recipe.origin}"></app-origininput> <p class="hint"> Ce champ est requis et ne peut contenir plus de 400 caractères. </p> </div> <div> <label>Les "plus"</label> <app-pinsinput ref="pins" name="pins" pins="{recipe.pins}"></app-pinsinput> <p class="hint"> Ce champ ne peut contenir plus de 1000 caractères. </p> </div> <div> <label>Ingrédients principaux *</label> <app-manyinputs ref="items" name="items" riot-value="{recipe.items}"></app-manyinputs> <p class="hint"> Ce champ est requis et ne peut contenir plus de 1000 caractères. </p> </div> </section> <section> <h2>Organisation</h2> <div if="{recipe == null || recipe.id == null}"> <label>Prix de la participation *</label> <input ref="price" name="price" riot-value="{recipe.price}" placeholder="Prix de la participation" type="{\'number\'}"> <p class="hint"> Ce champ est requis et doit contenir un nombre supérieur ou égal à 0. </p> </div> <div> <label>Nombre de places disponibles *</label> <input ref="places" name="places" riot-value="{recipe.places}" placeholder="Nombre de places disponibles" type="{\'number\'}"> <p class="hint"> Ce champ est requis et doit contenir un nombre supérieur ou égal à 1. </p> </div> <div> <label>Nom de la ville/village *</label> <app-placeinput ref="place" name="place" place="{recipe.place}"></app-placeinput> <p class="hint"> Ce champ est requis et ne peut contenir plus de 400 caractères. </p> </div> <div> <label>Date de début de l\'offre *</label> <app-dateinput ref="date_start" name="date_start" date="{recipe.date_start_readable}"></app-dateinput> <p class="hint"> Ce champ est requis. </p> </div> <div> <label>Date de fin de l\'offre *</label> <app-dateinput ref="date_end" name="date_end" date="{recipe.date_end_readable}"></app-dateinput> <p class="hint"> Ce champ est requis. </p> </div> </section> <p> Les champs marqués d\'une * sont requis. </p> <input type="button" class="large" value="Publier ma recette" onclick="{validate}"> </form>', '', '', function(opts) {
         var tag = this;
 
         tag.recipe = null;
@@ -16000,7 +16318,6 @@ module.exports = riot.tag2('app-recipeeditform', '<form name="edit-recipe" if="{
                 "edit-recipe": {
                     "fullname" : "required|maxLength:400",
                     "description" : "required|minLength:50|maxLength:1000",
-                    "picture" : "required|maxLength:1000",
                     "price" : "required|number|min:0",
                     "places" : "required|number|min:1"
                 }
@@ -16011,7 +16328,13 @@ module.exports = riot.tag2('app-recipeeditform', '<form name="edit-recipe" if="{
                     "edit-recipe" : {}
                 };
 
-                if(tag.refs.picture.value != "")
+                if(tag.refs.picture.value == null)
+                {
+                    errors["edit-recipe"].picture = {
+                            "required" : "true"
+                        };
+                }
+                else if(tag.refs.picture.value != "")
                 {
                     if(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(tag.refs.picture.value) == false)
                     {
@@ -16051,7 +16374,7 @@ module.exports = riot.tag2('app-recipeeditform', '<form name="edit-recipe" if="{
                         "required" : "true"
                     };
                 }
-                if(tag.refs.place.value === "" || tag.refs.place.value.length > 400)
+                if(tag.refs.place.value == null)
                 {
                     errors["edit-recipe"].place = {
                         "required" : "true"
@@ -16079,6 +16402,7 @@ module.exports = riot.tag2('app-recipeeditform', '<form name="edit-recipe" if="{
                 address = App.Address + "/addrecipe";
             }
             rcp.name = tag.refs.name.value;
+
             rcp.description = tag.refs.description.value;
             rcp.picture = tag.refs.picture.value;
             rcp.origin = tag.refs.origin.value;
@@ -16088,7 +16412,9 @@ module.exports = riot.tag2('app-recipeeditform', '<form name="edit-recipe" if="{
             rcp.price = tag.refs.price.value;
             rcp.places = tag.refs.places.value;
             rcp.pins = tag.refs.pins.value;
-            rcp.place = tag.refs.place.value;
+            rcp.place = tag.refs.place.value.name;
+            rcp.latitude = tag.refs.place.value.latitude;
+            rcp.longitude = tag.refs.place.value.longitude;
 
             var request = App.request(address, rcp);
             request.then((response) => {
@@ -16099,7 +16425,7 @@ module.exports = riot.tag2('app-recipeeditform', '<form name="edit-recipe" if="{
             });
         }
 });
-},{"riot":8}],43:[function(require,module,exports){
+},{"riot":8}],46:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-recipeitem', '<div class="recipe"> <div class="img" riot-style="background-image: url(\'{recipe.picture}\');"></div> <h1> {recipe.name} </h1> <h1> {recipe.origin[0]} </h1> <div> <span>{recipe.date_start_readable} - {recipe.date_end_readable}</span> </div> <div> <div class="Pins" if="{recipe.pins.length > 0}" each="{p in recipe.pins}">{p}</div> </div> <div class="price"> {recipe.price}€ </div> </div> <div class="user"> <div class="img" riot-style="background-image: url(\'{recipe.user.picture}\');"></div> <div class="name"> <h1> {recipe.user.username} </h1> <h2> {recipe.user.age} ans </h2> </div> <app-hearts repeat="{recipe.user.likes}"></app-hearts> </div>', '', 'onclick="{details}"', function(opts) {
         var tag = this;
@@ -16127,7 +16453,7 @@ module.exports = riot.tag2('app-recipeitem', '<div class="recipe"> <div class="i
 
 });
 
-},{"riot":8}],44:[function(require,module,exports){
+},{"riot":8}],47:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-recipelist', '<app-header></app-header> <app-recipes recipes="{recipes}"></app-recipes> <app-footer></app-footer>', '', '', function(opts) {
         var tag = this;
@@ -16153,7 +16479,7 @@ module.exports = riot.tag2('app-recipelist', '<app-header></app-header> <app-rec
             });
         };
 });
-},{"riot":8}],45:[function(require,module,exports){
+},{"riot":8}],48:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-recipes', '<app-recipeitem each="{recipe in recipes}" recipe="{recipe}"></app-recipeitem>', '', '', function(opts) {
         var tag = this;
@@ -16172,7 +16498,7 @@ module.exports = riot.tag2('app-recipes', '<app-recipeitem each="{recipe in reci
             tag.update();
         }
 });
-},{"riot":8}],46:[function(require,module,exports){
+},{"riot":8}],49:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-reporteditform', '<form name="edit-report"> <div> <label>Motif du signalement</label> <textarea name="content" ref="content" riot-value="{report.content}"></textarea> <p> Ce champ doit contenir entre 10 et 1000 caractères. </p> </div> <div if="{admin == true && report != null}"> <label>Etat d\'avancement</label> <select name="state" ref="state"> <option value="1" selected="{report.state == 1 || report.state == \'1\'}">Nouveau</option> <option value="2" selected="{report.state == 2 || report.state == \'2\'}">En cours</option> <option value="3" selected="{report.state == 3 || report.state == \'3\'}">Résolu</option> </select> </div> <div> <input type="button" class="large" value="Envoyer" onclick="{send}"> </div> </form>', '', '', function(opts) {
         var tag = this;
@@ -16232,7 +16558,7 @@ module.exports = riot.tag2('app-reporteditform', '<form name="edit-report"> <div
 
         }
 });
-},{"riot":8}],47:[function(require,module,exports){
+},{"riot":8}],50:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-reportitem', '<div class="identity"> <span><b>Par:</b> <a target="_blank" href="#/user/{report.author.id}">{report.author.username}</a></span> <span><b>Concerne:</b> <a target="_blank" href="#/user/{report.target.id}">{report.target.username}</a></span> </div> <div class="body"> <div> <span><b>Etat:</b> {report.message_progress}</span> </div> <p> {report.content} </p> </div> <div class="foot"> <input type="button" class="large" value="Mettre à jour" onclick="{edit}"> </div>', '', '', function(opts) {
         var tag = this;
@@ -16270,7 +16596,7 @@ module.exports = riot.tag2('app-reportitem', '<div class="identity"> <span><b>Pa
             App.showPopUp("app-reporteditform", "Mise à jour d'un signalement", { "callback" : callback, "report" : tag.report});
         }
 });
-},{"riot":8}],48:[function(require,module,exports){
+},{"riot":8}],51:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-reports', '<div> <br><br> <span class="Switch"> <a onclick="{showNews}" class="{selected : list == news}">Nouveaux</a> <a onclick="{showCurrents}" class="{selected : list == currents}">En cours</a> <a onclick="{showEnds}" class="{selected : list == ends}">Terminés</a> <a onclick="{showAll}" class="{selected : list == reports}">Tout</a> </span> <br><br> </div> <app-reportitem each="{report in list}" report="{report}"></app-reportitem>', '', '', function(opts) {
         var tag = this;
@@ -16372,7 +16698,7 @@ module.exports = riot.tag2('app-reports', '<div> <br><br> <span class="Switch"> 
             tag.list = tag.reports;
         }
 });
-},{"riot":8}],49:[function(require,module,exports){
+},{"riot":8}],52:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-reservation', '<app-header></app-header> <div class="content"> <section> <h1>Récapitulatif de cuisine</h1> <div> <div> <label>Qui cuisine ?</label> <app-useritem user="{recipe.user}"></app-useritem> </div> <div> <label>Qui participe ?</label> <table> <tr each="{guest in recipe.guests}"> <td>{guest.username}</td> <td><a onclick="{userDetails}" data-id="{guest.id}">Voir le profil</a></td> </tr> </table> <div class="guests" if="{recipe.guests.length <= 0}"> Vous etes le seul participant pour le moment. </div> </div> <div class="recipe"> <label>Apprentissage de:</label> <app-recipeitem recipe="{recipe}"></app-recipeitem> </div> </div> </section> <section> <h1>Faisons les comptes</h1> <div> <table> <tr> <td> 1x Assiette </td> <td> {recipe.price}€ </td> </tr> <tr> <td> Frais de réservation </td> <td> 2€ </td> </tr> <tr> <td> TOTAL </td> <td> {recipe.price+2}€ </td> </tr> </table> </div> </section> <section> <h1>Paiement en ligne par Paypal</h1> <div class="checkout"> <div if="{reservation == null}"> <p>Vous allez pouvoir accéder à Paypal pour finaliser votre paiement.</p> <input type="button" riot-value="Payer {recipe.price+2}€" onclick="{createReservation}"> </div> <div if="{reservation != null}"> <p>Cliquez encore une fois sur le bouton ci-dessous pour confirmer le paiment</p> <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top"> <input type="hidden" name="cmd" value="_xclick"> <input type="hidden" name="business" value="37HN2639NHTKU"> <input type="hidden" name="lc" value="FR"> <input type="hidden" name="item_name" riot-value="{reservation.recipe.name}"> <input type="hidden" name="item_number" riot-value="{reservation.id}"> <input type="hidden" name="amount" riot-value="{(reservation.recipe.price+2)}"> <input type="hidden" name="currency_code" value="EUR"> <input type="hidden" name="button_subtype" value="services"> <input type="hidden" name="no_note" value="0"> <input type="hidden" name="cn" value="Ajouter des instructions spéciales pour le vendeur"> <input type="hidden" name="no_shipping" value="2"> <input type="hidden" name="bn" value="PP-BuyNowBF:btn_paynowCC_LG.gif:NonHosted"> <input type="image" src="https://www.paypalobjects.com/fr_FR/FR/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne"> <img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1"> </form> </div> <p>En validant le paiement, vous accepter les CGU et la charte de bonne conduite de Melting Cook.</p> </div> </section> </div> <app-footer></app-footer>', '', '', function(opts) {
         var tag = this;
@@ -16422,7 +16748,7 @@ module.exports = riot.tag2('app-reservation', '<app-header></app-header> <div cl
             route("/user/"+id);
         }
 });
-},{"riot":8}],50:[function(require,module,exports){
+},{"riot":8}],53:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-reservationitem', '<span>Vous pouvez joindre l\'hôte au {reservation.host.phone}</span> <app-recipeitem recipe="{reservation.recipe}"></app-recipeitem>', '', '', function(opts) {
         var tag = this;
@@ -16440,7 +16766,7 @@ module.exports = riot.tag2('app-reservationitem', '<span>Vous pouvez joindre l\'
             tag.update();
         }
 });
-},{"riot":8}],51:[function(require,module,exports){
+},{"riot":8}],54:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-reservationvalidateform', '<h2> Merci d\'avoir utilisé Melting Cook ! </h2> <p> Nous espérons que vous avez appris des choses et passé un bon moment ! </p> <br> <p> Après cette opération, votre demande de validation sera prise en compte. Votre hôte recevra bientôt sa compensation !<br> </p> <br> <br> <h2>Avant de partir, pouvez-vous laisser un avis sur l\'accueil que votre hôte vous a réservé ci-dessous ?</h2> <app-commenteditform target="{reservation.host}" author="{reservation.guest}" callback="{callback}"></app-commenteditform>', '', '', function(opts) {
         var tag = this;
@@ -16458,9 +16784,9 @@ module.exports = riot.tag2('app-reservationvalidateform', '<h2> Merci d\'avoir u
         });
 
 });
-},{"riot":8}],52:[function(require,module,exports){
+},{"riot":8}],55:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler" if="{interactive}"> <br><br> <span class="Switch"> <a onclick="{showFunds}" class="{selected :  list == funds}">Provisionnées</a> <a onclick="{showDone}" class="{selected : list == done}">A Verser</a> <a onclick="{showRefunds}" class="{selected :  list == refunds}">A Rembourser</a> </span> <br><br> </div> <table> <thead> <tr> <td if="{interactive}">Identifiant</td> <td if="{interactive}">Hôte</td> <td>Invité</td> <td>Montant</td> <td if="{interactive}">Action</td> </tr> </thead> <tbody> <tr each="{reservation in list}" id="reservation-{reservation.id}"> <td if="{interactive}">{reservation.id}</td> <td if="{interactive}">{reservation.host.mail}</td> <td>{reservation.guest.mail}</td> <td>{reservation.recipe.price}</td> <td if="{interactive}"> <input if="{admin == true}" type="button" value="Marquer comme terminée" data-id="{reservation.id}" onclick="{fullfill}"> <input if="{admin == false && reservation.paid == \'1\' && reservation.done == \'0\'}" type="button" value="Je finalise" data-id="{reservation.id}" onclick="{validate}"> <input if="{admin == false && reservation.paid != \'2\' && reservation.done != \'1\'}" type="button" value="J\'annule" data-id="{reservation.id}" onclick="{refund}"> </td> </tr> </tbody> </table>', '', '', function(opts) {
+module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler" if="{interactive}"> <br><br> <span class="Switch"> <a onclick="{showFunds}" class="{selected :  list == funds}">Provisionnées</a> <a onclick="{showDone}" class="{selected : list == done}">A Verser</a> <a onclick="{showRefunds}" class="{selected :  list == refunds}">A Rembourser</a> </span> <br><br> </div> <table> <thead> <tr> <td if="{interactive}">Identifiant</td> <td if="{interactive}">Hôte</td> <td>Invité</td> <td>Montant</td> <td if="{interactive}">Action</td> </tr> </thead> <tbody> <tr each="{reservation in list}" id="reservation-{reservation.id}"> <td if="{interactive}">{reservation.id}</td> <td if="{interactive}">{reservation.host.mail}</td> <td>{reservation.guest.mail}</td> <td>{reservation.recipe.price}</td> <td if="{interactive}"> <input if="{admin == true}" type="button" value="Marquer comme terminée" data-id="{reservation.id}" onclick="{fullfill}"> <input if="{admin == false && reservation.paid == \'1\' && reservation.done == \'0\' && reservation.recipe.date_start <= (new Date().getTime()/1000)}" type="button" value="Je finalise" data-id="{reservation.id}" onclick="{validate}"> <input if="{admin == false && reservation.paid != \'2\' && reservation.done != \'1\'}" type="button" value="J\'annule" data-id="{reservation.id}" onclick="{refund}"> </td> </tr> </tbody> </table>', '', '', function(opts) {
         var tag = this;
 
         tag.admin = false;
@@ -16494,6 +16820,8 @@ module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler" if="{
             tag.funds = [];
 
             tag.reservations.forEach((res) => {
+                if(res.done == "2" || res.done == 2)
+                    return;
                 if(res.done == "1")
                 {
                     tag.done.push(res);
@@ -16623,12 +16951,12 @@ module.exports = riot.tag2('app-reservations', '<div class="SwitchHandler" if="{
         };
 
 });
-},{"riot":8}],53:[function(require,module,exports){
+},{"riot":8}],56:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-search', '<app-header></app-header> <app-searchitem></app-searchitem> <app-footer></app-footer>', '', '', function(opts) {
         var tag = this;
 });
-},{"riot":8}],54:[function(require,module,exports){
+},{"riot":8}],57:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-searchitem', '<div> <div class="img"></div> <div> <h2>A vos assiettes !</h2> <span>Cuisinez en bonne compagnie</span> </div> </div> <form name="edit-search"> <app-placeinput ref="place"></app-placeinput> <app-dateinput ref="date"></app-dateinput> <app-origininput ref="origin"></app-origininput> <input ref="price_start" name="price_start" placeholder="Entre" type="number"> - <input name="price_end" ref="price_end" placeholder="Et" type="number"> <input type="button" value="A vos ustensiles !" onclick="{send}"> </form>', '', '', function(opts) {
         var tag = this;
@@ -16670,7 +16998,7 @@ module.exports = riot.tag2('app-searchitem', '<div> <div class="img"></div> <div
                 var date = null;
                 if(tag.refs.date.value != null)
                     date = tag.refs.date.value;
-                var retrieve = Search.search(tag.refs.place.value, tag.refs.origin.value, date, price_start, price_end);
+                var retrieve = Search.search(tag.refs.place.value.geolocation, tag.refs.origin.value, date, price_start, price_end);
                 retrieve.then(function(data)
                 {
                     App.changePage("app-searchresults", data);
@@ -16686,13 +17014,13 @@ module.exports = riot.tag2('app-searchitem', '<div> <div class="img"></div> <div
 
         }
 });
-},{"riot":8}],55:[function(require,module,exports){
+},{"riot":8}],58:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-searchresults', '<app-header></app-header> <app-searcher expanded="{true}" params="{opts.params}"></app-searcher> <div class="content"> <section> <h1>Résultats de la recherche</h1> <hr> <app-recipes recipes="{opts.recipes}"></app-recipes> </section> </div> <app-footer></app-footer>', '', '', function(opts) {
         var tag = this;
 
 });
-},{"riot":8}],56:[function(require,module,exports){
+},{"riot":8}],59:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-searcher', '<div> <div class="img"></div> <div> <h1>A vos cuisines... Partez !</h1> <h2> La découverte dans vos assiettes. </h2> </div> </div> <form> <app-placeinput ref="place"></app-placeinput> <app-origininput ref="origin" origin="{origin}"></app-origininput> <app-dateinput ref="date" date="{date}"></app-dateinput> <div if="{expanded}"> <input ref="price_start" name="price_start" placeholder="Prix entre" riot-value="{price_start}" type="{\'number\'}"> - <input riot-value="{price_end}" name="price_end" ref="price_end" placeholder="Et" type="{\'number\'}"> </div> <input type="button" value="Chercher un moment sympa !" onclick="{send}"> </form>', '', '', function(opts) {
         var tag = this;
@@ -16726,7 +17054,7 @@ module.exports = riot.tag2('app-searcher', '<div> <div class="img"></div> <div> 
         tag.send = function()
         {
             var retrieve = null;
-            var params = [tag.refs.place.value, tag.refs.origin.value, tag.refs.date.value];
+            var params = [tag.refs.place.value.geolocation, tag.refs.origin.value, tag.refs.date.value];
 
             if(tag.expanded) {
                 var price_start = null;
@@ -16754,10 +17082,10 @@ module.exports = riot.tag2('app-searcher', '<div> <div class="img"></div> <div> 
                 params.push(price_start);
                 params.push(price_end);
 
-                retrieve = Search.search(tag.refs.place.value, tag.refs.origin.value, tag.refs.date.value, price_start, price_end);
+                retrieve = Search.search(tag.refs.place.value.geolocation, tag.refs.origin.value, tag.refs.date.value, price_start, price_end);
             }
             else
-                retrieve = Search.search(tag.refs.place.value, tag.refs.origin.value, tag.refs.date.value);
+                retrieve = Search.search(tag.refs.place.value.geolocation, tag.refs.origin.value, tag.refs.date.value);
 
             retrieve.then(function(data) {
                 var res = "null";
@@ -16771,9 +17099,9 @@ module.exports = riot.tag2('app-searcher', '<div> <div class="img"></div> <div> 
             });
         };
 });
-},{"riot":8}],57:[function(require,module,exports){
+},{"riot":8}],60:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-user', '<app-header></app-header> <div> <div class="banner" riot-style="background-image: url(\'{user.banner}\');"> </div> <div class="content"> <div class="head"> <img riot-src="{user.picture}"> <div class="identity"> <span>{user.username}</span> <span>{user.age} ans</span> <span>Cuisinnier vérifié</span> </div> </div> <nav> <input type="button" onclick="{showRecipes}" value="Voir les recettes"> <input if="{owner==true}" type="button" onclick="{manage}" value="Gérer mon profil"> <input if="{owner==false}" class="peach" type="button" onclick="{report}" value="Signaler"> </nav> <div class="description"> <h1>Présentation du chef</h1> <p> {user.description} </p> </div> <div class="more"> <div class="{discease : true, invisible : user.discease.length <= 0}"> <h1>Ses allergies</h1> <ul> <li each="{d in user.discease}">{d}</li> </ul> </div> <div class="{preference : true, invisible : user.preference.length <= 0}"> <h1>Ses inspirations</h1> <ul> <li each="{p in user.preference}">{p}</li> </ul> </div> <div> <h1>Ses "plus"</h1> <div class="Pins open" each="{p in user.pins}"><span>{p}</span></div> </div> </div> <div class="comments"> <h1>Ses avis</h1> <app-hearts repeat="{user.likes}"></app-hearts> <app-comments comments="{user.comments}"></app-comments> </div> </div> </div> <app-footer></app-footer>', '', '', function(opts) {
+module.exports = riot.tag2('app-user', '<app-header></app-header> <div> <div class="banner" riot-style="background-image: url(\'{user.banner}\');"> </div> <div class="content"> <div class="head"> <img riot-src="{user.picture}"> <div class="identity"> <span>{user.username}</span> <span>{user.age} ans</span> <span>Cuisinnier vérifié</span> </div> </div> <nav> <input type="button" onclick="{showRecipes}" value="Voir les recettes"> <input if="{owner==true}" type="button" onclick="{manage}" value="Gérer mon profil"> <input if="{owner==false}" class="peach" type="button" onclick="{report}" value="Signaler"> </nav> <div class="description"> <h1>Présentation du chef</h1> <p> {user.description} </p> </div> <div class="more"> <div class="{discease : true, invisible : user.discease.length <= 0}"> <h1>Ses allergies</h1> <ul> <li each="{d in user.discease}">{d}</li> </ul> </div> <div class="{preference : true, invisible : user.preference.length <= 0}"> <h1>Ses inspirations</h1> <ul> <li each="{p in user.preference}">{p}</li> </ul> </div> <div> <h1>Ses "plus"</h1><br> <div class="Pins open" each="{p in user.pins}"><span>{p}</span></div> </div> </div> <div class="comments"> <h1>Ses avis</h1> <app-hearts repeat="{user.likes}"></app-hearts> <app-comments comments="{user.comments}"></app-comments> </div> </div> </div> <app-footer></app-footer>', '', '', function(opts) {
         var tag = this;
 
         tag.user = null;
@@ -16823,7 +17151,7 @@ module.exports = riot.tag2('app-user', '<app-header></app-header> <div> <div cla
             });
         }
 });
-},{"riot":8}],58:[function(require,module,exports){
+},{"riot":8}],61:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-useredit', '<app-header></app-header> <div class="content"> <app-usereditform ref="form" user="{{}}" callback="{send}"></app-usereditform> </div> <app-footer></app-footer>', '', '', function(opts) {
         var tag = this;
@@ -16841,14 +17169,15 @@ module.exports = riot.tag2('app-useredit', '<app-header></app-header> <div class
             route("/");
         }
 });
-},{"riot":8}],59:[function(require,module,exports){
+},{"riot":8}],62:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user != null}"> <div> <h1>Création/Edition d\'un compte utilisateur</h1> </div> <div> <h2>Présentation du compte</h2> <div class="banner"> <div class="img" ref="banner_preview" riot-style="background-image: url(\'{user.banner}\');"></div> <div> <label>Télécharger une bannière:</label> <input type="text" name="banner" ref="banner" riot-value="{user.banner}" onchange="{updateBanner}"> <p class="hint"> Ce champ doit contenir une adresse URL valide. </p> <p> Les dimensions recommandées pour un résultat optimal sont 1500 x 500 pixels </p> </div> </div> <div class="picture"> <div class="img" ref="picture_preview" riot-style="background-image: url(\'{user.picture}\');"></div> <div> <label>Télécharger une photo de profil:</label> <input type="text" name="picture" ref="picture" riot-value="{user.picture}" onchange="{updatePicture}"> <p class="hint"> Ce champ doit contenir une adresse URL valide. </p> <p> Les dimensions recommandées pour un résultat optimal sont 400 x 400 pixels </p> </div> </div> </div> <div> <h2>Informations de base</h2> <div class="base"> <div class="{invisible: user.id != null}"> <label>Nom d\'utilisateur: </label> <input type="text" name="username" ref="username" riot-value="{user.username}"> <p class="hint">Ce champ doit contenir entre 5 et 400 caractères.</p> <p> Vous ne pourrez plus changer de nom d\'utilisateur après l\'inscription. Choisissez avec sagesse.</p> </div> <div class="{invisible: user.id != null}"> <label>Mot de passe: </label> <input type="password" name="password" ref="password"> <p class="hint"> Ce champ doit contenir entre 8 et 100 caractères.<br> Le mot de passe et sa confirmation doivent correspondre. </p> </div> <div class="{invisible: user.id != null}"> <label>Confirmation mot de passe: </label> <input type="password" name="password_confirm" ref="password_confirm"> <p class="hint"> Ce champ doit contenir entre 8 et 100 caractères.<br> Le mot de passe et sa confirmation doivent correspondre. </p> </div> <div> <label>Age: </label> <input type="text" name="age" ref="age" riot-value="{user.age}"> <p class="hint"> Ce champ doit contenir une valeur numérique comprise entre 0 et 100. </p> </div> <div> <label>Numéro de téléphone:</label> <input type="text" name="phone" ref="phone" riot-value="{user.phone}"> <p class="hint"> Ce champ doit contenir un numéro de téléphone valide. </p> </div> </div> </div> <div> <div class="bills"> <h2>Informations de facturation</h2> <div> <label>Adresse Email associée au compte Paypal:</label> <input type="text" name="mail" ref="mail" riot-value="{user.mail}"> <p class="hint">Ce champ doit contenir une adresse email valide.</p> <p>Pensez à vérifier qu\'il s\'agit bien de l\'adresse email associée à votre compte Paypal. Nous allons l\'utiliser pour vous verser votre dû.</p> </div> <div> <label>Présentation: </label> <textarea name="description" ref="description"> {user.description} </textarea> <p class="hint"> Ce champ doit contenir entre 50 et 1000 caractères. </p> </div> <div> <label>Adresse:</label> <input type="text" name="address" ref="address" riot-value="{user.address}"> <p class="hint"> Ce champ doit contenir votre adresse de facturation. Cette adresse ne sera pas transmise aux autres utilisateurs. </p> </div> <div> <label>Prénom:</label> <input type="text" name="firstname" ref="firstname" riot-value="{user.firstname}"> <p class="hint"> Ce champ doit contenir le prénom qui sera utilisé sur les factures. </p> </div> <div> <label>Nom:</label> <input type="text" name="lastname" ref="lastname" riot-value="{user.lastname}"> <p class="hint"> Ce champ doit contenir le nom qui sera utilisé sur les factures. </p> </div> </div> </div> <div> <div class="more"> <h2>Détails importants</h2> <div> <label>Mes allergies:</label> <div> <input type="text" name="discease" ref="discease" id="discease" riot-value="{user.discease}"> </div> <p class="hint">Ce champ ne peut contenir plus de 1000 caractères.</p> <p> Veuillez renseigner les informations relatives à vos éventuelles allergies et contre-indications alimentaires. </p> </div> <div> <label>Mes inspirations:</label> <app-origininput ref="preference"></app-origininput> <p class="hint"> Ce champ ne peut contenir plus de 1000 caractères. </p> <p> Indiquez aux autres utilisateurs quelles sont vos sources d\'inspiration alimentaires ! </p> </div> <div> <label>Mes plus:</label> <app-pinsinput ref="pins"></app-pinsinput> <p class="hint"> Ce champ ne peut contenir plus de 1000 caractères. </p> <p> Indiquez aux autres utilisateurs vos petit plus !<br> e.g: Bio, Vegan, Sans-gluten, Halal </p> </div> </div> </div> <div if="{user.id != null}"> <h2>Actions</h2> <div class="{action : true, invisible: (user.id==null)}"> <input type="button" class="large" value="Réinitialiser mon mot de passe" onclick="{changePassword}"> </div> </div> <div> <input type="button" class="large" value="Enregistrer" onclick="{validate}"> </div> </form>', '', '', function(opts) {
+module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user != null}"> <div> <h1>Création/Edition d\'un compte utilisateur</h1> </div> <div> <h2>Présentation du compte</h2> <div class="banner"> <div class="img" ref="banner_preview" riot-style="background-image: url(\'{user.banner}\');"></div> <div> <label>Télécharger une bannière:</label> <app-uploadinput riot-value="{user.banner}" ref="banner" name="banner" onchange="{updateBanner}"></app-uploadinput> <p class="hint"> Ce champ doit contenir une adresse URL valide. </p> <p> Les dimensions recommandées pour un résultat optimal sont 1500 x 500 pixels </p> </div> </div> <div class="picture"> <div class="img" ref="picture_preview" riot-style="background-image: url(\'{user.picture}\');"></div> <div> <label>Télécharger une photo de profil:</label> <app-uploadinput riot-value="{user.picture}" ref="picture" name="picture" onchange="{updatePicture}"></app-uploadinput> <p class="hint"> Ce champ doit contenir une adresse URL valide. </p> <p> Les dimensions recommandées pour un résultat optimal sont 400 x 400 pixels </p> </div> </div> </div> <div> <h2>Informations de base</h2> <div class="base"> <div class="{invisible: user.id != null}"> <label>Nom d\'utilisateur: </label> <input type="text" name="username" ref="username" riot-value="{user.username}"> <p class="hint">Ce champ doit contenir entre 5 et 400 caractères.</p> <p> Vous ne pourrez plus changer de nom d\'utilisateur après l\'inscription. Choisissez avec sagesse.</p> </div> <div class="{invisible: user.id != null}"> <label>Mot de passe: </label> <input type="password" name="password" ref="password"> <p class="hint"> Ce champ doit contenir entre 8 et 100 caractères.<br> Le mot de passe et sa confirmation doivent correspondre. </p> </div> <div class="{invisible: user.id != null}"> <label>Confirmation mot de passe: </label> <input type="password" name="password_confirm" ref="password_confirm"> <p class="hint"> Ce champ doit contenir entre 8 et 100 caractères.<br> Le mot de passe et sa confirmation doivent correspondre. </p> </div> <div> <label>Age: </label> <input type="text" name="age" ref="age" riot-value="{user.age}"> <p class="hint"> Ce champ doit contenir une valeur numérique comprise entre 0 et 100. </p> </div> <div> <label>Adresse Email de contact:</label> <input type="text" name="mail" ref="mail" riot-value="{user.mail}"> <p class="hint">Ce champ doit contenir une adresse email valide.</p> </div> <div> <label>Numéro de téléphone:</label> <input type="text" name="phone" ref="phone" riot-value="{user.phone}"> <p class="hint"> Ce champ doit contenir un numéro de téléphone valide. </p> </div> </div> </div> <div> <div class="bills"> <h2>Informations de facturation</h2> <div> <label>Compte Paypal:</label> <input disabled type="text" name="paypal" ref="paypal" riot-value="{user.paypal}"> <p>En liant votre compte Paypal et MeltingCook, vous serez en mesure de proposer des recettes et de reçevoir vos compensations.</p><br> <div style="text-align: center"> <span class="{invisible: user.paypal != null}" ref="paypalButton" id="lippButton" onclick="{bindPaypal}"></span><input type="button" class="{invisible:  user.paypal == null}" onclick="{removePaypal}" ref="paypalRemove" value="Dissocier"> </div> </div> <br> <div> <label>Présentation: </label> <textarea name="description" ref="description"> {user.description} </textarea> <p class="hint"> Ce champ doit contenir entre 50 et 1000 caractères. </p> </div> <div> <label>Adresse:</label> <input type="text" name="address" ref="address" riot-value="{user.address}"> <p class="hint"> Ce champ doit contenir votre adresse de facturation. Cette adresse ne sera pas transmise aux autres utilisateurs. </p> </div> <div> <label>Prénom:</label> <input type="text" name="firstname" ref="firstname" riot-value="{user.firstname}"> <p class="hint"> Ce champ doit contenir le prénom qui sera utilisé sur les factures. </p> </div> <div> <label>Nom:</label> <input type="text" name="lastname" ref="lastname" riot-value="{user.lastname}"> <p class="hint"> Ce champ doit contenir le nom qui sera utilisé sur les factures. </p> </div> </div> </div> <div> <div class="more"> <h2>Détails importants</h2> <div> <label>Mes allergies:</label> <div> <input type="text" name="discease" ref="discease" id="discease" riot-value="{user.discease}"> </div> <p class="hint">Ce champ ne peut contenir plus de 1000 caractères.</p> <p> Veuillez renseigner les informations relatives à vos éventuelles allergies et contre-indications alimentaires. </p> </div> <div> <label>Mes inspirations:</label> <app-origininput ref="preference"></app-origininput> <p class="hint"> Ce champ ne peut contenir plus de 1000 caractères. </p> <p> Indiquez aux autres utilisateurs quelles sont vos sources d\'inspiration alimentaires ! </p> </div> <div> <label>Mes plus:</label> <app-pinsinput ref="pins"></app-pinsinput> <p class="hint"> Ce champ ne peut contenir plus de 1000 caractères. </p> <p> Indiquez aux autres utilisateurs vos petit plus !<br> e.g: Bio, Vegan, Sans-gluten, Halal </p> </div> </div> </div> <div if="{user.id != null}"> <h2>Actions</h2> <div class="{action : true, invisible: (user.id==null)}"> <input type="button" class="large" value="Réinitialiser mon mot de passe" onclick="{changePassword}"> </div> </div> <div> <input type="button" class="large" value="Enregistrer" onclick="{validate}"> </div> </form>', '', '', function(opts) {
         var tag = this;
 
         tag.user = null;
         tag.callback = null;
         tag.position = null;
+        tag.interval = null;
 
         tag.on("before-mount", function()
         {
@@ -16858,7 +17187,17 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
 
         tag.on("mount", function()
         {
-            tag.geolocalize();
+
+            paypal.use( ['login'], function (login) {
+                login.render ({
+                  "appid":"ATqrzo1dXoeILHVUxEPHC4BzFQDU_65NPTxrzTqkoEqN3tRkykahpxNCN684j7mUbxCtnkz6-GoFp70y",
+                    "authend" : "sandbox",
+                  "scopes":"openid email",
+                  "containerid":"lippButton",
+                  "locale":"fr-fr",
+                  "returnurl":"http://www.clovis-portron.cf/MC/backend/src/API/paypallogin"
+                });
+              });
 
             $('#discease').selectize({
                     delimiter: ";",
@@ -16903,24 +17242,31 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
             });
         };
 
+        tag.removePaypal = function()
+        {
+            tag.refs.paypal.value = "";
+            tag.refs.paypalButton.classList.remove("invisible");
+            tag.refs.paypalRemove.classList.add("invisible");
+        };
+
+        tag.bindPaypal = function()
+        {
+            App.showLoading();
+            Paypal.bindPaypal().then(function(data){
+                App.hideLoading();
+                tag.refs.paypal.value = data;
+                tag.refs.paypalButton.classList.add("invisible");
+                tag.refs.paypalRemove.classList.remove("invisible");
+            }, function(error){
+                App.hideLoading();
+                NotificationManager.showNotification("Impossible de lier votre compte avec Paypal. Veuillez réessayer.", "error");
+            });
+        }
+
         tag.details = function()
         {
             if(tag.user != null && tag.user.id != null)
                 route("/user/"+tag.user.id);
-        };
-
-        tag.geolocalize = function()
-        {
-            var exec = function(position)
-            {
-                tag.position = position.coords.latitude+","+position.coords.longitude;
-            };
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(exec);
-            } else {
-                NotificationManager.showNotification("Vous devez activer la géolocalisation pour être en mesure d'utiliser Melting Cook.", "error");
-                tag.geolocalize();
-            }
         };
 
         tag.updatePicture = function()
@@ -16941,6 +17287,7 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
                     "age": "required|number|maxLength:3",
                     "phone": "required|minLength:10|maxLength:400",
                     "mail": "required|email|maxLength:400",
+                    "paypal": "email|maxLength:400",
                     "description": "required|minLength:50|maxLength:1000",
                     "picture": "maxLength:400",
                     "discease": "maxLength:1000",
@@ -16955,7 +17302,13 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
                     "edit-user" : {}
                 };
 
-                if(tag.refs.banner.value != "")
+                if(tag.refs.banner.value == null)
+                {
+                    errors["edit-user"].banner = {
+                            "required" : "true"
+                        };
+                }
+                else if(tag.refs.banner.value != "")
                 {
                     if(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(tag.refs.banner.value) == false)
                     {
@@ -16965,6 +17318,12 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
                     }
                 }
 
+                if(tag.refs.picture.value == null)
+                {
+                    errors["edit-user"].picture = {
+                            "required" : "true"
+                    };
+                }
                 if(tag.refs.picture.value != "")
                 {
                     if(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(tag.refs.picture.value) == false)
@@ -16996,13 +17355,6 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
                     errors["edit-user"].phone = {
                         "required" : "true"
                     };
-                }
-
-                if(tag.position == null || tag.position.indexOf(",") == -1)
-                {
-                    NotificationManager.showNotification("Vous devez activer la géolocalisation pour être en mesure d'utiliser Melting Cook.", "error");
-                    tag.geolocalize();
-                    return;
                 }
 
                 if(tag.refs.preference.value == null && tag.refs.preference.value > 1000)
@@ -17041,7 +17393,7 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
             {
                 usr.password = md5(tag.refs.password.value);
             }
-            usr.geolocation = tag.position;
+
             usr.banner = tag.refs.banner.value;
             if(usr.id == null)
             {
@@ -17059,6 +17411,10 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
             usr.firstname = tag.refs.firstname.value;
             usr.address = tag.refs.address.value;
 
+            usr.paypal = null;
+            if(tag.refs.paypal.value != "")
+                usr.paypal = tag.refs.paypal.value;
+
             var url = App.Address + "/adduser";
             if (usr.id != null)
                 url = App.Address + "/updateuser";
@@ -17074,7 +17430,7 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
             });
         }
 });
-},{"riot":8}],60:[function(require,module,exports){
+},{"riot":8}],63:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-useritem', '<div class="head"> <img riot-src="{user.picture}"> <div> <span>{user.username}</span> <span>{user.age} ans</span> </div> </div> <div class="body"> <app-hearts repeat="{user.likes}"></app-hearts> </div> <div class="{style : true, invisible: user.style == null || user.style == ⁗⁗}"> <span>Son style de cuisine</span> <span>{user.style}</span> </div> <div> <div class="Pins" each="{pin in user.pins}"> {pin} </div> </div> </div> <div class="foot" if="{reduced == false}"> <input type="button" class="large" value="Connaître le chef" onclick="{details}"> </div>', '', '', function(opts) {
         var tag = this;
@@ -17101,7 +17457,7 @@ module.exports = riot.tag2('app-useritem', '<div class="head"> <img riot-src="{u
             route("/user/"+tag.user.id);
         }
 });
-},{"riot":8}],61:[function(require,module,exports){
+},{"riot":8}],64:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-userpasswordform', '<form name="edit-userpassword"> <div> <label>Votre nouveau mot de passe:</label> <input type="password" name="password" ref="password"> </div> <div> <label>Confirmation du nouveau mot de passe:</label> <input type="password" name="password_confirm" ref="password_confirm"> </div> <input type="button" value="Envoyer" onclick="{send}"> </form>', '', '', function(opts) {
         var tag = this;
@@ -17144,7 +17500,7 @@ module.exports = riot.tag2('app-userpasswordform', '<form name="edit-userpasswor
         }
 
 });
-},{"riot":8}],62:[function(require,module,exports){
+},{"riot":8}],65:[function(require,module,exports){
 var riot = require('riot');
 module.exports = riot.tag2('app-users', '<div class="user" each="{user in users}" data-id="{user.id}"> <img riot-src="{user.picture}"> <div> <a href="#/user/{user.id}">{user.username}</a><br> {user.age} ans </div> <app-hearts repeat="{user.likes}"></app-hearts> </div>', '', '', function(opts) {
         var tag = this;

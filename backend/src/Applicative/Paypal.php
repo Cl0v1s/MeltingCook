@@ -80,6 +80,7 @@ class IPN
 }
 
 require("PaypalIPN.php");
+require("Mailer.php");
 
 use PaypalIPN;
 
@@ -97,35 +98,30 @@ class Paypal
 
     public static function handleError($e)
     {
-        Engine::Instance()->Logger()->error($_POST["payment_date"]."(".$_POST["txn_id"].") ".$_POST["mc_gross"]."€: ".$e->getMessage());
+        ErrorLogger::handle($_POST["payment_date"]."(".$_POST["txn_id"].") ".$_POST["mc_gross"]."€: ".$e->getMessage(), $e->getTraceAsString());
         $body = ""
             . "Bonjour,<br>\r\n"
             . "La transaction ".$_POST["txn_id"]."(".$_POST["payer_email"].") pour un montant de ".$_POST["mc_gross"]." a échouée pour la raison suivante: <br>\r\n"
             . $e->getMessage()
             . "<br>\n" . "<br>\n". "Le ".$_POST["payment_date"];
 
-        mail(Paypal::$ManagerEmail, "Erreur transaction #".$_POST["txn_id"], $body);
-
-        //TODO: envoyer un mail au payer en cas d'échec
-
+        Mailer::SendMailToAdmin("Erreur transaction #".$_POST["txn_id"], $body);
     }
 
 
     public static function handleEvent($ipn)
     {
         $paypal = new PaypalIPN();
+        if(Configuration::$Paypal_usesandbox)
+            $paypal->useSandbox();
         $paypal->useSandbox();
         $paypal->usePHPCerts();
-        //Engine::Instance()->Logger()->warning("ok0");
+
         if($paypal->verifyIPN() !=  true)
         {
             throw new LogicException("Failed to verify IPN Message");
         }
-        //Engine::Instance()->Logger()->warning("ok1");
         
-        // (Avertir administrateur par mail ?)
-        // Ou faire avant de dire verified
-        // Réaliser les vérifications
         $storage = Engine::Instance()->Persistence("DatabaseStorage");
 
         // Vérification pas un spoof
@@ -176,11 +172,13 @@ class Paypal
         $reservation->setTxnId($ipn->txn_id);
         $storage->persist($reservation, StorageState::ToUpdate);
         $storage->flush();
-        Engine::Instance()->Logger()->warning($_POST["payment_date"]."(".$_POST["txn_id"].") ".$_POST["mc_gross"]."€: OK");
+        ErrorLogger::$LOGGER->warning($_POST["payment_date"]."(".$_POST["txn_id"].") ".$_POST["mc_gross"]."€: OK");
         
+        $titlemsg = "A propos de la recette ".$recipe["name"];
 
-        // TODO: envoyer mail au guest avec numéro de téléphone du host
-        // TODO: envoyer mail à l'hote avec numéro de téléphone du guest
+        Mailer::SendMail($guest->Mail(), $titlemsg, "Votre payement concernant la recette ".$recipe["name"]." a été traité ! Vous pouvez contacter votre hôte au ".$host->Phone().".");
+        Mailer::SendMail($host->Mail(), $titlemsg, "Une réservation concernant la recette ".$recipe["name"]." a été payée ! Vous pouvez contacter votre invité au ".$guest->Phone().".");
+
         API::GenerateNotification(null, $reservation->GuestId(), "info", "Votre payement concernant la recette ".$recipe["name"]." a été traité ! Vous allez recevoir un mail contenant le numéro de votre hôte.", false);
         API::GenerateNotification(null, $reservation->HostId(), "info", "Une réservation concernant la recette ".$recipe["name"]." a été payée ! Vous allez recevoir un mail contenant le numéro de votre invité !", false);
     }

@@ -39,7 +39,7 @@
         tag.register = function()
         {
             route("/register");
-        };
+        }; 
 
         tag.login = function()
         {
@@ -56,6 +56,8 @@
         tag.logout = function()
         {
             Login.GetInstance().logout();
+            tag.auth();
+            tag.update();
             route("/");
         }
 

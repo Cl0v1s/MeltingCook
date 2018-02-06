@@ -1,5 +1,6 @@
 <?php
-
+include_once 'Core/Annotations.php';
+include_once 'Core/StorageItem.php';
 
 class Meta extends StorageItem 
 {

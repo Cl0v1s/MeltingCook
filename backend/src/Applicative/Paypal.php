@@ -112,6 +112,8 @@ class Paypal
     public static function handleEvent($ipn)
     {
         $paypal = new PaypalIPN();
+        if(Configuration::$Paypal_usesandbox)
+            $paypal->useSandbox();
         $paypal->useSandbox();
         $paypal->usePHPCerts();
 

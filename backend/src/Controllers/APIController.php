@@ -185,11 +185,11 @@ class APIController extends Controller
         //TODO: améliorer la sécurité ici, il est possible de tricher avec l'url
         //TODO: mettre vrai url
 
-        $callback = "http://localhost:3474/";
+        $callback = Configuration::$Paypal_logincallback;
 
         $code = $_GET["code"];
 
-        $url = 'https://api.sandbox.paypal.com/v1/identity/openidconnect/tokenservice';
+        $url = Configuration::$Paypal_tokenservice;
 
         $ch = curl_init();
 
@@ -199,8 +199,7 @@ class APIController extends Controller
 
         $headr = array();
         $headr[] = 'Content-type: application/x-www-form-urlencoded';
-        $headr[] = 'Authorization:  Basic QVRxcnpvMWRYb2VJTEhWVXhFUEhDNEJ6RlFEVV82NU5QVHhyelRxa29FcU4zdFJreWthaHB4TkNONjg0ajdtVWJ4Q3Rua3o2LUdvRnA3MHk6RUJ3a1VlamlncVJILTNUNzBGTEZBY2NWZWQxaVlJd3pMb0xtS1lPTy02YkQ0UE5ISGZJM3lyd0N0VEJTci1UYWsyaEVCdnotdXpVTmJtaGQ=';
-        
+        $headr[] = Configuration::$Paypal_clientid;
         curl_setopt($ch, CURLOPT_HTTPHEADER,$headr);
 
         // in real life you should use something like:
@@ -222,7 +221,7 @@ class APIController extends Controller
         }
             
         $token = $data["access_token"];
-        $url = "https://api.sandbox.paypal.com/v1/oauth2/token/userinfo?schema=openid";
+        $url = Configuration::$Paypal_userinfo;
 
 
         $ch = curl_init();

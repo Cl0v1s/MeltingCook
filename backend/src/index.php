@@ -2,6 +2,13 @@
 
 include_once 'Core/Engine.php';
 
+$DEBUG = true;
+if($DEBUG)
+    include_once 'Configuration_debug.php';
+else 
+    include_once 'Configuration_prod.php';
+
+
 /**
  * Created by PhpStorm.
  * User: clovis
@@ -9,13 +16,12 @@ include_once 'Core/Engine.php';
  * Time: 16:12
  */
 
-Engine::$DEBUG = false;
 date_default_timezone_set ("Europe/Paris");
 ErrorLogger::register("http://www.clovis-portron.cf/ErrorManager/src/backoffice/v1.0/ErrorLog", "MeltingCook");
 ErrorLogger::$LOGGER->warning("New connection from ".$_SERVER['REMOTE_ADDR']);
 
 
-Engine::Instance()->setPersistence(new DatabaseStorage("localhost", "MC", "phpmyadmin", "root"));
+Engine::Instance()->setPersistence(new DatabaseStorage(Configuration::$DB_host, Configuration::$DB_database, Configuration::$DB_login, Configuration::$DB_password));
 Engine::Instance()->run();
 
 

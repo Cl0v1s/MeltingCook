@@ -74,6 +74,8 @@
 
         public static function handleException(Throwable $e)
         {
+            if(Configuration::$Errorlogger_echo)
+                var_dump($e);
             ErrorLogger::handle($e->getMessage(), $e->getTraceAsString());
         }
 

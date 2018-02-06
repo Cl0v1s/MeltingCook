@@ -3,8 +3,10 @@
     {
         public static $DB_host = "meltingcxzclovis.mysql.db";
         public static $DB_login = "meltingcxzclovis";
-        public static $DB_password = "meltingcxzclovis";
-        public static $DB_database = "Cheminade201";
+        public static $DB_password = "Cheminade201";
+        public static $DB_database = "meltingcxzclovis";
+
+        public static $Errorlogger_echo = true;
 
         public static $Paypal_usesandbox = true;
         public static $Paypal_logincallback = "http://meltingcook.fr/";

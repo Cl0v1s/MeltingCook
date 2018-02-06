@@ -6,6 +6,8 @@
         public static $DB_password = "root";
         public static $DB_database = "MC";
 
+        public static $Errorlogger_echo = true;
+
         public static $Paypal_usesandbox = true;
         public static $Paypal_logincallback = "http://localhost:3474/";
         public static $Paypal_tokenservice = 'https://api.sandbox.paypal.com/v1/identity/openidconnect/tokenservice';

@@ -72,7 +72,7 @@
             ErrorLogger::handle($string, $line." ".$file);
         }
 
-        public static function handleException(Exception $e)
+        public static function handleException(Throwable $e)
         {
             ErrorLogger::handle($e->getMessage(), $e->getTraceAsString());
         }

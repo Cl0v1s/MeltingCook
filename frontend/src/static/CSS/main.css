@@ -506,10 +506,12 @@ input:disabled {
   opacity: 0.3; }
 
 input[type=text].error, input[type=number].error, textarea.error, select.error, input[type=password].error
-app-dateinput.error input, app-manyinputs.error input[type=text], app-origininput.error div.selectize-input, app-pinsinput.error div.selectize-input, app-placeinput.error div.selectize-input {
+app-dateinput.error input, app-manyinputs.error input[type=text], app-origininput.error div.selectize-input, app-pinsinput.error div.selectize-input, app-placeinput.error div.selectize-input
+, app-dateinput.error input {
   border-color: red !important; }
   input[type=text].error:focus, input[type=number].error:focus, textarea.error:focus, select.error:focus, input[type=password].error
-app-dateinput.error input:focus, app-manyinputs.error input[type=text]:focus, app-origininput.error div.selectize-input:focus, app-pinsinput.error div.selectize-input:focus, app-placeinput.error div.selectize-input:focus {
+app-dateinput.error input:focus, app-manyinputs.error input[type=text]:focus, app-origininput.error div.selectize-input:focus, app-pinsinput.error div.selectize-input:focus, app-placeinput.error div.selectize-input:focus
+, app-dateinput.error input:focus {
     outline: 0; }
 
 label {
@@ -1172,6 +1174,13 @@ app-placehint, div[data-is=app-placehint] {
       height: 200px;
       margin: auto;
       border-radius: 2px; }
+
+app-uploadinput {
+  border-radius: 15px;
+  display: block; }
+  app-uploadinput.error {
+    border: 1px solid;
+    border-color: red; }
 
 app-searcher {
   display: block;

@@ -86,6 +86,8 @@ app-recipe, div[data-is=app-recipe]
                     color: $color-text-primary;
                     //height: 56px;
                     padding: 0;
+                    overflow-wrap: break-word;
+                    max-width: 100%;
                 }
 
                 &>div

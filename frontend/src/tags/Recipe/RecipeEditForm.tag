@@ -177,7 +177,7 @@
                         "required" : "true"
                     };
                 }
-                if(tag.refs.place.value == null)
+                if(tag.refs.place.value == null || tag.refs.place.value == "")
                 {
                     errors["edit-recipe"].place = {
                         "required" : "true"

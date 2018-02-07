@@ -16391,7 +16391,7 @@ module.exports = riot.tag2('app-recipeeditform', '<form name="edit-recipe" if="{
                         "required" : "true"
                     };
                 }
-                if(tag.refs.place.value == null)
+                if(tag.refs.place.value == null || tag.refs.place.value == "")
                 {
                     errors["edit-recipe"].place = {
                         "required" : "true"

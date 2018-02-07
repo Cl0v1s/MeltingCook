@@ -1,0 +1,11 @@
+app-uploadinput
+{
+    border-radius: $border-radius;
+    display: block;
+
+    &.error
+    {
+        border: 1px solid;
+        border-color: red;
+    }
+}

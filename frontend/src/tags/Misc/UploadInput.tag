@@ -16,6 +16,7 @@
             let callback = function (res) {
                 if (res.success === true) {
                     console.log(res.data.link);
+                    tag.root.classList.remove("error");
                     tag.value = res.data.link;
                     if(tag.onchange != null)
                         tag.onchange();

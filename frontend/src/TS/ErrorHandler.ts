@@ -62,6 +62,8 @@ class ErrorHandler
     private handleSQL(response) : Error
     {
         let error = null;
+        if(!response.indexOf)
+            return error;
         // gestion de l'unicité 
         if(response.indexOf(" 1062 ") != -1)
         {

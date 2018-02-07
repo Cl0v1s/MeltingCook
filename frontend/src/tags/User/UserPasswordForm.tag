@@ -10,7 +10,7 @@
             <input type="password" name="password_confirm" ref="password_confirm">
         </div>
 
-        <input type="button" value="Envoyer" onclick={ send }>
+        <center><input type="button" value="Envoyer" onclick={ send }></center>
     </form>
     <script>
         var tag = this;

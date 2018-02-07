@@ -117,10 +117,6 @@ class ErrorHandler {
                 error.name = ErrorHandler.State.ERROR;
                 error.message = response.message.split("#")[0] + ".";
                 break;
-            case "23000":
-            case 23000:
-                error = this.handleSQL(response);
-                break;
             case "105":
             case 105:
                 error.message = "Une valeur requise est manquante. Veuillez vérifier le formulaire.";
@@ -144,6 +140,8 @@ class ErrorHandler {
     }
     handleSQL(response) {
         let error = null;
+        if (!response.indexOf)
+            return error;
         // gestion de l'unicité 
         if (response.indexOf(" 1062 ") != -1) {
             error = new Error();
@@ -360,6 +358,7 @@ class Router {
     }
     recipeAdd() {
         if (Login.GetInstance().isLogged() == false) {
+            NotificationManager.showNotification("Vous devez disposer d'un compte MeltingCook pour pouvoir proposer une recette.", "error");
             route("/register");
             return;
         }

@@ -242,8 +242,9 @@
         tag.changePassword = function () {
             var callback = function () {
                 App.hidePopUp();
-                NotificationManager.showNotification("Votre mot de passe va être modifié. Veuillez allez recevoir un mail de confirmation. Veuillez vous reconnecter.", "success");
-                route("/login");
+                NotificationManager.showNotification("Votre mot de passe va être modifié. Veuillez vous reconnecter.", "success");
+                Login.GetInstance().logout();
+                route("/");
             };
 
             App.showPopUp("app-userpasswordform", "Modifier votre mot de passe", {

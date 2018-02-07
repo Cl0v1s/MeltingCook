@@ -13823,10 +13823,6 @@ class ErrorHandler {
                 error.name = ErrorHandler.State.ERROR;
                 error.message = response.message.split("#")[0] + ".";
                 break;
-            case "23000":
-            case 23000:
-                error = this.handleSQL(response);
-                break;
             case "105":
             case 105:
                 error.message = "Une valeur requise est manquante. Veuillez vérifier le formulaire.";
@@ -13850,6 +13846,8 @@ class ErrorHandler {
     }
     handleSQL(response) {
         let error = null;
+        if (!response.indexOf)
+            return error;
         // gestion de l'unicité 
         if (response.indexOf(" 1062 ") != -1) {
             error = new Error();
@@ -14066,6 +14064,7 @@ class Router {
     }
     recipeAdd() {
         if (Login.GetInstance().isLogged() == false) {
+            NotificationManager.showNotification("Vous devez disposer d'un compte MeltingCook pour pouvoir proposer une recette.", "error");
             route("/register");
             return;
         }
@@ -17251,8 +17250,9 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
         tag.changePassword = function () {
             var callback = function () {
                 App.hidePopUp();
-                NotificationManager.showNotification("Votre mot de passe va être modifié. Veuillez allez recevoir un mail de confirmation. Veuillez vous reconnecter.", "success");
-                route("/login");
+                NotificationManager.showNotification("Votre mot de passe va être modifié. Veuillez vous reconnecter.", "success");
+                Login.GetInstance().logout();
+                route("/");
             };
 
             App.showPopUp("app-userpasswordform", "Modifier votre mot de passe", {
@@ -17465,7 +17465,7 @@ module.exports = riot.tag2('app-useritem', '<div class="head"> <img riot-src="{u
 });
 },{"riot":8}],64:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-userpasswordform', '<form name="edit-userpassword"> <div> <label>Votre nouveau mot de passe:</label> <input type="password" name="password" ref="password"> </div> <div> <label>Confirmation du nouveau mot de passe:</label> <input type="password" name="password_confirm" ref="password_confirm"> </div> <input type="button" value="Envoyer" onclick="{send}"> </form>', '', '', function(opts) {
+module.exports = riot.tag2('app-userpasswordform', '<form name="edit-userpassword"> <div> <label>Votre nouveau mot de passe:</label> <input type="password" name="password" ref="password"> </div> <div> <label>Confirmation du nouveau mot de passe:</label> <input type="password" name="password_confirm" ref="password_confirm"> </div> <center><input type="button" value="Envoyer" onclick="{send}"></center> </form>', '', '', function(opts) {
         var tag = this;
 
         tag.user = tag.opts.user;

@@ -14568,6 +14568,7 @@ class App {
         App.hideLoading();
         App.Page = riot.mount("div#app", tag, data);
         window.scroll(0, 0);
+        window.$('html, body').animate({ scrollTop: 0 }, 'fast');
     }
     static showPopUp(tag, title, data) {
         if (App.PopUp != null) {
@@ -16004,7 +16005,7 @@ module.exports = riot.tag2('app-placeinput', '<select ref="city" name="city" id=
         tag.on("before-mount", function()
         {
             if(tag.opts.place != null) {
-                tag.value = tag.opts.place;
+                tag.value = decodeURIComponent(tag.opts.place);
             }
             if(tag.opts.valuefield == null)
                 tag.opts.valuefield = "geolocation";

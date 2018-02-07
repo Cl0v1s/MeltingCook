@@ -1318,7 +1318,9 @@ app-recipe div.infos, div[data-is=app-recipe] div.infos {
       font-size: 52px;
       background-color: transparent;
       color: #191d1c;
-      padding: 0; }
+      padding: 0;
+      overflow-wrap: break-word;
+      max-width: 100%; }
     app-recipe div.infos div.base div.name > div, div[data-is=app-recipe] div.infos div.base div.name > div {
       vertical-align: middle;
       display: inline-block;
@@ -1401,7 +1403,9 @@ app-recipeitem, div[data-is=app-recipeitem] {
     background: none;
     display: block;
     margin: 5px;
-    padding: 0; }
+    padding: 0;
+    text-overflow: ellipsis;
+    overflow: hidden; }
   app-recipeitem div.recipe, div[data-is=app-recipeitem] div.recipe {
     background-color: #F3B1A6;
     position: relative;

@@ -215,6 +215,7 @@ class App
         App.hideLoading();
         App.Page = riot.mount("div#app", tag, data);
         window.scroll(0,0);
+        (<any>window).$('html, body').animate({ scrollTop: 0 }, 'fast');
     }
 
     public static showPopUp(tag, title, data)

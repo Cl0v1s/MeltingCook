@@ -21,7 +21,7 @@
         </thead>
         <tbody>
             <tr each="{ reservation in list }" id="reservation-{ reservation.id }">
-                <td if="{ interactive }">{ reservation.id }</td>
+                <td if="{ interactive }">{ reservation.id } / { reservation.txn_id }</td>
                 <td if="{ interactive }">{ reservation.host.mail }</td>
                 <td>{ reservation.guest.mail }</td>
                 <td>{ reservation.recipe.price }</td>

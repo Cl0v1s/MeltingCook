@@ -704,6 +704,10 @@ class API
                     $f .= "id IN (".join(",",$filters["id"]).") AND ";
                 }
             }
+            if(isset($filters["User_id"]))
+            {
+                $f .= "User_id = '".$filters["User_id"]."' AND ";
+            }
             if(isset($filters["place"]))
             {
                 $f .= "place LIKE '%".$filters["place"]."%' AND ";

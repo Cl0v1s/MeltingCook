@@ -54,7 +54,7 @@ input:disabled
   opacity: 0.3;
 }
 
-input[type=text].error, input[type=number].error, textarea.error, select.error,
+input[type=text].error, input[type=number].error, textarea.error, select.error,input[type=password].error
 app-dateinput.error input, app-manyinputs.error input[type=text], app-origininput.error div.selectize-input, app-pinsinput.error div.selectize-input, app-placeinput.error div.selectize-input
 {
   &:focus {outline:0;}

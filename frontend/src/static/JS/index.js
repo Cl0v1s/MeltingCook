@@ -13851,9 +13851,9 @@ class ErrorHandler {
     handleSQL(response) {
         let error = null;
         // gestion de l'unicité 
-        if (response.message.indexOf(" 1062 ") != -1 || response.data == "23000") {
+        if (response.indexOf(" 1062 ") != -1) {
             error = new Error();
-            var value = response.message.split("Duplicate entry '")[1].split("' for key ")[0];
+            var value = response.split("Duplicate entry '")[1].split("' for key ")[0];
             error.message = "La valeur " + value + " transmise existe déjà dans la base de données. Veuillez corriger le formulaire.";
             error.name = ErrorHandler.State.ERROR;
         }
@@ -17352,6 +17352,7 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
                         errors["edit-user"].password = {
                             "required" : "true"
                         };
+
                     }
                 }
 

@@ -37,10 +37,6 @@ class ErrorHandler
                 error.name = ErrorHandler.State.ERROR;
                 error.message = response.message.split("#")[0]+".";
                 break;
-            case "23000":
-            case 23000:
-                error = this.handleSQL(response);
-            break;
             case "105":
             case 105:
                 error.message = "Une valeur requise est manquante. Veuillez vérifier le formulaire.";
@@ -67,10 +63,10 @@ class ErrorHandler
     {
         let error = null;
         // gestion de l'unicité 
-        if(response.message.indexOf(" 1062 ") != -1 || response.data == "23000")
+        if(response.indexOf(" 1062 ") != -1)
         {
             error = new Error();
-            var value = response.message.split("Duplicate entry '")[1].split("' for key ")[0];
+            var value = response.split("Duplicate entry '")[1].split("' for key ")[0];
             error.message = "La valeur "+value+" transmise existe déjà dans la base de données. Veuillez corriger le formulaire.";
             error.name= ErrorHandler.State.ERROR;
         }

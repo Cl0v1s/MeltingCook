@@ -363,6 +363,7 @@
                         errors["edit-user"].password = {
                             "required" : "true"
                         };
+                        
                     }
                 }
                 // COnfirmation du numéro de téléphone

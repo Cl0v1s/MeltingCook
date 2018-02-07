@@ -17314,13 +17314,7 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
                     "edit-user" : {}
                 };
 
-                if(tag.refs.banner.value == null)
-                {
-                    errors["edit-user"].banner = {
-                            "required" : "true"
-                        };
-                }
-                else if(tag.refs.banner.value != "")
+                if(tag.refs.banner.value != "" && tag.refs.banner.value != null)
                 {
                     if(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(tag.refs.banner.value) == false)
                     {
@@ -17330,13 +17324,7 @@ module.exports = riot.tag2('app-usereditform', '<form name="edit-user" if="{user
                     }
                 }
 
-                if(tag.refs.picture.value == null)
-                {
-                    errors["edit-user"].picture = {
-                            "required" : "true"
-                    };
-                }
-                if(tag.refs.picture.value != "")
+                if(tag.refs.picture.value != "" && tag.refs.picture.value != null)
                 {
                     if(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(tag.refs.picture.value) == false)
                     {

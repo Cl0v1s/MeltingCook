@@ -62,12 +62,13 @@ class ErrorHandler
     {
         var error = new Error();
         // gestion de l'unicité 
-        if(response.message.indexOf(" 1062 ") != -1)
+        if(response.message.indexOf(" 1062 ") != -1 || response.data == "23000")
         {
             var value = response.message.split("Duplicate entry '")[1].split("' for key ")[0];
             error.message = "La valeur "+value+" transmise existe déjà dans la base de données. Veuillez corriger le formulaire.";
             error.name= ErrorHandler.State.ERROR;
         }
+
         return error;
     }
 

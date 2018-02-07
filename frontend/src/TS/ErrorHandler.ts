@@ -17,7 +17,12 @@ class ErrorHandler
     {
         if(response.state == "OK")
             return;
-        var error = new Error();
+        let error = ErrorHandler.GetInstance().handleSQL(response);
+        if(error != null)
+        {
+            throw error;
+        }
+        error = new Error();
         switch(response.data)
         {
             case 0:
@@ -60,10 +65,11 @@ class ErrorHandler
 
     private handleSQL(response) : Error
     {
-        var error = new Error();
+        let error = null;
         // gestion de l'unicité 
         if(response.message.indexOf(" 1062 ") != -1 || response.data == "23000")
         {
+            error = new Error();
             var value = response.message.split("Duplicate entry '")[1].split("' for key ")[0];
             error.message = "La valeur "+value+" transmise existe déjà dans la base de données. Veuillez corriger le formulaire.";
             error.name= ErrorHandler.State.ERROR;

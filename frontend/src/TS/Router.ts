@@ -180,6 +180,7 @@ class Router
     {
         if(Login.GetInstance().isLogged() == false)
         {
+            NotificationManager.showNotification("Vous devez disposer d'un compte MeltingCook pour pouvoir proposer une recette.", "error");
             route("/register");
             return;
         }

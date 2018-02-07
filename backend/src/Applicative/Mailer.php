@@ -18,7 +18,7 @@ class Mailer
     public static function SendMail($receiver, $subject, $body)
     {
         $headers = "From: noreply@meltingcook.fr \r\n";
-        $headers .= "Reply-To: ". $MANAGEREMAIL . "\r\n";
+        $headers .= "Reply-To: ".Mailer::$MANAGEREMAIL. "\r\n";
         $headers .= "MIME-Version: 1.0\r\n";
         $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
 

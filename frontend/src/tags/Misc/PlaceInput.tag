@@ -8,7 +8,7 @@
         tag.on("before-mount", function()
         {
             if(tag.opts.place != null) {
-                tag.value = tag.opts.place;
+                tag.value = decodeURIComponent(tag.opts.place);
             }
             if(tag.opts.valuefield == null)
                 tag.opts.valuefield = "geolocation";
@@ -59,6 +59,7 @@
                     tag.value = selectize.options[value];
                 }
             })[0].selectize;
+            selectize.setValue(tag.value);
             localStorage.setItem("cities", JSON.stringify(data));
         }
     </script>

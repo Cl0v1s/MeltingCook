@@ -32,14 +32,14 @@
                 if(tag.refs.price_start.value != "") {
                     price_start = parseInt(tag.refs.price_start.value);
                     if(price_start < 0) {
-                        vex.dialog.alert("Un prix ne peut etre inférieur à 0.");
+                        NotificationManager.showNotification("Un prix ne peut etre inférieur à 0.", "error");
                         return;
                     }
                 }
                 if(tag.refs.price_end.value != "") {
                     price_end = parseInt(tag.refs.price_end.value);
                     if(price_end < 0) {
-                        vex.dialog.alert("Un prix ne peut etre inférieur à 0.");
+                        NotificationManager.showNotification("Un prix ne peut etre inférieur à 0.", "error");
                         return;
                     }
                 }
@@ -47,14 +47,14 @@
                 {
                     if(price_start > price_end)
                     {
-                        vex.dialog.alert("L'intervalle de prix est incohérent.");
+                        NotificationManager.showNotification("L'intervalle de prix est incohérent.", "error");
                         return;
                     }
                 }
                 var date = null;
                 if(tag.refs.date.value != null)
                     date = tag.refs.date.value;
-                var retrieve = Search.search(tag.refs.place.value.geolocation, tag.refs.origin.value, date, price_start, price_end);
+                var retrieve = Search.search(tag.refs.place.value.name, tag.refs.origin.value, date, price_start, price_end);
                 retrieve.then(function(data)
                 {
                     App.changePage("app-searchresults", data);

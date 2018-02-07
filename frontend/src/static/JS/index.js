@@ -14681,7 +14681,7 @@ class Search {
         return new Promise((resolve, reject) => {
             var filters = {};
             if (place != null && place != "")
-                filters["geolocation"] = place;
+                filters["place"] = place;
             if (origin != null && origin != "")
                 filters["origin"] = origin;
             if (date != null && date != "") {
@@ -16054,6 +16054,7 @@ module.exports = riot.tag2('app-placeinput', '<select ref="city" name="city" id=
                     tag.value = selectize.options[value];
                 }
             })[0].selectize;
+            selectize.setValue(tag.value);
             localStorage.setItem("cities", JSON.stringify(data));
         }
 });
@@ -16128,6 +16129,7 @@ module.exports = riot.tag2('app-uploadinput', '<div class="dropzone"></div>', ''
             let callback = function (res) {
                 if (res.success === true) {
                     console.log(res.data.link);
+                    tag.root.classList.remove("error");
                     tag.value = res.data.link;
                     if(tag.onchange != null)
                         tag.onchange();
@@ -16993,14 +16995,14 @@ module.exports = riot.tag2('app-searchitem', '<div> <div class="img"></div> <div
                 if(tag.refs.price_start.value != "") {
                     price_start = parseInt(tag.refs.price_start.value);
                     if(price_start < 0) {
-                        vex.dialog.alert("Un prix ne peut etre inférieur à 0.");
+                        NotificationManager.showNotification("Un prix ne peut etre inférieur à 0.", "error");
                         return;
                     }
                 }
                 if(tag.refs.price_end.value != "") {
                     price_end = parseInt(tag.refs.price_end.value);
                     if(price_end < 0) {
-                        vex.dialog.alert("Un prix ne peut etre inférieur à 0.");
+                        NotificationManager.showNotification("Un prix ne peut etre inférieur à 0.", "error");
                         return;
                     }
                 }
@@ -17008,14 +17010,14 @@ module.exports = riot.tag2('app-searchitem', '<div> <div class="img"></div> <div
                 {
                     if(price_start > price_end)
                     {
-                        vex.dialog.alert("L'intervalle de prix est incohérent.");
+                        NotificationManager.showNotification("L'intervalle de prix est incohérent.", "error");
                         return;
                     }
                 }
                 var date = null;
                 if(tag.refs.date.value != null)
                     date = tag.refs.date.value;
-                var retrieve = Search.search(tag.refs.place.value.geolocation, tag.refs.origin.value, date, price_start, price_end);
+                var retrieve = Search.search(tag.refs.place.value.name, tag.refs.origin.value, date, price_start, price_end);
                 retrieve.then(function(data)
                 {
                     App.changePage("app-searchresults", data);
@@ -17039,7 +17041,7 @@ module.exports = riot.tag2('app-searchresults', '<app-header></app-header> <app-
 });
 },{"riot":8}],59:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-searcher', '<div> <div class="img"></div> <div> <h1>A vos cuisines... Partez !</h1> <h2> La découverte dans vos assiettes. </h2> </div> </div> <form> <app-placeinput ref="place"></app-placeinput> <app-origininput ref="origin" origin="{origin}"></app-origininput> <app-dateinput ref="date" date="{date}"></app-dateinput> <div if="{expanded}"> <input ref="price_start" name="price_start" placeholder="Prix entre" riot-value="{price_start}" type="{\'number\'}"> - <input riot-value="{price_end}" name="price_end" ref="price_end" placeholder="Et" type="{\'number\'}"> </div> <input type="button" value="Chercher un moment sympa !" onclick="{send}"> </form>', '', '', function(opts) {
+module.exports = riot.tag2('app-searcher', '<div> <div class="img"></div> <div> <h1>A vos cuisines... Partez !</h1> <h2> La découverte dans vos assiettes. </h2> </div> </div> <form> <app-placeinput ref="place" place="{place}"></app-placeinput> <app-origininput ref="origin" origin="{origin}"></app-origininput> <app-dateinput ref="date" date="{date}"></app-dateinput> <div if="{expanded}"> <input ref="price_start" name="price_start" placeholder="Prix entre" riot-value="{price_start}" type="{\'number\'}"> - <input riot-value="{price_end}" name="price_end" ref="price_end" placeholder="Et" type="{\'number\'}"> </div> <input type="button" value="Chercher un moment sympa !" onclick="{send}"> </form>', '', '', function(opts) {
         var tag = this;
 
         tag.expanded = false;
@@ -17071,7 +17073,7 @@ module.exports = riot.tag2('app-searcher', '<div> <div class="img"></div> <div> 
         tag.send = function()
         {
             var retrieve = null;
-            var params = [tag.refs.place.value.geolocation, tag.refs.origin.value, tag.refs.date.value];
+            var params = [tag.refs.place.value.name, tag.refs.origin.value, tag.refs.date.value];
 
             if(tag.expanded) {
                 var price_start = null;
@@ -17099,10 +17101,10 @@ module.exports = riot.tag2('app-searcher', '<div> <div class="img"></div> <div> 
                 params.push(price_start);
                 params.push(price_end);
 
-                retrieve = Search.search(tag.refs.place.value.geolocation, tag.refs.origin.value, tag.refs.date.value, price_start, price_end);
+                retrieve = Search.search(tag.refs.place.value.name, tag.refs.origin.value, tag.refs.date.value, price_start, price_end);
             }
             else
-                retrieve = Search.search(tag.refs.place.value.geolocation, tag.refs.origin.value, tag.refs.date.value);
+                retrieve = Search.search(tag.refs.place.value.name, tag.refs.origin.value, tag.refs.date.value);
 
             retrieve.then(function(data) {
                 var res = "null";

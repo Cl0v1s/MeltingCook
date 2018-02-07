@@ -9,7 +9,7 @@
         </div>
     </div>
     <form>
-        <app-placeinput ref="place" ></app-placeinput>
+        <app-placeinput ref="place" place="{ place }" ></app-placeinput>
         <app-origininput ref="origin" origin="{ origin }"></app-origininput>
         <app-dateinput ref="date" date="{ date }"></app-dateinput>
         <div if="{ expanded }">
@@ -51,7 +51,7 @@
         tag.send = function()
         {
             var retrieve = null;
-            var params = [tag.refs.place.value.geolocation, tag.refs.origin.value, tag.refs.date.value];
+            var params = [tag.refs.place.value.name, tag.refs.origin.value, tag.refs.date.value];
 
 
             if(tag.expanded) {
@@ -80,10 +80,10 @@
                 params.push(price_start);
                 params.push(price_end);
 
-                retrieve = Search.search(tag.refs.place.value.geolocation, tag.refs.origin.value, tag.refs.date.value, price_start, price_end);
+                retrieve = Search.search(tag.refs.place.value.name, tag.refs.origin.value, tag.refs.date.value, price_start, price_end);
             }
             else
-                retrieve = Search.search(tag.refs.place.value.geolocation, tag.refs.origin.value, tag.refs.date.value);
+                retrieve = Search.search(tag.refs.place.value.name, tag.refs.origin.value, tag.refs.date.value);
 
             retrieve.then(function(data) {
                 var res = "null";

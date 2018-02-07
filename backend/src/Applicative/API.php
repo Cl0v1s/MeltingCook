@@ -704,7 +704,10 @@ class API
                     $f .= "id IN (".join(",",$filters["id"]).") AND ";
                 }
             }
-
+            if(isset($filters["place"]))
+            {
+                $f .= "place LIKE '%".$filters["place"]."%' AND ";
+            }
             if(isset($filters["origin"]))
             {
                 $f .= "origin LIKE '%".$filters["origin"]."%' AND ";
@@ -717,7 +720,7 @@ class API
             {
                 $f .= "date_start <= '".$filters["date_end"]."' AND ";
             }
-            if(isset($filters["geolocation"]))
+            /*if(isset($filters["geolocation"]))
             {
                 $geolocation = explode(";",$filters["geolocation"]);
                 $latitude = floatval($geolocation[0]);
@@ -730,7 +733,7 @@ class API
                 $f .= "latitude <= '".$max_latitude."' AND ";
                 $f .= "longitude >= '".$min_longitude."' AND ";
                 $f .= "longitude <= '".$max_longitude."' AND ";
-            }
+            }*/
             if(isset($filters["price_start"]))
             {
                 $f .= "price >= '".$filters["price_start"]."' AND ";

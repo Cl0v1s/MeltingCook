@@ -975,7 +975,7 @@ class Search {
         return new Promise((resolve, reject) => {
             var filters = {};
             if (place != null && place != "")
-                filters["geolocation"] = place;
+                filters["place"] = place;
             if (origin != null && origin != "")
                 filters["origin"] = origin;
             if (date != null && date != "") {

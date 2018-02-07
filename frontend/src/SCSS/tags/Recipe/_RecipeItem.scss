@@ -20,6 +20,9 @@ app-recipeitem, div[data-is=app-recipeitem] {
     display: block;
     margin: 5px;
     padding: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
   }
 
   div.recipe

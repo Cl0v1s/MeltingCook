@@ -451,7 +451,9 @@ class API
 
     public static function AddUser($token, $item)
     {
-        return API::Add($token, $item, false);
+        $result = API::Add($token, $item, false);
+        Mailer::SendMail($item->Mail(), "Bienvenue sur MeltingCook !", "Nous vous envoyons juste un petit mot pour vous confirmer votre inscription ! Vous pouvez d'ors et déjà rechercher des recettes délicieuses !");
+        return $result;
     }
 
     public static function AddRecipe($token, $item)

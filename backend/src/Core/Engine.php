@@ -84,14 +84,14 @@ class Engine
         $uri = "Controllers/".$class."Controller.php";
         
         if(file_exists($uri) == false) {
-            header("Location: Error/404");
+            http_response_code(404);
             return;
         }
 
         $class = $class."Controller";
 
-        preg_match_all("/([^\/]+)/", $_SERVER["REQUEST_URI"], $matches);
 
+        preg_match_all("/([^\/]+)/", $_SERVER["REQUEST_URI"], $matches);
         $controller = new $class($matches[0]);
         $controller->run($ctx);
     }

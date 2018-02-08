@@ -58,6 +58,11 @@
 
         public static function register($api, $project)
         {
+            if(Configuration::$Errorlogger_echo)
+            {
+                error_reporting(E_ALL);
+                ini_set('display_errors', 1);
+            }
             ErrorLogger::$API = $api;
             ErrorLogger::$PROJECT = $project;
             set_error_handler(array("ErrorLogger", 'handleError'),E_ALL);
@@ -69,6 +74,8 @@
 
         public static function handleError($number,$string,$file,$line,$context)
         {
+            if(Configuration::$Errorlogger_echo)
+                echo "$number, $string, $file, $line";
             ErrorLogger::handle($string, $line." ".$file);
         }
 

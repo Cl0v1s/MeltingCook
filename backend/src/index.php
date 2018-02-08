@@ -19,7 +19,7 @@ else
 date_default_timezone_set ("Europe/Paris");
 
 ErrorLogger::register("http://www.clovis-portron.cf/ErrorManager/src/backoffice/v1.0/ErrorLog", "MeltingCook");
-ErrorLogger::$LOGGER->warning("New connection from ".$_SERVER['REMOTE_ADDR']);
+ErrorLogger::$LOGGER->warning($_SERVER['REQUEST_URI'].": New connection from ".$_SERVER['REMOTE_ADDR']);
 
 Engine::Instance()->setPersistence(new DatabaseStorage(Configuration::$DB_host, Configuration::$DB_database, Configuration::$DB_login, Configuration::$DB_password));
 Engine::Instance()->run();

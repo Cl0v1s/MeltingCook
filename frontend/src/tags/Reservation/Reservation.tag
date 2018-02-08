@@ -69,6 +69,28 @@
                 </div>
                 <div if="{ reservation != null }">
                     <p>Cliquez encore une fois sur le bouton ci-dessous pour confirmer le paiment</p>
+
+                    <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                        <input type="hidden" name="cmd" value="_xclick">
+                        <input type="hidden" name="business" value="ZNJVTLVY6K7MS">
+                        <input type="hidden" name="lc" value="FR">
+                        <input type="hidden" name="item_name" value="{ reservation.recipe.name }">
+                        <input type="hidden" name="item_number" value="{ reservation.id }">
+                        <input type="hidden" name="amount" value="{ (reservation.recipe.price+2) }">
+                        <input type="hidden" name="currency_code" value="EUR">
+                        
+                        <input type="hidden" name="button_subtype" value="services">
+                        <input type="hidden" name="no_note" value="0">
+                        <input type="hidden" name="cn" value="Ajouter des instructions particulières pour le vendeur :">
+                        <input type="hidden" name="no_shipping" value="2">
+                        <input type="hidden" name="currency_code" value="EUR">
+                        <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHosted">
+                        <input type="image" src="https://www.sandbox.paypal.com/fr_FR/FR/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne">
+                        <img alt="" border="0" src="https://www.sandbox.paypal.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
+                        </form>
+                        
+                      
+                    <!--
                     <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                         <input type="hidden" name="cmd" value="_xclick">
                         <input type="hidden" name="business" value="37HN2639NHTKU">
@@ -84,7 +106,7 @@
                         <input type="hidden" name="bn" value="PP-BuyNowBF:btn_paynowCC_LG.gif:NonHosted">
                         <input type="image" src="https://www.paypalobjects.com/fr_FR/FR/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne">
                         <img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
-                    </form>
+                    </form>-->
                 </div>
                 <p>En validant le paiement, vous accepter les CGU et la charte de bonne conduite de Melting Cook.</p>
             </div>

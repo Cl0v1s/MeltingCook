@@ -11,28 +11,28 @@ class IPN
     // Information concernant le service
     public $receiver_email;
     public $receiver_id;
-    public $residence_country;
+    //public $residence_country;
     // Information concernant la transaction
 //    public $test_ipn;
     //public $transaction_subject;
     public $txn_id;
-    public $txn_type;
+    //public $txn_type;
     // Informations sur le client
     public $payer_email;
     public $payer_id;
     public $payer_status;
-    public $first_name;
-    public $last_name;
-    public $address_city;
-    public $address_country;
-    public $address_state;
+    //public $first_name;
+    //public $last_name;
+    //public $address_city;
+    //public $address_country;
+    //public $address_state;
 //    public $address_status;
-    public $address_country_code;
-    public $address_name;
-    public $address_street;
-    public $address_zip;
+    //public $address_country_code;
+    //public $address_name;
+    //public $address_street;
+    //public $address_zip;
     // Informations sur le payement
-    public $custom;
+    //public $custom;
 //    public $handling_amount;
     public $item_name;
     public $item_number;
@@ -42,16 +42,16 @@ class IPN
     public $payment_date;
 //    public $payment_fee;
 //    public $payment_gross;
-    public $payment_status;
-    public $payment_type;
+    //public $payment_status;
+    //public $payment_type;
 //    public $protection_eligibility;
-    public $quantity;
-    public $shipping;
-    public $tax;
+    //public $quantity;
+    //public $shipping;
+    //public $tax;
     // Autre
-    public $notify_version;
+    //public $notify_version;
 //    public $charset;
-    public $verify_sign;
+    //public $verify_sign;
 
     private $raw_data;
 
@@ -79,16 +79,17 @@ class IPN
 
 }
 
-require("PaypalIPN.php");
-require("Mailer.php");
+include_once("PaypalIPN.php");
+include_once("Mailer.php");
+include_once("API.php");
 
-use PaypalIPN;
 
 class Paypal
 {
 
     // Email du compte paypal de la boutique
-    private static $EMAIL = "mc.rachedba@gmail.com";
+    //private static $EMAIL = "mc.rachedba@gmail.com";test1996@test.test
+    private static $EMAIL = "test1996@test.test";
     // Prix de l'argent allant à MC
     private static $MC_PRICE = 2;
 
@@ -111,16 +112,20 @@ class Paypal
 
     public static function handleEvent($ipn)
     {
+        ErrorLogger::$LOGGER->warning(var_dump($ipn));            
         $paypal = new PaypalIPN();
         if(Configuration::$Paypal_usesandbox)
             $paypal->useSandbox();
         $paypal->useSandbox();
         $paypal->usePHPCerts();
+        ErrorLogger::$LOGGER->warning("conf");            
 
         if($paypal->verifyIPN() !=  true)
         {
             throw new LogicException("Failed to verify IPN Message");
         }
+        ErrorLogger::$LOGGER->warning("checked.");            
+
         
         $storage = Engine::Instance()->Persistence("DatabaseStorage");
 
@@ -153,8 +158,8 @@ class Paypal
             throw new LogicException("Invalid reservation status.");
 
         // vérfication mail guest = mail payement
-        if($guest->Mail() !== $ipn->payer_email)
-            throw new LogicException("Guest email different from Payer Email");
+        //if($guest->Mail() !== $ipn->payer_email)
+        //    throw new LogicException("Guest email different from Payer Email");
 
         // Vérification recette
         $recipe = new Recipe($storage, $reservation->RecipeId());
@@ -174,13 +179,13 @@ class Paypal
         $storage->flush();
         ErrorLogger::$LOGGER->warning($_POST["payment_date"]."(".$_POST["txn_id"].") ".$_POST["mc_gross"]."€: OK");
         
-        $titlemsg = "A propos de la recette ".$recipe["name"];
+        $titlemsg = "A propos de la recette ".$recipe->Name();
 
-        Mailer::SendMail($guest->Mail(), $titlemsg, "Votre payement concernant la recette ".$recipe["name"]." a été traité ! Vous pouvez contacter votre hôte au ".$host->Phone().".");
-        Mailer::SendMail($host->Mail(), $titlemsg, "Une réservation concernant la recette ".$recipe["name"]." a été payée ! Vous pouvez contacter votre invité au ".$guest->Phone().".");
+        Mailer::SendMail($guest->Mail(), $titlemsg, "Votre payement concernant la recette ".$recipe->Name()." a été traité ! Vous pouvez contacter votre hôte au ".$host->Phone().".");
+        Mailer::SendMail($host->Mail(), $titlemsg, "Une réservation concernant la recette ".$recipe->Name()." a été payée ! Vous pouvez contacter votre invité au ".$guest->Phone().".");
 
-        API::GenerateNotification(null, $reservation->GuestId(), "info", "Votre payement concernant la recette ".$recipe["name"]." a été traité ! Vous allez recevoir un mail contenant le numéro de votre hôte.", false);
-        API::GenerateNotification(null, $reservation->HostId(), "info", "Une réservation concernant la recette ".$recipe["name"]." a été payée ! Vous allez recevoir un mail contenant le numéro de votre invité !", false);
+        API::GenerateNotification(null, $reservation->GuestId(), "info", "Votre payement concernant la recette ".$recipe->Name()." a été traité ! Vous allez recevoir un mail contenant le numéro de votre hôte.", false);
+        API::GenerateNotification(null, $reservation->HostId(), "info", "Une réservation concernant la recette ".$recipe->Name()." a été payée ! Vous allez recevoir un mail contenant le numéro de votre invité !", false);
     }
 
 

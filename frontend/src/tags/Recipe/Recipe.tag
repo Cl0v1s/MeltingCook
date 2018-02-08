@@ -83,6 +83,11 @@
         });
 
         tag.join = function () {
+            if(tag.recipe.place_left <= 0)
+            {
+                NotificationManager.showNotification("Il ne reste plus de places disponibles pour cette recette...", "error");
+                return;  
+            }
             if(tag.refs.cgu.checked == false)
             {
                 NotificationManager.showNotification("Vous devez accepter les CGU pour etre en mesure de réserver avec Melting Cook.", "error");
@@ -93,6 +98,7 @@
                 NotificationManager.showNotification("Vous devez accepter la charte de bonne conduite pour etre en mesure de réserver avec Melting Cook.", "error");
                 return;
             }
+
             route("/reservation/recipe/"+tag.recipe.id);
         }
     </script>

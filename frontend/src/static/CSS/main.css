@@ -1648,6 +1648,9 @@ div[data-is=app-footer] {
           text-align: left; } }
   app-footer > div.portfolios,
   div[data-is=app-footer] > div.portfolios {
+    display: block;
+    width: 100%;
+    text-align: center;
     margin-top: 20px;
     color: #f2f4f3; }
     app-footer > div.portfolios a,

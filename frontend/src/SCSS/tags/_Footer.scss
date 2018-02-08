@@ -55,6 +55,9 @@ div[data-is=app-footer] {
 
     &>div.portfolios
     {
+        display: block;
+        width: 100%;
+        text-align: center;
         margin-top: $space-normal;
         color: $color-text-secondary;
         a{

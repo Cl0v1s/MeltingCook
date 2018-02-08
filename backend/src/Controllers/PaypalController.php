@@ -12,9 +12,9 @@ include_once 'Applicative/Paypal.php';
 class PaypalController extends Controller
 {
 
-
     public function run($ctx)
     {
+        ErrorLogger::$LOGGER->warning("Début du traitement d'un nouveau paiment.");            
         if(count($_POST) <= 0)
         {
             // Il ne s'agit pas d'une requète POST
@@ -22,7 +22,6 @@ class PaypalController extends Controller
             return;
         }
         try {
-            ErrorLogger::$LOGGER->warning("Début du traitement d'un nouveau paiment.");            
             ob_start();
             header("HTTP/1.1 200 OK");
             header('Connection: close');

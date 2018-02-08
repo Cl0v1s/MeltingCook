@@ -1,6 +1,6 @@
 <?php
 
-require("Mailer.php");
+include_once("Mailer.php");
 
 /**
  * Created by PhpStorm.
@@ -484,6 +484,14 @@ class API
         $recipe = API::GetRecipe($token, $item->RecipeId());
         /*if(time() > $recipe["date_start"])
             throw new Exception("Impossible de réserver une recette après sa date de début#", 2);*/
+
+        $reservations = API::GetAll($token, "Reservation", '{ "Recipe_id" : "'.$item->RecipeId().'"}');
+        if(count($reservations) >= $recipe["places"])
+        {
+            throw new Exception("Impossible de réserver. Aucune place n'est disponible.#", 2);
+        }
+
+
         $storage = Engine::Instance()->Persistence("DatabaseStorage");
 
         $guest = new User($storage, $item->GuestId());

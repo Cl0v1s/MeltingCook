@@ -424,7 +424,7 @@ class APIController extends Controller
 
     private function Write($state, $data, $message = "")
     {
-	header("Access-Control-Allow-Origin: *");
+	    header("Access-Control-Allow-Origin: *");
         header('Content-Type: application/json');
         $result = array();
         $result["state"] = $state;

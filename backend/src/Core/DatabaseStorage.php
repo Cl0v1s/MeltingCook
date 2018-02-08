@@ -72,6 +72,8 @@ class DatabaseStorage implements Storage
      */
     public function find(&$object)
     {
+        if($object == null)
+            return null;
         if($object->id == NULL || !isset($object->id))
             throw new Exception("Searched object musts have an Id.");
         if(isset($this->objects[get_class($object)][$object->id])) {

@@ -6,7 +6,7 @@
         public static $DB_password = "Cheminade201";
         public static $DB_database = "meltingcxzclovis";
 
-        public static $Errorlogger_echo = true;
+        public static $Errorlogger_echo = false;
 
         public static $Paypal_usesandbox = true;
         public static $Paypal_logincallback = "https://meltingcook.fr/";

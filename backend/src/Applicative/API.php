@@ -140,24 +140,29 @@ class API
         }
 
         $recipe = API::GetRecipe($token, $reservation->RecipeId());
-
         $user = API::Auth($token);
-        // Seuls l'invité, l'hôte ou un admin peuvent effectuer cette action
-        if($user->Id() != $reservation->GuestId() && $user->Id() != $reservation->HostId() && $user->Rights() < 2)
+        if($recipe != null)
         {
-            throw new Exception("Not Enought Power", 1);
-        }
 
-        if(time() >= $recipe["date_end"])
-        {
-            throw new Exception("Impossible d'annuler ou de demander un remboursement sur une réservation ayant eu lieu#", 2);
-        }
+            // Seuls l'invité, l'hôte ou un admin peuvent effectuer cette action
+            if($user->Id() != $reservation->GuestId() && $user->Id() != $reservation->HostId() && $user->Rights() < 2)
+            {
+                throw new Exception("Not Enought Power", 1);
+            }
 
-        // Si finalisé
-        if($reservation->Done() == "1")
-        {
-            throw new Exception("Impossible d'annuler ou de demander un remboursement sur une réservation finalisée#", 2);
+            if(time() >= $recipe["date_end"])
+            {
+                throw new Exception("Impossible d'annuler ou de demander un remboursement sur une réservation ayant eu lieu#", 2);
+            }
+
+            // Si finalisé
+            if($reservation->Done() == "1")
+            {
+                throw new Exception("Impossible d'annuler ou de demander un remboursement sur une réservation finalisée#", 2);
+            }
         }
+        else 
+            $recipe = array("name" => "[Supprimé]");
 
         $guest = new User($storage, $reservation->GuestId());
         $guest = $storage->find($guest);
@@ -557,15 +562,17 @@ class API
 
     public static function RemoveRecipe($token, $id)
     {
-        $reservations = API::GetAllReservation($token, '{ "Recipe_id" : "'.$id.'" }');
+        $reservations = API::GetAll($token,"Reservation", '{ "Recipe_id" : "'.$id.'" }');
         foreach ($reservations as $reservation)
         {
+            if($reservation == null)
+                continue;
             try {
                 API::RefundOrCancelReservation($token, $reservation);
             }
             catch(Exception $e)
             {
-                // On avale les exceptions
+                ErrorLogger::handleException($e);
             }
         }
         API::Remove($token, "Recipe", $id);

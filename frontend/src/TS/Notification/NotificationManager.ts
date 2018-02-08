@@ -22,7 +22,7 @@ class NotificationManager
     {
         let n =  new PNotify({
             title: "Hey !",
-            text : content+"<br><br><center>Cliquez pour fermer</center>",
+            text : content+"<br><br><center>Marquer comme lu</center>",
             type : type,
             buttons: {
                 closer: closer,

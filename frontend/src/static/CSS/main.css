@@ -77,6 +77,10 @@ div#app {
 body {
   background-image: url("/static/images/background.png"); }
 
+.ui-pnotify-container {
+  font-family: "Raleway";
+  overflow: hidden; }
+
 .content {
   min-width: 320px;
   max-width: 900px;
@@ -230,6 +234,10 @@ ul {
     margin-bottom: 8px;
     line-height: 22px; }
 
+a:not([href]) {
+  cursor: pointer;
+  text-decoration: underline; }
+
 table {
   table-layout: fixed;
   width: 100%; }
@@ -246,7 +254,10 @@ table {
     border: 0; }
   table td {
     font-family: "Raleway";
-    padding: 8px; }
+    padding: 8px;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    overflow: hidden; }
   table td:last-of-type {
     text-align: right; }
 
@@ -324,6 +335,7 @@ a.Button {
   height: 45px;
   vertical-align: middle;
   cursor: pointer;
+  text-decoration: none;
   position: relative;
   margin-left: 20px;
   background-position: center 0;
@@ -582,6 +594,7 @@ span.Switch {
   padding-bottom: 5px; }
   span.Switch a {
     cursor: pointer;
+    text-decoration: none;
     display: inline-block;
     padding: 15px;
     border-radius: 25px;
@@ -854,6 +867,21 @@ app-accountrecipes div.SwitchHandler, div[data-is=app-accountrecipes] div.Switch
 app-accountrecipes app-recipes, div[data-is=app-accountrecipes] app-recipes {
   width: 100%;
   margin: 20px; }
+
+app-accountrecipes table, div[data-is=app-accountrecipes] table {
+  margin: 20px; }
+
+@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+  app-accountrecipes, div[data-is=app-accountrecipes] {
+    /*
+      Label the data
+      */ }
+    app-accountrecipes td:nth-of-type(1):before, div[data-is=app-accountrecipes] td:nth-of-type(1):before {
+      content: "Nom"; }
+    app-accountrecipes td:nth-of-type(2):before, div[data-is=app-accountrecipes] td:nth-of-type(2):before {
+      content: "Participants"; }
+    app-accountrecipes td:nth-of-type(3):before, div[data-is=app-accountrecipes] td:nth-of-type(3):before {
+      content: "Action"; } }
 
 @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
   div[data-is=app-accountreservations] {

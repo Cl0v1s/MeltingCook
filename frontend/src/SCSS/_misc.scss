@@ -15,6 +15,12 @@ body
   background-image: url("/static/images/background.png");
 }
 
+.ui-pnotify-container
+{
+  font-family: $font-primary;
+  overflow: hidden;
+}
+
 .content
 {
   min-width: 320px;
@@ -230,6 +236,12 @@ ul
   }
 }
 
+a:not([href])
+{
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 table
 {
   table-layout: fixed;
@@ -270,6 +282,9 @@ table
   {
     font-family: $font-primary;
     padding: $space-small;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   td:last-of-type

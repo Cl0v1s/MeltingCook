@@ -17,7 +17,29 @@
                 <a onclick='{ showPast }' class="{ selected : state == 1 }">Passées</a>
             </span>
         </div>
-        <app-recipes ref="recipes" recipes='{ list }' if='{ list != null }'></app-recipes>
+        <table>
+            <thead>
+                <tr>
+                    <td>Nom</td>
+                    <td>Participants</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr each="{ recipe in list }" id="recipe-{ recipe.id }">
+                    <td>
+                        { recipe.name }
+                    </td>
+                    <td>
+                        { recipe.users.length }
+                    </td>
+                    <td>
+                        <a data-id="{ recipe.id }" onclick="{ see }">Voir</a>
+                        <a data-id="{ recipe.id }" onclick="{ remove }">Annuler</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
     <app-footer></app-footer>
     <script>
@@ -63,6 +85,34 @@
             tag.state = 0;
 
         });
+
+        tag.remove = function(e)
+        {
+            let id = e.target.getAttribute('data-id');
+            vex.dialog.confirm({
+                message: 'Etes-vous sûr de vouloir annuler cette recette ? (Tous les participants seront prévenus et remboursés.)',
+                callback: function (value) {
+                    if (value) {
+                        let request = App.request(App.Address + "/removerecipe", {
+                            "id" : id
+                        });
+                        request.then(function(response){
+                            tag.reload();
+                            NotificationManager.showNotification("L'annulation a bien été prise en compte.", "success");
+                        });
+                        request.catch(function(error){
+                            ErrorHandler.alertIfError(error);
+                        });
+                    }
+                }
+            })
+        };
+
+        tag.see = function(e)
+        {
+            let id = e.target.getAttribute('data-id');
+            route("/recipe/"+id);
+        },
 
 
         tag.sortRecipes = function(futur)

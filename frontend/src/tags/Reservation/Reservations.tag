@@ -22,7 +22,8 @@
         <tbody>
             <tr each="{ reservation in list }" id="reservation-{ reservation.id }">
                 <td if="{ interactive }">{ reservation.id } / { reservation.txn_id }</td>
-                <td if="{ interactive }">{ reservation.host.mail }</td>
+                <td if="{ interactive && admin == false }">{ reservation.host.mail }</td>
+                <td if="{ interactive && admin == true }">{ reservation.host.paypal }</td>
                 <td>{ reservation.guest.mail }</td>
                 <td>{ reservation.recipe.price }</td>
                 <td if="{ interactive }">

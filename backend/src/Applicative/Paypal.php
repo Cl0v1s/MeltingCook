@@ -32,7 +32,7 @@ class IPN
     //public $address_street;
     //public $address_zip;
     // Informations sur le payement
-    //public $custom;
+    public $custom;
 //    public $handling_amount;
     public $item_name;
     public $item_number;
@@ -112,19 +112,16 @@ class Paypal
 
     public static function handleEvent($ipn)
     {
-        ErrorLogger::$LOGGER->warning(var_dump($ipn));            
         $paypal = new PaypalIPN();
         if(Configuration::$Paypal_usesandbox)
             $paypal->useSandbox();
         $paypal->useSandbox();
         $paypal->usePHPCerts();
-        ErrorLogger::$LOGGER->warning("conf");            
 
         if($paypal->verifyIPN() !=  true)
         {
             throw new LogicException("Failed to verify IPN Message");
         }
-        ErrorLogger::$LOGGER->warning("checked.");            
 
         
         $storage = Engine::Instance()->Persistence("DatabaseStorage");
@@ -141,28 +138,28 @@ class Paypal
             throw new LogicException("Txn_id already present.");
         }
 
-        // Vérification item
+        /*// Vérification item
         $reservation = new Reservation($storage, $ipn->item_number);
         $reservation = $storage->find($reservation);
         if($reservation == null)
-            throw new LogicException("Unable to find reservation.");
+            throw new LogicException("Unable to find reservation.");*/
 
         // Vérification guest
-        $guest = new User($storage, $reservation->GuestId());
+        $guest = new User($storage, $ipn->custom);
         $guest = $storage->find($guest);
         if($guest == null)
             throw new LogicException("Unable to find guest.");
 
-        // verification status
+        /*// verification status
         if($reservation->Paid() != "0" && $reservation->Paid() != 0)
-            throw new LogicException("Invalid reservation status.");
+            throw new LogicException("Invalid reservation status.");*/
 
         // vérfication mail guest = mail payement
         //if($guest->Mail() !== $ipn->payer_email)
         //    throw new LogicException("Guest email different from Payer Email");
 
         // Vérification recette
-        $recipe = new Recipe($storage, $reservation->RecipeId());
+        $recipe = new Recipe($storage, $ipn->item_number);
         $recipe = $storage->find($recipe);
         if($recipe == null)
             throw new LogicException("Unable to find recipe.");
@@ -171,11 +168,16 @@ class Paypal
         if(floatval($recipe->Price()) + Paypal::$MC_PRICE != floatval($ipn->mc_gross))
             throw new LogicException("Invalid price.");
 
-        // Mise à jour de l'état de la réservation
+        // Création de la réservation
+        $reservation = new Reservation($storage);
+        $reservation->setHostId($recipe->UserId());
+        $reservation->setGuestId($guest->Id());
+        $reservation->setRecipeId($recipe->Id());
         $reservation->setPaid("1");
-        $reservation->setPaidAt(time());
         $reservation->setTxnId($ipn->txn_id);
-        $storage->persist($reservation, StorageState::ToUpdate);
+        $reservation->setCreatedAt(time());
+        $reservation->setPaidAt(time());
+        $storage->persist($reservation);
         $storage->flush();
         ErrorLogger::$LOGGER->warning($_POST["payment_date"]."(".$_POST["txn_id"].") ".$_POST["mc_gross"]."€: OK");
         

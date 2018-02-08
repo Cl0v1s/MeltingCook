@@ -42,7 +42,7 @@ class IPN
     public $payment_date;
 //    public $payment_fee;
 //    public $payment_gross;
-    //public $payment_status;
+    public $payment_status;
     //public $payment_type;
 //    public $protection_eligibility;
     //public $quantity;
@@ -115,7 +115,6 @@ class Paypal
         $paypal = new PaypalIPN();
         if(Configuration::$Paypal_usesandbox)
             $paypal->useSandbox();
-        $paypal->useSandbox();
         $paypal->usePHPCerts();
 
         if($paypal->verifyIPN() !=  true)
@@ -123,26 +122,20 @@ class Paypal
             throw new LogicException("Failed to verify IPN Message");
         }
 
-        
-        $storage = Engine::Instance()->Persistence("DatabaseStorage");
-
-        // Vérification pas un spoof
-        if($ipn->receiver_email != PAYPAL::$EMAIL)
-            throw new LogicException("Receiver email doesnt match.");
-
-        // Vérification txn_id
-        $reservations = null;
-        $storage->findAll("Reservation", $reservations, "txn_id = '".$ipn->txn_id."'");
-        if(count($reservations) > 0)
+        switch($ipn->payment_status)
         {
-            throw new LogicException("Txn_id already present.");
-        }
+            case "Completed":
+                Paypal::handleCompleted($ipn);
+            break;
+            default:
 
-        /*// Vérification item
-        $reservation = new Reservation($storage, $ipn->item_number);
-        $reservation = $storage->find($reservation);
-        if($reservation == null)
-            throw new LogicException("Unable to find reservation.");*/
+            break;
+        }
+       }
+
+    private static function handleCompleted($ipn)
+    {
+        $storage = Engine::Instance()->Persistence("DatabaseStorage");
 
         // Vérification guest
         $guest = new User($storage, $ipn->custom);
@@ -150,44 +143,82 @@ class Paypal
         if($guest == null)
             throw new LogicException("Unable to find guest.");
 
-        /*// verification status
-        if($reservation->Paid() != "0" && $reservation->Paid() != 0)
-            throw new LogicException("Invalid reservation status.");*/
+        try 
+        {
+            // Vérification pas un spoof
+            if($ipn->receiver_email != PAYPAL::$EMAIL)
+                throw new LogicException("Receiver email doesnt match.");
 
-        // vérfication mail guest = mail payement
-        //if($guest->Mail() !== $ipn->payer_email)
-        //    throw new LogicException("Guest email different from Payer Email");
 
-        // Vérification recette
-        $recipe = new Recipe($storage, $ipn->item_number);
-        $recipe = $storage->find($recipe);
-        if($recipe == null)
-            throw new LogicException("Unable to find recipe.");
+            // Vérification txn_id
+            $reservations = null;
+            $storage->findAll("Reservation", $reservations, "txn_id = '".$ipn->txn_id."'");
+            if(count($reservations) > 0)
+            {
+                throw new LogicException("Txn_id already present.");
+            }
 
-        // Vérification prix
-        if(floatval($recipe->Price()) + Paypal::$MC_PRICE != floatval($ipn->mc_gross))
-            throw new LogicException("Invalid price.");
+            /*// Vérification item
+            $reservation = new Reservation($storage, $ipn->item_number);
+            $reservation = $storage->find($reservation);
+            if($reservation == null)
+                throw new LogicException("Unable to find reservation.");*/
 
-        // Création de la réservation
-        $reservation = new Reservation($storage);
-        $reservation->setHostId($recipe->UserId());
-        $reservation->setGuestId($guest->Id());
-        $reservation->setRecipeId($recipe->Id());
-        $reservation->setPaid("1");
-        $reservation->setTxnId($ipn->txn_id);
-        $reservation->setCreatedAt(time());
-        $reservation->setPaidAt(time());
-        $storage->persist($reservation);
-        $storage->flush();
-        ErrorLogger::$LOGGER->warning($_POST["payment_date"]."(".$_POST["txn_id"].") ".$_POST["mc_gross"]."€: OK");
+
+
+            /*// verification status
+            if($reservation->Paid() != "0" && $reservation->Paid() != 0)
+                throw new LogicException("Invalid reservation status.");*/
+
+            // vérfication mail guest = mail payement
+            //if($guest->Mail() !== $ipn->payer_email)
+            //    throw new LogicException("Guest email different from Payer Email");
+
+            // Vérification recette
+            $recipe = new Recipe($storage, $ipn->item_number);
+            $recipe = $storage->find($recipe);
+            if($recipe == null)
+                throw new LogicException("Unable to find recipe.");
+
+            $host = new User($storage, $recipe->UserId());
+            $host = $storage->find($host);
+            if($host == null)
+                throw new LogicException("Unable to find host.");
+
+            // Vérification prix
+            if(floatval($recipe->Price()) + Paypal::$MC_PRICE != floatval($ipn->mc_gross))
+                throw new LogicException("Invalid price.");
+
+            // Création de la réservation
+            $reservation = new Reservation($storage);
+            $reservation->setHostId($recipe->UserId());
+            $reservation->setGuestId($guest->Id());
+            $reservation->setRecipeId($recipe->Id());
+            $reservation->setPaid("1");
+            $reservation->setTxnId($ipn->txn_id);
+            $reservation->setCreatedAt(time());
+            $reservation->setPaidAt(time());
+            API::AddReservation(null, $reservation, false);
+            ErrorLogger::$LOGGER->warning($_POST["payment_date"]."(".$_POST["txn_id"].") ".$_POST["mc_gross"]."€: OK");
         
-        $titlemsg = "A propos de la recette ".$recipe->Name();
+            $titlemsg = "A propos de la recette ".$recipe->Name();
 
-        Mailer::SendMail($guest->Mail(), $titlemsg, "Votre payement concernant la recette ".$recipe->Name()." a été traité ! Vous pouvez contacter votre hôte au ".$host->Phone().".");
-        Mailer::SendMail($host->Mail(), $titlemsg, "Une réservation concernant la recette ".$recipe->Name()." a été payée ! Vous pouvez contacter votre invité au ".$guest->Phone().".");
+            Mailer::SendMail($guest->Mail(), $titlemsg, "Votre payement concernant la recette ".$recipe->Name()." a été traité ! Vous pouvez contacter votre hôte au ".$host->Phone().".");
+            Mailer::SendMail($host->Mail(), $titlemsg, "Une réservation concernant la recette ".$recipe->Name()." a été payée ! Vous pouvez contacter votre invité au ".$guest->Phone().".");
 
-        API::GenerateNotification(null, $reservation->GuestId(), "info", "Votre payement concernant la recette ".$recipe->Name()." a été traité ! Vous allez recevoir un mail contenant le numéro de votre hôte.", false);
-        API::GenerateNotification(null, $reservation->HostId(), "info", "Une réservation concernant la recette ".$recipe->Name()." a été payée ! Vous allez recevoir un mail contenant le numéro de votre invité !", false);
+            API::GenerateNotification(null, $reservation->GuestId(), "success", "Votre payement concernant la recette ".$recipe->Name()." a été traité ! Vous allez recevoir un mail contenant le numéro de votre hôte.", false);
+            API::GenerateNotification(null, $reservation->HostId(), "success", "Une réservation concernant la recette ".$recipe->Name()." a été payée ! Vous allez recevoir un mail contenant le numéro de votre invité !", false);
+        
+        }
+        catch(Throwable $e)
+        {
+            Mailer::SendMail($guest->Mail(),  "A propos de la recette ".$recipe->Name(), "Votre payement concernant la recette ".$recipe->Name()." a été refusé...<br> Vous serez remboursé sous peu. Vous pouvez contacter notre service client pour en savoir plus.");
+            API::GenerateNotification(null, $reservation->GuestId(), "error",  "Votre payement concernant la recette ".$recipe->Name()." a été refusé... Vous serez remboursé sous peu. Vous pouvez contacter notre service client pour en savoir plus.", false);
+            Paypal::handleError($e);
+        }
+
+
+        
     }
 
 

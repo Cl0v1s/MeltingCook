@@ -470,9 +470,10 @@ class API
      * @param $token
      * @param $item Reservation
      */
-    public static function AddReservation($token, $item)
+    public static function AddReservation($token, $item, $check = true)
     {
-        $user = API::Auth($token);
+        if($check)
+            $user = API::Auth($token);
 
         if($item->GuestId() == $item->HostId())
             throw new Exception("Vous ne pouvez prendre de réservation pour vos propres recettes#", 2);
@@ -500,8 +501,8 @@ class API
         $host = $storage->find($host);
 
         if($host != null)
-            Mailer::SendMail($host->Mail(), "Une bonne nouvelle à propos de la recette ".$recipe["name"], $user->Username()." a lancé une procédure de réservation relative à votre recette ".$recipe["name"].".");
-        API::GenerateNotification($token, $item->HostId(), "success", $user->Username()." a lancé une procédure de réservation relative à votre recette ".$recipe["name"].".");
+            Mailer::SendMail($host->Mail(), "Une bonne nouvelle à propos de la recette ".$recipe["name"], $guest->Username()." a lancé une procédure de réservation relative à votre recette ".$recipe["name"].".");
+        API::GenerateNotification($token, $item->HostId(), "success", $guest->Username()." a lancé une procédure de réservation relative à votre recette ".$recipe["name"].".", $check);
 
         if($guest != null)
             Mailer::SendMail($guest->Mail(), "A propos de la recette ".$recipe["name"], "Nous avons bien pris en compte votre réservation concernant la recette ".$recipe["name"].".");
@@ -509,7 +510,7 @@ class API
 
         $item->setCreatedAt(time());
 
-        return API::Add($token, $item);
+        return API::Add($token, $item, $check);
     }
 
     private static function UpdateUserAsAdmin($token, $item)

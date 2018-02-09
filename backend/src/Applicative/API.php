@@ -239,7 +239,7 @@ class API
             API::GenerateNotification($token, $reservation->GuestId(), "success", "Votre réservation concernant la recette " . $recipe["name"] . " a été finalisée. Votre hôte va recevoir votre compensation et vous remercie !");
             
             if($host != null)
-                Mailer::SendMail($host->Mail(), "Une mauvaise nouvelle a propos de la recette ".$recipe["name"], "Vous avez reçu une compensation relative à la recette " . $recipe["name"] . " ! Allez jeter un oeil à votre compte Paypal !");
+                Mailer::SendMail($host->Mail(), "Une bonne nouvelle a propos de la recette ".$recipe["name"], "Vous avez reçu une compensation relative à la recette " . $recipe["name"] . " ! Allez jeter un oeil à votre compte Paypal !");
             
             API::GenerateNotification($token, $reservation->HostId(), "success", "Vous avez reçu une compensation relative à la recette " . $recipe["name"] . " ! Allez jeter un oeil à votre compte Paypal !");
             $reservation->setDone(2);

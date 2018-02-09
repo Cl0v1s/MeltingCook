@@ -88,7 +88,7 @@
                 <label>Date de fin de l'offre *</label>
                 <app-dateinput ref="date_end" name="date_end" date="{ recipe.date_end_readable }"></app-dateinput>
                 <p class="hint">
-                    Ce champ est requis.
+                    Ce champ est requis. Et doit correspondre à une date ultérieur à la date de début.
                 </p>
             </div>
         </section>
@@ -172,6 +172,12 @@
                     };
                 }
                 if(tag.refs.date_end.value === null)
+                {
+                    errors["edit-recipe"].date_end = {
+                        "required" : "true"
+                    };
+                }
+                if(tag.refs.date_start.value > tag.refs.date_end.value)
                 {
                     errors["edit-recipe"].date_end = {
                         "required" : "true"

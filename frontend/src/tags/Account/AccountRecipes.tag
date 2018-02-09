@@ -140,7 +140,7 @@
         tag.showRecipes = function(lst)
         {
             tag.list = lst;
-            tag.refs.recipes.setRecipes(tag.list);
+            tag.update();
         };
 
         tag.showFuture = function(a)

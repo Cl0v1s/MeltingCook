@@ -19,9 +19,10 @@
                     Ce champ est requis. Il ne peut contenir moins de 50 ou plus de 1000 caractères.
                 </p>
             </div>
-            <div>
+            <div class="picture">
                 <label>Associer une image *</label>
-                <app-uploadinput value="{ recipe.picture }"  ref="picture" name="picture"></app-uploadinput>
+                <div class="img" ref="picture_preview" style="background-image: url('{ recipe.picture }');"  ></div>
+                <app-uploadinput value="{ recipe.picture }"  ref="picture" name="picture" onchange="{ updatePicture }"></app-uploadinput>
                 <p class="hint">
                     Ce champ est requis. Il doit contenir une url valide comportant moins de 400 caractères.
                 </p>
@@ -108,6 +109,11 @@
             if(tag.recipe === null)
                 throw new Error("Recipe cant be null.");
         });
+
+        tag.updatePicture = function()
+        {
+            tag.refs.picture_preview.style.backgroundImage = "url('"+tag.refs.picture.value+"')";
+        };
 
         tag.setRecipe = function(recipe)
         {

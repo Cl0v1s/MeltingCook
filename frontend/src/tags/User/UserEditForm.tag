@@ -206,7 +206,10 @@
                   "locale":"fr-fr",
                   "returnurl":"https://meltingcook.fr/API/API/paypallogin"
                 });
-                setTimeout(function(){document.querySelector("#lippButton").firstChild.setAttribute("type", "button");},1000);
+                setTimeout(function(){
+                    if(document.querySelector("#lippButton") != null)
+                        document.querySelector("#lippButton").firstChild.setAttribute("type", "button");
+                },1000);
               });
 
             $('#discease').selectize({

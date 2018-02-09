@@ -21,4 +21,22 @@ app-recipeeditform, div[data-is=app-recipeeditform]
     }
     margin-bottom: $space-normal;
   }
+
+
+
+  div.picture
+  {
+      div.img
+      {
+        margin-top: $space-small;
+        border: 1px solid black;
+        width: 100%;
+        height: 100px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin-bottom: 20px;
+      }
+  }
+
 }

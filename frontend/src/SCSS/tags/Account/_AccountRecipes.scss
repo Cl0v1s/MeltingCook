@@ -1,4 +1,7 @@
 app-accountrecipes, div[data-is=app-accountrecipes] {
+
+  font-family: $font-primary;
+
   section.header {
     padding: $space-normal;
     padding-top: $space-normal;
@@ -35,7 +38,10 @@ app-accountrecipes, div[data-is=app-accountrecipes] {
 
   table 
   {
-    margin: $space-normal;
+    //margin: $space-normal;
+    margin-top: $space-normal;
+    margin-bottom: $space-normal;
+    
   }
 
   @media 

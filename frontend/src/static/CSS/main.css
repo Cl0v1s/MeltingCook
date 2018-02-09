@@ -846,42 +846,48 @@ app-accountkitchen, div[data-is=app-accountkitchen] {
     margin-top: 0px;
     padding: 20px; }
 
-app-accountrecipes section.header, div[data-is=app-accountrecipes] section.header {
-  padding: 20px;
-  padding-top: 20px; }
-  app-accountrecipes section.header > div, div[data-is=app-accountrecipes] section.header > div {
+app-accountrecipes, div[data-is=app-accountrecipes] {
+  font-family: "Raleway"; }
+  app-accountrecipes section.header, div[data-is=app-accountrecipes] section.header {
+    padding: 20px;
+    padding-top: 20px; }
+    app-accountrecipes section.header > div, div[data-is=app-accountrecipes] section.header > div {
+      text-align: center; }
+  app-accountrecipes div nav, div[data-is=app-accountrecipes] div nav {
+    padding: 20px; }
+    app-accountrecipes div nav a, div[data-is=app-accountrecipes] div nav a {
+      cursor: pointer;
+      font-family: "Raleway";
+      text-decoration: underline;
+      margin-right: 20px; }
+  app-accountrecipes div.SwitchHandler, div[data-is=app-accountrecipes] div.SwitchHandler {
+    width: 100%;
     text-align: center; }
-
-app-accountrecipes div nav, div[data-is=app-accountrecipes] div nav {
-  padding: 20px; }
-  app-accountrecipes div nav a, div[data-is=app-accountrecipes] div nav a {
-    cursor: pointer;
-    font-family: "Raleway";
-    text-decoration: underline;
-    margin-right: 20px; }
-
-app-accountrecipes div.SwitchHandler, div[data-is=app-accountrecipes] div.SwitchHandler {
-  width: 100%;
-  text-align: center; }
-
-app-accountrecipes app-recipes, div[data-is=app-accountrecipes] app-recipes {
-  width: 100%;
-  margin: 20px; }
-
-app-accountrecipes table, div[data-is=app-accountrecipes] table {
-  margin: 20px; }
-
-@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
-  app-accountrecipes, div[data-is=app-accountrecipes] {
-    /*
+  app-accountrecipes app-recipes, div[data-is=app-accountrecipes] app-recipes {
+    width: 100%;
+    margin: 20px; }
+  app-accountrecipes table, div[data-is=app-accountrecipes] table {
+    margin-top: 20px;
+    margin-bottom: 20px; }
+  @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+    app-accountrecipes, div[data-is=app-accountrecipes] {
+      /*
       Label the data
       */ }
-    app-accountrecipes td:nth-of-type(1):before, div[data-is=app-accountrecipes] td:nth-of-type(1):before {
-      content: "Nom"; }
-    app-accountrecipes td:nth-of-type(2):before, div[data-is=app-accountrecipes] td:nth-of-type(2):before {
-      content: "Participants"; }
-    app-accountrecipes td:nth-of-type(3):before, div[data-is=app-accountrecipes] td:nth-of-type(3):before {
-      content: "Action"; } }
+      app-accountrecipes td:nth-of-type(1):before, div[data-is=app-accountrecipes] td:nth-of-type(1):before {
+        content: "Nom"; }
+      app-accountrecipes td:nth-of-type(2):before, div[data-is=app-accountrecipes] td:nth-of-type(2):before {
+        content: "Participants"; }
+      app-accountrecipes td:nth-of-type(3):before, div[data-is=app-accountrecipes] td:nth-of-type(3):before {
+        content: "Action"; } }
+
+div[data-is=app-accountreservations] table {
+  margin-top: 20px;
+  margin-bottom: 20px; }
+
+div[data-is=app-accountreservations] div.SwitchHandler {
+  width: 100%;
+  text-align: center; }
 
 @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
   div[data-is=app-accountreservations] {
@@ -1490,6 +1496,15 @@ app-recipeeditform, div[data-is=app-recipeeditform] {
       vertical-align: top;
       min-width: 380px;
       padding: 20px; }
+  app-recipeeditform div.picture div.img, div[data-is=app-recipeeditform] div.picture div.img {
+    margin-top: 8px;
+    border: 1px solid black;
+    width: 100%;
+    height: 100px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom: 20px; }
 
 app-reportitem {
   display: inline-block;

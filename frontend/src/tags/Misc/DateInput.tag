@@ -13,12 +13,6 @@
                 hiddenName: true
             });
 
-            if(tag.opts.date !== null)
-            {
-                picker.pickadate('picker').set("select", tag.opts.date);
-            }
-
-
             $('input', tag.root)
                 .pickadate('picker')
                 .on('render', function () {
@@ -28,23 +22,26 @@
                     date = date.split("/");
                     date = new Date(date[2], parseInt(date[1]) - 1, date[0]);
                     tag.value = Math.round(date.getTime() / 1000);
+                    if(isNaN(tag.value))
+                        tag.value = null;
+
                 });
 
             if(tag.opts.date != null)
             {
                 tag.setValueFromStamp(tag.opts.date);
+                picker.pickadate('picker').set("select", parseInt(tag.opts.date)*1000);
             }
         });
 
         tag.setValueFromStamp = function(date)
         {
-            console.log(date);
             tag.value = date;
+            if(isNaN(tag.value))
+                tag.value = null;
             var readable = new Date();
             readable.setTime(parseInt(date) * 1000);
-            console.log(readable.getDate()+"/"+(readable.getMonth()+1)+"/"+readable.getFullYear());
             tag.refs.date.value = readable.getDate()+"/"+(readable.getMonth()+1)+"/"+readable.getFullYear();
-            console.log(tag.refs.date.value);
         }
     </script>
 </app-dateinput>

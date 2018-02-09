@@ -15701,11 +15701,6 @@ module.exports = riot.tag2('app-dateinput', '<input type="text" ref="date" name=
                 hiddenName: true
             });
 
-            if(tag.opts.date !== null)
-            {
-                picker.pickadate('picker').set("select", tag.opts.date);
-            }
-
             $('input', tag.root)
                 .pickadate('picker')
                 .on('render', function () {
@@ -15715,23 +15710,26 @@ module.exports = riot.tag2('app-dateinput', '<input type="text" ref="date" name=
                     date = date.split("/");
                     date = new Date(date[2], parseInt(date[1]) - 1, date[0]);
                     tag.value = Math.round(date.getTime() / 1000);
+                    if(isNaN(tag.value))
+                        tag.value = null;
+
                 });
 
             if(tag.opts.date != null)
             {
                 tag.setValueFromStamp(tag.opts.date);
+                picker.pickadate('picker').set("select", parseInt(tag.opts.date)*1000);
             }
         });
 
         tag.setValueFromStamp = function(date)
         {
-            console.log(date);
             tag.value = date;
+            if(isNaN(tag.value))
+                tag.value = null;
             var readable = new Date();
             readable.setTime(parseInt(date) * 1000);
-            console.log(readable.getDate()+"/"+(readable.getMonth()+1)+"/"+readable.getFullYear());
             tag.refs.date.value = readable.getDate()+"/"+(readable.getMonth()+1)+"/"+readable.getFullYear();
-            console.log(tag.refs.date.value);
         }
 });
 },{"riot":8}],29:[function(require,module,exports){
@@ -16348,7 +16346,7 @@ module.exports = riot.tag2('app-recipeedit', '<app-header></app-header> <div cla
 });
 },{"riot":8}],45:[function(require,module,exports){
 var riot = require('riot');
-module.exports = riot.tag2('app-recipeeditform', '<form name="edit-recipe" if="{recipe != null}"> <section> <h1>Proposer une recette</h1> </section> <section> <h2>Informations de base</h2> <div> <label>Nom de la recette *</label> <input type="text" riot-value="{recipe.name}" placeholder="Nom de la recette" ref="name" name="fullname"> <p class="hint"> Ce champ est requis et ne peut contenir plus de 400 caractères. </p> </div> <div> <label>Description *</label> <textarea name="description" ref="description" placeholder="Décrivez votre recette en quelques mots">{recipe.description}</textarea> <p class="hint"> Ce champ est requis. Il ne peut contenir moins de 50 ou plus de 1000 caractères. </p> </div> <div class="picture"> <label>Associer une image *</label> <div class="img" ref="picture_preview" riot-style="background-image: url(\'{recipe.picture}\');"></div> <app-uploadinput riot-value="{recipe.picture}" ref="picture" name="picture" onchange="{updatePicture}"></app-uploadinput> <p class="hint"> Ce champ est requis. Il doit contenir une url valide comportant moins de 400 caractères. </p> </div> </section> <section> <h2>Ingrédients et origine</h2> <div> <label>Type de cuisine *</label> <app-origininput ref="origin" name="origin" origin="{recipe.origin}"></app-origininput> <p class="hint"> Ce champ est requis et ne peut contenir plus de 400 caractères. </p> </div> <div> <label>Les "plus"</label> <app-pinsinput ref="pins" name="pins" pins="{recipe.pins}"></app-pinsinput> <p class="hint"> Ce champ ne peut contenir plus de 1000 caractères. </p> </div> <div> <label>Ingrédients principaux *</label> <app-manyinputs ref="items" name="items" riot-value="{recipe.items}"></app-manyinputs> <p class="hint"> Ce champ est requis et ne peut contenir plus de 1000 caractères. </p> </div> </section> <section> <h2>Organisation</h2> <div if="{recipe == null || recipe.id == null}"> <label>Prix de la participation *</label> <input ref="price" name="price" riot-value="{recipe.price}" placeholder="Prix de la participation" type="{\'number\'}"> <p class="hint"> Ce champ est requis et doit contenir un nombre supérieur ou égal à 0. </p> </div> <div> <label>Nombre de places disponibles *</label> <input ref="places" name="places" riot-value="{recipe.places}" placeholder="Nombre de places disponibles" type="{\'number\'}"> <p class="hint"> Ce champ est requis et doit contenir un nombre supérieur ou égal à 1. </p> </div> <div> <label>Nom de la ville/village *</label> <app-placeinput ref="place" name="place" place="{recipe.place}"></app-placeinput> <p class="hint"> Ce champ est requis et ne peut contenir plus de 400 caractères. </p> </div> <div> <label>Date de début de l\'offre *</label> <app-dateinput ref="date_start" name="date_start" date="{recipe.date_start_readable}"></app-dateinput> <p class="hint"> Ce champ est requis. </p> </div> <div> <label>Date de fin de l\'offre *</label> <app-dateinput ref="date_end" name="date_end" date="{recipe.date_end_readable}"></app-dateinput> <p class="hint"> Ce champ est requis. </p> </div> </section> <p> Les champs marqués d\'une * sont requis. </p> <input type="button" class="large" value="Publier ma recette" onclick="{validate}"> </form>', '', '', function(opts) {
+module.exports = riot.tag2('app-recipeeditform', '<form name="edit-recipe" if="{recipe != null}"> <section> <h1>Proposer une recette</h1> </section> <section> <h2>Informations de base</h2> <div> <label>Nom de la recette *</label> <input type="text" riot-value="{recipe.name}" placeholder="Nom de la recette" ref="name" name="fullname"> <p class="hint"> Ce champ est requis et ne peut contenir plus de 400 caractères. </p> </div> <div> <label>Description *</label> <textarea name="description" ref="description" placeholder="Décrivez votre recette en quelques mots">{recipe.description}</textarea> <p class="hint"> Ce champ est requis. Il ne peut contenir moins de 50 ou plus de 1000 caractères. </p> </div> <div class="picture"> <label>Associer une image *</label> <div class="img" ref="picture_preview" riot-style="background-image: url(\'{recipe.picture}\');"></div> <app-uploadinput riot-value="{recipe.picture}" ref="picture" name="picture" onchange="{updatePicture}"></app-uploadinput> <p class="hint"> Ce champ est requis. Il doit contenir une url valide comportant moins de 400 caractères. </p> </div> </section> <section> <h2>Ingrédients et origine</h2> <div> <label>Type de cuisine *</label> <app-origininput ref="origin" name="origin" origin="{recipe.origin}"></app-origininput> <p class="hint"> Ce champ est requis et ne peut contenir plus de 400 caractères. </p> </div> <div> <label>Les "plus"</label> <app-pinsinput ref="pins" name="pins" pins="{recipe.pins}"></app-pinsinput> <p class="hint"> Ce champ ne peut contenir plus de 1000 caractères. </p> </div> <div> <label>Ingrédients principaux *</label> <app-manyinputs ref="items" name="items" riot-value="{recipe.items}"></app-manyinputs> <p class="hint"> Ce champ est requis et ne peut contenir plus de 1000 caractères. </p> </div> </section> <section> <h2>Organisation</h2> <div if="{recipe == null || recipe.id == null}"> <label>Prix de la participation *</label> <input ref="price" name="price" riot-value="{recipe.price}" placeholder="Prix de la participation" type="{\'number\'}"> <p class="hint"> Ce champ est requis et doit contenir un nombre supérieur ou égal à 0. </p> </div> <div> <label>Nombre de places disponibles *</label> <input ref="places" name="places" riot-value="{recipe.places}" placeholder="Nombre de places disponibles" type="{\'number\'}"> <p class="hint"> Ce champ est requis et doit contenir un nombre supérieur ou égal à 1. </p> </div> <div> <label>Nom de la ville/village *</label> <app-placeinput ref="place" name="place" place="{recipe.place}"></app-placeinput> <p class="hint"> Ce champ est requis et ne peut contenir plus de 400 caractères. </p> </div> <div> <label>Date de début de l\'offre *</label> <app-dateinput ref="date_start" name="date_start" date="{recipe.date_start_readable}"></app-dateinput> <p class="hint"> Ce champ est requis. </p> </div> <div> <label>Date de fin de l\'offre *</label> <app-dateinput ref="date_end" name="date_end" date="{recipe.date_end_readable}"></app-dateinput> <p class="hint"> Ce champ est requis. Et doit correspondre à une date ultérieur à la date de début. </p> </div> </section> <p> Les champs marqués d\'une * sont requis. </p> <input type="button" class="large" value="Publier ma recette" onclick="{validate}"> </form>', '', '', function(opts) {
         var tag = this;
 
         tag.recipe = null;
@@ -16422,6 +16420,12 @@ module.exports = riot.tag2('app-recipeeditform', '<form name="edit-recipe" if="{
                     };
                 }
                 if(tag.refs.date_end.value === null)
+                {
+                    errors["edit-recipe"].date_end = {
+                        "required" : "true"
+                    };
+                }
+                if(tag.refs.date_start.value > tag.refs.date_end.value)
                 {
                     errors["edit-recipe"].date_end = {
                         "required" : "true"

@@ -35,6 +35,8 @@ class API
             throw new Exception("Dernier appel trop récent. Réessayer plus tard.");
         }
         $storage = Engine::Instance()->Persistence("DatabaseStorage");
+
+        // Validation et rappel automatique des réservations à valider
         $reservations = null;
         $storage->findAll("Reservation", $reservations, "done = '0' AND paid = '1'");
         foreach($reservations as $reservation)
@@ -56,9 +58,20 @@ class API
                 if($guest == null)
                     return;
                 Mailer::SendMail($guest->Mail(), "Quelques mots à propos de la recette ".$recipe->Name(), "Pensez à faire un tour sur MeltingCook pour valider votre réservation concernant la recette ".$recipe->Name().". Cela permettra à votre hôte de reçevoir sa compensation.");
-                API::GenerateNotification($token, $reservation->GuestId(), "info", "Pensez à faire un tour sur MeltingCook pour valider votre réservation concernant la recette ".$recipe->Name().". Cela permettra à votre hôte de reçevoir sa compensation.");
+                API::GenerateNotification($token, $reservation->GuestId(), "info", "Pensez à valider votre réservation concernant la recette ".$recipe->Name().". Cela permettra à votre hôte de reçevoir sa compensation.");
             }
         }
+
+
+        // Suppression des notifications lues 
+        $notifications = null;
+        $storage->findAll("Notification", $reservation, "new = '0'");
+        foreach($notifications as $notification)
+        {
+            $storage->persist($notification, StorageState::ToDelete);
+        }
+        $storage->flush();
+
         $meta->setLastTimedVerification(time());
         $storage->persist($meta, StorageState::ToUpdate);
         $storage->flush();

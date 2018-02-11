@@ -199,8 +199,8 @@
             //tag.geolocalize();
             paypal.use( ['login'], function (login) {
                 login.render ({
-                  "appid":"ATqrzo1dXoeILHVUxEPHC4BzFQDU_65NPTxrzTqkoEqN3tRkykahpxNCN684j7mUbxCtnkz6-GoFp70y",
-                    "authend" : "sandbox",
+                  "appid":"Af0MKCfipfx1-SLHNsXd9VVGCpSAN2ZVAHhhsHjgVseH6Rl1pPdxcs2eEb1G0nr7diM6l04ozx8dgLtd",
+                    //"authend" : "sandbox",
                   "scopes":"openid email",
                   "containerid":"lippButton",
                   "locale":"fr-fr",

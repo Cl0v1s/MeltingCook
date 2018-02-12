@@ -74,7 +74,7 @@
                     <div class="img"></div>
                     <h2>Confiance</h2>
                     <p>
-                        Avec la vérification par SMS des chefs et aprenants, les cuisiniers se font mutuellement confiance.
+                        La confiance entre les cuisiniers est assurée par MeltingCook.
                     </p>
                 </div>
                 <div class="tab kitchen">

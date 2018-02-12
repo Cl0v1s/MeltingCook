@@ -1606,7 +1606,8 @@ app-header, div[data-is=app-header] {
     vertical-align: middle; }
     app-header > nav > a, div[data-is=app-header] > nav > a {
       margin-right: 20px;
-      cursor: pointer; }
+      cursor: pointer;
+      text-decoration: none !important; }
     app-header > nav div.img, div[data-is=app-header] > nav div.img {
       display: inline-block;
       vertical-align: middle;

@@ -96,7 +96,7 @@
                 <div>
                     <label>Compte Paypal:</label>
                     <input disabled type="text" name="paypal" ref="paypal" value={ user.paypal }>
-                    <p>En liant votre compte Paypal et MeltingCook, vous serez en mesure de proposer des recettes et de reçevoir vos compensations.</p><br>
+                    <p>En liant votre compte Paypal à votre futur compte MeltingCook, vous serez en mesure de proposer des recettes et de reçevoir vos compensations.</p><br>
                     <div style="text-align: center">
                         <span class="{ invisible: user.paypal != null }" ref="paypalButton" id='lippButton' onclick="{ bindPaypal }"></span><input type="button" class="{invisible:  user.paypal == null }" onclick="{ removePaypal }" ref="paypalRemove" value = "Dissocier">
                     </div>

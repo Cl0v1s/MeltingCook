@@ -65,7 +65,7 @@ class API
 
         // Suppression des notifications lues 
         $notifications = null;
-        $storage->findAll("Notification", $reservation, "new = '0'");
+        $storage->findAll("Notification", $notifications, "new = '0'");
         foreach($notifications as $notification)
         {
             $storage->persist($notification, StorageState::ToDelete);

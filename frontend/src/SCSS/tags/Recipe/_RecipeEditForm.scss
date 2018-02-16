@@ -1,5 +1,10 @@
 app-recipeeditform, div[data-is=app-recipeeditform]
 {
+  app-origininput 
+  {
+    position: relative;
+    z-index: 9999999;
+  }
 
   div.dropzone
   {

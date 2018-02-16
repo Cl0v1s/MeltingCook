@@ -1,5 +1,12 @@
 app-usereditform, div[data-is=app-usereditform]
 {
+
+    app-origininput 
+    {
+        position: relative;
+        z-index: 9999999;
+    }
+
     form>div
     {
         padding: $space-normal;

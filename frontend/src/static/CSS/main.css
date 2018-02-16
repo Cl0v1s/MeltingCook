@@ -957,6 +957,10 @@ app-useritem, div[data-is=app-useritem] {
     background-color: #FDC279;
     color: #191d1c; }
 
+app-usereditform app-origininput, div[data-is=app-usereditform] app-origininput {
+  position: relative;
+  z-index: 9999999; }
+
 app-usereditform form > div, div[data-is=app-usereditform] form > div {
   padding: 20px;
   margin-bottom: 20px;
